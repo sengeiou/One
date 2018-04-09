@@ -1,0 +1,120 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin:'jacoco'
+
+jacoco{
+    toolVersion "0.7.4.201502262128"
+}
+android {
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
+
+    defaultConfig {
+        applicationId "com.ubt.factorytest"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0.0.6"
+
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.ubt.factorytest.JUnitJacocoTestRunner"
+
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('factory_test.jks')
+            storePassword 'ubt123456'
+            keyAlias 'factoryTestTool'
+            keyPassword 'ubt123456'
+        }
+    }
+
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            testCoverageEnabled = true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation deps.junit
+    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:3.0.1') {
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'design'
+        exclude module: 'recyclerview-v7'
+    }
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
+    compile('com.android.support.test.espresso:espresso-idling-resource:3.0.1') {
+        exclude module: 'support-annotations'
+    }
+    implementation deps.support.app_compat
+    compile deps.support.design
+    compile deps.support.recyclerview
+
+    compile 'me.yokeyword:fragmentation:1.1.8'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    compile 'com.kyleduo.switchbutton:library:1.4.4'
+
+    compile(name: 'bluetoothlib-1.0.0.1', ext: 'aar')
+    implementation 'com.google.code.gson:gson:2.8.0'
+}
+
+
+task jacocoTestReport(type:JacocoReport,dependsOn:"connectedAndroidTest"){
+    group="Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    //exclude auto-generated classes and tests
+    def fileFilter=['**/R.class',
+                    '**/R$*.class',
+                    '**/Manifest*.*',
+                    '**/BuildConfig.*',
+                    'android/**/*.*',
+    ]
+    def debugTree=fileTree(dir:
+            "${rootDir}/factorytest/build/intermediates/classes/debug",
+            excludes: fileFilter)
+    def sdkSrc="${rootDir}/factorytest/src/main/java"
+
+    //指明对哪个目录下的代码进行绘制覆盖率统计图标
+    sourceDirectories=files([sdkSrc])
+    //指明对哪个目录下的代码进行覆盖率统计
+    classDirectories=files([debugTree])
+    additionalSourceDirs=files([
+            "${buildDir}/generated/source/buildConfig/debug",
+            "${buildDir}/generated/source/r/debug"
+    ])
+    executionData=fileTree(dir:project.projectDir,includes:['**/*.exec','**/*.ec'])
+    reports{
+        xml.enabled=true
+        xml.destination="${buildDir}/jacocoTestReport.xml"
+        csv.enabled=false
+        html.enabled=true
+        html.destination="${buildDir}/reports/jacoco"
+    }
+}

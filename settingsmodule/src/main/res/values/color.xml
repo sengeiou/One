@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="setting_bg_line_color">#CFDDE3</color>
+    <color name="setting_tv_center_color">#3B6176</color>
+    <color name="setting_login_line_color">#979797</color>
+    <color name="setting_tv_no_data_color">#85B4C9</color>
+    <color name="setting_home_background">#f0f3f3</color>
+    <color name="setting_tv_notice_title">#AFBFC8</color>
+ </resources>

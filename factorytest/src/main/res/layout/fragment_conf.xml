@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/tv_soft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="112dp"
+        android:text="软件版本号："
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/include" />
+
+    <TextView
+        android:id="@+id/tv_firmware"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="44dp"
+        android:text="硬件版本号："
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_soft" />
+
+    <TextView
+        android:id="@+id/tv_min_vol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="44dp"
+        android:text="电量最小值："
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_firmware" />
+
+    <TextView
+        android:id="@+id/tv_max_vol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="44dp"
+        android:text="电量最大值："
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_min_vol" />
+
+    <EditText
+        android:id="@+id/ed_soft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="软件版本号"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/tv_soft"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        tools:text="软件版本号" />
+
+    <EditText
+        android:id="@+id/ed_firmware"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="硬件版本号"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/tv_firmware"
+        app:layout_constraintTop_toBottomOf="@+id/ed_soft"
+        tools:text="硬件版本号" />
+
+    <EditText
+        android:id="@+id/ed_min_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="最小电量"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/tv_min_vol"
+        app:layout_constraintTop_toBottomOf="@+id/ed_firmware"
+        tools:text="最小电量" />
+
+    <EditText
+        android:id="@+id/ed_max_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="最大电量"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/tv_max_vol"
+        app:layout_constraintTop_toBottomOf="@+id/ed_min_power"
+        tools:text="最大电量" />
+
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="64dp"
+        android:text="提交"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_max_power" />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="setting_user_center_title">个人中心</string>
+    <string name="setting_user_center_info">信息</string>
+    <string name="setting_user_center_achievement">成就</string>
+    <string name="setting_user_center_message">消息</string>
+    <string name="setting_user_center_dynamic">动态</string>
+    <string name="setting_user_center_original">原创</string>
+    <string name="setting_user_center_download">下载</string>
+    <string name="setting_user_center_setting">设置</string>
+    <string name="setting_user_center_dingdang">叮当</string>
+
+    <string name="setting_retry_get"><b>点击重试</b></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+ </resources>

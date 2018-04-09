@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="btn_login_main_content">#f0f3f3</color>
+    <color name="btn_login_main_around">#2c3e50</color>
+    <color name="tv_login_user_edit_color">#1D3740</color>
+    <color name="login_line_color">#979797</color>
+    <color name="bg_login_actions_item">#ffffff</color>
+    <color name="tel_login_auth_rectangle_color">#EDF7FA</color>
+    <color name="tv_login_blue_color">#00A4E6</color>
+    <color name="bg_login_line_color">#CFDDE3</color>
+    <color name="tv_login_center_color">#3B6176</color>
+</resources>

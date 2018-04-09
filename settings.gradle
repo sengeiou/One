@@ -1,1 +1,2 @@
-include ':app'
+include  ':baselib', ':app',  ':loginmodule', ':settingsmodule'
+include  ':factorytest'
