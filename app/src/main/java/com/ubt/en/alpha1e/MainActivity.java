@@ -1,5 +1,6 @@
 package com.ubt.en.alpha1e;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.ubt.en.alpha1e.BlueTooth.BTReadData;
 import com.ubt.en.alpha1e.BlueTooth.BTScanModeChanged;
 import com.ubt.en.alpha1e.BlueTooth.BTServiceStateChanged;
 import com.ubt.en.alpha1e.BlueTooth.BTStateChanged;
+import com.ubt.en.alpha1e.settings.SettingsActivity;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
@@ -86,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
 //                HtsHelper.test_write();
                 break;
             case R.id.hts_read:
-                heartBeatManager.stopHeart();
+                startActivity(new Intent(this, SettingsActivity.class));
+              //  heartBeatManager.stopHeart();
 //                HtsHelper.test_read();
                 break;
             case R.id.setting:

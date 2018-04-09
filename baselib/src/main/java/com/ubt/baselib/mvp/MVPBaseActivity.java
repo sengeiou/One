@@ -9,6 +9,7 @@ import com.ubt.baselib.utils.ActivityTool;
 import java.lang.reflect.ParameterizedType;
 
 import me.yokeyword.fragmentation.SupportActivity;
+import skin.support.content.res.SkinCompatResources;
 
 
 /**
@@ -63,4 +64,15 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
         }
         return null;
     }
+
+    /**
+     * 根据Id获取String
+     *
+      * @param id
+     * @return
+     */
+    public   String getTextById(int id) {
+        return SkinCompatResources.getString(getContext(), id);
+    }
+
 }

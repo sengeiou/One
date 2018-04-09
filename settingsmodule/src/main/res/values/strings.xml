@@ -11,5 +11,10 @@
 
     <string name="setting_retry_get"><b>点击重试</b></string>
 
+    <string name="setting_nick">昵称</string>
+    <string name="setting_sex">性别</string>
+    <string name="setting_age">年龄</string>
+    <string name="setting_grade">年级</string>
+
     <!-- TODO: Remove or change this placeholder text -->
  </resources>

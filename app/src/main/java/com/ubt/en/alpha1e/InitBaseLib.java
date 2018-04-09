@@ -44,13 +44,14 @@ import static com.ubt.en.alpha1e.BuildConfig.FLAVOR;
 
 public class InitBaseLib {
 
-    public static void init(Application appContext){
+    public static void init(Application appContext) {
 //        CrashHandlerAlpha1e.getInstance().init(appContext);
-        CrashHandlerUtil.getInstance().init(appContext,null, "alpha1e_crash/");
+        CrashHandlerUtil.getInstance().init(appContext, null, "alpha1e_crash/");
         //初始化HttpEntity 必须在initNet()之前
-        if(!TextUtils.isEmpty(FLAVOR) && FLAVOR.equals("ubt_issue_env")){
+        if (!TextUtils.isEmpty(FLAVOR) && FLAVOR.equals("ubt_issue_env")) {
             ConfigureBaseLib.getInstance().init(true); //默认为测试环境
         }
+        ConfigureBaseLib.getInstance().initSkin(appContext);
         ContextUtils.init(appContext);
         initLog();
         initNet(appContext);
@@ -160,4 +161,6 @@ public class InitBaseLib {
             }
         });
     }
+
+
 }

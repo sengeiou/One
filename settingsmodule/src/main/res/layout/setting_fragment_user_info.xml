@@ -56,7 +56,7 @@
                     android:id="@+id/tv_nick_tip"
                     style="@style/setting_text_userinfo_left_style"
                     android:layout_alignParentLeft="true"
-                    android:text="昵称"/>
+                    android:text="@string/setting_nick"/>
 
                 <EditText
                     android:id="@+id/edit_user_name"
@@ -94,7 +94,7 @@
                 <TextView
                     style="@style/setting_text_userinfo_left_style"
                     android:layout_alignParentLeft="true"
-                    android:text="性别"/>
+                    android:text="@string/setting_sex"/>
 
                 <!-- 定义一组单选框 -->
                 <RadioGroup
@@ -148,7 +148,7 @@
                 <TextView
                     style="@style/setting_text_userinfo_left_style"
                     android:layout_alignParentLeft="true"
-                    android:text="年龄"/>
+                    android:text="@string/setting_age"/>
 
                 <TextView
                     android:id="@+id/tv_user_age"
@@ -170,7 +170,7 @@
                 <TextView
                     style="@style/setting_text_userinfo_left_style"
                     android:layout_alignParentLeft="true"
-                    android:text="年级"/>
+                    android:text="@string/setting_grade"/>
 
                 <TextView
                     android:id="@+id/tv_user_grade"
