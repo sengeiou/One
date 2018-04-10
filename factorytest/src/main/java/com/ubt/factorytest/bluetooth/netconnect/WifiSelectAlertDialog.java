@@ -136,7 +136,7 @@ public class WifiSelectAlertDialog {
         mDialog = new Dialog(mContext, R.style.AlertDialogStyle);
         Window dialogWindow = mDialog.getWindow();
         dialogWindow.setGravity(Gravity.BOTTOM);
-        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+       // dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
         mDialog.setContentView(view);
         mDialog.setOnDismissListener(mOnDismissListener);
 

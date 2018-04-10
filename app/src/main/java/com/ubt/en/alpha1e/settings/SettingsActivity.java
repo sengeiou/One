@@ -7,6 +7,11 @@ import android.support.annotation.Nullable;
 import com.ubt.en.alpha1e.R;
 
 
+/**
+ * @author ubt
+ *
+ * 设置多语言
+ */
 public class SettingsActivity extends Activity {
 
     @Override
