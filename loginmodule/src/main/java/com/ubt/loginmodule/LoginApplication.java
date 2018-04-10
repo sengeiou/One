@@ -4,8 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.ubt.baselib.crash.CrashHandlerAlpha1e;
-import com.ubt.baselib.globalConst.BaseHttpEntity;
+ import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.utils.ContextUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
@@ -35,7 +34,7 @@ public class LoginApplication extends com.tencent.ai.tvs.LoginApplication {
     }
 
     public static void init(Application appContext){
-        CrashHandlerAlpha1e.getInstance().init(appContext);
+       // CrashHandlerAlpha1e.getInstance().init(appContext);
         //初始化HttpEntity 必须在initNet()之前
         ContextUtils.init(appContext);
         initLog();

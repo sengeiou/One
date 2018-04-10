@@ -65,6 +65,7 @@ dependencies {
     compile(name: 'gifLib-1.0.0.1', ext: 'aar')
     compile(name: 'globaldialog-1.0.0.1', ext: 'aar')
     compile(name: 'htslib-1.0.0.1', ext: 'aar')
+    compile(name: 'skin-support-1.0.0.1', ext: 'aar')
     //权限申请库
     compile 'com.yanzhenjie:permission:1.1.2'
     //okhttpUtils
@@ -74,5 +75,5 @@ dependencies {
     compile 'com.weigan:loopView:0.1.2'
     //引用自定义maven库中文件
     //compile 'com.ubt:bluetooth:1.0.0@aar'
-    implementation project(':skin-support')
+    //implementation project(':skin-support')
 }

@@ -1,2 +1,2 @@
-include  ':baselib', ':app',  ':loginmodule', ':settingsmodule',':skin-support', ':alpha1e_skin'
+include  ':baselib', ':app',  ':loginmodule', ':settingsmodule'
 include  ':factorytest'
