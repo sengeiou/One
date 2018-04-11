@@ -288,7 +288,7 @@ public class UserInfoFragment extends MVPBaseFragment<UserEditContract.View, Use
     public void takeImageFromShoot() {
         // getShootCamera();
         //首先判断是否开启相机权限，如果开启直接调用，未开启申请
-        PermissionUtils.getInstance(getActivity())
+        PermissionUtils.getInstance()
                 .request(new PermissionUtils.PermissionLocationCallback() {
                     @Override
                     public void onSuccessful() {

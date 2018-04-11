@@ -38,14 +38,13 @@ public class PermissionUtils {
         LOACTION, CAMERA, STORAGE, MICROPHONE
     }
 
-    private PermissionUtils(Context context) {
-        this.mContext = context;
+    private PermissionUtils() {
     }
 
-    public static PermissionUtils getInstance(Context context) {
+    public static PermissionUtils getInstance() {
         if (instance == null) {
             synchronized (PermissionUtils.class) {
-                instance = new PermissionUtils(context);
+                instance = new PermissionUtils();
             }
         }
         return instance;
@@ -57,6 +56,7 @@ public class PermissionUtils {
      * @param callback 回调结果
      */
     public void request(PermissionLocationCallback callback, PermissionEnum permission, Context context) {
+        this.mContext = context;
         this.mCallback = callback;
         String sp_key = "";
         String[] permiss = null;

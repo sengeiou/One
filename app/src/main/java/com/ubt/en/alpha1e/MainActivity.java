@@ -7,16 +7,16 @@ import android.widget.Button;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.ubt.baselib.BlueTooth.BTDeviceFound;
+import com.ubt.baselib.BlueTooth.BTDiscoveryStateChanged;
+import com.ubt.baselib.BlueTooth.BTHeartBeatManager;
+import com.ubt.baselib.BlueTooth.BTReadData;
+import com.ubt.baselib.BlueTooth.BTScanModeChanged;
+import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
+import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHeartBeat;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
-import com.ubt.en.alpha1e.BlueTooth.BTDeviceFound;
-import com.ubt.en.alpha1e.BlueTooth.BTDiscoveryStateChanged;
-import com.ubt.en.alpha1e.BlueTooth.BTHeartBeatManager;
-import com.ubt.en.alpha1e.BlueTooth.BTReadData;
-import com.ubt.en.alpha1e.BlueTooth.BTScanModeChanged;
-import com.ubt.en.alpha1e.BlueTooth.BTServiceStateChanged;
-import com.ubt.en.alpha1e.BlueTooth.BTStateChanged;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
 //                HtsHelper.test_read();
                 break;
             case R.id.setting:
-                ARouter.getInstance().build(ModuleUtils.Setting_UserCenterActivity).navigation();
+                //ARouter.getInstance().build(ModuleUtils.Setting_UserCenterActivity).navigation();
+                ARouter.getInstance().build(ModuleUtils.Bluetooh_BleGuideActivity).navigation();
                 break;
                 default:
         }

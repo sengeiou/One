@@ -3,6 +3,7 @@ package com.ubt.en.alpha1e.ble;
 import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.ubt.baselib.BlueTooth.BlueToothListenerImpl;
 import com.ubt.baselib.utils.ContextUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
@@ -39,6 +40,7 @@ public class BLuetoohApplication extends Application {
         }
         ARouter.init(appContext); // 尽可能早，推荐在Application中初始化
         BlueClientUtil.getInstance().init(appContext);
+        BlueClientUtil.getInstance().setBlueListener(new BlueToothListenerImpl());
 
     }
 
