@@ -7,7 +7,6 @@ import android.widget.Button;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.tencent.android.tpush.XGPushTextMessage;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHeartBeat;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
@@ -96,10 +95,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Subscribe
-    public void onDataSynEvent(XGPushTextMessage event) {
-        ViseLog.i("event---->" + event.getContent());
-    }
+//    @Subscribe
+//    public void onDataSynEvent(XGPushTextMessage event) {
+//        ViseLog.i("event---->" + event.getContent());
+//    }
 
     @Override
     protected void onDestroy() {

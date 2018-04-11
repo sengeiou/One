@@ -1,2 +1,2 @@
-include  ':baselib', ':app',  ':loginmodule', ':settingsmodule'
+include  ':baselib', ':app',  ':loginmodule', ':settingsmodule', ':bluetoohmodule'
 include  ':factorytest'

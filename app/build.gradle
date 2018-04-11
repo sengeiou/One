@@ -74,7 +74,7 @@ dependencies {
     annotationProcessor deps.butterknife.compiler
     //eventbus3.0.0
     implementation deps.eventbus.eventbus
-    compile(name: 'xingemodule-1.0.0.1', ext: 'aar')
+    //compile(name: 'xingemodule-1.0.0.1', ext: 'aar')
     compile(name: 'tvsloginlib', ext: 'aar')
     compile(name: 'loginmodule-1.0.1', ext: 'aar')
     implementation('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2') {
