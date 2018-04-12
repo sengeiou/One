@@ -66,7 +66,7 @@ public class BTHeartBeatManager {
         if (mBlueClientUtil != null) {
             mBlueClientUtil.sendData(heartDatas);
         }
-
+        stopHeart();  //防止未关闭又重新发送心跳，会出现多个广播和EVENTBUS注册失败
         startAlarm();
         EventBus.getDefault().register(BTHeartBeatManager.this);
         return true;
