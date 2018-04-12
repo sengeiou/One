@@ -12,6 +12,7 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.ubt.baselib.BlueTooth.BTHeartBeatManager;
 import com.ubt.baselib.BlueTooth.BlueToothListenerImpl;
 import com.ubt.baselib.ConfigureBaseLib;
 import com.ubt.baselib.customView.DynamicTimeFormat;
@@ -63,6 +64,7 @@ public class InitBaseLib {
         ARouter.init(appContext); // 尽可能早，推荐在Application中初始化
         BlueClientUtil.getInstance().init(appContext);
         BlueClientUtil.getInstance().setBlueListener(new BlueToothListenerImpl());
+        BTHeartBeatManager.getInstance().init(appContext);
 //        XGUBTManager.getInstance().initXG(appContext, 2100270011, "A783M4PIM7JI");
 //        XGUBTManager.getInstance().setXGListener(new XGListener());
 

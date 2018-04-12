@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_start2:
 //                ARouter.getInstance().build(ModuleUtils.Module2_Test2).navigation();
-                mBlueClientUtils.connect("A0:2C:36:89:F3:7D");
+                mBlueClientUtils.connect("A0:2C:36:89:EE:2D");
                 break;
             case R.id.btn_htswright:
                 heartBeatManager.startHeart(new BTCmdHeartBeat().toByteArray(),5000);

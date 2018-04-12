@@ -3,6 +3,7 @@ package com.ubt.en.alpha1e.ble;
 import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.ubt.baselib.BlueTooth.BTHeartBeatManager;
 import com.ubt.baselib.BlueTooth.BlueToothListenerImpl;
 import com.ubt.baselib.utils.ContextUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
@@ -29,7 +30,7 @@ public class BLuetoohApplication extends Application {
         init(this);
     }
     public static void init(Application appContext){
-        // CrashHandlerAlpha1e.getInstance().init(appContext);
+        // CrashHandlerAlpha1e.getInstance().register(appContext);
         //初始化HttpEntity 必须在initNet()之前
         ContextUtils.init(appContext);
         initLog();
@@ -41,7 +42,7 @@ public class BLuetoohApplication extends Application {
         ARouter.init(appContext); // 尽可能早，推荐在Application中初始化
         BlueClientUtil.getInstance().init(appContext);
         BlueClientUtil.getInstance().setBlueListener(new BlueToothListenerImpl());
-
+        BTHeartBeatManager.getInstance().init(appContext);
     }
 
     private static void initLog() {

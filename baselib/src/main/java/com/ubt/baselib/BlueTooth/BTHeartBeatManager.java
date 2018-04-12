@@ -107,12 +107,13 @@ public class BTHeartBeatManager {
         am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + repeatTime, pi);
     }
 
-    static class MyReceiver extends BroadcastReceiver {
+   public static class MyReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            ViseLog.e("收到广播开始发心跳"+mHeartCnt.incrementAndGet()+"  mBlueClientUtil"+mBlueClientUtil);
             if (mHeartCnt.incrementAndGet() < 3 && am != null && pi != null) {
-                if (mBlueClientUtil != null) {
+                 if (mBlueClientUtil != null) {
                     mBlueClientUtil.sendData(heartDatas);
                 }
                 am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + repeatTime, pi);

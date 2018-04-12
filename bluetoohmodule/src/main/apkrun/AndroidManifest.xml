@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.ubt.en.alpha1e.ble">
+
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:name=".BLuetoohApplication"
         android:allowBackup="true"
@@ -13,12 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ble_AppTheme">
-        <activity android:name=".BleGuideActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="landscape"
-                  android:theme="@style/NoTitleThemeFullScreen"
-                  android:windowSoftInputMode="adjustPan">
+        <activity
+            android:name=".BleGuideActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,13 +29,21 @@
         </activity>
 
 
-        <activity android:name=".activity.BleConnectActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="landscape"
-                  android:theme="@style/NoTitleThemeFullScreen"
-                  android:windowSoftInputMode="adjustPan">
+        <activity
+            android:name=".activity.BleConnectActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
         </activity>
+
+        <!--receiver声明-->
+        <receiver android:name="com.ubt.baselib.BlueTooth.BTHeartBeatManager$MyReceiver">
+            <intent-filter>
+                <action android:name="BT_HEARTBEAT" />
+            </intent-filter>
+        </receiver>
+        <!--receiver声明结束-->
     </application>
 
 </manifest>

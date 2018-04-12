@@ -38,7 +38,7 @@
     <!--服务声明结束-->
 
     <!--receiver声明-->
-    <receiver android:name=".BlueTooth.BTHeartBeatManager$MyReceiver">
+    <receiver android:name="com.ubt.baselib.BlueTooth.BTHeartBeatManager$MyReceiver">
         <intent-filter>
             <action android:name="BT_HEARTBEAT" />
         </intent-filter>

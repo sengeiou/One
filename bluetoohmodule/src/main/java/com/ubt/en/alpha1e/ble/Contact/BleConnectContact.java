@@ -1,9 +1,13 @@
 package com.ubt.en.alpha1e.ble.Contact;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
+import com.ubt.en.alpha1e.ble.model.BleDevice;
+
+import java.util.List;
 
 /**
  * @author：liuhai
@@ -16,29 +20,37 @@ import com.ubt.baselib.mvp.BaseView;
 
 public class BleConnectContact {
     public interface View extends BaseView {
-        void dealBleDevice(BluetoothDevice device, int rssi);
 
-        void locaPermissionSuccess();
+        void notifyDataSetChanged();
 
-        void locaPermissionFailed();
+        void searchSuccess();
+
+        void searchBleFiled();
 
         void connectSuccess();
 
-        void connextFailed();
+        void connectFailed();
+
+        void connecting();
     }
 
     public interface Presenter extends BasePresenter<View> {
 
-        void applyLocationPermission();
+        void register(Context context);
+
+        List<BleDevice> getBleDevices();
 
         void startScanBle();
 
         void stopScanBle();
 
         BluetoothDevice getBleConnectDevice();
+
         void disconnect();
 
-        void connect(BluetoothDevice device);
+        void connect(String mac);
+
+        void unRegister();
 
     }
 }
