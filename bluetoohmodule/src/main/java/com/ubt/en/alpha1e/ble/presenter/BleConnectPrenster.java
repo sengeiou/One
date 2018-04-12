@@ -193,6 +193,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 }
                 BTHeartBeatManager.getInstance().startHeart(new BTCmdHeartBeat().toByteArray(),5000);
                 mBlueClient.sendData(new BTCmdHandshake().toByteArray());
+                mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT,TIME_OUT);
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
                 ViseLog.e("正在连接");
@@ -253,7 +254,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
             }
 
             if (!isConnecting && mBleDevices.size() > 0) {
-              //  mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
+                mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
                 if (mView != null) {
                     mView.searchSuccess();
                 }
@@ -384,8 +385,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
     public void unRegister() {
         mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
         mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
-        // stopConnectBleTask();
-        EventBus.getDefault().unregister(this);
+         EventBus.getDefault().unregister(this);
     }
 
 

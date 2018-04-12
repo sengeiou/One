@@ -1,4 +1,4 @@
-def isBuildApk = false
+def isBuildApk = true
 if (isBuildApk) {
     apply plugin: 'com.android.application'
 } else {
