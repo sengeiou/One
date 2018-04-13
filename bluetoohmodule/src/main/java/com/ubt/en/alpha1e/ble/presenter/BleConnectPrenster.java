@@ -7,7 +7,6 @@ import android.os.Message;
 
 import com.ubt.baselib.BlueTooth.BTDeviceFound;
 import com.ubt.baselib.BlueTooth.BTDiscoveryStateChanged;
-import com.ubt.baselib.BlueTooth.BTHeartBeatManager;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.BlueTooth.BTStateChanged;
@@ -16,7 +15,6 @@ import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdHeartBeat;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.PermissionUtils;
 import com.ubt.baselib.utils.ToastUtils;
@@ -191,8 +189,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 if (time_difference < 500) {
                     return;
                 }
-                BTHeartBeatManager.getInstance().startHeart(new BTCmdHeartBeat().toByteArray(),5000);
-                mBlueClient.sendData(new BTCmdHandshake().toByteArray());
+                 mBlueClient.sendData(new BTCmdHandshake().toByteArray());
                 mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT,TIME_OUT);
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
@@ -201,8 +198,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
                 ToastUtils.showShort("蓝牙断开");
-                BTHeartBeatManager.getInstance().stopHeart();
-                break;
+                 break;
             default:
 
                 break;

@@ -13,12 +13,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/ble_app_name"
-        tools:replace="label"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/ble_AppTheme">
+        android:theme="@style/ble_AppTheme"
+        tools:replace="label">
         <activity
-            android:name=".BleGuideActivity"
+            android:name=".activity.FirstGreetActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
@@ -29,8 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".activity.BleConnectActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -39,13 +37,20 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
 
-        <!--receiver声明-->
+        <!-- receiver声明 -->
         <receiver android:name="com.ubt.baselib.BlueTooth.BTHeartBeatManager$MyReceiver">
             <intent-filter>
-                <action android:name="BT_HEARTBEAT" />
+                <action android:name="BT_HEARTBEAT"/>
             </intent-filter>
         </receiver>
-        <!--receiver声明结束-->
+        <!-- receiver声明结束 -->
+        <activity
+            android:name=".activity.BleGuideActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>

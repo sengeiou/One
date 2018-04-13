@@ -1,16 +1,17 @@
-package com.ubt.en.alpha1e.ble;
+package com.ubt.en.alpha1e.ble.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.ble.Contact.BleGuideContact;
-import com.ubt.en.alpha1e.ble.activity.BleConnectActivity;
+import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.presenter.BleGuidPrenster;
 
 import butterknife.ButterKnife;
@@ -22,6 +23,7 @@ public class BleGuideActivity extends MVPBaseActivity<BleGuideContact.View, BleG
     Unbinder mUnbinder;
 
     Button mBleButtonNext;
+    CheckBox mCheckBox;
 
 
     @Override
@@ -33,19 +35,24 @@ public class BleGuideActivity extends MVPBaseActivity<BleGuideContact.View, BleG
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
-        mBleButtonNext = findViewById(R.id.ble_button_next);
+        mBleButtonNext = findViewById(R.id.ble_connect);
         mBleButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(BleGuideActivity.this, BleConnectActivity.class));
             }
         });
+
+        mCheckBox = findViewById(R.id.ble_checkbox);
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mBleButtonNext.setEnabled(isChecked);
+            }
+        });
     }
 
 
-    public void onButtonNext() {
-        ToastUtils.showShort("擦擦擦擦错");
-    }
 
     @Override
     protected void onDestroy() {
