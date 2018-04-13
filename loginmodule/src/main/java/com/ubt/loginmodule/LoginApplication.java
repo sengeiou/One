@@ -4,13 +4,13 @@ import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
- import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.utils.ContextUtils;
-import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
 import com.vise.log.inner.LogcatTree;
 import com.vise.netexpand.convert.GsonConverterFactory;
 import com.vise.utils.assist.SSLUtil;
+import com.vise.utils.handler.CrashHandlerUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.loader.LoaderManager;
 
@@ -26,7 +26,7 @@ import static com.ubt.loginmodule.BuildConfig.DEBUG;
  * @描述:
  */
 
-public class LoginApplication extends com.tencent.ai.tvs.LoginApplication {
+public class LoginApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,7 +34,7 @@ public class LoginApplication extends com.tencent.ai.tvs.LoginApplication {
     }
 
     public static void init(Application appContext){
-       // CrashHandlerAlpha1e.getInstance().init(appContext);
+        CrashHandlerUtil.getInstance().init(appContext, null, "alpha1e_crash/");
         //初始化HttpEntity 必须在initNet()之前
         ContextUtils.init(appContext);
         initLog();
@@ -45,8 +45,6 @@ public class LoginApplication extends com.tencent.ai.tvs.LoginApplication {
             ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
         ARouter.init(appContext); // 尽可能早，推荐在Application中初始化
-        BlueClientUtil.getInstance().init(appContext);
-
     }
 
 

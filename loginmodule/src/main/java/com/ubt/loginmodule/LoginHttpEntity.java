@@ -14,5 +14,9 @@ public class LoginHttpEntity extends BaseHttpEntity{
     public static final String REQUEST_SMS_CODE = BASIC_UBX_SYS + "user/register";
     public static final String BIND_ACCOUNT = BASIC_UBX_SYS + "user/bind";
     public static final String UPDATE_USERINFO = BASIC_UBX_SYS + "user/update";
+
+    //for email account login
+    public static final String LOGIN_USE_EMAIL = "xxx";
+
 }
 

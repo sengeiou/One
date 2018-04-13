@@ -59,6 +59,8 @@ android {
         }
     }
 
+    resourcePrefix "login"
+
 }
 repositories {
     flatDir {
@@ -67,6 +69,8 @@ repositories {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     implementation deps.support.app_compat
     testImplementation 'junit:junit:4.12'
@@ -77,8 +81,8 @@ dependencies {
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler
 
-    implementation(name: 'tvsloginlib', ext: 'aar')
-    implementation ('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'){
-        exclude group: 'com.tencent.wup'
-    }
+//    implementation(name: 'tvsloginlib', ext: 'aar')
+//    implementation ('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'){
+//        exclude group: 'com.tencent.wup'
+//    }
 }

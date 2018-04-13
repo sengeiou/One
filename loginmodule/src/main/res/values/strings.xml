@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">LoginModule</string>
+    <string name="login_app_name">LoginModule</string>
+
+    <!--activity login-->
+    <string name="login_register">register</string>
+    <string name="login_title">Email</string>
+    <string name="login_email_hint">input your email account</string>
+    <string name="login_password_hint">input your password</string>
+    <string name="login_login">Login in</string>
+    <string name="login_forgot_password">Forgot password</string>
+
+    <string name="login_login_failed">login failed !</string>
+    <string name="login_login_success">login success !</string>
+    <string name="login_no_account">plz input email !</string>
+    <string name="login_no_password">plz input password !</string>
+    <string name="login_error_email">plz input right email !</string>
+
+
 </resources>

@@ -1,25 +1,5 @@
 package com.ubt.loginmodule;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.text.TextUtils;
-
-import com.tencent.ai.tvs.AuthorizeListener;
-import com.tencent.ai.tvs.LoginProxy;
-import com.tencent.ai.tvs.env.ELoginEnv;
-import com.tencent.ai.tvs.env.ELoginPlatform;
-import com.tencent.ai.tvs.env.EUserAttrType;
-import com.tencent.ai.tvs.info.DeviceManager;
-import com.tencent.ai.tvs.info.LoginInfoManager;
-import com.tencent.ai.tvs.info.QQOpenInfoManager;
-import com.tencent.ai.tvs.info.WxInfoManager;
-import com.ubt.baselib.globalConst.Constant1E;
-import com.ubt.baselib.utils.ContextUtils;
-import com.ubt.baselib.utils.SPUtils;
-import com.ubt.baselib.utils.ToastUtils;
-import com.ubt.loginmodule.LoginConstant.Constant;
-import com.vise.log.ViseLog;
-
 /**
  * @author admin
  * @className
@@ -29,9 +9,9 @@ import com.vise.log.ViseLog;
  */
 
 
-public class LoginManger implements AuthorizeListener {
+public class LoginManger /*implements AuthorizeListener*/ {
 
-    private static final String TAG = "LoginManger";
+   /* private static final String TAG = "LoginManger";
 
     private String appidWx = "wxfa7003941d57a391";
     private String appidQQOpen = "1106515940";
@@ -47,25 +27,25 @@ public class LoginManger implements AuthorizeListener {
     private int loginType = 0; // 0表示WX， 1表示QQOpen
     private OnRefreshListener onRefreshListener;
 
-    private volatile static LoginManger instance;
+    private volatile static LoginManger instance;*/
 
-    public static LoginManger getInstance(){
+  /*  public static LoginManger getInstance(){
         if(instance == null){
             instance = new LoginManger();
         }
         return  instance;
-    }
+    }*/
 
     public LoginManger(){
-        proxy = LoginProxy.getInstance(appidWx, appidQQOpen, ContextUtils.getContext());
+       /* proxy = LoginProxy.getInstance(appidWx, appidQQOpen, ContextUtils.getContext());
         proxy.setAuthorizeListener(this);
         proxy.setLoginEnv(ELoginEnv.FORMAL);
         wxInfoManager = (WxInfoManager) proxy.getInfoManager(ELoginPlatform.WX);
-        qqOpenInfoManager = (QQOpenInfoManager) proxy.getInfoManager(ELoginPlatform.QQOpen);
+        qqOpenInfoManager = (QQOpenInfoManager) proxy.getInfoManager(ELoginPlatform.QQOpen);*/
 
     }
 
-    public void init(Activity activity, OnLoginListener onLoginListener){
+  /*  public void init(Activity activity, OnLoginListener onLoginListener){
         proxy.setOwnActivity(activity);
         this.onLoginListener = onLoginListener;
     }
@@ -131,12 +111,12 @@ public class LoginManger implements AuthorizeListener {
     //跳转到用户中心
     public void toUserCenter(String dsn){
         DeviceManager mgr = new DeviceManager();
-//        mgr.productId = /*SPUtils.getInstance().getString(Constant.SP_ROBOT_PRODUCT_ID)*/;
+//        mgr.productId = *//*SPUtils.getInstance().getString(Constant.SP_ROBOT_PRODUCT_ID)*//*;
         mgr.productId = "95518e46-af79-494e-b2fa-a6db6409ae6b:77022ec0a7614dbcb33c7ab73d4e2ceb";
         if(TextUtils.isEmpty(dsn)){
             mgr.dsn = "";
         }else{
-            mgr.dsn = dsn/* SPUtils.getInstance().getString(Constant.SP_ROBOT_DSN)*/;
+            mgr.dsn = dsn*//* SPUtils.getInstance().getString(Constant.SP_ROBOT_DSN)*//*;
         }
 
         ViseLog.d( "pid:"+ mgr.productId + "__dsn:" + mgr.dsn);
@@ -235,5 +215,5 @@ public class LoginManger implements AuthorizeListener {
     public interface OnRefreshListener{
         void onSuccess();
         void onError(int i);
-    }
+    }*/
 }
