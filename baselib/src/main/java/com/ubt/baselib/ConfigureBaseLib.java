@@ -13,6 +13,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.ubt.baselib.BlueTooth.BTHeartBeatManager;
 import com.ubt.baselib.BlueTooth.BlueToothListenerImpl;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdHeartBeat;
 import com.ubt.baselib.customView.DynamicTimeFormat;
 import com.ubt.baselib.customView.MyRefreshFoot;
 import com.ubt.baselib.customView.MyRefreshHead;
@@ -72,7 +73,7 @@ public class ConfigureBaseLib {
 
         BlueClientUtil.getInstance().init(appContext);
         BlueClientUtil.getInstance().setBlueListener(new BlueToothListenerImpl());
-        BTHeartBeatManager.getInstance().init(appContext);
+        BTHeartBeatManager.getInstance().init(appContext, new BTCmdHeartBeat().toByteArray(),5000);
         initSmartRefresh();
     }
 

@@ -39,9 +39,12 @@ public class BTHeartBeatManager {
 
     }
 
-    public void init(Context context) {
+    public void init(Context context,@NonNull byte[] heart, int repeatTime) {
         mContext = context;
         mBlueClientUtil = BlueClientUtil.getInstance();
+        BTHeartBeatManager.heartDatas = heart;
+        BTHeartBeatManager.repeatTime = repeatTime;
+        EventBus.getDefault().register(BTHeartBeatManager.this);
     }
 
     public static BTHeartBeatManager getInstance() {
@@ -55,29 +58,26 @@ public class BTHeartBeatManager {
         return instance;
     }
 
-    public boolean startHeart(@NonNull byte[] heart, int repeatTime) {
+    private boolean startHeart() {
         if (mContext == null) {
             ViseLog.e("请先初始化BTHeartBeatManager");
             return false;
         }
 
-        this.heartDatas = heart;
-        this.repeatTime = repeatTime;
         if (mBlueClientUtil != null) {
             mBlueClientUtil.sendData(heartDatas);
         }
-        stopHeart();  //防止未关闭又重新发送心跳，会出现多个广播和EVENTBUS注册失败
+        stopHeart();  //防止未关闭又重新发送心跳
         startAlarm();
-        EventBus.getDefault().register(BTHeartBeatManager.this);
+
         return true;
     }
 
-    public void stopHeart() {
+    private void stopHeart() {
         if (am != null && pi != null) {
             am.cancel(pi);
             pi = null;
             am = null;
-            EventBus.getDefault().unregister(BTHeartBeatManager.this);
         }
     }
 
@@ -85,11 +85,27 @@ public class BTHeartBeatManager {
         mHeartCnt.set(0);
     }
 
+    /**
+     * 释放掉心跳所有资源
+     */
+    public void release(){
+        EventBus.getDefault().unregister(BTHeartBeatManager.this);
+        stopHeart();
+    }
+
     @Subscribe
     public void onReadData(BTReadData readData) {
         resetHeartCnt();
     }
 
+    @Subscribe
+    public void onBluetoothServiceStateChanged(BTServiceStateChanged serviceStateChanged){
+        if(serviceStateChanged.getState() == BTServiceStateChanged.STATE_DISCONNECTED){
+            stopHeart();
+        }else if(serviceStateChanged.getState() == BTServiceStateChanged.STATE_CONNECTED){
+            startHeart();
+        }
+    }
     private void startAlarm() {
         //创建Intent对象，action为ELITOR_CLOCK，附加信息为字符串“你该打酱油了”
         Intent intent = new Intent("BT_HEARTBEAT");
