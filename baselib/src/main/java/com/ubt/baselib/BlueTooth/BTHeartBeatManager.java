@@ -127,7 +127,6 @@ public class BTHeartBeatManager {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ViseLog.e("收到广播开始发心跳"+mHeartCnt.incrementAndGet()+"  mBlueClientUtil"+mBlueClientUtil);
             if (mHeartCnt.incrementAndGet() < 3 && am != null && pi != null) {
                  if (mBlueClientUtil != null) {
                     mBlueClientUtil.sendData(heartDatas);

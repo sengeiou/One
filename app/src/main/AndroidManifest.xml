@@ -4,10 +4,7 @@
 
 <uses-permission android:name="android.permission.CAMERA"/>
 <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
 <application
     android:name=".Application1E"
     android:allowBackup="true"
@@ -37,13 +34,6 @@
     <service android:name=".services.GlobalMsgService"/>
     <!--服务声明结束-->
 
-    <!--receiver声明-->
-    <receiver android:name="com.ubt.baselib.BlueTooth.BTHeartBeatManager$MyReceiver">
-        <intent-filter>
-            <action android:name="BT_HEARTBEAT" />
-        </intent-filter>
-    </receiver>
-    <!--receiver声明结束-->
 
 </application>
 
