@@ -23,6 +23,8 @@ public class BleConnectContact {
 
         void notifyDataSetChanged();
 
+        void startSerchBle();
+
         void searchSuccess();
 
         void searchBleFiled();
@@ -31,7 +33,7 @@ public class BleConnectContact {
 
         void connectFailed();
 
-        void connecting();
+        void connecting(String deviceName);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -48,7 +50,7 @@ public class BleConnectContact {
 
         void disconnect();
 
-        void connect(String mac);
+        void connect(BleDevice device);
 
         void unRegister();
 

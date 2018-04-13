@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_180"
+                android:background="@drawable/base_rect_background"
+    >
+
+
+    <ProgressBar
+        android:id="@+id/ble_progress_connect_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_22"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@drawable/img_overtime"
+        android:indeterminateOnly="true"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ble_progress_connect_loading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_13"
+        android:text="dddddd"
+        android:textColor="@color/base_tv_large_black"
+        android:textSize="@dimen/sp_15"
+        />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="@drawable/btn_blue"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        />
+</RelativeLayout>

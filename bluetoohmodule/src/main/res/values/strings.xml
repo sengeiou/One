@@ -10,5 +10,9 @@
     <string name="ble_connect_bluetoh_title">Choose a robot to connect</string>
     <string name="ble_connect_bluetoh_content">Turn on bluetooh of the device and put it close to robot\'s back</string>
     <string name="ble_connect">connect</string>
+    <string name="ble_connecting">Connecting with robot</string>
     <string name="ble_connect_ble_success">Connection Successed</string>
+    <string name="ble_connect_bluetooh_outtime">Connection is overtime</string>
+    <string name="ble_try_again">Tray again</string>
+    <string name="ble_cancle">Cancle</string>
 </resources>
