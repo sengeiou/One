@@ -27,6 +27,7 @@ import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +42,7 @@ import java.util.List;
  * version
  */
 
-public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View> implements BleConnectContact.Presenter,  IProtolPackListener {
+public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View> implements BleConnectContact.Presenter, IProtolPackListener {
 
     private static final String TAG = "BleConnectPrenster";
     boolean isScanning = false;
@@ -75,6 +76,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      */
     private static final int MESSAG_HANDSHAKE_TIMEOUT = 0x113;
 
+
     public List<BleDevice> mBleDevices = new ArrayList<>();
     private BluetoothDevice mCurrentRobotInfo;
 
@@ -90,6 +92,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
         } else {
             mBlueClient.openBluetooth();
         }
+        ViseLog.d("threadNmae==  register  " + Thread.currentThread().getName());
     }
 
     /**
@@ -132,10 +135,11 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      *
      * @param readData
      */
-    @org.greenrobot.eventbus.Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
         ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
         BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        ViseLog.d("threadNmae==  onReadData  " + Thread.currentThread().getName());
     }
 
     @Override
@@ -156,6 +160,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                     return;
                 }
                 ViseLog.e("-----------握手成功----------与机器人正式连接");
+
                 if (mView != null) {
                     mView.connectSuccess();
                 }
@@ -189,8 +194,8 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 if (time_difference < 500) {
                     return;
                 }
-                 mBlueClient.sendData(new BTCmdHandshake().toByteArray());
-                mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT,TIME_OUT);
+                mBlueClient.sendData(new BTCmdHandshake().toByteArray());
+                mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT, TIME_OUT);
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
                 ViseLog.e("正在连接");
@@ -198,7 +203,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
                 ToastUtils.showShort("蓝牙断开");
-                 break;
+                break;
             default:
 
                 break;
@@ -215,7 +220,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
         ViseLog.i("getDiscoveryState:" + stateChanged.getDiscoveryState());
         if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_STARTED) {
             isScanning = true;
-        } else if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_FINISHED){
+        } else if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_FINISHED) {
             if (!isConnecting) {
                 ViseLog.d("蓝牙扫描结束------onActionDiscoveryStateChanged");
                 mBlueClient.startScan();
@@ -381,7 +386,8 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
     public void unRegister() {
         mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
         mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
-         EventBus.getDefault().unregister(this);
+        mHandler.removeMessages(MESSAG_HANDSHAKE_TIMEOUT);
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -404,18 +410,21 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                     isConnecting = false;
                     mBlueClient.disconnect();
                     ViseLog.d("连接蓝牙超时失败");
-
                     if (mView != null) {
                         mView.connectFailed();
                     }
                     break;
                 case MESSAG_HANDSHAKE_TIMEOUT:
-
+                    isConnecting = false;
+                    mBlueClient.disconnect();
+                    ViseLog.d("连接蓝牙超时失败");
+                    if (mView != null) {
+                        mView.connectFailed();
+                    }
                     break;
             }
         }
     };
-
 
 
     /**

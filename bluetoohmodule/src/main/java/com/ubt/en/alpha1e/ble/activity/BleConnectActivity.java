@@ -1,9 +1,13 @@
 package com.ubt.en.alpha1e.ble.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.mvp.MVPBaseActivity;
@@ -18,6 +22,7 @@ import com.vise.log.ViseLog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, BleConnectPrenster> implements BleConnectContact.View, BaseQuickAdapter.OnItemChildClickListener {
@@ -25,6 +30,14 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     Unbinder mUnbinder;
     @BindView(R2.id.ble_buletooth_device_list)
     RecyclerView mBuletoothDeviceList;
+    @BindView(R2.id.ble_connect_loading)
+    ProgressBar mBleConnectLoading;
+    @BindView(R2.id.iv_back)
+    ImageView mIvBack;
+    @BindView(R2.id.iv_help)
+    ImageView mIvHelp;
+    @BindView(R.id.rl_sucessed)
+    RelativeLayout mRlSucessed;
 
 
     private BluetoothDeviceListAdapter mDeviceListAdapter;
@@ -45,11 +58,23 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     }
 
     private void initUi() {
-        LoadingDialog.show(this);
         mDeviceListAdapter = new BluetoothDeviceListAdapter(R.layout.ble_item_bledevice_layout, mPresenter.getBleDevices());
         mBuletoothDeviceList.setLayoutManager(new LinearLayoutManager(this));
         mBuletoothDeviceList.setAdapter(mDeviceListAdapter);
         mDeviceListAdapter.setOnItemChildClickListener(this);
+    }
+
+
+    @OnClick({R2.id.iv_back, R2.id.iv_help})
+    public void onClickView(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
+            case R.id.iv_help:
+
+                break;
+        }
     }
 
 
@@ -62,6 +87,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
 
     @Override
     public void notifyDataSetChanged() {
+        ViseLog.d("搜到蓝牙数量======" + mPresenter.getBleDevices().size());
         mDeviceListAdapter.notifyDataSetChanged();
     }
 
@@ -70,7 +96,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
      */
     @Override
     public void searchSuccess() {
-        LoadingDialog.dismiss(this);
+        mBleConnectLoading.setVisibility(View.GONE);
     }
 
 
@@ -84,11 +110,18 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
 
 
     /**
-     * 与机器人连接蓝牙成功
+     * 与机器人连接蓝牙成功，根据从什么页面过来进行跳转还是直接finish
      */
     @Override
     public void connectSuccess() {
-        LoadingDialog.dismiss(this);
+        mRlSucessed.setVisibility(View.VISIBLE);
+        mRlSucessed.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(BleConnectActivity.this, BleConnectWifiActivity.class));
+                mRlSucessed.setVisibility(View.GONE);
+            }
+        }, 1000);
     }
 
     /**

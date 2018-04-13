@@ -51,6 +51,12 @@
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
+        <activity android:name=".activity.BleConnectWifiActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:screenOrientation="landscape"
+                  android:theme="@style/NoTitleThemeFullScreen"
+                  android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>

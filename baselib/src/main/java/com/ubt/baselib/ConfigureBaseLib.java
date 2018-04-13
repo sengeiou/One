@@ -3,7 +3,6 @@ package com.ubt.baselib;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
@@ -18,7 +17,7 @@ import com.ubt.baselib.customView.DynamicTimeFormat;
 import com.ubt.baselib.customView.MyRefreshFoot;
 import com.ubt.baselib.customView.MyRefreshHead;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
-import com.ubt.baselib.skin.CustomSDCardLoader;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.ContextUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
@@ -31,9 +30,6 @@ import com.vise.xsnow.loader.LoaderManager;
 import java.util.HashMap;
 
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import skin.support.SkinCompatManager;
-import skin.support.content.res.SkinCompatResources;
-import skin.support.utils.MyTextViewLayoutInflater;
 
 /**
  * @作者：bin.zhang@ubtrobot.com
@@ -66,6 +62,7 @@ public class ConfigureBaseLib {
         BaseHttpEntity.init(this.isIssue);
 
        // initSkin(appContext);
+        SkinManager.getInstance().init(appContext);
         ContextUtils.init(appContext);
         initLog();
         initNet(appContext);
@@ -170,40 +167,6 @@ public class ConfigureBaseLib {
     }
 
 
-    public void initSkin(Application application) {
-        SkinCompatManager.withoutActivity(application)
-                .addStrategy(new CustomSDCardLoader())          // 自定义加载策略，指定SDCard路径
-                .addInflater(new MyTextViewLayoutInflater())
-//                .setSkinStatusBarColorEnable(false)             // 关闭状态栏换肤
-//                .setSkinWindowBackgroundEnable(false)           // 关闭windowBackground换肤
-//                .setSkinAllActivityEnable(false)                // true: 默认所有的Activity都换肤; false: 只有实现SkinCompatSupportable接口的Activity换肤
-                .loadSkin();
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        SkinCompatResources.getString(application, R.string.app_name);
-    }
 
-    /**
-     * 加载皮肤包
-     *
-     * @param boolValue
-     */
-    public void setSkinConfig(boolean boolValue) {
-        if (boolValue) {
-            SkinCompatManager.getInstance().loadSkin("night.skin", null, SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
-        } else {
-            SkinCompatManager.getInstance().restoreDefaultTheme();
-        }
-    }
-
-    /**
-     * 根据Id获取String
-     *
-     * @param context
-     * @param id
-     * @return
-     */
-    public static String getTextById(Context context, int id) {
-        return SkinCompatResources.getString(context, id);
-    }
 
 }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_56"
+                android:layout_height="@dimen/dp_60"
+                android:layout_marginLeft="@dimen/dp_80"
+                android:layout_marginRight="@dimen/dp_80"
                 android:background="@null"
                 android:orientation="vertical">
 
@@ -12,36 +14,34 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_25"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/img_robot_avatar"
         />
 
     <TextView
         android:id="@+id/tv_robot_bluetooth_name"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_55"
-        android:layout_marginLeft="@dimen/dp_22"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_24"
         android:layout_toRightOf="@id/ig_robot_head"
         android:gravity="center"
+        android:layout_centerVertical="true"
         android:text="Alpha 1 eeee"
-        android:textSize="16sp"/>
+        android:textColor="@color/base_tv_large_black"
+        android:textSize="@dimen/dp_14"/>
 
     <Button
         android:id="@+id/btn_buletooth_connect"
-        android:layout_width="@dimen/dp_90"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_50"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/dp_25"
+        android:background="@drawable/btn_blue_choose_robot"
         android:gravity="center"
-        android:text="连接"
+        android:text="@string/ble_connect"
         android:textColor="@color/white"
         android:textSize="15sp"/>
 
-    <TextView
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="#cccccc"/>
+
 
 </RelativeLayout>

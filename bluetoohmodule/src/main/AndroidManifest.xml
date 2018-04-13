@@ -7,6 +7,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application>
         <activity
+            android:name=".activity.FirstGreetActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
             android:name=".activity.BleGuideActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
@@ -25,6 +32,12 @@
                   android:screenOrientation="landscape"
                   android:theme="@style/NoTitleThemeFullScreen"
                   android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.BleConnectWifiActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:screenOrientation="landscape"
+                  android:theme="@style/NoTitleThemeFullScreen"
+                  android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>

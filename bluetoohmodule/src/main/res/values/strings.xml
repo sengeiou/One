@@ -9,5 +9,6 @@
     <string name="ble_next">Next</string>
     <string name="ble_connect_bluetoh_title">Choose a robot to connect</string>
     <string name="ble_connect_bluetoh_content">Turn on bluetooh of the device and put it close to robot\'s back</string>
-
+    <string name="ble_connect">connect</string>
+    <string name="ble_connect_ble_success">Connection Successed</string>
 </resources>
