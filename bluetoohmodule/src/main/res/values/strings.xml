@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">BluetoohModule</string>
+    <string name="ble_app_name">BluetoohModule</string>
+    <string name="ble_hello_cristinal">Hello Cristina!</string>
+    <string name="ble_greet">Alpha Ebot welcome you to connect with it</string>
+    <string name="ble_let_start">Let\'s start</string>
+
+    <string name="ble_press_onoff">Press On/Off on robot\'s back for 3 seconds\n to turn it on.</string>
+    <string name="ble_robot_stand">My robot has stood Up.</string>
+    <string name="ble_next">Next</string>
+    <string name="ble_connect_bluetoh_title">Choose a robot to connect</string>
+    <string name="ble_connect_bluetoh_content">Turn on bluetooh of the device and put it close to robot\'s back</string>
+
 </resources>

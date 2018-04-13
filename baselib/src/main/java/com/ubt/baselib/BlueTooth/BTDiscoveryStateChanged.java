@@ -1,4 +1,4 @@
-package com.ubt.en.alpha1e.BlueTooth;
+package com.ubt.baselib.BlueTooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.os.Parcel;

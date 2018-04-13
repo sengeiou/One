@@ -34,13 +34,6 @@
     <service android:name=".services.GlobalMsgService"/>
     <!--服务声明结束-->
 
-    <!--receiver声明-->
-    <receiver android:name=".BlueTooth.BTHeartBeatManager$MyReceiver">
-        <intent-filter>
-            <action android:name="BT_HEARTBEAT" />
-        </intent-filter>
-    </receiver>
-    <!--receiver声明结束-->
 
 </application>
 

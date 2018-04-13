@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_bg"
+    tools:context="com.ubt.en.alpha1e.ble.activity.FirstGreetActivity">
+
+
+    <ImageView
+        android:id="@+id/bleImageview2"
+        android:layout_width="wrap_content"
+        android:layout_height="339dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_robot_press"/>
+
+    <TextView
+        android:id="@+id/ble_tvname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_136"
+        android:gravity="center"
+        android:text="@string/ble_press_onoff"
+        android:textColor="@color/base_tv_large_black"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <CheckBox
+        android:id="@+id/ble_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_60"
+        android:background="@android:color/transparent"
+        android:button="@null"
+        android:drawableLeft="@drawable/checkbox_style"
+        android:drawablePadding="@dimen/dp_12"
+        android:text="@string/ble_robot_stand"
+        android:textColor="@color/base_tv_large_black"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="@+id/ble_tvname"
+        app:layout_constraintStart_toStartOf="@+id/ble_tvname"
+        app:layout_constraintTop_toBottomOf="@+id/ble_tvname"/>
+
+
+    <Button
+        android:id="@+id/ble_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="@drawable/ble_connect_btn_selector"
+        android:gravity="center"
+        android:text="@string/ble_next"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="@+id/ble_checkbox"
+        app:layout_constraintStart_toStartOf="@+id/ble_checkbox"
+        app:layout_constraintTop_toBottomOf="@+id/ble_checkbox"/>
+</android.support.constraint.ConstraintLayout>

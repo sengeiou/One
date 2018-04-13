@@ -7,4 +7,8 @@
     <color name="blue">#00A4E6</color>
     <color name="transparent">#00000000</color>
     <color name="tv_notice_title">#AFBFC8</color>
+    
+    <color name="base_tv_large_black">#1D3740</color>
+
+    <color name="base_tv_middle_gray1">#A2A2A2</color>
 </resources>

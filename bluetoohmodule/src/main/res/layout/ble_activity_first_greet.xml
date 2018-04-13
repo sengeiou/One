@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_bg"
+    tools:context="com.ubt.en.alpha1e.ble.activity.FirstGreetActivity">
+
+    <TextView
+        android:id="@+id/ble_tvname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
+        android:text="@string/ble_hello_cristinal"
+        android:textColor="@color/base_tv_large_black"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/bleTextview3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:text="@string/ble_greet"
+        android:textColor="@color/base_tv_middle_gray1"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintEnd_toEndOf="@+id/ble_tvname"
+        app:layout_constraintStart_toStartOf="@+id/ble_tvname"
+        app:layout_constraintTop_toBottomOf="@+id/ble_tvname"/>
+
+    <ImageView
+        android:id="@+id/bleImageview"
+        android:layout_width="@dimen/dp_95"
+        android:layout_height="@dimen/dp_180"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintEnd_toEndOf="@+id/bleTextview3"
+        app:layout_constraintStart_toStartOf="@+id/bleTextview3"
+        app:layout_constraintTop_toBottomOf="@+id/bleTextview3"
+        app:srcCompat="@drawable/img_robot_welcome"/>
+
+    <Button
+        android:id="@+id/ble_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/btn_blue"
+        android:gravity="center"
+        android:text="@string/ble_let_start"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintEnd_toEndOf="@+id/bleImageview"
+        app:layout_constraintStart_toStartOf="@+id/bleImageview"
+        app:layout_constraintTop_toBottomOf="@+id/bleImageview"/>
+
+</android.support.constraint.ConstraintLayout>
