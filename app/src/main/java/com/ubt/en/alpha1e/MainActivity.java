@@ -14,7 +14,6 @@ import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTScanModeChanged;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.BlueTooth.BTStateChanged;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdHeartBeat;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         mBlueClientUtils = BlueClientUtil.getInstance();
         heartBeatManager = BTHeartBeatManager.getInstance();
-        heartBeatManager.init(this);
     }
 
     @OnClick({R.id.btn_start1, R.id.btn_start2, R.id.btn_htswright, R.id.hts_read,R.id.setting})
@@ -81,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
                 mBlueClientUtils.connect("A0:2C:36:89:EE:2D");
                 break;
             case R.id.btn_htswright:
-                heartBeatManager.startHeart(new BTCmdHeartBeat().toByteArray(),5000);
+//                heartBeatManager.startHeart();
 //                HtsHelper.test_write();
                 break;
             case R.id.hts_read:
-                heartBeatManager.stopHeart();
+//                heartBeatManager.stopHeart();
 //                HtsHelper.test_read();
                 break;
             case R.id.setting:
