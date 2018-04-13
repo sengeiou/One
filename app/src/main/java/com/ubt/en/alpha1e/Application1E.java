@@ -22,7 +22,7 @@ public class Application1E extends Application {
         InitBaseLib.init(this);
         initWXQQ(this);
         //initXG(this);
-        CrashReport.initCrashReport(getApplicationContext(), "ff64261bb9", BuildConfig.DEBUG);
+        CrashReport.initCrashReport(getApplicationContext(), "4973745c10", BuildConfig.DEBUG);
         startGlobalMsgService();
     }
 
