@@ -1,26 +1,14 @@
 package com.ubt.en.alpha1e;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.ubt.baselib.BlueTooth.BTDeviceFound;
-import com.ubt.baselib.BlueTooth.BTDiscoveryStateChanged;
-import com.ubt.baselib.BlueTooth.BTHeartBeatManager;
-import com.ubt.baselib.BlueTooth.BTReadData;
-import com.ubt.baselib.BlueTooth.BTScanModeChanged;
-import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
-import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.commonModule.ModuleUtils;
-import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
-import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,114 +17,104 @@ import butterknife.OnClick;
 @Route(path = ModuleUtils.Main_MainActivity)
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.btn_start1)
-    Button mBtnStart1;
+    @BindView(R.id.right_bar_top)
+    ImageView rightBarTop;
+    @BindView(R.id.right_bar_center)
+    ImageView rightBarCenter;
+    @BindView(R.id.right_bar_bottom)
+    ImageView rightBarBottom;
+    @BindView(R.id.iv_robot_status)
+    ImageView ivRobotStatus;
+    @BindView(R.id.iv_robot_status_error)
+    ImageView ivRobotStatusError;
+    @BindView(R.id.tv_charging_backgroup)
+    TextView tvChargingBattary;
+    @BindView(R.id.iv_play_center)
+    ImageView ivPlayCenter;
+    @BindView(R.id.iv_voice_cmd)
+    ImageView ivVoiceCmd;
+    @BindView(R.id.iv_actions)
+    ImageView ivActions;
+    @BindView(R.id.iv_blockly)
+    ImageView ivBlockly;
+    @BindView(R.id.iv_community)
+    ImageView ivCommunity;
+    @BindView(R.id.iv_joystick)
+    ImageView ivJoystick;
 
-    @BindView(R.id.btn_start2)
-    Button mBtnStart12;
-    @BindView(R.id.btn_htswright)
-    Button btnHtswright;
-    @BindView(R.id.hts_read)
-    Button htsRead;
-    @BindView(R.id.setting)
-    Button mButton5;
 
-
-    private BlueClientUtil mBlueClientUtils;
-    private boolean isScanning = false;
-
-    private BTHeartBeatManager heartBeatManager;
+    private int prePower = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-        mBlueClientUtils = BlueClientUtil.getInstance();
-        heartBeatManager = BTHeartBeatManager.getInstance();
     }
 
-    @OnClick({R.id.btn_start1, R.id.btn_start2, R.id.btn_htswright, R.id.hts_read,R.id.setting})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_start1:
-//                ARouter.getInstance().build(ModuleUtils.Module1_Test1).navigation();
-                if(mBlueClientUtils.isEnabled()){
-                    if(isScanning){
-                        boolean iscannel = mBlueClientUtils.cancelScan();
-                        ViseLog.i("iscannel:"+iscannel);
-                    }else {
-                        boolean isScan =  mBlueClientUtils.startScan();
-                        ViseLog.i("isScan:"+isScan);
-                    }
-                }else{
-                    mBlueClientUtils.openBluetooth();
-                }
-                break;
-            case R.id.btn_start2:
-//                ARouter.getInstance().build(ModuleUtils.Module2_Test2).navigation();
-                mBlueClientUtils.connect("A0:2C:36:89:EE:2D");
-                break;
-            case R.id.btn_htswright:
-//                heartBeatManager.startHeart();
-//                HtsHelper.test_write();
-                break;
-            case R.id.hts_read:
-//                heartBeatManager.stopHeart();
-//                HtsHelper.test_read();
-                break;
-            case R.id.setting:
-                //ARouter.getInstance().build(ModuleUtils.Setting_UserCenterActivity).navigation();
-                ARouter.getInstance().build(ModuleUtils.Bluetooh_BleGuideActivity).navigation();
-                break;
-                default:
+    /**
+     * 刷新机器人电池状态
+     */
+    private void refreshBatteryStatus(int power) {
+        if (prePower == power) {
+            return;
         }
+
+        Drawable img = null;
+        if (power <= 20 && prePower > 20) {
+            img = getResources().getDrawable(R.mipmap.charging_red);
+        } else if (power > 20 && power <= 40 && (prePower <= 20 || prePower > 40)) {
+            img = getResources().getDrawable(R.mipmap.charging_yellow);
+        } else if (power > 40 && power <= 90 && (prePower <= 40 || prePower > 90)) {
+            img = getResources().getDrawable(R.mipmap.charging_green);
+        } else if (power > 90 && prePower <= 90) {
+            img = getResources().getDrawable(R.mipmap.charging_full);
+        }
+
+        prePower = power;
+        // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示
+        if (img != null) {
+            img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
+            tvChargingBattary.setCompoundDrawables(img, null, null, null);
+        }
+
+        tvChargingBattary.setText(power + "%");
     }
 
-//    @Subscribe
-//    public void onDataSynEvent(XGPushTextMessage event) {
-//        ViseLog.i("event---->" + event.getContent());
-//    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);//解除订阅
     }
 
-    @Subscribe
-    public void onBlueDeviceFound(BTDeviceFound deviceFound){
-        ViseLog.i("getAddress:"+deviceFound.getBluetoothDevice().getAddress()+"  rssi:"+deviceFound.getRssi());
-    }
-
-    @Subscribe
-    public void onReadData(BTReadData readData){
-        ViseLog.i("data:"+ HexUtil.encodeHexStr(readData.getDatas()));
-    }
-
-    @Subscribe
-    public void onActionStateChanged(BTStateChanged stateChanged){
-        ViseLog.i(stateChanged.toString());
-    }
-
-    @Subscribe
-    public void onActionDiscoveryStateChanged(BTDiscoveryStateChanged stateChanged){
-        ViseLog.i("getDiscoveryState:"+ stateChanged.getDiscoveryState());
-        if(stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_STARTED){
-            isScanning = true;
-        }else{
-            isScanning = false;
+    @OnClick({R.id.iv_robot_status, R.id.iv_play_center, R.id.iv_voice_cmd, R.id.iv_actions,
+            R.id.iv_blockly, R.id.iv_community, R.id.iv_joystick,
+            R.id.right_bar_top, R.id.right_bar_center, R.id.right_bar_bottom})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_robot_status:
+                break;
+            case R.id.iv_play_center:
+                break;
+            case R.id.iv_voice_cmd:
+                break;
+            case R.id.iv_actions:
+                break;
+            case R.id.iv_blockly:
+                break;
+            case R.id.iv_community:
+                break;
+            case R.id.iv_joystick:
+                break;
+            case R.id.right_bar_top:
+                break;
+            case R.id.right_bar_center:
+                break;
+            case R.id.right_bar_bottom:
+                break;
+            default:
+                break;
         }
-    }
-
-    @Subscribe
-    public void onActionScanModeChanged(BTScanModeChanged scanModeChanged){
-        ViseLog.i(scanModeChanged.toString());
-    }
-
-    @Subscribe
-    public void onBluetoothServiceStateChanged(BTServiceStateChanged serviceStateChanged){
-        ViseLog.i("getState:"+ serviceStateChanged.toString());
     }
 }
