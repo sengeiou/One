@@ -19,11 +19,19 @@ public class Application1E extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        InitBaseLib.init(this);
-        initWXQQ(this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                InitBaseLib.init(Application1E.this);
+                CrashReport.initCrashReport(getApplicationContext(), "4973745c10", BuildConfig.DEBUG);
+                startGlobalMsgService();
+            }
+        }).start();
+        /*InitBaseLib.init(this);
+//        initWXQQ(this);
         //initXG(this);
         CrashReport.initCrashReport(getApplicationContext(), "4973745c10", BuildConfig.DEBUG);
-        startGlobalMsgService();
+        startGlobalMsgService();*/
     }
 
 

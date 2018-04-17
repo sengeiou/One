@@ -8,11 +8,16 @@
    >
 
     <!-- 右边栏按钮-->
-    <include
+    <!--<include
         android:id="@+id/right_bar"
         layout="@layout/right_bar"
-        />
-
+        />-->
+    <com.ubt.baselib.customView.RightBar
+        android:id="@+id/right_bar"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_horizontal"/>
     <!--上面按钮开始-->
     <RelativeLayout
         android:id="@+id/top_bar"
@@ -116,9 +121,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@id/iv_actions"
                 android:layout_alignTop="@id/iv_actions"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/main_actions"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -144,9 +151,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/main_blockly"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -171,9 +180,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@id/iv_community"
                 android:layout_alignTop="@id/iv_community"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/main_community"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/iv_community" />
@@ -201,10 +212,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@id/iv_joystick"
                 android:layout_alignTop="@id/iv_joystick"
-                android:layout_marginBottom="100dp"
-                android:layout_marginEnd="64dp"
+                android:layout_marginBottom="92dp"
+                android:layout_marginEnd="48dp"
                 android:text="@string/main_joystick"
                 android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

@@ -15,7 +15,7 @@
     android:theme="@style/AppTheme.NoActionBar">
 
     <!--activity声明-->
-    <activity android:name=".MainActivity"
+    <activity android:name=".main.MainActivity"
               android:screenOrientation="landscape"
             android:launchMode="singleTask"
         >
