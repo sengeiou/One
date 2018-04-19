@@ -7,6 +7,14 @@
                 android:background="@null"
                 android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/dp_25"
+        android:background="@color/base_line"
+        />
+
     <ImageView
         android:id="@+id/ig_robot_head"
         android:layout_width="@dimen/dp_50"
@@ -15,32 +23,29 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_25"
         android:src="@drawable/img_robot_avatar"
+        android:visibility="gone"
         />
 
     <TextView
-        android:id="@+id/tv_robot_bluetooth_name"
+        android:id="@+id/tv_wifi_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_toRightOf="@id/ig_robot_head"
         android:gravity="center"
-        android:layout_centerVertical="true"
-        android:text="Alpha 1 eeee"
         android:textColor="@color/base_tv_large_black"
-        android:textSize="@dimen/sp_14"/>
+        android:textSize="@dimen/sp_15"/>
 
-    <Button
-        android:id="@+id/btn_buletooth_connect"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_50"
+    <ImageView
+        android:id="@+id/iv_wifi_sign"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/dp_25"
-        android:background="@drawable/btn_blue_choose_robot"
-        android:gravity="center"
-        android:text="@string/ble_connect"
-        android:textColor="@color/white"
-        android:textSize="15sp"/>
+        android:background="@drawable/ble_wifi_sign"
+        />
 
 
 

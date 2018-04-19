@@ -17,25 +17,32 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
+import com.ubt.baselib.BlueTooth.BleDevice;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
-import com.ubt.en.alpha1e.ble.model.BleDevice;
 import com.ubt.en.alpha1e.ble.model.BluetoothDeviceListAdapter;
+import com.ubt.en.alpha1e.ble.model.ManualEvent;
 import com.ubt.en.alpha1e.ble.presenter.BleConnectPrenster;
 import com.vise.log.ViseLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+
+@Route(path = ModuleUtils.Bluetooh_BleConnectActivity)
 public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, BleConnectPrenster> implements BleConnectContact.View, BaseQuickAdapter.OnItemChildClickListener {
 
     Unbinder mUnbinder;
@@ -49,6 +56,11 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     ImageView mIvHelp;
     @BindView(R.id.rl_sucessed)
     RelativeLayout mRlSucessed;
+
+    /**
+     * 是否从登录页面过来
+     */
+    private boolean isFromFirst;
 
 
     private BluetoothDeviceListAdapter mDeviceListAdapter;
@@ -64,7 +76,12 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
+        isFromFirst = getIntent().getBooleanExtra("first_enter", false);
+
         initUi();
+        ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_ENTER);
+        manualEvent.setManual(true);
+        EventBus.getDefault().post(manualEvent);
         mPresenter.register(this);
 
     }
@@ -81,7 +98,9 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
-                finish();
+                if (!isFromFirst) {
+                    finish();
+                }
                 break;
             case R.id.iv_help:
 
@@ -94,6 +113,9 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.unRegister();
+        ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_ENTER);
+        manualEvent.setManual(false);
+        EventBus.getDefault().post(manualEvent);
     }
 
 
@@ -165,7 +187,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
                 showLoadingDialog(false, "");
 
             }
-        },1000);
+        }, 1000);
     }
 
     /**

@@ -38,6 +38,10 @@
                   android:theme="@style/NoTitleThemeFullScreen"
                   android:windowSoftInputMode="adjustPan">
         </activity>
+        <service
+            android:name=".service.AutoConnectService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -1,4 +1,6 @@
-package com.ubt.en.alpha1e.ble.model;
+package com.ubt.baselib.BlueTooth;
+
+import org.litepal.crud.DataSupport;
 
 /**
  * @author：liuhai
@@ -9,16 +11,16 @@ package com.ubt.en.alpha1e.ble.model;
  * version
  */
 
-public class BleDevice {
+public class BleDevice extends DataSupport {
     private String bleName;
     private String mac;
     private int statu;
 
-    public BleDevice(String bleName, String mac, int statu) {
-        this.bleName = bleName;
-        this.mac = mac;
-        this.statu = statu;
-    }
+//    public BleDevice(String bleName, String mac, int statu) {
+//        this.bleName = bleName;
+//        this.mac = mac;
+//        this.statu = statu;
+//    }
 
     public String getBleName() {
         return bleName;
@@ -42,5 +44,14 @@ public class BleDevice {
 
     public void setStatu(int statu) {
         this.statu = statu;
+    }
+
+    @Override
+    public String toString() {
+        return "BleDevice{" +
+                "bleName='" + bleName + '\'' +
+                ", mac='" + mac + '\'' +
+                ", statu=" + statu +
+                '}';
     }
 }

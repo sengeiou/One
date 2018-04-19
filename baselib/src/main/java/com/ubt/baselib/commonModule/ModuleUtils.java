@@ -30,10 +30,25 @@ public interface ModuleUtils {
     /**
      * 设置模块
      */
-    String Setting_UserCenterActivity="/setting/UserCenterActivity";
+    String Setting_UserCenterActivity = "/setting/UserCenterActivity";
 
+    /**
+     * 欢迎页面
+     */
+    String Bluetooh_FirstGreetActivity = "/bluetooh/FirstGreetActivity";
+    /**
+     * 蓝牙指引页
+     */
+    String Bluetooh_BleGuideActivity = "/bluetooh/BleGuideActivity";
 
+    /**
+     * 蓝牙搜索连接页面
+     */
+    String Bluetooh_BleConnectActivity = "/bluetooh/BleConnectActivity";
 
-    String Bluetooh_BleGuideActivity="/bluetooh/BleGuideActivity";
+    /**
+     * wifi连接页面
+     */
+    String Bluetooh_BleConnectWifiActivity = "/bluetooh/BleConnectWifiActivity";
 
 }

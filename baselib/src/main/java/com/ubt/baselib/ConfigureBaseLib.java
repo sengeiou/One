@@ -27,6 +27,8 @@ import com.vise.utils.assist.SSLUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.loader.LoaderManager;
 
+import org.litepal.LitePal;
+
 import java.util.HashMap;
 
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -61,7 +63,7 @@ public class ConfigureBaseLib {
         this.isIssue = isIssue;
         BaseHttpEntity.init(this.isIssue);
 
-       // initSkin(appContext);
+        // initSkin(appContext);
         SkinManager.getInstance().init(appContext);
         ContextUtils.init(appContext);
         initLog();
@@ -70,11 +72,13 @@ public class ConfigureBaseLib {
 
         BlueClientUtil.getInstance().init(appContext);
         BlueClientUtil.getInstance().setBlueListener(new BlueToothListenerImpl());
-        BTHeartBeatManager.getInstance().init(appContext, new BTCmdHeartBeat().toByteArray(),5000);
+        BTHeartBeatManager.getInstance().init(appContext, new BTCmdHeartBeat().toByteArray(), 5000);
         initSmartRefresh();
+        LitePal.initialize(appContext);
+        appContext.registerActivityLifecycleCallbacks(new MyLifecycleCallback());
     }
 
-    private  void initLog() {
+    private void initLog() {
         ViseLog.getLogConfig()
                 .configTagPrefix("alpha1e")
                 .configAllowLog(true)//是否输出日志
@@ -82,7 +86,7 @@ public class ConfigureBaseLib {
         ViseLog.plant(new LogcatTree());//添加打印日志信息到Logcat的树
     }
 
-    private  void initNet(Context appContext) {
+    private void initNet(Context appContext) {
         ViseHttp.init(appContext);
         ViseHttp.CONFIG()
                 //配置请求主机地址
@@ -146,7 +150,7 @@ public class ConfigureBaseLib {
     }
 
 
-    private  void initSmartRefresh() {
+    private void initSmartRefresh() {
         SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
             @NonNull
             @Override
@@ -165,8 +169,6 @@ public class ConfigureBaseLib {
             }
         });
     }
-
-
 
 
 }

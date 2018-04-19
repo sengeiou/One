@@ -15,4 +15,12 @@
     <string name="ble_connect_bluetooh_outtime">Connection is overtime</string>
     <string name="ble_try_again">Tray again</string>
     <string name="ble_cancle">Cancle</string>
+
+
+    <string name="ble_wifi_title">Enter Wi-Fi Password</string>
+    <string name="ble_wifi_content">(Not support 5G Wi-Fi)</string>
+
+    <string name="ble_no_wifi_found">No Wi-Fi found</string>
+    <string name="ble_no_wifi_tip">You can try to input Wi-Fi name</string>
+    <string name="ble_btn_input_wifi">Input Wi-Fi name</string>
 </resources>

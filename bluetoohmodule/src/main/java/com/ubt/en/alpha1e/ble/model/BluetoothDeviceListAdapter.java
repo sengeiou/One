@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.ubt.baselib.BlueTooth.BleDevice;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.ble.R;
 

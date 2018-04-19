@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
     <application
         android:name=".BLuetoohApplication"
@@ -51,11 +52,21 @@
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".activity.BleConnectWifiActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:screenOrientation="landscape"
-                  android:theme="@style/NoTitleThemeFullScreen"
-                  android:windowSoftInputMode="adjustPan">
+        <activity
+            android:name=".activity.BleConnectWifiActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+        <service
+            android:name=".service.AutoConnectService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
+        <activity android:name=".activity.WifiInputActivity">
         </activity>
     </application>
 
