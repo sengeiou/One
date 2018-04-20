@@ -8,8 +8,14 @@
     <color name="transparent">#00000000</color>
     <color name="tv_notice_title">#AFBFC8</color>
     
-    <color name="base_tv_large_black">#1D3740</color>
+    <color name="base_tv_large_black">#1d3740</color>
 
     <color name="base_tv_middle_gray1">#A2A2A2</color>
     <color name="base_line"> #E2E2E2</color>
+
+    <color name="base_blue">#37AAFF</color>
+    <color name="base_background">#F9F9FB</color>
+    <color name="base_tv_ble_color">#333333</color>
+    <color name="base_tv_ble_gray">#999999</color>
+    <color name="base_color_red">#FE484D</color>
 </resources>

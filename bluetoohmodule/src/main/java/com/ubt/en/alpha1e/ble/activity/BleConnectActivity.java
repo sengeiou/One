@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
@@ -67,6 +68,13 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     private DialogPlus mDialog = null;
 
 
+    public static void launch(Context context, boolean isFrom) {
+        Intent intent = new Intent(context, BleConnectActivity.class);
+        intent.putExtra("first_enter", isFrom);
+        context.startActivity(intent);
+    }
+
+
     @Override
     public int getContentViewId() {
         return R.layout.ble_activity_connect;
@@ -93,6 +101,11 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         mDeviceListAdapter.setOnItemChildClickListener(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mRlSucessed.setVisibility(View.GONE);
+    }
 
     @OnClick({R2.id.iv_back, R2.id.iv_help})
     public void onClickView(View view) {
@@ -167,8 +180,12 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         mRlSucessed.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(BleConnectActivity.this, BleConnectWifiActivity.class));
-                mRlSucessed.setVisibility(View.GONE);
+                if (isFromFirst) {
+                    ARouter.getInstance().build(ModuleUtils.Bluetooh_BleSearchWifiActivity).withBoolean("first_enter", isFromFirst).navigation();
+                } else {
+                    finish();
+                }
+                // startActivity(new Intent(BleConnectActivity.this, BleSearchWifiActivity.class));
             }
         }, 1000);
     }

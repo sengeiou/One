@@ -49,6 +49,17 @@ public interface ModuleUtils {
     /**
      * wifi连接页面
      */
-    String Bluetooh_BleConnectWifiActivity = "/bluetooh/BleConnectWifiActivity";
+    String Bluetooh_BleSearchWifiActivity = "/bluetooh/BleSearchWifiActivity";
+
+    /**
+     * wifi密码输入页面
+     */
+    String Bluetooh_BleWifiInputActivity = "/bluetooh/BleWifiInputActivity";
+
+    /**
+     * 蓝牙状态页面
+     */
+    String Bluetooh_BleStatuActivity = "/bluetooh/BleStatuActivity";
+
 
 }

@@ -16,7 +16,7 @@ import com.ubt.baselib.mvp.BaseView;
 
 public class WifiInputContact {
     public interface View extends BaseView {
-
+        void connectWifiResult(int type );
 
     }
 
@@ -25,5 +25,6 @@ public class WifiInputContact {
 
         void sendPasswd(String wifiName, String passwd);
 
+        void unRegister();
     }
 }

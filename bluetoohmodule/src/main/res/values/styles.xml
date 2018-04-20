@@ -8,4 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ble_MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/base_tv_middle_gray1</item>
+        <item name="colorControlActivated">@color/base_blue</item>
+    </style>
+
+    <style name="ble_tv_robot_left">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/base_tv_ble_color</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">@dimen/dp_30</item>
+    </style>
+
+    <style name="ble_tv_robot_right">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/base_tv_ble_gray</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">@dimen/dp_30</item>
+    </style>
 </resources>

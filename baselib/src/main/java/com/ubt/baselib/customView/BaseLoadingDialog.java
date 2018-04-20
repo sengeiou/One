@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ public class BaseLoadingDialog extends Dialog {
      */
     private String tipMsg;
 
+    private int drawableId;
+
     /**
      * the LoadingDialog constructor
      *
@@ -50,12 +53,12 @@ public class BaseLoadingDialog extends Dialog {
      * @param tipMsg     String
      */
 
-    public BaseLoadingDialog(final Context ctx, boolean cancelable, String tipMsg) {
+    public BaseLoadingDialog(final Context ctx, boolean cancelable, String tipMsg, int drawableId) {
         super(ctx);
 
         this.cancelable = cancelable;
         this.tipMsg = tipMsg;
-
+        this.drawableId = drawableId;
         //this.getContext().setTheme(android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth);
         setContentView(R.layout.base_dialog_loading);
         //设置window背景，默认的背景会有Padding值，不能全屏。当然不一定要是透明，你可以设置其他背景，替换默认的背景即可。
@@ -77,6 +80,11 @@ public class BaseLoadingDialog extends Dialog {
         if (!TextUtils.isEmpty(tipMsg)) {
             tv.setVisibility(View.VISIBLE);
             tv.setText(tipMsg);
+        }
+
+        ProgressBar progressBar = findViewById(R.id.ble_connect_loading);
+        if (drawableId != 0) {
+            progressBar.setIndeterminateDrawable(ctx.getResources().getDrawable(drawableId));
         }
     }
 
@@ -111,7 +119,7 @@ public class BaseLoadingDialog extends Dialog {
      * @param context
      */
     public static void show(Context context) {
-        show(context, null, true);
+        show(context, null, true, 0);
     }
 
     /**
@@ -121,7 +129,7 @@ public class BaseLoadingDialog extends Dialog {
      * @param message String
      */
     public static void show(Context context, String message) {
-        show(context, message, true);
+        show(context, message, true, 0);
     }
 
     /**
@@ -131,7 +139,11 @@ public class BaseLoadingDialog extends Dialog {
      * @param resourceId resourceId
      */
     public static void show(Context context, int resourceId) {
-        show(context, context.getResources().getString(resourceId), true);
+        show(context, context.getResources().getString(resourceId), true, 0);
+    }
+
+    public static void show(Context context, String message, int drawableId) {
+        show(context, message, true, drawableId);
     }
 
     /**
@@ -141,7 +153,7 @@ public class BaseLoadingDialog extends Dialog {
      * @param message    String, show the message to user when isCancel is true.
      * @param cancelable boolean, true is can't dimiss，false is can dimiss
      */
-    private static void show(Context context, String message, boolean cancelable) {
+    private static void show(Context context, String message, boolean cancelable, int drawableId) {
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
                 return;
@@ -150,7 +162,7 @@ public class BaseLoadingDialog extends Dialog {
         if (loadDialog != null && loadDialog.isShowing()) {
             return;
         }
-        loadDialog = new BaseLoadingDialog(context, cancelable, message);
+        loadDialog = new BaseLoadingDialog(context, cancelable, message, drawableId);
         loadDialog.show();
     }
 

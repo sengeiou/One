@@ -65,7 +65,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
 
     private boolean isCancleScan;
 
-    private static final long TIME_OUT = 8 * 1000;
+    private static final long TIME_OUT = 20 * 1000;
 
     /**
      * 蓝牙搜索超时

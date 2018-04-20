@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bleTextview2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_20"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -67,8 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/dp_30"
-            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
             android:overScrollMode="never"
             />
     </LinearLayout>
@@ -118,8 +118,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_40"
             android:background="@drawable/btn_blue"
-            android:enabled="false"
-            android:gravity="center"
+             android:gravity="center"
             android:text="@string/ble_btn_input_wifi"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_15"

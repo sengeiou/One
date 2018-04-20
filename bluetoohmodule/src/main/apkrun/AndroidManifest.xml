@@ -19,9 +19,10 @@
         android:theme="@style/ble_AppTheme"
         tools:replace="label">
         <activity
-            android:name=".activity.FirstGreetActivity"
+            android:name=".activity.BleStatuActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTask"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -53,7 +54,7 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
-            android:name=".activity.BleConnectWifiActivity"
+            android:name=".activity.BleSearchWifiActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
@@ -66,7 +67,19 @@
             android:exported="true">
         </service>
 
-        <activity android:name=".activity.WifiInputActivity">
+        <activity
+            android:name=".activity.BleWifiInputActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.FirstGreetActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 
