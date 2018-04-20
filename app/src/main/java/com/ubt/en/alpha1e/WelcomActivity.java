@@ -1,18 +1,15 @@
 package com.ubt.en.alpha1e;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.commonModule.ModuleUtils;
-import com.ubt.baselib.globalConst.Constant1E;
-import com.ubt.baselib.model1E.UserModel;
-import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.vise.log.ViseLog;
 import com.yanzhenjie.permission.AndPermission;
@@ -140,8 +137,8 @@ public class WelcomActivity extends AppCompatActivity {
      * 跳转到其它模块
      */
     private void startMainActivity(){
-        String startModule = ModuleUtils.Login_Module;
-        UserModel userModel = (UserModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        String startModule = ModuleUtils.Main_MainActivity;
+        /*UserModel userModel = (UserModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         if (null != userModel) {
             if (!TextUtils.isEmpty(userModel.getPhone())){
                 if (TextUtils.isEmpty(userModel.getAge())) {
@@ -152,8 +149,14 @@ public class WelcomActivity extends AppCompatActivity {
                     startModule = ModuleUtils.Main_MainActivity;
                 }
             }
-        }
+        }*/
         ARouter.getInstance().build(startModule).navigation();
-        WelcomActivity.this.finish();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                WelcomActivity.this.finish();
+            }
+        },1000);
+
     }
 }

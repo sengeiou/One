@@ -36,4 +36,13 @@ public interface ModuleUtils {
 
     String Bluetooh_BleGuideActivity="/bluetooh/BleGuideActivity";
 
+    /**
+     * 个人中心模块
+     */
+    String User_UserCenterActivity="/user/UserCenterActivity";
+
+
+
+
+
 }

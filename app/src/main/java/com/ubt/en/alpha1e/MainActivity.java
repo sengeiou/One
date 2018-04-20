@@ -1,142 +1,131 @@
 package com.ubt.en.alpha1e;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.ubt.baselib.BlueTooth.BTDeviceFound;
-import com.ubt.baselib.BlueTooth.BTDiscoveryStateChanged;
-import com.ubt.baselib.BlueTooth.BTHeartBeatManager;
-import com.ubt.baselib.BlueTooth.BTReadData;
-import com.ubt.baselib.BlueTooth.BTScanModeChanged;
-import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
-import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.commonModule.ModuleUtils;
-import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
+import com.ubt.baselib.customView.RightBar;
+import com.ubt.mainmodule.controlCenter.CtlCenterFragment;
+import com.ubt.mainmodule.main.MainFragment;
+import com.ubt.mainmodule.user.UserMainFragment;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import me.yokeyword.fragmentation.SupportActivity;
+import me.yokeyword.fragmentation.SupportFragment;
 
 @Route(path = ModuleUtils.Main_MainActivity)
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends SupportActivity {
 
-    @BindView(R.id.btn_start1)
-    Button mBtnStart1;
+    public static final int FIRST = 0;
+    public static final int SECOND = 1;
+    public static final int THIRD = 2;
 
-    @BindView(R.id.btn_start2)
-    Button mBtnStart12;
-    @BindView(R.id.btn_htswright)
-    Button btnHtswright;
-    @BindView(R.id.hts_read)
-    Button htsRead;
-    @BindView(R.id.setting)
-    Button mButton5;
+    @BindView(R.id.right_bar)
+    RightBar rightBar;
 
-
-    private BlueClientUtil mBlueClientUtils;
-    private boolean isScanning = false;
-
-    private BTHeartBeatManager heartBeatManager;
+    private SupportFragment[] mFragments = new SupportFragment[3];
+    private int fragmentCur = FIRST; //标识当前fragment标号
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState != null){
+            fragmentCur = savedInstanceState.getInt("fragmentCur", FIRST);
+        }
+        initFragment();
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-        mBlueClientUtils = BlueClientUtil.getInstance();
-        heartBeatManager = BTHeartBeatManager.getInstance();
+        initRightBarClick(); //初始化右边栏点击事件
     }
 
-    @OnClick({R.id.btn_start1, R.id.btn_start2, R.id.btn_htswright, R.id.hts_read,R.id.setting})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_start1:
-//                ARouter.getInstance().build(ModuleUtils.Module1_Test1).navigation();
-                if(mBlueClientUtils.isEnabled()){
-                    if(isScanning){
-                        boolean iscannel = mBlueClientUtils.cancelScan();
-                        ViseLog.i("iscannel:"+iscannel);
-                    }else {
-                        boolean isScan =  mBlueClientUtils.startScan();
-                        ViseLog.i("isScan:"+isScan);
-                    }
-                }else{
-                    mBlueClientUtils.openBluetooth();
-                }
-                break;
-            case R.id.btn_start2:
-//                ARouter.getInstance().build(ModuleUtils.Module2_Test2).navigation();
-                mBlueClientUtils.connect("A0:2C:36:89:EE:2D");
-                break;
-            case R.id.btn_htswright:
-//                heartBeatManager.startHeart();
-//                HtsHelper.test_write();
-                break;
-            case R.id.hts_read:
-//                heartBeatManager.stopHeart();
-//                HtsHelper.test_read();
-                break;
-            case R.id.setting:
-                //ARouter.getInstance().build(ModuleUtils.Setting_UserCenterActivity).navigation();
-                ARouter.getInstance().build(ModuleUtils.Bluetooh_BleGuideActivity).navigation();
-                break;
-                default:
+    private void initFragment(){
+        SupportFragment firstFragment = findFragment(MainFragment.class);
+        if (firstFragment == null) {
+            mFragments[FIRST] = MainFragment.newInstance();
+            mFragments[SECOND] =CtlCenterFragment.newInstance();
+            mFragments[THIRD] = UserMainFragment.newInstance();
+
+            loadMultipleRootFragment(R.id.frame_content, FIRST,
+                    mFragments[FIRST],
+                    mFragments[SECOND],
+                    mFragments[THIRD]);
+        } else {
+            ViseLog.i("fragmentCur == "+ fragmentCur);
+            // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
+
+            // 这里我们需要拿到mFragments的引用
+            mFragments[FIRST] = firstFragment;
+            mFragments[SECOND] = findFragment(CtlCenterFragment.class);
+            mFragments[THIRD] = findFragment(UserMainFragment.class);
         }
     }
 
-//    @Subscribe
-//    public void onDataSynEvent(XGPushTextMessage event) {
-//        ViseLog.i("event---->" + event.getContent());
-//    }
+    /**
+     * 右边栏为自定义VIEW点击事件使用传统的方式实现
+     */
+    private void initRightBarClick() {
+        switch (fragmentCur){
+            case FIRST:
+                rightBar.setRightBarStatus(RightBar.TOP_ON);
+                break;
+            case SECOND:
+                rightBar.setRightBarStatus(RightBar.CENTER_ON);
+                break;
+            case THIRD:
+                rightBar.setRightBarStatus(RightBar.BOTTOM_ON);
+                break;
+            default:
+                rightBar.setRightBarStatus(RightBar.TOP_ON);
+                break;
+        }
+
+        rightBar.setTopClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fragmentCur != FIRST) {
+                    rightBar.setRightBarStatus(RightBar.TOP_ON);
+                    showHideFragment(mFragments[FIRST], mFragments[fragmentCur]);
+                    fragmentCur = FIRST;
+//                    start(mainFragment);
+                }
+            }
+        });
+
+        rightBar.setCenterClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fragmentCur != SECOND) {
+                    rightBar.setRightBarStatus(RightBar.CENTER_ON);
+                    showHideFragment(mFragments[SECOND], mFragments[fragmentCur]);
+                    fragmentCur = SECOND;
+                }
+            }
+        });
+
+        rightBar.setBottomClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fragmentCur != THIRD) {
+                    rightBar.setRightBarStatus(RightBar.BOTTOM_ON);
+                    showHideFragment(mFragments[THIRD], mFragments[fragmentCur]);
+                    fragmentCur = THIRD;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("fragmentCur", fragmentCur);
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);//解除订阅
     }
 
-    @Subscribe
-    public void onBlueDeviceFound(BTDeviceFound deviceFound){
-        ViseLog.i("getAddress:"+deviceFound.getBluetoothDevice().getAddress()+"  rssi:"+deviceFound.getRssi());
-    }
-
-    @Subscribe
-    public void onReadData(BTReadData readData){
-        ViseLog.i("data:"+ HexUtil.encodeHexStr(readData.getDatas()));
-    }
-
-    @Subscribe
-    public void onActionStateChanged(BTStateChanged stateChanged){
-        ViseLog.i(stateChanged.toString());
-    }
-
-    @Subscribe
-    public void onActionDiscoveryStateChanged(BTDiscoveryStateChanged stateChanged){
-        ViseLog.i("getDiscoveryState:"+ stateChanged.getDiscoveryState());
-        if(stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_STARTED){
-            isScanning = true;
-        }else{
-            isScanning = false;
-        }
-    }
-
-    @Subscribe
-    public void onActionScanModeChanged(BTScanModeChanged scanModeChanged){
-        ViseLog.i(scanModeChanged.toString());
-    }
-
-    @Subscribe
-    public void onBluetoothServiceStateChanged(BTServiceStateChanged serviceStateChanged){
-        ViseLog.i("getState:"+ serviceStateChanged.toString());
-    }
 }
