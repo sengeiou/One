@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.ubt.en.alpha1e">
 
-<uses-permission android:name="android.permission.CAMERA"/>
-<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <meta-data
+        android:name="android.max_aspect"
+        android:value="2.2"/>
 
 <application
     android:name=".Application1E"
@@ -15,9 +18,15 @@
     android:theme="@style/AppTheme.NoActionBar">
 
     <!--activity声明-->
-    <activity android:name=".main.MainActivity"
+    <activity android:name=".MainActivity"
               android:screenOrientation="landscape"
             android:launchMode="singleTask"
+
+        >
+
+    </activity>
+    <activity android:name=".WelcomActivity"
+              android:screenOrientation="landscape"
         >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -25,8 +34,6 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-    <activity android:name=".WelcomActivity"
-              android:screenOrientation="landscape"/>
     <activity android:name=".settings.SettingsActivity"
               android:screenOrientation="landscape"/>
     <!--activity声明结束-->

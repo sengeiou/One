@@ -1,4 +1,4 @@
-package com.ubt.en.alpha1e.main;
+package com.ubt.mainmodule.main;
 
 import android.os.Handler;
 

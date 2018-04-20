@@ -5,9 +5,5 @@
     <string name="connect_ble">连接蓝牙</string>
     <string name="setting">设置</string>
 
-    <string name="main_blockly">Blockly</string>
-    <string name="main_joystick">Joystick</string>
-    <string name="main_actions">Actions</string>
-    <string name="main_community">Community</string>
 
 </resources>

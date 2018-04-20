@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/right_bar_home_off"
-            android:visibility="visible"
+            android:visibility="gone"
             />
     </RelativeLayout>
 
@@ -48,7 +48,7 @@
             android:id="@+id/right_bar_center_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:src="@drawable/right_bar_control_off" />
     </RelativeLayout>
 
@@ -70,7 +70,7 @@
             android:id="@+id/right_bar_bottom_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:src="@drawable/right_bar_person_off" />
     </RelativeLayout>
 </LinearLayout>
