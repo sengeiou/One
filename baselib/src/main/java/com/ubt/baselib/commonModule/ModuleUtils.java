@@ -36,4 +36,9 @@ public interface ModuleUtils {
 
     String Bluetooh_BleGuideActivity="/bluetooh/BleGuideActivity";
 
+    /**
+     * 逻辑编程模块
+     */
+    String Block_Module = "/main/BlocklyActivity";
+
 }

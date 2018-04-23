@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/img_bg"
+    >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_input_name"
+        android:textColor="@color/login_text_black_color"
+        android:textSize="@dimen/sp_18"
+        android:layout_marginTop="@dimen/dp_37"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_input_name_reason"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/login_text_hint_color"
+        android:layout_marginTop="@dimen/dp_13"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3"
+        />
+    <android.support.constraint.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7"
+        />
+
+    <EditText
+        android:id="@+id/edt_first_name"
+        android:layout_width="@dimen/dp_112"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_69"
+        android:hint="@string/login_first_name"
+        android:textColorHint="@color/login_text_hint_color"
+        android:textColor="@color/login_text_black_color"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center"
+        android:background="@null"
+        android:imeOptions="flagNoExtractUi"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hint"
+        app:layout_constraintLeft_toRightOf="@+id/gl_left"
+        />
+
+    <View
+        android:id="@+id/view_first_name"
+        android:layout_width="@dimen/dp_112"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/login_view_line_color"
+        android:layout_marginTop="@dimen/dp_9"
+        app:layout_constraintTop_toBottomOf="@+id/edt_first_name"
+        app:layout_constraintLeft_toRightOf="@+id/gl_left"
+        />
+
+    <EditText
+        android:id="@+id/edt_last_name"
+        android:layout_width="@dimen/dp_112"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_last_name"
+        android:textColorHint="@color/login_text_hint_color"
+        android:textColor="@color/login_text_black_color"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center"
+        android:background="@null"
+        android:layout_marginTop="@dimen/dp_69"
+        android:imeOptions="flagNoExtractUi"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hint"
+        app:layout_constraintRight_toLeftOf="@+id/gl_right"
+        />
+
+    <View
+        android:id="@+id/view_last_name"
+        android:layout_width="@dimen/dp_112"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/login_view_line_color"
+        android:layout_marginTop="@dimen/dp_9"
+        app:layout_constraintTop_toBottomOf="@+id/edt_last_name"
+        app:layout_constraintRight_toLeftOf="@id/gl_right"
+        />
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_bg_login_btn"
+        android:text="@string/login_next"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_15"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_44"
+        app:layout_constraintTop_toBottomOf="@id/edt_last_name"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        />
+
+
+
+</android.support.constraint.ConstraintLayout>

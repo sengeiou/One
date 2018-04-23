@@ -3,10 +3,22 @@
     <color name="btn_login_main_content">#f0f3f3</color>
     <color name="btn_login_main_around">#2c3e50</color>
     <color name="tv_login_user_edit_color">#1D3740</color>
-    <color name="login_line_color">#979797</color>
+
     <color name="bg_login_actions_item">#ffffff</color>
     <color name="tel_login_auth_rectangle_color">#EDF7FA</color>
     <color name="tv_login_blue_color">#00A4E6</color>
     <color name="bg_login_line_color">#CFDDE3</color>
     <color name="tv_login_center_color">#3B6176</color>
+
+    <!--login en-->
+
+    <color name="login_text_blue_color">#37AAFF</color>
+    <color name="login_text_black_color">#1D3740</color>
+    <color name="login_view_line_color">#E2E2E2</color>
+    <color name="login_text_hint_color">#A2A2A2</color>
+    <color name="login_line_color">#979797</color>
+    <color name="login_bg_red_color">#FC5855</color>
+    <color name="login_bg_grey_color">#D1D1D1</color>
+    <color name="login_bg_green_color">#97D651</color>
+
 </resources>

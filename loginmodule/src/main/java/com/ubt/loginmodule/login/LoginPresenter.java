@@ -2,11 +2,6 @@ package com.ubt.loginmodule.login;
 
 
 import com.ubt.baselib.mvp.BasePresenterImpl;
-import com.ubt.baselib.utils.http1E.OkHttpClientUtils;
-import com.ubt.loginmodule.LoginHttpEntity;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import okhttp3.Call;
 
 /**
  * MVPPlugin
@@ -19,7 +14,7 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
     @Override
     public void loginUseEmail(String account, String password) {
 
-        String params = "account:" + account; //
+  /*      String params = "account:" + account; //
         OkHttpClientUtils.getJsonByPostRequest(LoginHttpEntity.LOGIN_USE_EMAIL, params).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -34,6 +29,10 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                     mView.loginSuccess();
                 }
             }
-        });
+        });*/
+
+        if(mView != null){
+            mView.loginSuccess();
+        }
     }
 }

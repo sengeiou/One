@@ -1,37 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mainLayout"
-    android:background="@drawable/img_bg"
     >
-
-    <TextView
-        android:id="@+id/tv_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_16"
-        android:layout_marginRight="@dimen/dp_24"
-        android:text="@string/login_sign_up"
-        android:textColor="@color/login_text_blue_color"
-        android:textSize="@dimen/sp_15"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_login_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login_title"
-        android:textColor="@color/login_text_black_color"
-        android:textSize="@dimen/sp_18"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/dp_29"
-        app:layout_constraintTop_toBottomOf="@+id/tv_register"
-        />
-
 
     <android.support.constraint.Guideline
         android:id="@+id/gl_left"
@@ -55,7 +27,6 @@
         android:src="@drawable/ic_email"
         android:scaleType="fitXY"
         android:layout_marginTop="@dimen/dp_28"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login_title"
         app:layout_constraintLeft_toRightOf="@+id/gl_left"
         app:layout_constraintBottom_toBottomOf="@+id/edt_email"
         />
@@ -73,7 +44,6 @@
         android:inputType="textEmailAddress"
         android:imeOptions="flagNoExtractUi"
         android:layout_marginTop="@dimen/dp_28"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login_title"
         app:layout_constraintLeft_toRightOf="@+id/iv_email"
         app:layout_constraintRight_toLeftOf="@+id/iv_clear_account"
         />
@@ -88,11 +58,10 @@
         android:padding="6dp"
         android:layout_marginRight="@dimen/dp_10"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login_title"
         app:layout_constraintBottom_toBottomOf="@+id/edt_email"
         app:layout_constraintRight_toLeftOf="@+id/view_div"
         />
-    
+
     <View
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_0_5"
@@ -182,40 +151,6 @@
         app:layout_constraintTop_toBottomOf="@+id/edt_password"
         app:layout_constraintRight_toLeftOf="@+id/gl_right"
         />
-
-
-    <TextView
-        android:id="@+id/tv_forgot_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_forget_password"
-        android:textSize="@dimen/sp_12"
-        android:textColor="@color/login_text_blue_color"
-        android:layout_marginTop="@dimen/dp_10"
-        app:layout_constraintTop_toBottomOf="@+id/view_password_line"
-        app:layout_constraintRight_toLeftOf="@id/gl_right"
-
-        />
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/login_bg_login_btn"
-        android:text="@string/login_log_in"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/sp_15"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/dp_20"
-        android:enabled="false"
-        app:layout_constraintTop_toBottomOf="@id/tv_forgot_password"
-        app:layout_constraintLeft_toRightOf="@+id/gl_left"
-        app:layout_constraintRight_toLeftOf="@+id/gl_right"
-        />
-
-
-
 
 
 </android.support.constraint.ConstraintLayout>

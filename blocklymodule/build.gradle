@@ -5,7 +5,6 @@ if (isBuildApk) {
     apply plugin: 'com.android.library'
 }
 
-//apply plugin: 'com.android.library'
 apply plugin: 'com.ubt.alpha1e'
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -14,7 +13,7 @@ android {
     buildToolsVersion build_versions.build_tools
     defaultConfig {
         if (isBuildApk) {
-            applicationId "com.ubt.loginmodule"
+            applicationId "com.ubt.blockly"
         }
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
@@ -28,7 +27,9 @@ android {
             }
         }
 
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -36,14 +37,14 @@ android {
         }
     }
 
-    sourceSets {
+ /*   sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
             if (isBuildApk) {
-                manifest.srcFile 'src/main/apkrun/AndroidManifest.xml'
+                Manifest.srcFile 'src/main/apkrun/AndroidManifest.xml'
             }
         }
-    }
+    }*/
 
     if (!isBuildApk) {
         android.libraryVariants.all { variant ->
@@ -59,14 +60,10 @@ android {
         }
     }
 
-    resourcePrefix "login"
+    resourcePrefix "block"
 
 }
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -77,16 +74,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation deps.eventbus.eventbus
 
     //butterknife
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler
 
-//    implementation(name: 'tvsloginlib', ext: 'aar')
-//    implementation ('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'){
-//        exclude group: 'com.tencent.wup'
-//    }
 
-    compile 'com.abby.app:tsnackbar:1.0.7'
-    compile 'com.contrarywind:Android-PickerView:4.1.3'
 }
