@@ -10,6 +10,10 @@ import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
@@ -25,6 +29,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
+@Route(path = ModuleUtils.Bluetooh_BleStatuActivity)
 public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleStatuPrenster> implements BleStatuContact.View {
 
 
@@ -40,7 +45,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     ImageView mImgHeadDisconnect;
     @BindView(R2.id.ble_robot_statu_dissconnect)
     ImageView mBleRobotStatuDissconnect;
-    @BindView(R2.id.ble_connect)
+    @BindView(R2.id.ble_statu_connect)
     Button mBleConnect;
     @BindView(R2.id.rl_ble_disconnect)
     RelativeLayout mRlBleDisconnect;
@@ -72,7 +77,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     RelativeLayout mRlRobotIp;
     @BindView(R2.id.rl_robot_content)
     RelativeLayout mRlRobotContent;
-    @BindView(R2.id.tv_connect)
+    @BindView(R2.id.ble_tv_connect)
     TextView mTvConnect;
     @BindView(R2.id.rl_robot_disconnect)
     RelativeLayout mRlRobotDisconnect;
@@ -80,7 +85,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     ScrollView mScrollView;
 
     Unbinder mUnbinder;
-    @BindView(R.id.iv_notconnect_wifi)
+    @BindView(R2.id.iv_notconnect_wifi)
     ImageView mIvNotconnectWifi;
 
     @Override
@@ -102,15 +107,40 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         mPresenter.getRobotBleConnect();
     }
 
-    @OnClick({R2.id.ble_connect, R.id.tv_wifi_select})
+    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3})
     public void clickView(View view) {
-        switch (view.getId()) {
-            case R.id.ble_connect:
-                BleConnectActivity.launch(this, false);
-                break;
-            case R.id.tv_wifi_select:
-                BleSearchWifiActivity.launch(this, false);
-                break;
+        int i = view.getId();
+        if (i == R.id.bleImageview3) {
+            finish();
+        } else if (i == R.id.ble_statu_connect) {
+            BleConnectActivity.launch(this, false);
+
+        } else if (i == R.id.tv_wifi_select) {
+            BleSearchWifiActivity.launch(this, false);
+
+        } else if (i == R.id.ble_tv_connect) {
+            String s = String.format(getResources().getString(R.string.ble_about_robot_disconnect_dialogue), mTvBleName.getText());
+
+            new BaseDialog.Builder(this)
+                    .setMessage(s)
+                    .setConfirmButtonId(R.string.ble_disconnect)
+                    .setConfirmButtonColor(R.color.base_color_red)
+                    .setCancleButtonID(R.string.base_cancle)
+                    .setCancleButtonColor(R.color.black)
+                    .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                        @Override
+                        public void onClick(DialogPlus dialog, View view) {
+                            if (view.getId() == R.id.button_confirm) {
+                                mPresenter.dissConnectRobot();
+                                dialog.dismiss();
+                            } else if (view.getId() == R.id.button_cancle) {
+                                dialog.dismiss();
+                            }
+
+                        }
+                    }).create().show();
+
+
         }
     }
 

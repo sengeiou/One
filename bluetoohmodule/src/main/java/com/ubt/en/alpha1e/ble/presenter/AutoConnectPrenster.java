@@ -119,7 +119,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
      */
     private void connectBleDevice() {
         //如果APP在前台并且没有连接蓝牙
-        if (!MyLifecycleCallback.isBackground() && mBlueClient.getConnectedDevice() == null) {
+        if (!MyLifecycleCallback.isBackground() && mBlueClient.getConnectionState() != 3) {
             BleDevice bleDevice = DataSupport.findFirst(BleDevice.class);
             if (bleDevice != null) {
                 mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
@@ -142,7 +142,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
         if (manualEvent.getEvent() == ManualEvent.Event.MANUAL_ENTER) {//进入蓝牙联网页面
 
             this.isManualConnectMode = manualEvent.isManual();
-            if (isManualConnectMode && mBlueClient.getConnectedDevice() == null) {
+            if (isManualConnectMode && mBlueClient.getConnectionState()!=3) {
                 mBlueClient.cancelScan();
                 ViseLog.d("进入蓝牙联网页面");
             } else {
@@ -326,7 +326,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
         } else if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_FINISHED) {
             //蓝牙在固定时间扫描结束后重新扫描
             ViseLog.d("蓝牙扫描结束------onActionDiscoveryStateChanged");
-            if (!isCancleScan && !isManualDisConnect && mBlueClient.getConnectedDevice() == null&&!isManualConnectMode) {
+            if (!isCancleScan && !isManualDisConnect && mBlueClient.getConnectionState() != 3 && !isManualConnectMode) {
                 mBlueClient.startScan();
             }
         }
@@ -380,7 +380,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
      * 扫描蓝牙
      */
     private void startScanBleDevice() {
-        if (!isManualDisConnect && mBlueClient.getConnectedDevice() == null && !MyLifecycleCallback.isBackground()) {
+        if (!isManualDisConnect && mBlueClient.getConnectionState() != 3 && !MyLifecycleCallback.isBackground()) {
             mBlueClient.cancelScan();
             isCancleScan = false;
             mBlueClient.startScan();

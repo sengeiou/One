@@ -36,11 +36,11 @@ public class AutoConnectService extends Service {
     public void onCreate() {
         super.onCreate();
         mPresenter = new AutoConnectPrenster();
+        mPresenter.register(this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mPresenter.register(this);
         return START_NOT_STICKY;
     }
 

@@ -19,5 +19,6 @@
     <string name="ui_common_skip">跳过</string>
     <string name="ui_common_select">请选择</string>
 
-
+    <string name="base_setting">Setting</string>
+    <string name="base_cancle">Cancle</string>
 </resources>

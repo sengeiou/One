@@ -107,14 +107,13 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
 
     @OnClick({R2.id.iv_back, R2.id.ble_input})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_back:
-                finish();
-                break;
-            case R.id.ble_input:
-                //   ARouter.getInstance().build(ModuleUtils.Bluetooh_BleWifiInputActivity).withString("WIFI_NAME", "").navigation();
-                BleWifiInputActivity.launch(this, "", isFirstEnter);
-                break;
+        int i = view.getId();
+        if (i == R.id.iv_back) {
+            finish();
+
+        } else if (i == R.id.ble_input) {//   ARouter.getInstance().build(ModuleUtils.Bluetooh_BleWifiInputActivity).withString("WIFI_NAME", "").navigation();
+            BleWifiInputActivity.launch(this, "", isFirstEnter);
+
         }
     }
 

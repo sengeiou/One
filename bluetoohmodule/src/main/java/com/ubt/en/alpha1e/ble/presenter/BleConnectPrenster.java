@@ -18,7 +18,6 @@ import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.PermissionUtils;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
@@ -220,8 +219,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
-                ToastUtils.showShort("蓝牙断开");
-                break;
+                 break;
             default:
 
                 break;
@@ -301,7 +299,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
 
         ViseLog.d("-connectBySHortDistance，juli==" + getDistance((short) rssi));
         if (!isConnecting && getDistance((short) rssi) < 0.8) {
-            if (mBlueClient.getConnectedDevice() != null) {
+            if (mBlueClient.getConnectionState() == 3) {
                 ViseLog.d("-蓝牙已经连上，则不使用自动连接--");
                 return;
             }
@@ -343,9 +341,9 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
             @Override
             public void onFailure() {
                 ViseLog.d("拒绝定位权限申请");
-
+                mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
                 if (mView != null) {
-                    //  mView.locaPermissionFailed();
+                    mView.searchBleFiled();
                 }
             }
 
@@ -357,6 +355,10 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
             @Override
             public void onCancelRationSetting() {
                 ViseLog.d("onRationSetting");
+                mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
+                if (mView != null) {
+                    mView.searchBleFiled();
+                }
 
             }
         }, PermissionUtils.PermissionEnum.LOACTION, mContext);

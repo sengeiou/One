@@ -5,9 +5,10 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.R;
+import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.globalConst.PermissionConst;
-import com.ubt.globaldialog.customDialog.ConfirmDialog;
 import com.vise.log.ViseLog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -80,7 +81,7 @@ public class PermissionUtils {
             default:
                 break;
         }
-        ViseLog.d( "sp_key==" + sp_key);
+        ViseLog.d("sp_key==" + sp_key);
         if (TextUtils.isEmpty(sp_key) || null == permiss) {
             return;
         }
@@ -115,40 +116,46 @@ public class PermissionUtils {
      */
     public void showRationSettingDialog(PermissionEnum permission, Context context, final PermissionLocationCallback callback) {
         final SettingService settingService = AndPermission.defineSettingDialog(mContext);
-        String message = "";
+        int message = 0;
         switch (permission) {
             case LOACTION:
-                message = context.getResources().getString(R.string.dialog_permission_location_setting);
+                message = R.string.dialog_permission_location_setting;
                 break;
             case CAMERA:
-                message = context.getResources().getString(R.string.dialog_permission_camera_setting);
+                message = R.string.dialog_permission_camera_setting;
                 break;
             case STORAGE:
-                message = context.getResources().getString(R.string.dialog_permission_storage_setting);
+                message = R.string.dialog_permission_storage_setting;
                 break;
             case MICROPHONE:
-                message = context.getResources().getString(R.string.dialog_permission_microphone_setting);
+                message = R.string.dialog_permission_microphone_setting;
                 break;
             default:
                 break;
         }
-        ViseLog.d( "message==" + message);
-        new ConfirmDialog(context).builder()
-                .setMsg(message)
-                .setCancelable(true)
-                .setPositiveButton(context.getResources().getString(R.string.dialog_go_setting), new View.OnClickListener() {
+        ViseLog.d("message==" + message);
+
+        new BaseDialog.Builder(context).setTitle(R.string.base_setting)
+                .setMessage(message).
+                setConfirmButtonId(R.string.base_setting)
+                .setCancleButtonID(R.string.base_cancle)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        settingService.execute();
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            settingService.execute();
+                            if (callback != null) {
+                                callback.onCancelRationSetting();
+                            }
+                        } else if (view.getId() == R.id.button_cancle) {
+                            if (callback != null) {
+                                callback.onCancelRationSetting();
+                            }
+                        }
+                        dialog.dismiss();
                     }
-                }).setNegativeButton(context.getResources().getString(R.string.ui_common_cancel), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(callback != null){
-                    callback.onCancelRationSetting();
-                }
-            }
-        }).show();
+                }).create().show();
+
 
     }
 
