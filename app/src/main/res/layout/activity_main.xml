@@ -1,64 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
    >
 
-    <Button
-        android:id="@+id/btn_start1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/start_ble_scan"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_start2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <com.ubt.baselib.customView.RightBar
+        android:id="@+id/right_bar"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_horizontal"/>
 
-    <Button
-        android:id="@+id/btn_start2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:text="@string/connect_ble"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
-
-    <Button
-        android:id="@+id/btn_htswright"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="39dp"
-        android:text="hts写"
-        app:layout_constraintEnd_toStartOf="@+id/hts_read"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start1" />
-
-    <Button
-        android:id="@+id/hts_read"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!--中心按钮布局-->
+    <FrameLayout
+        android:id="@+id/frame_content"
+        android:layout_toStartOf="@id/right_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginEnd="2dp"
-        android:layout_marginTop="40dp"
-        android:text="Hts读"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_htswright"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start2" />
-
-    <Button
-        android:id="@+id/setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设置"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="54dp"
-        tools:ignore="MissingConstraints"/>
-</android.support.constraint.ConstraintLayout>
+        />
+</RelativeLayout>

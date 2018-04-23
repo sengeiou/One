@@ -141,6 +141,7 @@ public class UserInfoFragment extends MVPBaseFragment<UserEditContract.View, Use
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        if(mUserModel != null)
         ViseLog.d("Usercenter", "onHiddenChanged===" + mUserModel.toString());
         if (hidden) {
             initData();

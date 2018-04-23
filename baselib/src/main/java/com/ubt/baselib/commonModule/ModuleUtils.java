@@ -22,15 +22,14 @@ public interface ModuleUtils {
     String Login_Module = "/login/LoginActivity";
     String Login_UserEdit = "/login/UserEditActivity";
 
-    /**
-     * 主模块
-     */
-    String Main_MainActivity = "/main/MainActivity";
+    String Main_MainActivity = "/main/MainActivity";  //主模块
 
     /**
      * 设置模块
      */
     String Setting_UserCenterActivity = "/setting/UserCenterActivity";
+    String Bluetooh_BleGuideActivity = "/bluetooh/BleGuideActivity"; //蓝牙模块引导
+    String Bluetooh_BleStatuActivity = "/bluetooh/BleStatuActivity"; //蓝牙模块状态
 
     /**
      * 欢迎页面
@@ -39,7 +38,13 @@ public interface ModuleUtils {
     /**
      * 蓝牙指引页
      */
-    String Bluetooh_BleGuideActivity = "/bluetooh/BleGuideActivity";
+    String Actions_ActionProgram = "/actions/ActionProgram";  //动作编程模块
+    String Blockly_BlocklyProgram = "/blockly/BlocklyProgram";  //编程猫模块
+    String Community_ActionProgram = "/community/CommunityCenter";  //社区模块
+    String Joystick_ActionProgram = "/joystick/JoystickPlay";  //遥控机模块
+
+    String Playcenter_module = "/playcenter/PlayCenter";  //播放中心模块
+
 
     /**
      * 蓝牙搜索连接页面
@@ -59,7 +64,7 @@ public interface ModuleUtils {
     /**
      * 蓝牙状态页面
      */
-    String Bluetooh_BleStatuActivity = "/bluetooh/BleStatuActivity";
+    // String Bluetooh_BleStatuActivity = "/bluetooh/BleStatuActivity";
 
 
 }
