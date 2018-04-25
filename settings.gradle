@@ -1,3 +1,2 @@
-include  ':baselib', ':app',  ':loginmodule', ':settingsmodule', ':bluetoohmodule', ':blocklymodule'
-include  ':baselib', ':app',  ':loginmodule', ':settingsmodule', ':bluetoohmodule', ':mainmodule'
+include  ':baselib', ':app',  ':loginmodule', ':settingsmodule', ':bluetoohmodule', ':blocklymodule', ':mainmodule'
 include  ':factorytest'

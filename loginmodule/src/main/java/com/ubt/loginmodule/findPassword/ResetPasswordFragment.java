@@ -1,6 +1,7 @@
 package com.ubt.loginmodule.findPassword;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,10 @@ import android.widget.ImageView;
 
 import com.app.abby.tsnackbar.TSnackbar;
 import com.ubt.baselib.mvp.MVPBaseFragment;
+import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.TextWatcherUtil;
+import com.ubt.loginmodule.login.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,9 +61,16 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
     View viewDivAgain;
     private boolean showPassword = false;
     private boolean showPasswordAgain = false;
+    private String email;
 
     public static ResetPasswordFragment newInstance() {
         return  new ResetPasswordFragment();
+    }
+
+    @Override
+    public void onNewBundle(Bundle args) {
+        super.onNewBundle(args);
+        email = args.getString(LoginSP.SP_EMAIL);
     }
 
     @Override
@@ -158,7 +168,7 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
                 String password = edtPassword.getText().toString();
                 String passwordAgain = edtPasswordAgain.getText().toString();
                 if(password.equals(passwordAgain)){
-                    mPresenter.resetPassword(edtPassword.getText().toString());
+                    mPresenter.resetPassword(email,edtPassword.getText().toString());
                 }else{
                     TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_password_confirm_not_match,TSnackbar.LENGTH_LONG)
                             .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
@@ -189,7 +199,7 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
     }
 
     @Override
-    public void requestVerifyAccountSuccess() {
+    public void requestVerifyAccountSuccess(String email) {
 
     }
 
@@ -201,6 +211,9 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
     @Override
     public void resetPasswordSuccess() {
         //TODO reset password succes goto app
+        getActivity().finish();
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override

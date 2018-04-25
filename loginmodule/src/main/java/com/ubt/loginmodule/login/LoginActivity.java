@@ -152,6 +152,7 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     }
 
     private void login(){
+        ViseLog.d("login in");
         String account = edtAccount.getText().toString();
         String password = edtPassword.getText().toString();
 
@@ -170,7 +171,7 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
 
     @Override
     public void loginSuccess() {
-        ToastUtils.showShort(getTextById(R.string.login_login_failed));
+        ToastUtils.showShort(getTextById(R.string.login_login_success));
     }
 
     @Override

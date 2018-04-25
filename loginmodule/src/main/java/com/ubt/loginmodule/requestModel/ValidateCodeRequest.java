@@ -9,7 +9,7 @@ package com.ubt.loginmodule.requestModel;
  */
 
 
-public class FindPasswordRequest extends BaseLoginRequest {
+public class ValidateCodeRequest extends BaseLoginRequest {
 
     private String code;
 

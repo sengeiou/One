@@ -1,6 +1,7 @@
 package com.ubt.loginmodule.register;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.widget.Button;
 
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.login.LoginActivity;
 import com.weigan.loopview.LoopView;
 import com.weigan.loopview.OnItemSelectedListener;
 
@@ -41,8 +43,12 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
     LoopView loopViewDay;
     @BindView(R.id.btn_finish)
     Button btnFinish;
-
+    private List<String> listYear;
     private List<String> listMonth ;
+    private List<String> listDay;
+    private String year;
+    private String month;
+    private String day;
 
     public static CreateUserAgeFragment newInstance() {
         return new CreateUserAgeFragment();
@@ -83,13 +89,14 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
         loopViewYear.setListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(int index) {
-
+                year = listYear.get(index);
             }
         });
 
         loopViewMonth.setListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(int index) {
+                month = listMonth.get(index);
                 int month = Integer.valueOf(listMonth.get(index));
                 switch (month){
                     case 1:
@@ -116,11 +123,19 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
             }
         });
 
+        loopViewDay.setListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int index) {
+                day = listDay.get(index);
+            }
+        });
+
     }
 
     @OnClick(R.id.btn_finish)
     public void onClick() {
-        mPresenter.register();
+        String birthday = year + "-" + month + "-" + day;
+        mPresenter.updateUserInfo("","",birthday);
     }
 
     @Override
@@ -145,6 +160,7 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
 
     @Override
     public void setYearData(List<String> listYear) {
+        this.listYear = listYear;
         loopViewYear.setItems(listYear);
     }
 
@@ -156,12 +172,26 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
 
     @Override
     public void setDayData(List<String> listDay) {
+        this.listDay = listDay;
         loopViewDay.setItems(listDay);
     }
 
     @Override
     public void registerFinish() {
-//        startActivity(new Intent(getActivity(), MainActivity.class));
+
+    }
+
+    @Override
+    public void updateUserInfoSuccess(boolean success) {
+        if(success) {
+            getActivity().finish();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
+
+    @Override
+    public void sendSecurityCodeSuccess(boolean success) {
+
     }
 
     @Override

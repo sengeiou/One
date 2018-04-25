@@ -2,6 +2,7 @@ package com.ubt.loginmodule.findPassword;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -15,9 +16,11 @@ import android.widget.TextView;
 
 import com.app.abby.tsnackbar.TSnackbar;
 import com.ubt.baselib.mvp.MVPBaseFragment;
+import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.TextWatcherUtil;
+import com.vise.log.ViseLog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +53,8 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     ImageView ivClearAccount;
     @BindView(R.id.tv_valid_email)
     TextView tvValidEmail;
+    RequestCountDown requestCountDown;
+    private static final long REQUEST_TIME = 61 * 1000;
 
     public static FindPasswordFragment newInstance() {
         return new FindPasswordFragment();
@@ -70,6 +75,7 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment_forget_password, container, false);
         unbinder = ButterKnife.bind(this, view);
+        requestCountDown = new RequestCountDown(REQUEST_TIME, 1000);
         initView();
         return view;
     }
@@ -117,6 +123,8 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
                 if(LoginUtil.isEmail(account)){
                     tvValidEmail.setVisibility(View.INVISIBLE);
                     mPresenter.requestSecurityCode(account);
+                    requestCountDown.start();
+                    btnSendSecurity.setEnabled(false);
                 }else{
                     tvValidEmail.setVisibility(View.VISIBLE);
                 }
@@ -140,10 +148,14 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        if(requestCountDown != null){
+            requestCountDown.cancel();
+        }
     }
 
     @Override
     public void requestSecurityCodeSuccess() {
+        ViseLog.d("requestSecurityCodeSuccess TsnackBar");
         TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_sent_code_prompt,TSnackbar.LENGTH_LONG)
                 .setBackgroundColor(getResources().getColor(R.color.login_bg_green_color))
                 .setMessageGravity(Gravity.CENTER)
@@ -161,8 +173,13 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     }
 
     @Override
-    public void requestVerifyAccountSuccess() {
-        start(ResetPasswordFragment.newInstance());
+    public void requestVerifyAccountSuccess(String email) {
+        ResetPasswordFragment resetPasswordFragment = ResetPasswordFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString(LoginSP.SP_EMAIL, email);
+        ViseLog.d("fragment:" + resetPasswordFragment);
+        resetPasswordFragment.putNewBundle(bundle);
+        start(resetPasswordFragment);
     }
 
     @Override
@@ -183,4 +200,26 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     public void resetPasswordFailed() {
 
     }
+
+    class RequestCountDown extends CountDownTimer {
+
+        public RequestCountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {
+
+            btnSendSecurity.setText(getString(R.string.login_resend_security_code));
+            btnSendSecurity.setEnabled(true);
+
+
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            btnSendSecurity.setText("" + (millisUntilFinished / 1000) + " s");
+        }
+    }
+
 }

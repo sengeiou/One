@@ -2,6 +2,7 @@ package com.ubt.loginmodule.register;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
@@ -50,6 +51,8 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
 
     private boolean showPassword = false;
     private boolean select = true;
+    RequestCountDown requestCountDown;
+    private static final long REQUEST_TIME = 61 * 1000;
 
     public static CreateAccountFragment newInstance(){
         return new CreateAccountFragment();
@@ -80,6 +83,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment_create_account,container, false);
         unbinder = ButterKnife.bind(this, view);
+        requestCountDown = new RequestCountDown(REQUEST_TIME, 1000);
         initView();
         return view;
     }
@@ -166,6 +170,8 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
                 if(LoginUtil.isEmail(edtEmail.getText().toString())){
                     String email = edtEmail.getText().toString();
                     mPresenter.sendSecurityCode(email);
+                    requestCountDown.start();
+                    btnSendSecurityCode.setEnabled(false);
                 }else{
                     TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_input_wrong_email_warning,TSnackbar.LENGTH_LONG)
                             .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
@@ -223,6 +229,9 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        if(requestCountDown != null){
+            requestCountDown.cancel();
+        }
     }
 
     @Override
@@ -276,4 +285,40 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
     public void registerFinish() {
 
     }
+
+    @Override
+    public void updateUserInfoSuccess(boolean success) {
+    }
+
+    @Override
+    public void sendSecurityCodeSuccess(boolean success) {
+//        if(success) {
+//            requestCountDown.start();
+//            btnSendSecurityCode.setEnabled(false);
+//        }
+    }
+
+
+    class RequestCountDown extends CountDownTimer {
+
+        public RequestCountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {
+
+            btnSendSecurityCode.setText(getString(R.string.login_resend_security_code));
+            btnSendSecurityCode.setEnabled(true);
+
+
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            btnSendSecurityCode.setText("" + (millisUntilFinished / 1000) + " s");
+        }
+    }
+
+
 }

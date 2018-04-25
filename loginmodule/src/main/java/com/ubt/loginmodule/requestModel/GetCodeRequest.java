@@ -1,7 +1,5 @@
 package com.ubt.loginmodule.requestModel;
 
-import com.ubt.baselib.utils.http1E.BaseRequest;
-
 /**
  * @author：liuhai
  * @date：2017/11/8 14:03
@@ -11,21 +9,6 @@ import com.ubt.baselib.utils.http1E.BaseRequest;
  * version
  */
 
-public class GetCodeRequest extends BaseRequest {
-    private String phone;
+public class GetCodeRequest extends BaseLoginRequest {
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Override
-    public String toString() {
-        return "GetCodeRequest{" +
-                "phone='" + phone + '\'' +
-                '}';
-    }
 }

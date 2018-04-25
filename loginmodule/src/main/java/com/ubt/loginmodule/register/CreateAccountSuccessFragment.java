@@ -105,6 +105,16 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
     }
 
     @Override
+    public void updateUserInfoSuccess(boolean success) {
+
+    }
+
+    @Override
+    public void sendSecurityCodeSuccess(boolean success) {
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();

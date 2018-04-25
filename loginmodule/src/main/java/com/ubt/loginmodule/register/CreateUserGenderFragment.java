@@ -40,6 +40,7 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
     ImageView ivGenderRobot;
     @BindView(R.id.btn_next)
     Button btnNext;
+    private String sex = "1";
 
     public static CreateUserGenderFragment newInstance() {
         return new CreateUserGenderFragment();
@@ -72,22 +73,26 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
     public void onClickView(View view) {
         switch (view.getId()){
             case R.id.iv_gender_male:
+                sex = "1";
                 ivGenderMale.setSelected(true);
                 ivGenderFemale.setSelected(false);
                 ivGenderRobot.setSelected(false);
                 break;
             case R.id.iv_gender_female:
+                sex = "2";
                 ivGenderMale.setSelected(false);
                 ivGenderFemale.setSelected(true);
                 ivGenderRobot.setSelected(false);
                 break;
             case R.id.iv_gender_robot:
+                sex = "3";
                 ivGenderMale.setSelected(false);
                 ivGenderFemale.setSelected(false);
                 ivGenderRobot.setSelected(true);
                 break;
             case R.id.btn_next:
-                start(CreateUserAgeFragment.newInstance());
+                mPresenter.updateUserInfo("", sex, "");
+//                start(CreateUserAgeFragment.newInstance());
                 break;
             default:
                 break;
@@ -131,6 +136,18 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
 
     @Override
     public void registerFinish() {
+
+    }
+
+    @Override
+    public void updateUserInfoSuccess(boolean success) {
+        if(success) {
+            start(CreateUserAgeFragment.newInstance());
+        }
+    }
+
+    @Override
+    public void sendSecurityCodeSuccess(boolean success) {
 
     }
 

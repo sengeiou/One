@@ -17,7 +17,7 @@ public class FindPasswordContract {
     interface View extends BaseView{
         void requestSecurityCodeSuccess();
         void requestSecurityCodeFailed();
-        void requestVerifyAccountSuccess();
+        void requestVerifyAccountSuccess(String email);
         void requestVerifyAccountFailed();
         void resetPasswordSuccess();
         void resetPasswordFailed();
@@ -26,6 +26,6 @@ public class FindPasswordContract {
     interface Presenter extends BasePresenter<View> {
         void requestSecurityCode(String email);
         void requestVerifyAccount(String email, String code);
-        void resetPassword(String password);
+        void resetPassword(String email,String password);
     }
 }

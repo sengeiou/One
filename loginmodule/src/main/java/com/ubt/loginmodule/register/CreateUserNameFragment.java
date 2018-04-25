@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ubt.baselib.mvp.MVPBaseFragment;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.R;
 
 import java.util.List;
@@ -83,7 +84,8 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
             tvHint.setTextColor(getResources().getColor(R.color.login_bg_red_color));
             return;
         }
-        start(CreateUserGenderFragment.newInstance());
+        String userName = firstName + lastName;
+        mPresenter.updateUserInfo(userName, null,null);
 
     }
 
@@ -124,6 +126,20 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
 
     @Override
     public void registerFinish() {
+
+    }
+
+    @Override
+    public void updateUserInfoSuccess(boolean success) {
+        if(success){
+            start(CreateUserGenderFragment.newInstance());
+        }else{
+            ToastUtils.showShort("update user name failed");
+        }
+    }
+
+    @Override
+    public void sendSecurityCodeSuccess(boolean success) {
 
     }
 

@@ -21,6 +21,8 @@ public class RegisterContract {
         void setMonthData(List<String> listMonth);
         void setDayData(List<String> listDay);
         void registerFinish();
+        void updateUserInfoSuccess(boolean success);
+        void sendSecurityCodeSuccess(boolean success);
     }
 
     interface  Presenter extends BasePresenter<View> {
@@ -30,6 +32,7 @@ public class RegisterContract {
         void getMonthData();
         void getDayData(int dayCount);
         void register();
+        void updateUserInfo(String userName, String sex, String birth);
         
     }
 }

@@ -191,7 +191,6 @@
         android:textColorHint="@color/login_text_hint_color"
         android:textSize="@dimen/sp_14"
         android:textColor="@color/login_text_black_color"
-        android:inputType="number"
         android:padding="@dimen/dp_12"
         android:background="@null"
         android:imeOptions="flagNoExtractUi"

@@ -44,7 +44,7 @@ public class FindPasswordActivity extends MVPBaseActivity<FindPasswordContract.V
     }
 
     @Override
-    public void requestVerifyAccountSuccess() {
+    public void requestVerifyAccountSuccess(String email) {
 
     }
 

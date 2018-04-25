@@ -39,6 +39,7 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
         }
     }
 
+
     @OnClick(R.id.iv_back)
     public void onClick() {
         if(getSupportFragmentManager().getBackStackEntryCount() > 1){
@@ -85,6 +86,16 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
 
     @Override
     public void registerFinish() {
+
+    }
+
+    @Override
+    public void updateUserInfoSuccess(boolean success) {
+
+    }
+
+    @Override
+    public void sendSecurityCodeSuccess(boolean success) {
 
     }
 
