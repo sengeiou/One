@@ -7,9 +7,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.ConfigureBaseLib;
 import com.vise.utils.handler.CrashHandlerUtil;
 
-import static com.ubt.en.alpha1e.BuildConfig.DEBUG;
-import static com.ubt.en.alpha1e.BuildConfig.FLAVOR;
-
 
 /**
  * @作者：bin.zhang@ubtrobot.com
@@ -24,14 +21,14 @@ public class InitBaseLib {
 
         CrashHandlerUtil.getInstance().init(appContext, null, "alphaEn_crash/");
         //初始化HttpEntity 必须在initNet()之前
-        if (!TextUtils.isEmpty(FLAVOR) && FLAVOR.equals("ubt_issue_env")) {
+        if (!TextUtils.isEmpty(BuildConfig.FLAVOR) && BuildConfig.FLAVOR.equals("ubt_issue_env")) {
             isIssue = true;
         }
 
         ConfigureBaseLib.getInstance().init(appContext,  isIssue); //默认为测试环境
 
         /**ARouter必须放到APP层初始，这是由于库的注解解释器所决定的*/
-        if (DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
+        if (BuildConfig.DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog();     // 打印日志
             ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }

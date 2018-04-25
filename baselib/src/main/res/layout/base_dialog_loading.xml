@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="@dimen/dp_180"
+                android:layout_height="@dimen/dp_150"
+                android:layout_gravity="center"
+                android:background="@drawable/base_rect_background"
+                android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/ble_connect_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_30"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@drawable/ble_search_loading"
+        android:indeterminateOnly="true"
+        />
+
+    <TextView
+        android:id="@+id/tv_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ble_connect_loading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_20"
+        android:textColor="@color/base_tv_large_black"
+        android:textSize="@dimen/sp_15"
+        />
+
+
+</RelativeLayout>

@@ -1,6 +1,5 @@
 package com.ubt.en.alpha1e.ble.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +38,9 @@ public class BleGuideActivity extends MVPBaseActivity<BleGuideContact.View, BleG
         mBleButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BleGuideActivity.this, BleConnectActivity.class));
+                // ARouter.getInstance().build(ModuleUtils.Bluetooh_BleConnectActivity).withBoolean("first_enter", true).navigation();
+                // startActivity(new Intent(BleGuideActivity.this, BleConnectActivity.class));
+                BleConnectActivity.launch(BleGuideActivity.this, true);
             }
         });
 
@@ -51,7 +52,6 @@ public class BleGuideActivity extends MVPBaseActivity<BleGuideContact.View, BleG
             }
         });
     }
-
 
 
     @Override

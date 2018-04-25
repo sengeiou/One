@@ -10,6 +10,7 @@ import com.ubt.baselib.BlueTooth.BTDiscoveryStateChanged;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.BlueTooth.BTStateChanged;
+import com.ubt.baselib.BlueTooth.BleDevice;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
@@ -21,12 +22,13 @@ import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
-import com.ubt.en.alpha1e.ble.model.BleDevice;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +43,7 @@ import java.util.List;
  * version
  */
 
-public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View> implements BleConnectContact.Presenter,  IProtolPackListener {
+public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View> implements BleConnectContact.Presenter, IProtolPackListener {
 
     private static final String TAG = "BleConnectPrenster";
     boolean isScanning = false;
@@ -75,21 +77,23 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      */
     private static final int MESSAG_HANDSHAKE_TIMEOUT = 0x113;
 
+
     public List<BleDevice> mBleDevices = new ArrayList<>();
-    private BluetoothDevice mCurrentRobotInfo;
+    private BleDevice mCurrentBleDevice;
 
 
+    /**
+     * 初始化服务
+     *
+     * @param context
+     */
     @Override
     public void register(Context context) {
         this.mContext = context;
         mBlueClient = BlueClientUtil.getInstance();
         EventBus.getDefault().register(this);
-        //判断蓝牙是否开启,开启成功则申请定位权限
-        if (mBlueClient.isEnabled()) {
-            applyLocationPermission();
-        } else {
-            mBlueClient.openBluetooth();
-        }
+        startScanBle();
+        ViseLog.d("threadNmae==  register  " + Thread.currentThread().getName());
     }
 
     /**
@@ -102,6 +106,11 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
         return mBleDevices != null ? mBleDevices : new ArrayList<BleDevice>();
     }
 
+    /**
+     * 监听到蓝牙开启立即申请定位权限
+     *
+     * @param stateChanged
+     */
     @Subscribe
     public void onActionStateChanged(BTStateChanged stateChanged) {
         ViseLog.i(stateChanged.toString());
@@ -132,12 +141,17 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      *
      * @param readData
      */
-    @org.greenrobot.eventbus.Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
         ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
         BTCmdHelper.parseBTCmd(readData.getDatas(), this);
     }
 
+    /**
+     * 蓝牙数据解析回调
+     *
+     * @param packet
+     */
     @Override
     public void onProtocolPacket(ProtocolPacket packet) {
         switch (packet.getmCmd()) {
@@ -156,8 +170,17 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                     return;
                 }
                 ViseLog.e("-----------握手成功----------与机器人正式连接");
+                mHandler.removeMessages(MESSAG_HANDSHAKE_TIMEOUT);
                 if (mView != null) {
                     mView.connectSuccess();
+                }
+                boolean isExist = DataSupport.isExist(BleDevice.class, "mac=?", mCurrentBleDevice.getMac());
+                if (!isExist) {
+                    mCurrentBleDevice.save();
+                }
+
+                if (DataSupport.findFirst(BleDevice.class) != null) {
+                    ViseLog.e("-----------握手成功----------" + DataSupport.findFirst(BleDevice.class).toString());
                 }
                 break;
             default:
@@ -189,8 +212,8 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 if (time_difference < 500) {
                     return;
                 }
-                 mBlueClient.sendData(new BTCmdHandshake().toByteArray());
-                mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT,TIME_OUT);
+                mBlueClient.sendData(new BTCmdHandshake().toByteArray());
+                mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT, TIME_OUT);
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
                 ViseLog.e("正在连接");
@@ -198,7 +221,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
                 ToastUtils.showShort("蓝牙断开");
-                 break;
+                break;
             default:
 
                 break;
@@ -215,8 +238,9 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
         ViseLog.i("getDiscoveryState:" + stateChanged.getDiscoveryState());
         if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_STARTED) {
             isScanning = true;
-        } else if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_FINISHED){
+        } else if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_FINISHED) {
             if (!isConnecting) {
+                //蓝牙在固定时间扫描结束后重新扫描
                 ViseLog.d("蓝牙扫描结束------onActionDiscoveryStateChanged");
                 mBlueClient.startScan();
             }
@@ -246,7 +270,11 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 }
             }
             if (isNewDevice) {
-                mBleDevices.add(new BleDevice(device.getName(), device.getAddress(), 1));
+                BleDevice bleDevice = new BleDevice();
+                bleDevice.setBleName(device.getName());
+                bleDevice.setMac(device.getAddress());
+                bleDevice.setStatu(0);
+                mBleDevices.add(bleDevice);
             }
 
             if (!isConnecting && mBleDevices.size() > 0) {
@@ -270,6 +298,8 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      * @param rssi
      */
     private void connectBySHortDistance(BluetoothDevice device, int rssi) {
+
+        ViseLog.d("-connectBySHortDistance，juli==" + getDistance((short) rssi));
         if (!isConnecting && getDistance((short) rssi) < 0.8) {
             if (mBlueClient.getConnectedDevice() != null) {
                 ViseLog.d("-蓝牙已经连上，则不使用自动连接--");
@@ -278,16 +308,20 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
             //stopConnectBleTask();
             mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
             ViseLog.d("距离近 进行自动连接");
-            mCurrentRobotInfo = device;
+            BleDevice bleDevice = new BleDevice();
+            bleDevice.setBleName(device.getName());
+            bleDevice.setMac(device.getAddress());
+            bleDevice.setStatu(0);
+            mCurrentBleDevice = bleDevice;
             isConnecting = true;
             mBlueClient.cancelScan();
             mBleDevices.clear();
             //开始连接蓝牙
-            mBlueClient.connect(mCurrentRobotInfo.getAddress());
+            mBlueClient.connect(device.getAddress());
             // startConnectBleTask();
             mHandler.sendEmptyMessageDelayed(MESSAG_CONNECT_TIMEOUT, TIME_OUT);
             if (mView != null) {
-                mView.connecting();
+                mView.connecting(device.getName());
             }
 
         }
@@ -299,12 +333,17 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
             @Override
             public void onSuccessful() {
                 mBlueClient.startScan();
-                //startSearchBleTask();
+                mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
                 mHandler.sendEmptyMessageDelayed(MESSAG_SEARCH_TIMEOUT, TIME_OUT);
+                if (mView != null) {
+                    mView.startSerchBle();
+                }
             }
 
             @Override
             public void onFailure() {
+                ViseLog.d("拒绝定位权限申请");
+
                 if (mView != null) {
                     //  mView.locaPermissionFailed();
                 }
@@ -312,11 +351,12 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
 
             @Override
             public void onRationSetting() {
-
+                ViseLog.d("onRationSetting");
             }
 
             @Override
             public void onCancelRationSetting() {
+                ViseLog.d("onRationSetting");
 
             }
         }, PermissionUtils.PermissionEnum.LOACTION, mContext);
@@ -329,7 +369,13 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      */
     @Override
     public void startScanBle() {
-        mBlueClient.startScan();
+        //判断蓝牙是否开启,开启成功则申请定位权限
+        mHandler.sendEmptyMessageDelayed(MESSAG_SEARCH_TIMEOUT, TIME_OUT);
+        if (mBlueClient.isEnabled()) {
+            applyLocationPermission();
+        } else {
+            mBlueClient.openBluetooth();
+        }
     }
 
     /**
@@ -353,26 +399,27 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
     //断开连接
     @Override
     public void disconnect() {
+        isConnecting = false;
         mBlueClient.disconnect();
     }
 
     /**
      * 连接蓝牙设备
      *
-     * @param mac
+     * @param device
      */
     @Override
-    public void connect(String mac) {
+    public void connect(BleDevice device) {
         if (isConnecting) {
             return;
         }
         mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
-        //  mBlueClient.release();
-        mBlueClient.connect(mac);
-        // stopConnectBleTask();
+        mHandler.sendEmptyMessageDelayed(MESSAG_CONNECT_TIMEOUT, TIME_OUT);
+        mBlueClient.connect(device.getMac());
         isConnecting = true;
+        mCurrentBleDevice = device;
         if (mView != null) {
-            mView.connecting();
+            mView.connecting(device.getBleName());
         }
     }
 
@@ -381,7 +428,9 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
     public void unRegister() {
         mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
         mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
-         EventBus.getDefault().unregister(this);
+        mHandler.removeMessages(MESSAG_HANDSHAKE_TIMEOUT);
+        EventBus.getDefault().unregister(this);
+        stopScanBle();
     }
 
 
@@ -401,21 +450,24 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                     }
                     break;
                 case MESSAG_CONNECT_TIMEOUT:
+//                    isConnecting = false;
+//                    mBlueClient.disconnect();
+                    ViseLog.d("连接蓝牙超时失败");
+//                    if (mView != null) {
+//                        mView.connectFailed();
+//                    }
+//                    break;
+                case MESSAG_HANDSHAKE_TIMEOUT:
                     isConnecting = false;
                     mBlueClient.disconnect();
-                    ViseLog.d("连接蓝牙超时失败");
-
+                    ViseLog.d("握手超时失败");
                     if (mView != null) {
                         mView.connectFailed();
                     }
                     break;
-                case MESSAG_HANDSHAKE_TIMEOUT:
-
-                    break;
             }
         }
     };
-
 
 
     /**

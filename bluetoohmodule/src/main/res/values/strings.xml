@@ -9,5 +9,38 @@
     <string name="ble_next">Next</string>
     <string name="ble_connect_bluetoh_title">Choose a robot to connect</string>
     <string name="ble_connect_bluetoh_content">Turn on bluetooh of the device and put it close to robot\'s back</string>
+    <string name="ble_connect">connect</string>
+    <string name="ble_connecting">Connecting with robot</string>
+    <string name="ble_connect_ble_success">Connection Successed</string>
+    <string name="ble_connect_bluetooh_outtime">Connection is overtime</string>
+    <string name="ble_try_again">Tray again</string>
+    <string name="ble_cancle">Cancle</string>
 
+
+    <string name="ble_wifi_title">Enter Wi-Fi Password</string>
+    <string name="ble_wifi_content">(Not support 5G Wi-Fi)</string>
+
+    <string name="ble_no_wifi_found">No Wi-Fi found</string>
+    <string name="ble_no_wifi_tip">You can try to input Wi-Fi name</string>
+    <string name="ble_btn_input_wifi">Input Wi-Fi name</string>
+
+    <string name="ble_wifi_change">Choose another network</string>
+
+    <string name="ble_wifi_connecting">Connecting....</string>
+    <string name="ble_wifi_connect_succeed">Connection succeed.</string>
+    <string name="ble_wifi_connect_fail">Connection failed.</string>
+
+    <string name="ble_about_robot_title">About Robot</string>
+    <string name="ble_about_wifi">Wi-Fi</string>
+    <string name="ble_about_robot_auto_update">Auto update</string>
+
+    <string name="ble_about_robot_version">Robot Version</string>
+
+    <string name="ble_about_robot_serial_number">Robot serial number</string>
+
+    <string name="ble_about_robot_ip">Robot IP</string>
+    
+    <string name="ble_about_robot_go_connect">Go to connect</string>
+
+    <string name="ble_about_robot_disconnect">Disconnect robot</string>
 </resources>

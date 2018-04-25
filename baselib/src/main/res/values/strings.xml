@@ -18,4 +18,6 @@
     <string name="ui_common_operate_fail">操作失败</string>
     <string name="ui_common_skip">跳过</string>
     <string name="ui_common_select">请选择</string>
+
+
 </resources>

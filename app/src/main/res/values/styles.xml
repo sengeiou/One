@@ -12,6 +12,7 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>//全屏即无通知栏
         <!--在无需多点触控的页面上，建议关闭多点触控-->
         <item name="android:splitMotionEvents">false</item>
     </style>

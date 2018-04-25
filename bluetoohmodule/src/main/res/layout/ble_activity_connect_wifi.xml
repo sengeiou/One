@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_bg"
+    tools:context="com.ubt.en.alpha1e.ble.activity.FirstGreetActivity">
+
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="@dimen/dp_25"
+        android:layout_height="@dimen/dp_25"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_12"
+        android:src="@drawable/ic_back"
+        />
+
+
+    <TextView
+        android:id="@+id/wifiTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_53"
+        android:text="@string/ble_wifi_title"
+        android:textColor="@color/base_tv_large_black"
+        android:textSize="@dimen/sp_15"
+        />
+
+    <TextView
+        android:id="@+id/bleTextview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wifiTextview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_15"
+        android:text="@string/ble_wifi_content"
+        android:textColor="@color/base_tv_middle_gray1"
+        android:textSize="@dimen/sp_12"/>
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bleTextview2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_20"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/ble_connect_loading"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateDrawable="@drawable/ble_search_loading"
+            android:indeterminateOnly="true"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ble_wifi_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:overScrollMode="never"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_not_wifi_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bleTextview2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_40"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/img_overtime"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/ble_no_wifi_found"
+            android:textColor="@color/base_tv_large_black"
+            android:textSize="@dimen/sp_15"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/ble_no_wifi_tip"
+            android:textColor="@color/base_tv_large_black"
+            android:textSize="@dimen/sp_15"
+            />
+
+        <Button
+            android:id="@+id/ble_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_40"
+            android:background="@drawable/btn_blue"
+             android:gravity="center"
+            android:text="@string/ble_btn_input_wifi"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>

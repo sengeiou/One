@@ -3,9 +3,9 @@ package com.ubt.en.alpha1e.ble.Contact;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
+import com.ubt.baselib.BlueTooth.BleDevice;
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
-import com.ubt.en.alpha1e.ble.model.BleDevice;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ public class BleConnectContact {
 
         void notifyDataSetChanged();
 
+        void startSerchBle();
+
         void searchSuccess();
 
         void searchBleFiled();
@@ -31,7 +33,7 @@ public class BleConnectContact {
 
         void connectFailed();
 
-        void connecting();
+        void connecting(String deviceName);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -48,7 +50,7 @@ public class BleConnectContact {
 
         void disconnect();
 
-        void connect(String mac);
+        void connect(BleDevice device);
 
         void unRegister();
 
