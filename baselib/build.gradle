@@ -76,6 +76,8 @@ dependencies {
     //公共对话框
     compile 'com.orhanobut:dialogplus:1.11@aar'
     compile 'com.weigan:loopView:0.1.2'
+
+//    compile 'com.github.rey5137:material:1.2.4'
     //引用自定义maven库中文件
     //compile 'com.ubt:bluetooth:1.0.0@aar'
     //implementation project(':skin-support')
