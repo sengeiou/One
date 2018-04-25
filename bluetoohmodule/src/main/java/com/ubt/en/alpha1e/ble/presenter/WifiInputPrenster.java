@@ -1,6 +1,8 @@
 package com.ubt.en.alpha1e.ble.presenter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
@@ -10,7 +12,6 @@ import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdConnectWifi;
 import com.ubt.baselib.mvp.BasePresenterImpl;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.WifiInputContact;
@@ -20,6 +21,7 @@ import com.vise.utils.convert.HexUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 
 /**
  * @author：liuhai
@@ -34,6 +36,9 @@ public class WifiInputPrenster extends BasePresenterImpl<WifiInputContact.View> 
 
     BlueClientUtil mBlueClientUtil;
 
+    private int MESSAGE_TIMEOUt = 60 * 1000;
+    private int MESSAGE_WHAT = 0x11;
+
     @Override
     public void init(Context context) {
         EventBus.getDefault().register(this);
@@ -41,9 +46,23 @@ public class WifiInputPrenster extends BasePresenterImpl<WifiInputContact.View> 
 
     }
 
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MESSAGE_WHAT) {
+                if (mView != null) {
+                    mView.connectWifiResult(3);
+                }
+            }
+        }
+    };
+
     @Override
     public void sendPasswd(String wifiName, String passwd) {
         mBlueClientUtil.sendData(new BTCmdConnectWifi(wifiName, passwd).toByteArray());
+        mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT, MESSAGE_TIMEOUt);
     }
 
     @Override
@@ -67,7 +86,10 @@ public class WifiInputPrenster extends BasePresenterImpl<WifiInputContact.View> 
                 ViseLog.e("正在连接");
                 break;
             case BluetoothState.STATE_DISCONNECTED:
-                ToastUtils.showShort("蓝牙断开");
+                 mHandler.removeMessages(MESSAGE_WHAT);
+                if (mView != null) {
+                    mView.connectWifiResult(3);
+                }
                 break;
             default:
 
@@ -95,6 +117,7 @@ public class WifiInputPrenster extends BasePresenterImpl<WifiInputContact.View> 
     public void onProtocolPacket(ProtocolPacket packet) {
         switch (packet.getmCmd()) {
             case BTCmd.DV_DO_NETWORK_CONNECT:
+                mHandler.removeMessages(MESSAGE_WHAT);
                 ViseLog.d("param====" + packet.getmParam()[0]);
                 if (mView != null) {
                     mView.connectWifiResult(packet.getmParam()[0]);

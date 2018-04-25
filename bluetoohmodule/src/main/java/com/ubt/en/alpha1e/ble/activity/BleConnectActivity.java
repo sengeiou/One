@@ -17,14 +17,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.BlueTooth.BleDevice;
-import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
@@ -43,7 +40,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-@Route(path = ModuleUtils.Bluetooh_BleConnectActivity)
 public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, BleConnectPrenster> implements BleConnectContact.View, BaseQuickAdapter.OnItemChildClickListener {
 
     Unbinder mUnbinder;
@@ -192,11 +188,10 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
             @Override
             public void run() {
                 if (isFromFirst) {
-                    ARouter.getInstance().build(ModuleUtils.Bluetooh_BleSearchWifiActivity).withBoolean("first_enter", isFromFirst).navigation();
+                    BleSearchWifiActivity.launch(BleConnectActivity.this, isFromFirst);
                 } else {
                     finish();
                 }
-                // startActivity(new Intent(BleConnectActivity.this, BleSearchWifiActivity.class));
             }
         }, 1000);
     }
@@ -257,7 +252,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
 
         textContent.setText(content);
 
-        Button btn = contentView.findViewById(R.id.btn_confirm);
+        TextView btn = contentView.findViewById(R.id.btn_confirm);
 
         String btnMsg = isConnecting ? SkinManager.getInstance().getTextById(R.string.ble_cancle) :
                 SkinManager.getInstance().getTextById(R.string.ble_try_again);
@@ -266,7 +261,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
 
         WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
-        int width = (int) ((display.getWidth()) * 0.5); //设置宽度
+        int width = (int) ((display.getWidth()) * 0.6); //设置宽度
         mDialog = DialogPlus.newDialog(this)
                 .setContentHolder(viewHolder)
                 .setGravity(Gravity.CENTER)

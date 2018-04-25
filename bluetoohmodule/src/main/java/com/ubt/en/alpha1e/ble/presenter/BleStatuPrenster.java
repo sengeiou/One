@@ -11,6 +11,8 @@ import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
@@ -96,9 +98,6 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     @Override
     public void onProtocolPacket(ProtocolPacket packet) {
         switch (packet.getmCmd()) {
-            case BTCmd.DV_HANDSHAKE:
-
-                break;
             case BTCmd.DV_READ_NETWORK_STATUS:
                 String networkInfoJson = BluetoothParamUtil.bytesToString(packet.getmParam());
                 ViseLog.d(networkInfoJson);
@@ -107,7 +106,19 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                     mView.setRobotNetWork(bleNetWork);
                 }
                 break;
+            case BTCmd.DV_READ_SOFTWARE_VERSION:
+                ViseLog.d("机器人版本号：" + new String(packet.getmParam()));
+                if (mView != null) {
+                    mView.setRobotSoftVersion(new String(packet.getmParam()));
+                }
+                break;
 
+            case BTCmd.READ_SN_CODE:
+                ViseLog.d("机器人序列号：" + new String(packet.getmParam()));
+                if (mView != null) {
+                    mView.setRobotSN(new String(packet.getmParam()));
+                }
+                break;
             default:
                 break;
         }
@@ -130,6 +141,8 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 if (device != null) {//查询网络状态
                     // BTCmdGetWifiStatus
                     mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
+                    mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
+                    mBlueClientUtil.sendData(new BTCmdReadSNCode().toByteArray());
                 }
             } else {
                 mView.setBleConnectStatu(null);

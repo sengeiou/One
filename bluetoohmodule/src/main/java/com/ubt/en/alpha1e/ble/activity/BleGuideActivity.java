@@ -6,8 +6,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.en.alpha1e.ble.Contact.BleGuideContact;
 import com.ubt.en.alpha1e.ble.R;
@@ -17,8 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-@Route(path = ModuleUtils.Bluetooh_BleGuideActivity)
-public class BleGuideActivity extends MVPBaseActivity<BleGuideContact.View, BleGuidPrenster> {
+ public class BleGuideActivity extends MVPBaseActivity<BleGuideContact.View, BleGuidPrenster> {
     Unbinder mUnbinder;
 
     Button mBleButtonNext;

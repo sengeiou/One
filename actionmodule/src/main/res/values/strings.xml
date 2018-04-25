@@ -1,0 +1,101 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="action_app_name">ActionModule</string>
+
+    <string name="actions_title">Actions</string>
+
+    <string name="actions_make_up">Make up actions</string>
+    <string name="actions_my_works">My works</string>
+    <string name="actions_download">Download</string>
+    <string name="actions_courses">How to make?</string>
+
+    <string name="action_ui_recording_txt">动作记录中...</string>
+    <string name="ui_readback_play" tools:ignore="ResourceName">播放</string>
+    <string name="ui_readback_stop" tools:ignore="ResourceName">停止</string>
+    <string name="ui_readback_preview" tools:ignore="ResourceName">预览</string>
+    <string name="ui_readback_preview_tip" tools:ignore="ResourceName">预览时，机器人动作幅度较大，请将机器人放在开阔平整处，以免摔坏。</string>
+    <string name="ui_readback_alter" tools:ignore="ResourceName">修改</string>
+    <string name="ui_readback_copy" tools:ignore="ResourceName">复制</string>
+    <string name="ui_readback_copy_tip" tools:ignore="ResourceName">动作#已复制</string>
+    <string name="ui_readback_paste" tools:ignore="ResourceName">粘贴</string>
+    <string name="ui_readback_paste_tip" tools:ignore="ResourceName">此动作将粘贴在动作#之后</string>
+    <string name="ui_readback_action_total_time" tools:ignore="ResourceName">时长#</string>
+    <string name="ui_readback_max_time" tools:ignore="ResourceName">最大：</string>
+    <string name="ui_readback_min_time" tools:ignore="ResourceName">最小：</string>
+
+
+    <string name="ui_create_menu_preview" tools:ignore="ResourceName">预览</string>
+    <string name="ui_create_menu_modify" tools:ignore="ResourceName">修改</string>
+    <string name="ui_create_menu_copy" tools:ignore="ResourceName">复制</string>
+    <string name="ui_create_menu_cut" tools:ignore="ResourceName">剪切</string>
+    <string name="ui_create_menu_paste" tools:ignore="ResourceName">粘贴</string>
+    <string name="ui_create_menu_delete" tools:ignore="ResourceName">删除</string>
+    <string name="ui_create_menu_copy_tips" tools:ignore="ResourceName">动作#已复制</string>
+    <string name="ui_create_menu_cut_tips" tools:ignore="ResourceName">动作X已剪切</string>
+    <string name="ui_create_menu_delete_tips" tools:ignore="ResourceName">动作X已删除</string>
+    <string name="ui_create_delete_music" tools:ignore="ResourceName">删除音频</string>
+    <string name="ui_create_delete_music_tips" tools:ignore="ResourceName">音频已清除</string>
+    <string name="ui_create_select_body" tools:ignore="ResourceName">请在手机上选择机器人要掉节动作的部位</string>
+    <string name="ui_create_auto_record" tools:ignore="ResourceName">自动记录动作</string>
+    <string name="ui_create_auto_record_tips" tools:ignore="ResourceName">开启自动模式后，机器人的运行轨迹将记录到创作中（每隔200ms），点击“开始”后可以自由调节机器人动作</string>
+    <string name="ui_create_guide_add" tools:ignore="ResourceName">调节好动作后，点击这里停止记录</string>
+    <string name="ui_create_start" tools:ignore="ResourceName">开始</string>
+    <string name="ui_create_preview_action" tools:ignore="ResourceName">预览动作</string>
+    <string name="ui_create_basic_action" tools:ignore="ResourceName">基础动作</string>
+    <string name="ui_create_add" tools:ignore="ResourceName">添加</string>
+    <string name="ui_create_music" tools:ignore="ResourceName">音频</string>
+    <string name="ui_create_record" tools:ignore="ResourceName">录音</string>
+    <string name="ui_create_cover_music" tools:ignore="ResourceName">创作中已存在音频，确认替换为当前音频么？</string>
+    <string name="ui_create_cover_music_tips" tools:ignore="ResourceName">Tips：替换后，音频标记需要重新添加哦~</string>
+    <string name="ui_create_save_tips" tools:ignore="ResourceName">动作还未保存，是否退出？</string>
+
+    <!---==============================初级动作========================-->
+    <string name="ui_basic_action_warrior" tools:ignore="ResourceName">出招</string>
+    <string name="ui_basic_action_stoop" tools:ignore="ResourceName">下腰</string>
+    <string name="ui_basic_action_squat" tools:ignore="ResourceName">蹲下</string>
+    <string name="ui_basic_action_left_hand" tools:ignore="ResourceName">左抬手</string>
+    <string name="ui_basic_action_right_hand" tools:ignore="ResourceName">右抬手</string>
+    <string name="ui_basic_action_mech_dance1" tools:ignore="ResourceName">机械舞1</string>
+    <string name="ui_basic_action_mech_dance2" tools:ignore="ResourceName">机械舞2</string>
+    <string name="ui_basic_action_hug" tools:ignore="ResourceName">抱抱</string>
+    <string name="ui_basic_action_happy" tools:ignore="ResourceName">开心</string>
+    <string name="ui_basic_action_salute" tools:ignore="ResourceName">敬礼</string>
+
+    <!--=================高级动作=================-->
+    <string name="ui_advance_action_walk" tools:ignore="ResourceName">行走</string>
+    <string name="ui_advance_action_twist" tools:ignore="ResourceName">扭腰</string>
+    <string name="ui_advance_action_steppin" tools:ignore="ResourceName">垫脚</string>
+    <string name="ui_advance_action_bent" tools:ignore="ResourceName">侧弯腰</string>
+    <string name="ui_advance_action_arm" tools:ignore="ResourceName">手臂伸展</string>
+    <string name="ui_advance_action_woshou" tools:ignore="ResourceName">握手</string>
+    <string name="ui_advance_action_dance1" tools:ignore="ResourceName">舞蹈动作1</string>
+    <string name="ui_advance_action_dance2" tools:ignore="ResourceName">舞蹈动作2</string>
+    <string name="ui_advance_action_curtain" tools:ignore="ResourceName">谢幕</string>
+    <string name="ui_advance_action_bye" tools:ignore="ResourceName">再见</string>
+
+    <string name="ui_create_advance_action" tools:ignore="ResourceName">高级动作</string>
+    <string name="ui_create_record_placeholder" tools:ignore="ResourceName">请输入录音名称</string>
+    <string name="ui_create_record_empty_name" tools:ignore="ResourceName">录音名称不能为空</string>
+    <string name="ui_create_record_save_failed" tools:ignore="ResourceName">保存失败</string>
+    <string name="ui_create_click_to_cutoff" tools:ignore="ResourceName">请先点击机器人身体部位掉电</string>
+    <string name="ui_create_guide_auto" tools:ignore="ResourceName">点击这里自动记录机器人动作</string>
+    <string name="ui_create_holde_robot" tools:ignore="ResourceName">请扶好你的机器人，以免摔倒。</string>
+    <string name="ui_readback_index" tools:ignore="ResourceName">动作#</string>
+
+    <string name="action_ui_create_click_robot">请在机器人身上调节你点击的部位</string>
+    <string name="action_ui_create_guide_add1">调节好动作后，点击这里添加到创作中</string>
+
+    <string name="action_ui_common_back">返回</string>
+    <string name="action_ui_common_cancel">取消</string>
+    <string name="action_ui_common_complete">完成</string>
+    <string name="action_ui_common_edit">编辑</string>
+    <string name="action_ui_common_save">保存</string>
+    <string name="action_ui_common_confirm">确定</string>
+    <string name="ui_common_add" tools:ignore="ResourceName">添加</string>
+    <string name="action_ui_bluetooth_hint">提示</string>
+    <string name="action_ui_readback_not_null">动作序列不可为空</string>
+    <string name="action_ui_readback_quit_tip">当前动作未保存，是否退出？</string>
+    <string name="action_ui_readback_quit_continue">继续编辑</string>
+    <string name="action_ui_readback_quit_confirm">退出</string>
+    <string name="action_ui_readback_save_success">保存动作成功</string>
+
+</resources>

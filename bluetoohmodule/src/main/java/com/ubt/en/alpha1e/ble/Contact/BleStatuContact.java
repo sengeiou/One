@@ -26,6 +26,10 @@ public class BleStatuContact {
         void setRobotStatu(RobotStatu robotStatu);
 
         void setRobotNetWork(BleNetWork bleNetWork);
+
+        void setRobotSoftVersion(String softVersion);
+
+        void setRobotSN(String SN);
     }
 
     public interface Presenter extends BasePresenter<View> {

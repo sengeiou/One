@@ -19,7 +19,6 @@ import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.model.ManualEvent;
@@ -126,7 +125,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
                 mBlueClient.connect(bleDevice.getMac());
                 isConnecting = true;
                 isCancleScan = true;
-                mBlueClient.cancelScan();
+                //mBlueClient.cancelScan();
                 mHandler.sendEmptyMessageDelayed(MESSAG_CONNECT_TIMEOUT, TIME_OUT);
             }
         }
@@ -140,10 +139,9 @@ public class AutoConnectPrenster implements IProtolPackListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void doEntryManalConnect(ManualEvent manualEvent) {
         if (manualEvent.getEvent() == ManualEvent.Event.MANUAL_ENTER) {//进入蓝牙联网页面
-
             this.isManualConnectMode = manualEvent.isManual();
-            if (isManualConnectMode && mBlueClient.getConnectionState()!=3) {
-                mBlueClient.cancelScan();
+            if (isManualConnectMode && mBlueClient.getConnectionState() != 3) {
+              //  mBlueClient.cancelScan();
                 ViseLog.d("进入蓝牙联网页面");
             } else {
                 ViseLog.d("退出蓝牙联网页面");
@@ -304,7 +302,6 @@ public class AutoConnectPrenster implements IProtolPackListener {
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
-                ToastUtils.showShort("蓝牙断开");
                 startScanBleDevice();
                 break;
             default:
@@ -381,7 +378,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
      */
     private void startScanBleDevice() {
         if (!isManualDisConnect && mBlueClient.getConnectionState() != 3 && !MyLifecycleCallback.isBackground()) {
-            mBlueClient.cancelScan();
+            //mBlueClient.cancelScan();
             isCancleScan = false;
             mBlueClient.startScan();
         } else {

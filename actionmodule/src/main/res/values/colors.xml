@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="action_colorPrimary">#3F51B5</color>
+    <color name="action_colorPrimaryDark">#303F9F</color>
+    <color name="action_colorAccent">#FF4081</color>
+
+    <color name="btn_get_code_color" tools:ignore="ResourceName">#ffffff</color>
+    <color name="action_filter_color">#0B4E75</color>
+    <color name="action_background">#F9F9FB</color>
+    <color name="sec_new_progress" tools:ignore="ResourceName">#adeadc</color>
+    <color name="action_edit_filter_color">#C4EDFF</color>
+    <color name="action_dilog_title">#16A4E3</color>
+    <color name="sec_txt_disc" tools:ignore="ResourceName">#666c72</color>
+    <color name="action_dialog_filter_color">#E7E8E9</color>
+    <color name="tv_user_edit_color" tools:ignore="ResourceName">#1D3740</color>
+</resources>

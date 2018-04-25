@@ -103,7 +103,7 @@
 
             <ImageView
                 android:id="@+id/iv_actions"
-                android:layout_width="wrap_content"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/constraintLayout"
                 android:layout_alignStart="@+id/constraintLayout"
@@ -113,7 +113,7 @@
                 android:src="@mipmap/main_actions"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
 
             <ImageView
                 android:id="@+id/iv_community"
-                android:layout_width="wrap_content"
+                android:layout_width="192dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/iv_actions"
                 android:layout_alignStart="@+id/iv_blockly"
@@ -172,7 +172,7 @@
                 android:focusable="true"
                 android:src="@mipmap/main_community"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_actions"
-                app:layout_constraintStart_toStartOf="@+id/guideline2" />
+                app:layout_constraintStart_toStartOf="@+id/guideline2"/>
 
             <TextView
                 android:layout_width="wrap_content"

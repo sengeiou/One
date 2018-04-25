@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:tools="http://schemas.android.com/tools"
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       tools:ignore="ResourceName">
+
+    <!-- 内容 -->
+    <solid android:color="@color/action_edit_filter_color" />
+    <!-- 拐角 -->
+    <corners android:radius="2dp" />
+
+</shape>
