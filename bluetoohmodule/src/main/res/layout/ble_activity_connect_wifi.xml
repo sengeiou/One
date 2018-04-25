@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_53"
-        android:text="@string/ble_wifi_title"
+        android:text="@string/ble_wifi_enter_password_title"
         android:textColor="@color/base_tv_large_black"
         android:textSize="@dimen/sp_15"
         />
@@ -38,7 +38,7 @@
         android:layout_below="@+id/wifiTextview"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_15"
-        android:text="@string/ble_wifi_content"
+        android:text="@string/ble_wifi_5G_tip"
         android:textColor="@color/base_tv_middle_gray1"
         android:textSize="@dimen/sp_12"/>
 

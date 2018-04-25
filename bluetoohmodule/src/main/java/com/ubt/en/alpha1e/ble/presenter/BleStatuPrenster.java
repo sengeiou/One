@@ -12,7 +12,6 @@ import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
 import com.ubt.baselib.mvp.BasePresenterImpl;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
@@ -68,7 +67,6 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
-                ToastUtils.showShort("蓝牙断开");
                 if (mView != null) {
                     mView.setBleConnectStatu(null);
                 }
@@ -105,7 +103,7 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 String networkInfoJson = BluetoothParamUtil.bytesToString(packet.getmParam());
                 ViseLog.d(networkInfoJson);
                 BleNetWork bleNetWork = praseNetWork(networkInfoJson);
-                if (mView!=null){
+                if (mView != null) {
                     mView.setRobotNetWork(bleNetWork);
                 }
                 break;
@@ -127,16 +125,18 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     public void getRobotBleConnect() {
         BluetoothDevice device = mBlueClientUtil.getConnectedDevice();
         if (mView != null) {
-            mView.setBleConnectStatu(device);
+            if (mBlueClientUtil.getConnectionState() == 3) {
+                mView.setBleConnectStatu(device);
+                if (device != null) {//查询网络状态
+                    // BTCmdGetWifiStatus
+                    mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
+                }
+            } else {
+                mView.setBleConnectStatu(null);
+            }
+
         }
 
-        if (device != null) {//查询网络状态
-            // BTCmdGetWifiStatus
-            mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
-
-            //mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
-
-        }
     }
 
 
@@ -144,8 +144,8 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
      * 获取机器人信息
      */
     @Override
-    public void getRobotStatu() {
-
+    public void dissConnectRobot() {
+        mBlueClientUtil.disconnect();
     }
 
 

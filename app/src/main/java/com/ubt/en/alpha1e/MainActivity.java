@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.RightBar;
+import com.ubt.en.alpha1e.ble.service.ConnectService;
 import com.ubt.mainmodule.controlCenter.CtlCenterFragment;
 import com.ubt.mainmodule.main.MainFragment;
 import com.ubt.mainmodule.user.UserMainFragment;
@@ -33,19 +35,21 @@ public class MainActivity extends SupportActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             fragmentCur = savedInstanceState.getInt("fragmentCur", FIRST);
         }
         initFragment();
         ButterKnife.bind(this);
         initRightBarClick(); //初始化右边栏点击事件
+        ConnectService service = (ConnectService) ARouter.getInstance().build(ModuleUtils.Bluetooh_ConnectService).navigation();
+        service.startAutoService();
     }
 
-    private void initFragment(){
+    private void initFragment() {
         SupportFragment firstFragment = findFragment(MainFragment.class);
         if (firstFragment == null) {
             mFragments[FIRST] = MainFragment.newInstance();
-            mFragments[SECOND] =CtlCenterFragment.newInstance();
+            mFragments[SECOND] = CtlCenterFragment.newInstance();
             mFragments[THIRD] = UserMainFragment.newInstance();
 
             loadMultipleRootFragment(R.id.frame_content, FIRST,
@@ -53,7 +57,7 @@ public class MainActivity extends SupportActivity {
                     mFragments[SECOND],
                     mFragments[THIRD]);
         } else {
-            ViseLog.i("fragmentCur == "+ fragmentCur);
+            ViseLog.i("fragmentCur == " + fragmentCur);
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
 
             // 这里我们需要拿到mFragments的引用
@@ -67,7 +71,7 @@ public class MainActivity extends SupportActivity {
      * 右边栏为自定义VIEW点击事件使用传统的方式实现
      */
     private void initRightBarClick() {
-        switch (fragmentCur){
+        switch (fragmentCur) {
             case FIRST:
                 rightBar.setRightBarStatus(RightBar.TOP_ON);
                 break;
@@ -85,7 +89,7 @@ public class MainActivity extends SupportActivity {
         rightBar.setTopClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fragmentCur != FIRST) {
+                if (fragmentCur != FIRST) {
                     rightBar.setRightBarStatus(RightBar.TOP_ON);
                     showHideFragment(mFragments[FIRST], mFragments[fragmentCur]);
                     fragmentCur = FIRST;
@@ -97,7 +101,7 @@ public class MainActivity extends SupportActivity {
         rightBar.setCenterClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fragmentCur != SECOND) {
+                if (fragmentCur != SECOND) {
                     rightBar.setRightBarStatus(RightBar.CENTER_ON);
                     showHideFragment(mFragments[SECOND], mFragments[fragmentCur]);
                     fragmentCur = SECOND;
@@ -108,7 +112,7 @@ public class MainActivity extends SupportActivity {
         rightBar.setBottomClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fragmentCur != THIRD) {
+                if (fragmentCur != THIRD) {
                     rightBar.setRightBarStatus(RightBar.BOTTOM_ON);
                     showHideFragment(mFragments[THIRD], mFragments[fragmentCur]);
                     fragmentCur = THIRD;

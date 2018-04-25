@@ -89,6 +89,6 @@ dependencies {
     compile 'com.tencent.bugly:crashreport:2.6.6.1'
     //业务模块
     implementation project(':settingsmodule')
-    // implementation project(':bluetoohmodule')
+     implementation project(':bluetoohmodule')
 //    implementation project(':mainmodule')
 }

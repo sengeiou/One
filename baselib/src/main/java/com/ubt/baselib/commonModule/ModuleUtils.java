@@ -36,7 +36,7 @@ public interface ModuleUtils {
      */
     String Bluetooh_FirstGreetActivity = "/bluetooh/FirstGreetActivity";
     /**
-     * 蓝牙指引页
+     * 蓝牙指引页Bluetooh_ConnectService
      */
     String Actions_ActionProgram = "/actions/ActionProgram";  //动作编程模块
     String Blockly_BlocklyProgram = "/blockly/BlocklyProgram";  //编程猫模块
@@ -66,6 +66,7 @@ public interface ModuleUtils {
      */
     // String Bluetooh_BleStatuActivity = "/bluetooh/BleStatuActivity";
 
+    String Bluetooh_ConnectService = "/bluetooh/ConnectService";
 
     /**
      * 逻辑编程模块

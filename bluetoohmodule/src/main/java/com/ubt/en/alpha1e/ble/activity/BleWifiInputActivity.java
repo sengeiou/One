@@ -33,23 +33,23 @@ import butterknife.Unbinder;
 @Route(path = ModuleUtils.Bluetooh_BleWifiInputActivity)
 public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View, WifiInputPrenster> implements WifiInputContact.View {
 
-    @BindView(R.id.ble_iv_back)
+    @BindView(R2.id.ble_iv_back)
     ImageView mBleImageview3;
-    @BindView(R.id.ble_iv_close)
+    @BindView(R2.id.ble_iv_close)
     ImageView mBleImageview4;
-    @BindView(R.id.bleTextview)
+    @BindView(R2.id.bleTextview)
     TextView mBleTextview;
-    @BindView(R.id.bleTextview4)
+    @BindView(R2.id.bleTextview4)
     TextView mBleTextview4;
-    @BindView(R.id.ble_edit_name)
+    @BindView(R2.id.ble_edit_name)
     EditText mBleEditName;
-    @BindView(R.id.ble_edit_passwd)
+    @BindView(R2.id.ble_edit_passwd)
     EditText mBleEditPasswd;
-    @BindView(R.id.ble_show_passwd)
+    @BindView(R2.id.ble_show_passwd)
     ImageView mBleShowPasswd;
-    @BindView(R.id.ble_choose_wifi)
+    @BindView(R2.id.ble_choose_wifi)
     TextView mBleChooseWifi;
-    @BindView(R.id.ble_connect_wifi)
+    @BindView(R2.id.ble_connect_wifi)
     Button mBleConnectWifi;
     private Unbinder mUnbinder;
 
@@ -94,35 +94,35 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
 
     @OnClick({R2.id.ble_iv_back, R2.id.ble_iv_close, R2.id.ble_show_passwd, R2.id.ble_connect_wifi, R2.id.ble_choose_wifi})
     public void clickView(View view) {
-        switch (view.getId()) {
-            case R.id.ble_iv_back:
-                finish();
-                break;
+        int i = view.getId();
+        if (i == R.id.ble_iv_back) {
+            finish();
 
-            case R.id.ble_iv_close:
-                finish();
-                break;
-            case R.id.ble_choose_wifi:
-                ARouter.getInstance().build(ModuleUtils.Bluetooh_BleSearchWifiActivity).navigation();
-                finish();
-                break;
-            case R.id.ble_show_passwd:
-                isShowPassWord = !isShowPassWord;
-                mBleShowPasswd.setImageResource(isShowPassWord ? R.drawable.ic_password_show : R.drawable.ic_password_disshow);
+        } else if (i == R.id.ble_iv_close) {
+            finish();
 
-                mBleEditPasswd.setInputType(isShowPassWord ? InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD :
-                        InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                mBleEditPasswd.setSelection(mBleEditPasswd.getText().length());
-                break;
-            case R.id.ble_connect_wifi:
-                wifiName = mBleEditName.getText().toString().trim();
-                wifiPasswd = mBleEditPasswd.getText().toString().trim();
-                if (!TextUtils.isEmpty(wifiName) && !TextUtils.isEmpty(wifiPasswd)) {
-                    mPresenter.sendPasswd(wifiName, wifiPasswd);
-                    BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connecting));
-                    mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
-                }
-                break;
+        } else if (i == R.id.ble_choose_wifi) {
+            ARouter.getInstance().build(ModuleUtils.Bluetooh_BleSearchWifiActivity).navigation();
+            finish();
+
+        } else if (i == R.id.ble_show_passwd) {
+            isShowPassWord = !isShowPassWord;
+            mBleShowPasswd.setImageResource(isShowPassWord ? R.drawable.ic_password_show : R.drawable.ic_password_disshow);
+
+            mBleEditPasswd.setInputType(isShowPassWord ? InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD :
+                    InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            mBleEditPasswd.setSelection(mBleEditPasswd.getText().length());
+
+        } else if (i == R.id.ble_connect_wifi) {
+            wifiName = mBleEditName.getText().toString().trim();
+            wifiPasswd = mBleEditPasswd.getText().toString().trim();
+            if (!TextUtils.isEmpty(wifiName) && !TextUtils.isEmpty(wifiPasswd)) {
+                mPresenter.sendPasswd(wifiName, wifiPasswd);
+                BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connecting));
+                mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
+            }
+
+        } else {
         }
     }
 

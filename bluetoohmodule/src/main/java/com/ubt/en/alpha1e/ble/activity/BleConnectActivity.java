@@ -55,8 +55,12 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     ImageView mIvBack;
     @BindView(R2.id.iv_help)
     ImageView mIvHelp;
-    @BindView(R.id.rl_sucessed)
+    @BindView(R2.id.rl_sucessed)
     RelativeLayout mRlSucessed;
+    @BindView(R2.id.ble_tryagain)
+    Button mBleTryagain;
+    @BindView(R2.id.rl_search_failed)
+    RelativeLayout mRlSearchFailed;
 
     /**
      * 是否从登录页面过来
@@ -107,17 +111,20 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         mRlSucessed.setVisibility(View.GONE);
     }
 
-    @OnClick({R2.id.iv_back, R2.id.iv_help})
+    @OnClick({R2.id.iv_back, R2.id.iv_help, R2.id.ble_tryagain})
     public void onClickView(View view) {
-        switch (view.getId()) {
-            case R.id.iv_back:
-                if (!isFromFirst) {
-                    finish();
-                }
-                break;
-            case R.id.iv_help:
+        int i = view.getId();
+        if (i == R.id.iv_back) {
+            if (!isFromFirst) {
+                finish();
+            }
 
-                break;
+        } else if (i == R.id.iv_help) {
+        } else if (i == R.id.ble_tryagain) {
+            mBleConnectLoading.setVisibility(View.VISIBLE);
+            mRlSearchFailed.setVisibility(View.GONE);
+            mPresenter.startScanBle();
+
         }
     }
 
@@ -155,7 +162,9 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
      */
     @Override
     public void searchSuccess() {
+        mRlSearchFailed.setVisibility(View.GONE);
         mBleConnectLoading.setVisibility(View.GONE);
+        mBuletoothDeviceList.setVisibility(View.VISIBLE);
     }
 
 
@@ -164,7 +173,9 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
      */
     @Override
     public void searchBleFiled() {
-        showLoadingDialog(false, "");
+        mRlSearchFailed.setVisibility(View.VISIBLE);
+        mBleConnectLoading.setVisibility(View.GONE);
+        mBuletoothDeviceList.setVisibility(View.GONE);
     }
 
 
@@ -242,7 +253,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         TextView textContent = contentView.findViewById(R.id.tv_content);
 
         String content = isConnecting ? SkinManager.getInstance().getTextById(R.string.ble_connecting) + " : " + mac :
-                SkinManager.getInstance().getTextById(R.string.ble_connect_bluetooh_outtime);
+                SkinManager.getInstance().getTextById(R.string.ble_connnect_timeout);
 
         textContent.setText(content);
 

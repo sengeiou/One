@@ -36,7 +36,7 @@ public class BleStatuContact {
 
         void getRobotBleConnect();
 
-        void getRobotStatu();
+        void dissConnectRobot();
 
     }
 }
