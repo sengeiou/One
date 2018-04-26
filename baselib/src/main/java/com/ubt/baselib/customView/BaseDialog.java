@@ -310,7 +310,7 @@ public class BaseDialog {
     }
 
     public interface ButtonOnClickListener {
-        public void onClick(DialogPlus dialog, View view);
+         void onClick(final DialogPlus dialog, View view);
     }
 
 
