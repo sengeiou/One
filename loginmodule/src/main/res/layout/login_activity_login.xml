@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_img_bg"
+    tools:context="com.ubt.loginmodule.login.LoginActivity">
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/login_sign_up"
+        android:textColor="@color/login_text_blue_color"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_login_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_29"
+        android:gravity="center"
+        android:text="@string/login_title"
+        android:textColor="@color/login_text_black_color"
+        android:textSize="@dimen/sp_18"
+       app:layout_constraintTop_toBottomOf="@+id/tv_register" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <ImageView
+        android:id="@+id/iv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_28"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_email"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_email"
+        app:layout_constraintLeft_toRightOf="@+id/gl_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_title" />
+
+    <EditText
+        android:id="@+id/edt_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_28"
+        android:background="@null"
+        android:hint="@string/login_enter_email_address"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/dp_12"
+        android:textColor="@color/login_text_black_color"
+        android:textColorHint="@color/login_text_hint_color"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toRightOf="@+id/iv_email"
+        app:layout_constraintRight_toLeftOf="@+id/iv_clear_account"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_title" />
+
+    <ImageView
+        android:id="@+id/iv_clear_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_28"
+        android:padding="6dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_delete"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_email"
+        app:layout_constraintRight_toLeftOf="@+id/view_div"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_title" />
+
+    <View
+        android:id="@+id/loginView"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/login_view_line_color"
+        app:layout_constraintLeft_toRightOf="@id/iv_email"
+        app:layout_constraintRight_toLeftOf="@+id/gl_right"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
+
+    <ImageView
+        android:id="@+id/iv_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_password"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_password"
+        app:layout_constraintLeft_toRightOf="@+id/gl_left"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
+    <EditText
+        android:id="@+id/edt_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="@string/login_enter_password"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="textPassword"
+        android:padding="@dimen/dp_12"
+        android:textColor="@color/login_text_black_color"
+        android:textColorHint="@color/login_text_hint_color"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toRightOf="@+id/iv_password"
+        app:layout_constraintRight_toLeftOf="@+id/iv_clear_password"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
+
+    <ImageView
+        android:id="@+id/iv_clear_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_10"
+        android:padding="6dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_delete"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_password"
+        app:layout_constraintRight_toLeftOf="@+id/view_div"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
+
+    <View
+        android:id="@+id/view_div"
+        android:layout_width="@dimen/dp_1_5"
+        android:layout_height="@dimen/dp_19"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@color/login_line_color"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_password"
+        app:layout_constraintRight_toLeftOf="@+id/iv_show_password"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
+
+    <ImageView
+        android:id="@+id/iv_show_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_password_disshow"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_password"
+        app:layout_constraintRight_toLeftOf="@+id/gl_right"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
+    <View
+        android:id="@+id/view_password_line"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/login_view_line_color"
+        app:layout_constraintLeft_toRightOf="@id/iv_password"
+        app:layout_constraintRight_toLeftOf="@+id/gl_right"
+        app:layout_constraintTop_toBottomOf="@+id/edt_password" />
+
+
+    <TextView
+        android:id="@+id/tv_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/login_forget_password"
+        android:textColor="@color/login_text_blue_color"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toLeftOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@+id/view_password_line"
+
+        />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/login_bg_login_btn"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/login_log_in"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintLeft_toRightOf="@+id/gl_left"
+        app:layout_constraintRight_toLeftOf="@+id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/tv_forgot_password" />
+
+
+
+
+</android.support.constraint.ConstraintLayout>

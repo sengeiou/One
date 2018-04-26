@@ -1,7 +1,5 @@
 package com.ubt.loginmodule.requestModel;
 
-import com.ubt.baselib.utils.http1E.BaseRequest;
-
 /**
  * @author admin
  * @className
@@ -11,14 +9,21 @@ import com.ubt.baselib.utils.http1E.BaseRequest;
  */
 
 
-public class UpdateUserInfoRequest extends BaseRequest {
+public class UpdateUserInfoRequest extends BaseLoginRequest {
 
+    private String userId;
     private String nickName;
     private String sex;
-    private String grade;
-    private String age;
-    public String headPic;
-    private String phone;
+    private String birthDate;
+    private String headPic;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getNickName() {
         return nickName;
@@ -36,20 +41,12 @@ public class UpdateUserInfoRequest extends BaseRequest {
         this.sex = sex;
     }
 
-    public String getGrade() {
-        return grade;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getHeadPic() {
@@ -60,23 +57,14 @@ public class UpdateUserInfoRequest extends BaseRequest {
         this.headPic = headPic;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     @Override
     public String toString() {
         return "UpdateUserInfoRequest{" +
-                "nickName='" + nickName + '\'' +
+                "userId='" + userId + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", sex='" + sex + '\'' +
-                ", grade='" + grade + '\'' +
-                ", age='" + age + '\'' +
+                ", birthDate='" + birthDate + '\'' +
                 ", headPic='" + headPic + '\'' +
-                ", phone='" + phone + '\'' +
                 '}';
     }
 }

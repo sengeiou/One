@@ -24,11 +24,15 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('./ReleaseKey/alpha1s_ubtrobot.keystore')
+            storeFile file('./ReleaseKey/alpha1e_ubtrobot.jks')
             storePassword 'alpha1s_2015_4_10_ubtrobot'
-            keyAlias 'alpha 1s ubt'
+            keyAlias 'alpha 1e ubt'
             keyPassword 'alpha1s_2015_4_10_ubtrobot'
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     buildTypes {
@@ -76,7 +80,7 @@ dependencies {
     implementation deps.eventbus.eventbus
     compile(name: 'xingemodule-1.0.1.1', ext: 'aar')
     //    compile(name: 'tvsloginlib', ext: 'aar')
-    compile(name: 'loginmodule-1.0.1', ext: 'aar')
+    //    compile(name: 'loginmodule-1.0.1', ext: 'aar')
     compile(name: 'mainmodule-1.0.0.1', ext: 'aar')
     //    implementation('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2') {
     //        exclude group: 'com.tencent.wup'
@@ -85,7 +89,9 @@ dependencies {
     compile 'com.tencent.bugly:crashreport:2.6.6.1'
     //业务模块
     implementation project(':settingsmodule')
-     implementation project(':bluetoohmodule')
+    implementation project(':bluetoohmodule')
+    //    implementation project(':mainmodule')
+    implementation project(':loginmodule')
     implementation project(':actionmodule')
 
 //    implementation project(':mainmodule')

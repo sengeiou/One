@@ -21,6 +21,7 @@ public interface ModuleUtils {
      */
     String Login_Module = "/login/LoginActivity";
     String Login_UserEdit = "/login/UserEditActivity";
+    String FindPassword = "/login/FindPasswordActivity";
 
     String Main_MainActivity = "/main/MainActivity";  //主模块
 
@@ -56,5 +57,7 @@ public interface ModuleUtils {
     // String Bluetooh_BleStatuActivity = "/bluetooh/BleStatuActivity";
 
     String Bluetooh_ConnectService = "/bluetooh/ConnectService";
+
+
 
 }

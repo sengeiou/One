@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/login_img_bg"
+    >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_input_gender"
+        android:textColor="@color/login_text_black_color"
+        android:textSize="@dimen/sp_18"
+        android:layout_marginTop="@dimen/dp_37"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2"
+        />
+    <android.support.constraint.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8"
+        />
+
+    <ImageView
+        android:id="@+id/iv_gender_male"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_gender_selector"
+        android:scaleType="fitXY"
+        android:layout_marginTop="@dimen/dp_69"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:layout_constraintLeft_toRightOf="@+id/gl_left"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_gender_male"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/login_text_black_color"
+        android:layout_marginLeft="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_gender_male"
+        app:layout_constraintLeft_toRightOf="@+id/iv_gender_male"
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_gender_female"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_gender_selector"
+        android:scaleType="fitXY"
+        android:layout_marginRight="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_gender_male"
+        app:layout_constraintRight_toLeftOf="@+id/tv_female"
+        />
+
+    <TextView
+        android:id="@+id/tv_female"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_gender_female"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/login_text_black_color"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_gender_male"
+        app:layout_constraintLeft_toRightOf="@+id/gl_left"
+        app:layout_constraintRight_toLeftOf="@+id/gl_right"
+        />
+
+    <ImageView
+        android:id="@+id/iv_gender_robot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_gender_selector"
+        android:scaleType="fitXY"
+        android:layout_marginRight="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_gender_male"
+        app:layout_constraintRight_toLeftOf="@+id/tv_robot"
+        />
+
+    <TextView
+        android:id="@+id/tv_robot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_gender_robot"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/login_text_black_color"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_gender_male"
+        app:layout_constraintRight_toLeftOf="@+id/gl_right"
+        />
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_bg_login_btn"
+        android:text="@string/login_next"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_15"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_71"
+        app:layout_constraintTop_toBottomOf="@id/iv_gender_male"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        />
+
+</android.support.constraint.ConstraintLayout>

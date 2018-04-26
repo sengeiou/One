@@ -10,21 +10,21 @@
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
 
-        <activity
-            android:name="com.ubt.loginmodule.loginauth.LoginAuthActivity"
+        <activity android:name=".register.RegisterActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="LoginAuthActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
 
-        <activity
-            android:name="com.ubt.loginmodule.useredit.UserEditActivity"
-            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+        <activity android:name=".findPassword.FindPasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
+
+
     </application>
 
 </manifest>
