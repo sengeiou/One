@@ -35,6 +35,7 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
+                        ViseLog.d("LOGIN onSuccess:" + response);
 
                         BaseResponseModel<UserInfoModel> baseResponseModel = GsonImpl.get().toObject(response,
                                 new TypeToken<BaseResponseModel<UserInfoModel>>() {
@@ -56,7 +57,7 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
 
                     @Override
                     public void onFail(int i, String s) {
-                        ToastUtils.showShort("login failed");
+                        ToastUtils.showShort("login failed:" + s);
                     }
                 });
 

@@ -49,7 +49,7 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
         if(emptyNickName){
             CreateUserNameFragment createUserNameFragment = findFragment(CreateUserNameFragment.class);
             if(createUserNameFragment == null){
-                loadRootFragment(R.id.register_container, CreateAccountFragment.newInstance());
+                loadRootFragment(R.id.register_container, CreateUserNameFragment.newInstance());
             }
         }else{
             CreateAccountFragment createAccountFragment = findFragment(CreateAccountFragment.class);

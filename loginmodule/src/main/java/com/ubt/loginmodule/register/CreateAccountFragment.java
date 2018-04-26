@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.abby.tsnackbar.TSnackbar;
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.LoginUtil;
@@ -53,7 +54,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
     private boolean showPassword = false;
     private boolean select = true;
     RequestCountDown requestCountDown;
-    private static final long REQUEST_TIME = 61 * 1000;
+    private static final long REQUEST_TIME = 181 * 1000;
 
     public static CreateAccountFragment newInstance(){
         return new CreateAccountFragment();
@@ -196,6 +197,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
                 String password = edtPassword.getText().toString();
                 String code = edtSecurityCode.getText().toString();
                 mPresenter.signUp(email, password, code);
+                BaseLoadingDialog.show(getActivity());
             } else {
                 TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_input_wrong_email_warning, TSnackbar.LENGTH_LONG)
                         .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
@@ -250,11 +252,13 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
 
     @Override
     public void signUpSuccess() {
+        BaseLoadingDialog.dismiss(getActivity());
         start(CreateAccountSuccessFragment.newInstance());
     }
 
     @Override
     public void signUpFailed() {
+        BaseLoadingDialog.dismiss(getActivity());
         TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_signup_error_prompt,TSnackbar.LENGTH_LONG)
                 .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
                 .setMessageGravity(Gravity.CENTER)
