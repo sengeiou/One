@@ -28,6 +28,8 @@ import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.model.PrepareMusicModel;
 import com.vise.log.ViseLog;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,7 +239,7 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
             ImageView ivBackground = helper.getView(R.id.iv_action_select);
             if (TextUtils.isEmpty(item.getMusicName())) {
                 ivSelect.setVisibility(View.VISIBLE);
-              //  ivSelect.setImageResource(R.drawable.dottedline);
+                ivSelect.setImageResource(R.drawable.dottedline);
                 gifView.setVisibility(View.GONE);
                 ivDelete.setVisibility(View.GONE);
                 textView.setVisibility(View.INVISIBLE);
@@ -276,52 +278,52 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
     private MediaPlayer player;
 
     private void previewMusic(PrepareMusicModel prepareMusicModel) {
-//        ViseLog.d("PrepareMusicUtil", "previewMusic");
-//        if (isShowDelete) {
-//            return;
-//        }
-//        try {
-//            if (player != null) {
-//                player.stop();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        String name = prepareMusicModel.getMusicName();
-//        int songType = prepareMusicModel.getMusicType();
-//        String path = "";
-//        if (songType == 0) {
-//            path = setPlayFile(name);
-//        } else if (songType == 1) {
-//            path = FileTools.record + File.separator + name + ".mp3";
-//        }
-//        final File mp3 = new File(path);
-//        if (mp3.exists()) {
-//
-//            if (player == null) {
-//                player = new MediaPlayer();
-//                player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//                    @Override
-//                    public void onCompletion(MediaPlayer mp) {
-//                        ViseLog.d("onCompletion", "setOnCompletionListener");
-//                        stopPlayingAnimal();
-//                    }
-//                });
-//            }
-//            player.reset();
-//
-//            try {
-//                player.setDataSource(path);
-//                player.setOnPreparedListener(onPreparedListener);
-//                player.prepareAsync();
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//        }
+        ViseLog.d("PrepareMusicUtil", "previewMusic");
+        if (isShowDelete) {
+            return;
+        }
+        try {
+            if (player != null) {
+                player.stop();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String name = prepareMusicModel.getMusicName();
+        int songType = prepareMusicModel.getMusicType();
+        String path = "";
+        if (songType == 0) {
+            path = setPlayFile(name);
+        } else if (songType == 1) {
+            path = FileTools.record + File.separator + name + ".mp3";
+        }
+        final File mp3 = new File(path);
+        if (mp3.exists()) {
+
+            if (player == null) {
+                player = new MediaPlayer();
+                player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        ViseLog.d("onCompletion", "setOnCompletionListener");
+                        stopPlayingAnimal();
+                    }
+                });
+            }
+            player.reset();
+
+            try {
+                player.setDataSource(path);
+                player.setOnPreparedListener(onPreparedListener);
+                player.prepareAsync();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
 
@@ -335,21 +337,21 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
 
     String mCurrentSourcePath = "";
 
-//    private String setPlayFile(String fileName) {
-//
-//        mCurrentSourcePath = FileTools.tmp_file_cache + "/" + fileName + ".mp3";
-//        boolean isFileCreateSuccess = FileTools.writeAssetsToSd("music/" + fileName + ".mp3", mContext, mCurrentSourcePath);
-//
-//        ViseLog.d("setPlayFile", "isFileCreateSuccess:" + isFileCreateSuccess);
-//        if (isFileCreateSuccess) {
-//
-//            return mCurrentSourcePath;
-//
-//        } else {
-//            return "";
-//        }
-//
-//    }
+    private String setPlayFile(String fileName) {
+
+        mCurrentSourcePath = FileTools.tmp_file_cache + "/" + fileName + ".mp3";
+        boolean isFileCreateSuccess = FileTools.writeAssetsToSd("music/" + fileName + ".mp3", mContext, mCurrentSourcePath);
+
+        ViseLog.d("setPlayFile", "isFileCreateSuccess:" + isFileCreateSuccess);
+        if (isFileCreateSuccess) {
+
+            return mCurrentSourcePath;
+
+        } else {
+            return "";
+        }
+
+    }
 
     /**
      * 停止动画

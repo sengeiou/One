@@ -12,7 +12,7 @@
     <ImageView
         android:id="@+id/bleImageview2"
         android:layout_width="wrap_content"
-        android:layout_height="339dp"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/img_robot_press"/>
@@ -23,11 +23,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_136"
         android:gravity="center"
+        android:layout_marginLeft="@dimen/dp_60"
         android:text="@string/ble_start_tip"
         android:textColor="@color/base_tv_large_black"
         android:textSize="@dimen/sp_15"
         app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/bleImageview2"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <CheckBox
@@ -42,8 +43,8 @@
         android:text="@string/ble_sure_start"
         android:textColor="@color/base_tv_large_black"
         android:textSize="@dimen/sp_14"
-        app:layout_constraintEnd_toEndOf="@+id/ble_tvname"
-        app:layout_constraintStart_toStartOf="@+id/ble_tvname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ble_tvname"/>
 
 
@@ -58,7 +59,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/sp_15"
         android:enabled="false"
-        app:layout_constraintEnd_toEndOf="@+id/ble_checkbox"
-        app:layout_constraintStart_toStartOf="@+id/ble_checkbox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ble_checkbox"/>
 </android.support.constraint.ConstraintLayout>

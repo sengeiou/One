@@ -107,7 +107,6 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
         int i = view.getId();
         if (i == R.id.iv_back) {
             finish();
-
         } else if (i == R.id.ble_input) {
             BleWifiInputActivity.launch(this, "", isFirstEnter);
 
