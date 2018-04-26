@@ -13,6 +13,8 @@ public interface Constant1E {
     String SP_ROBOT_PRODUCT_ID = "sp_robot_product_id";
     String SP_ROBOT_DSN = "sp_robot_dsn";
 
+    public final String IS_FIRST_ENTER_GREET="first_enter_greet";
+
     /**
      * 用户账号属性
      */

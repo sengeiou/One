@@ -1250,7 +1250,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
                 }
 
             }
-            ivPlay.setImageResource(R.drawable.ic_play_disable);
+            ivPlay.setImageResource(R.drawable.ic_pause);
             doPlayCurrentFrames();
             play();
 

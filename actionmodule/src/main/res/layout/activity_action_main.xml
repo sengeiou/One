@@ -48,6 +48,7 @@
             android:id="@+id/rl_action_create"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
             android:layout_weight="0.4"
             >
 

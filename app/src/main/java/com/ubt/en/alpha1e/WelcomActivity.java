@@ -10,9 +10,6 @@ import android.widget.ImageView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.commonModule.ModuleUtils;
-import com.ubt.baselib.globalConst.Constant1E;
-import com.ubt.baselib.model1E.UserInfoModel;
-import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.vise.log.ViseLog;
 import com.yanzhenjie.permission.AndPermission;
@@ -140,9 +137,6 @@ public class WelcomActivity extends AppCompatActivity {
      * 跳转到其它模块
      */
     private void startMainActivity(){
-
-        final UserInfoModel userInfoModel = (UserInfoModel)SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
-
         final String startModule = ModuleUtils.Login_Module;
         /*UserModel userModel = (UserModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         if (null != userModel) {

@@ -111,10 +111,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
     public void onClickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_back) {
-            if (!isFromFirst) {
-                finish();
-            }
-
+            finish();
         } else if (i == R.id.iv_help) {
         } else if (i == R.id.ble_tryagain) {
             mBleConnectLoading.setVisibility(View.VISIBLE);
