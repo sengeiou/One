@@ -2,6 +2,7 @@ package com.ubt.en.alpha1e.ble.activity;
 
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -107,14 +109,15 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         mPresenter.getRobotBleConnect();
     }
 
-    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3})
+    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect})
     public void clickView(View view) {
         int i = view.getId();
-        if (i == R.id.bleImageview3) {
+        if (i == R.id.iv_back_disconnect) {
+            finish();
+        } else if (i == R.id.bleImageview3) {
             finish();
         } else if (i == R.id.ble_statu_connect) {
             BleConnectActivity.launch(this, false);
-
         } else if (i == R.id.tv_wifi_select) {
             BleSearchWifiActivity.launch(this, false);
 
@@ -172,9 +175,24 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
             mTvRobotIp.setText(bleNetWork.getIp());
             mIvNotconnectWifi.setVisibility(View.GONE);
         } else {
-            mTvWifiSelect.setText("");
+            mTvWifiSelect.setText(SkinManager.getInstance().getTextById(R.string.ble_choose_a_wifi));
             mTvRobotIp.setText("");
             mIvNotconnectWifi.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void setRobotSoftVersion(String softVersion) {
+
+        if (!TextUtils.isEmpty(softVersion)) {
+            mTvRobotVersion.setText(softVersion);
+        }
+    }
+
+    @Override
+    public void setRobotSN(String SN) {
+        if (!TextUtils.isEmpty(SN)) {
+            mTvRobotSerial.setText(SN);
         }
     }
 

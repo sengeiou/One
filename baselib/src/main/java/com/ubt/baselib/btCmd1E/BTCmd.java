@@ -432,7 +432,7 @@ public interface BTCmd {
      */
     byte DV_INTO_EDIT = (byte) 0x95;
 
-    /**
+    /** 跌倒保护
      * 传感器控制命令 0 禁止 1 启用
      */
     byte DV_SENSOR_CONTROL = (byte) 0x96;
@@ -443,6 +443,12 @@ public interface BTCmd {
      */
     byte DV_CONTROL_ENGINE_COMMAND = (byte) 0x97;
 
+    /*启用禁用红外传感器命令:0x98
+    参数1(1B):0读取,1设置
+    参数2(1B):0禁用,1启用(参数1为读取的时候,参数2设为0)
+
+    回复:(1B) 0禁用 1启用*/
+    byte DV_CONTROL_IR_SENSOR = (byte) 0x98;
 
     /**
      * 获取行为事项播放状态

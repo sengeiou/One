@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" tools:ignore="ResourceName">
+
+    <item android:drawable="@drawable/ic_senior_action_disable" android:state_enabled="false"/>
+    <item android:drawable="@drawable/ic_senior_action" android:state_selected="true" />
+    <item android:drawable="@drawable/ic_senior_action"/>
+
+
+</selector>

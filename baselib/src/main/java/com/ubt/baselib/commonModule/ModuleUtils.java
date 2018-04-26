@@ -29,7 +29,6 @@ public interface ModuleUtils {
      * 设置模块
      */
     String Setting_UserCenterActivity = "/setting/UserCenterActivity";
-    String Bluetooh_BleGuideActivity = "/bluetooh/BleGuideActivity"; //蓝牙模块引导
     String Bluetooh_BleStatuActivity = "/bluetooh/BleStatuActivity"; //蓝牙模块状态
 
     /**
@@ -46,16 +45,6 @@ public interface ModuleUtils {
 
     String Playcenter_module = "/playcenter/PlayCenter";  //播放中心模块
 
-
-    /**
-     * 蓝牙搜索连接页面
-     */
-    String Bluetooh_BleConnectActivity = "/bluetooh/BleConnectActivity";
-
-    /**
-     * wifi连接页面
-     */
-    String Bluetooh_BleSearchWifiActivity = "/bluetooh/BleSearchWifiActivity";
 
     /**
      * wifi密码输入页面

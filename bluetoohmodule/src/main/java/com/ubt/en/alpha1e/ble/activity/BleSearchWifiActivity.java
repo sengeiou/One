@@ -13,9 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.en.alpha1e.ble.Contact.WifiConnectContact;
 import com.ubt.en.alpha1e.ble.R;
@@ -33,7 +31,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-@Route(path = ModuleUtils.Bluetooh_BleSearchWifiActivity)
 public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.View, WifiConnectPrenster> implements WifiConnectContact.View, BaseQuickAdapter.OnItemClickListener {
 
     @BindView(R2.id.iv_back)
@@ -111,7 +108,7 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
         if (i == R.id.iv_back) {
             finish();
 
-        } else if (i == R.id.ble_input) {//   ARouter.getInstance().build(ModuleUtils.Bluetooh_BleWifiInputActivity).withString("WIFI_NAME", "").navigation();
+        } else if (i == R.id.ble_input) {
             BleWifiInputActivity.launch(this, "", isFirstEnter);
 
         }
@@ -127,7 +124,6 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         ScanResult scanResult = (ScanResult) adapter.getData().get(position);
-        //ARouter.getInstance().build(ModuleUtils.Bluetooh_BleWifiInputActivity).withString("WIFI_NAME", scanResult.SSID).navigation();
         BleWifiInputActivity.launch(this, scanResult.SSID, isFirstEnter);
     }
 }

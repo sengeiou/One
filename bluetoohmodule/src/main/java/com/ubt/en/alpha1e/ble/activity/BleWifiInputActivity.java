@@ -99,12 +99,11 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
             finish();
 
         } else if (i == R.id.ble_iv_close) {
+            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
             finish();
 
         } else if (i == R.id.ble_choose_wifi) {
-            ARouter.getInstance().build(ModuleUtils.Bluetooh_BleSearchWifiActivity).navigation();
             finish();
-
         } else if (i == R.id.ble_show_passwd) {
             isShowPassWord = !isShowPassWord;
             mBleShowPasswd.setImageResource(isShowPassWord ? R.drawable.ic_password_show : R.drawable.ic_password_disshow);
@@ -180,9 +179,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
                 connectWifiResult(3);
             } else if (msg.what == MESSAGE_WHAT_DISSMISS_SUCCESS) {//连接成功对话框消失
                 BaseLoadingDialog.dismiss(BleWifiInputActivity.this);
-                if (!isFirstEnter) {
-                    startActivity(new Intent(BleWifiInputActivity.this, BleStatuActivity.class));
-                }
+                ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
                 finish();
             } else if (msg.what == MESSAGE_WHAT_DISSMISS_FAILED) {//连接失败对话框消失
                 BaseLoadingDialog.dismiss(BleWifiInputActivity.this);

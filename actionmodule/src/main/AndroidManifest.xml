@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.ubt.en.alpha1e.action">
+
+    <application>
+        <activity
+            android:name=".ActionCreateActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity android:name=".ActionMainActivity">
+        </activity>
+    </application>
+
+</manifest>

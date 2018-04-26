@@ -30,7 +30,7 @@
         android:textSize="@dimen/sp_15"
         />
 
-    <Button
+    <TextView
         android:id="@+id/btn_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +38,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_15"
-        android:background="@drawable/btn_blue"
+        android:background="@drawable/btn_blue_choose_robot"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_15"
         />

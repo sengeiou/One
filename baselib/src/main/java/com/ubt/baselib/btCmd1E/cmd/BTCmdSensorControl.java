@@ -17,8 +17,19 @@ public class BTCmdSensorControl extends BaseBTReq {
     byte    cmd = BTCmd.DV_SENSOR_CONTROL;
     byte[] parm = {0x01, 0x00};
 
+    /**
+     * 写命令构造函数
+    * */
     public BTCmdSensorControl(byte bparm) {
         parm[1] = bparm;
+        initReq(cmd, parm);
+    }
+
+    /**
+     * 读命令构造函数
+     * */
+    public BTCmdSensorControl(){
+        parm[0] = 0x00;
         initReq(cmd, parm);
     }
 }
