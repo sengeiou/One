@@ -79,12 +79,8 @@ dependencies {
     //eventbus3.0.0
     implementation deps.eventbus.eventbus
     compile(name: 'xingemodule-1.0.1.1', ext: 'aar')
-    //    compile(name: 'tvsloginlib', ext: 'aar')
     //    compile(name: 'loginmodule-1.0.1', ext: 'aar')
     compile(name: 'mainmodule-1.0.0.1', ext: 'aar')
-    //    implementation('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2') {
-    //        exclude group: 'com.tencent.wup'
-    //    }
     //腾讯bugly
     compile 'com.tencent.bugly:crashreport:2.6.6.1'
     //业务模块
@@ -93,6 +89,6 @@ dependencies {
     //    implementation project(':mainmodule')
     implementation project(':loginmodule')
     implementation project(':actionmodule')
-    //    implementation project(':mainmodule')
     implementation project(':blocklymodule')
+
 }

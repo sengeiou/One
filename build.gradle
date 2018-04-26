@@ -25,6 +25,7 @@ allprojects {
         jcenter()
         flatDir {
             dirs  "../baselib/libs"
+            dirs  "../../Alpha1Ebot_En/baselib/libs"
         }
         maven {
             url uri('repo')
