@@ -16,7 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author admin
@@ -924,19 +926,19 @@ public class ActionConstant {
             listSongs.add(prepareMusicModel);
         }
 
-//        ViseLog.d("getMusicList", "record:" + FileTools.readFiles(FileTools.record).toString());
-//        List<String> listRecord = FileTools.readFiles(FileTools.record);
-//        for (int i = 0; i < listRecord.size(); i++) {
-//            Map<String, Object> map = new HashMap<String, Object>();
-//            String name = listRecord.get(i);
-//            name = name.substring(0, name.length() - 4);
-//            ViseLog.d("getMusicList", "record name:" + name);
-//
-//            PrepareMusicModel prepareMusicModel = new PrepareMusicModel();
-//            prepareMusicModel.setMusicName(name);
-//            prepareMusicModel.setMusicType(1);
-//            listSongs.add(prepareMusicModel);
-//        }
+        ViseLog.d("getMusicList", "record:" + FileTools.readFiles(FileTools.record).toString());
+        List<String> listRecord = FileTools.readFiles(FileTools.record);
+        for (int i = 0; i < listRecord.size(); i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            String name = listRecord.get(i);
+            name = name.substring(0, name.length() - 4);
+            ViseLog.d("getMusicList", "record name:" + name);
+
+            PrepareMusicModel prepareMusicModel = new PrepareMusicModel();
+            prepareMusicModel.setMusicName(name);
+            prepareMusicModel.setMusicType(1);
+            listSongs.add(prepareMusicModel);
+        }
         return listSongs;
     }
 

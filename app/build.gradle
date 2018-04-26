@@ -92,7 +92,7 @@ dependencies {
     implementation project(':bluetoohmodule')
     //    implementation project(':mainmodule')
     implementation project(':loginmodule')
-    implementation project(':actionmodule')
+  //  implementation project(':actionmodule')
 
 //    implementation project(':mainmodule')
 }
