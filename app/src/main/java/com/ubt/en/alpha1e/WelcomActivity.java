@@ -150,10 +150,11 @@ public class WelcomActivity extends AppCompatActivity {
                 }
             }
         }*/
+        ARouter.getInstance().build(startModule).navigation();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ARouter.getInstance().build(startModule).navigation();
                 WelcomActivity.this.finish();
             }
         },1000);
