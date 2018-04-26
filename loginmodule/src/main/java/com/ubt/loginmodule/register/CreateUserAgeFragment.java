@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.R2;
 import com.ubt.loginmodule.login.LoginActivity;
 import com.weigan.loopview.LoopView;
 import com.weigan.loopview.OnItemSelectedListener;
@@ -35,13 +36,13 @@ import butterknife.Unbinder;
 public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View, RegisterPresenter> implements RegisterContract.View {
 
     private Unbinder unbinder;
-    @BindView(R.id.loopView_year)
+    @BindView(R2.id.loopView_year)
     LoopView loopViewYear;
-    @BindView(R.id.loopView_month)
+    @BindView(R2.id.loopView_month)
     LoopView loopViewMonth;
-    @BindView(R.id.loopView_day)
+    @BindView(R2.id.loopView_day)
     LoopView loopViewDay;
-    @BindView(R.id.btn_finish)
+    @BindView(R2.id.btn_finish)
     Button btnFinish;
     private List<String> listYear;
     private List<String> listMonth ;
@@ -132,7 +133,7 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
 
     }
 
-    @OnClick(R.id.btn_finish)
+    @OnClick(R2.id.btn_finish)
     public void onClick() {
         String birthday = year + "-" + month + "-" + day;
         mPresenter.updateUserInfo("","",birthday);

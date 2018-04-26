@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.R2;
 
 import java.util.List;
 
@@ -32,9 +33,9 @@ import butterknife.Unbinder;
 public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContract.View, RegisterPresenter> implements RegisterContract.View {
 
     private Unbinder unbinder;
-    @BindView(R.id.tv_account)
+    @BindView(R2.id.tv_account)
     TextView tvAccount;
-    @BindView(R.id.btn_next)
+    @BindView(R2.id.btn_next)
     Button btnNext;
 
     public static CreateAccountSuccessFragment newInstance(){
@@ -59,7 +60,7 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
         return view;
     }
 
-    @OnClick(R.id.btn_next)
+    @OnClick(R2.id.btn_next)
     public void onClickView(){
         start(CreateUserNameFragment.newInstance());
     }

@@ -1,4 +1,4 @@
-package com.ubt.loginmodule.userModel;
+package com.ubt.baselib.model1E;
 
 /**
  * @author admin

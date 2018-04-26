@@ -6,12 +6,14 @@ import android.widget.ImageView;
 
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.R2;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * MVPPlugin
@@ -21,8 +23,9 @@ import butterknife.OnClick;
 
 public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, RegisterPresenter> implements RegisterContract.View {
 
-    @BindView(R.id.iv_back)
+    @BindView(R2.id.iv_back)
     ImageView ivBack;
+    Unbinder unbinder;
 
     @Override
     public int getContentViewId() {
@@ -32,15 +35,20 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         CreateAccountFragment createAccountFragment = findFragment(CreateAccountFragment.class);
         if (createAccountFragment == null) {
             loadRootFragment(R.id.register_container, CreateAccountFragment.newInstance());
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
 
-    @OnClick(R.id.iv_back)
+    @OnClick(R2.id.iv_back)
     public void onClick() {
         if(getSupportFragmentManager().getBackStackEntryCount() > 1){
             pop();

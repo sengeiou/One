@@ -2,15 +2,15 @@ package com.ubt.loginmodule.login;
 
 
 import com.google.gson.reflect.TypeToken;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BaseResponseModel;
+import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
-import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.LoginHttpEntity;
 import com.ubt.loginmodule.requestModel.LoginRequest;
-import com.ubt.loginmodule.userModel.UserInfoModel;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -43,7 +43,7 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                         if(baseResponseModel.status){
                             UserInfoModel userInfoModel = baseResponseModel.models;
                             ViseLog.d("LOGIN onSuccess:" + userInfoModel.toString());
-                            SPUtils.getInstance().saveObject(LoginSP.SP_USERINFO, userInfoModel);
+                            SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO, userInfoModel);
                             if(mView != null){
                                 mView.loginSuccess();
                             }

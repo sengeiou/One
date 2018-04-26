@@ -19,6 +19,7 @@ import com.app.abby.tsnackbar.TSnackbar;
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.R2;
 import com.ubt.loginmodule.TextWatcherUtil;
 import com.ubt.loginmodule.login.LoginActivity;
 
@@ -39,25 +40,25 @@ import butterknife.Unbinder;
 public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.View, FindPasswordPresenter> implements FindPasswordContract.View {
 
     Unbinder unbinder;
-    @BindView(R.id.iv_back)
+    @BindView(R2.id.iv_back)
     ImageView ivBack;
-    @BindView(R.id.edt_password)
+    @BindView(R2.id.edt_password)
     EditText edtPassword;
-    @BindView(R.id.iv_clear_password)
+    @BindView(R2.id.iv_clear_password)
     ImageView ivClearPassword;
-    @BindView(R.id.iv_show_password)
+    @BindView(R2.id.iv_show_password)
     ImageView ivShowPassword;
-    @BindView(R.id.edt_password_again)
+    @BindView(R2.id.edt_password_again)
     EditText edtPasswordAgain;
-    @BindView(R.id.iv_clear_password_again)
+    @BindView(R2.id.iv_clear_password_again)
     ImageView ivClearPasswordAgain;
-    @BindView(R.id.iv_show_password_again)
+    @BindView(R2.id.iv_show_password_again)
     ImageView ivShowPasswordAgain;
-    @BindView(R.id.btn_confirm)
+    @BindView(R2.id.btn_confirm)
     Button btnConfirm;
-    @BindView(R.id.view_div)
+    @BindView(R2.id.view_div)
     View viewDiv;
-    @BindView(R.id.view_div_again)
+    @BindView(R2.id.view_div_again)
     View viewDivAgain;
     private boolean showPassword = false;
     private boolean showPasswordAgain = false;
@@ -122,63 +123,63 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
         }));
     }
 
-    @OnClick({R.id.iv_clear_password, R.id.iv_clear_password_again, R.id.iv_show_password, R.id.iv_show_password_again, R.id.btn_confirm,R.id.iv_back})
+    @OnClick({R2.id.iv_clear_password, R2.id.iv_clear_password_again, R2.id.iv_show_password, R2.id.iv_show_password_again, R2.id.btn_confirm,R2.id.iv_back})
     public void onClickView(View view) {
-        switch (view.getId()){
-            case R.id.iv_back:
-                pop();
-                break;
-            case R.id.iv_clear_password:
-                edtPassword.setText("");
-                break;
-            case R.id.iv_clear_password_again:
-                edtPasswordAgain.setText("");
-                break;
-            case R.id.iv_show_password:
-                if(showPassword){
-                    //if show hidden
-                    edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    edtPassword.setSelection(edtPassword.getText().length());
-                    ivShowPassword.setImageResource(R.drawable.ic_password_disshow);
-                    showPassword = false;
-                }else{
-                    // if hidden show
-                    edtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    edtPassword.setSelection(edtPassword.getText().length());
-                    ivShowPassword.setImageResource(R.drawable.ic_password_show);
-                    showPassword = true;
-                }
-                break;
-            case R.id.iv_show_password_again:
-                if(showPasswordAgain){
-                    //if show hidden
-                    edtPasswordAgain.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    edtPasswordAgain.setSelection(edtPasswordAgain.getText().length());
-                    ivShowPasswordAgain.setImageResource(R.drawable.ic_password_disshow);
-                    showPasswordAgain = false;
-                }else{
-                    // if hidden show
-                    edtPasswordAgain.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    edtPasswordAgain.setSelection(edtPasswordAgain.getText().length());
-                    ivShowPasswordAgain.setImageResource(R.drawable.ic_password_show);
-                    showPasswordAgain = true;
-                }
-                break;
-            case R.id.btn_confirm:
-                String password = edtPassword.getText().toString();
-                String passwordAgain = edtPasswordAgain.getText().toString();
-                if(password.equals(passwordAgain)){
-                    mPresenter.resetPassword(email,edtPassword.getText().toString());
-                }else{
-                    TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_password_confirm_not_match,TSnackbar.LENGTH_LONG)
-                            .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
-                            .setMessageGravity(Gravity.CENTER)
-                            .setMessageTextColor(getResources().getColor(R.color.white))
-                            .show();
-                }
+        int i = view.getId();
+        if (i == R.id.iv_back) {
+            pop();
 
-                break;
-            default:break;
+        } else if (i == R.id.iv_clear_password) {
+            edtPassword.setText("");
+
+        } else if (i == R.id.iv_clear_password_again) {
+            edtPasswordAgain.setText("");
+
+        } else if (i == R.id.iv_show_password) {
+            if (showPassword) {
+                //if show hidden
+                edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                edtPassword.setSelection(edtPassword.getText().length());
+                ivShowPassword.setImageResource(R.drawable.ic_password_disshow);
+                showPassword = false;
+            } else {
+                // if hidden show
+                edtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                edtPassword.setSelection(edtPassword.getText().length());
+                ivShowPassword.setImageResource(R.drawable.ic_password_show);
+                showPassword = true;
+            }
+
+        } else if (i == R.id.iv_show_password_again) {
+            if (showPasswordAgain) {
+                //if show hidden
+                edtPasswordAgain.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                edtPasswordAgain.setSelection(edtPasswordAgain.getText().length());
+                ivShowPasswordAgain.setImageResource(R.drawable.ic_password_disshow);
+                showPasswordAgain = false;
+            } else {
+                // if hidden show
+                edtPasswordAgain.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                edtPasswordAgain.setSelection(edtPasswordAgain.getText().length());
+                ivShowPasswordAgain.setImageResource(R.drawable.ic_password_show);
+                showPasswordAgain = true;
+            }
+
+        } else if (i == R.id.btn_confirm) {
+            String password = edtPassword.getText().toString();
+            String passwordAgain = edtPasswordAgain.getText().toString();
+            if (password.equals(passwordAgain)) {
+                mPresenter.resetPassword(email, edtPassword.getText().toString());
+            } else {
+                TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_password_confirm_not_match, TSnackbar.LENGTH_LONG)
+                        .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
+                        .setMessageGravity(Gravity.CENTER)
+                        .setMessageTextColor(getResources().getColor(R.color.white))
+                        .show();
+            }
+
+
+        } else {
         }
     }
 

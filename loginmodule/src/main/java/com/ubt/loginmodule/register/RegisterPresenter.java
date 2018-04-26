@@ -4,18 +4,18 @@ package com.ubt.loginmodule.register;
 import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BaseResponseModel;
+import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
-import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.LoginHttpEntity;
 import com.ubt.loginmodule.requestModel.GetCodeRequest;
 import com.ubt.loginmodule.requestModel.RegisterRequest;
 import com.ubt.loginmodule.requestModel.UpdateUserInfoRequest;
 import com.ubt.loginmodule.userModel.UserIdModel;
-import com.ubt.loginmodule.userModel.UserInfoModel;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -87,7 +87,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                                 userInfoModel.setUserId(userIdModel.getUserId());
                                 userInfoModel.setEmail(account);
                                 ViseLog.d("userInfoModel:" + userInfoModel);
-                                SPUtils.getInstance().saveObject(LoginSP.SP_USERINFO, userInfoModel);
+                                SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO, userInfoModel);
 //                                SPUtils.getInstance().put(LoginSP.SP_USER_ID,userIdModel.getUserId());
 //                                SPUtils.getInstance().put(LoginSP.SP_EMAIL, account);
 //                                SpCache spCache = new SpCache(ContextUtils.getContext());
@@ -161,7 +161,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
     @Override
     public void updateUserInfo(String userName, String sex, String birth) {
         UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
-        final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(LoginSP.SP_USERINFO);
+        final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         ViseLog.d("userInfoModel:" + userInfoModel);
 //        updateUserInfoRequest.setEmail(SPUtils.getInstance().getString(LoginSP.SP_EMAIL));
 //        updateUserInfoRequest.setUserId(SPUtils.getInstance().getString(LoginSP.SP_USER_ID));

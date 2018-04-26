@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.R2;
 
 import java.util.List;
 
@@ -35,17 +36,17 @@ import butterknife.Unbinder;
 public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.View, RegisterPresenter> implements RegisterContract.View {
 
     private Unbinder unbinder;
-    @BindView(R.id.edt_first_name)
+    @BindView(R2.id.edt_first_name)
     EditText edtFirstName;
-    @BindView(R.id.edt_last_name)
+    @BindView(R2.id.edt_last_name)
     EditText edtLastName;
-    @BindView(R.id.view_first_name)
+    @BindView(R2.id.view_first_name)
     View viewFistName;
-    @BindView(R.id.view_last_name)
+    @BindView(R2.id.view_last_name)
     View viewLastName;
-    @BindView(R.id.btn_next)
+    @BindView(R2.id.btn_next)
     Button btnNext;
-    @BindView(R.id.tv_hint)
+    @BindView(R2.id.tv_hint)
     TextView tvHint;
 
     public static CreateUserNameFragment newInstance(){
@@ -70,7 +71,7 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
         return view;
     }
 
-    @OnClick(R.id.btn_next)
+    @OnClick(R2.id.btn_next)
     public void onClick() {
         String firstName = edtFirstName.getText().toString();
         String lastName = edtLastName.getText().toString();

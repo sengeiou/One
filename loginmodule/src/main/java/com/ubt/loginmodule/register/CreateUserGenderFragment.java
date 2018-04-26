@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.R2;
 
 import java.util.List;
 
@@ -32,13 +33,13 @@ import butterknife.Unbinder;
 public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.View, RegisterPresenter> implements RegisterContract.View {
 
     private Unbinder unbinder;
-    @BindView(R.id.iv_gender_male)
+    @BindView(R2.id.iv_gender_male)
     ImageView ivGenderMale;
-    @BindView(R.id.iv_gender_female)
+    @BindView(R2.id.iv_gender_female)
     ImageView ivGenderFemale;
-    @BindView(R.id.iv_gender_robot)
+    @BindView(R2.id.iv_gender_robot)
     ImageView ivGenderRobot;
-    @BindView(R.id.btn_next)
+    @BindView(R2.id.btn_next)
     Button btnNext;
     private String sex = "1";
 
@@ -69,33 +70,32 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
         ivGenderMale.setSelected(true);
     }
 
-    @OnClick({R.id.iv_gender_male, R.id.iv_gender_female,R.id.iv_gender_robot,R.id.btn_next})
+    @OnClick({R2.id.iv_gender_male, R2.id.iv_gender_female,R2.id.iv_gender_robot,R2.id.btn_next})
     public void onClickView(View view) {
-        switch (view.getId()){
-            case R.id.iv_gender_male:
-                sex = "1";
-                ivGenderMale.setSelected(true);
-                ivGenderFemale.setSelected(false);
-                ivGenderRobot.setSelected(false);
-                break;
-            case R.id.iv_gender_female:
-                sex = "2";
-                ivGenderMale.setSelected(false);
-                ivGenderFemale.setSelected(true);
-                ivGenderRobot.setSelected(false);
-                break;
-            case R.id.iv_gender_robot:
-                sex = "3";
-                ivGenderMale.setSelected(false);
-                ivGenderFemale.setSelected(false);
-                ivGenderRobot.setSelected(true);
-                break;
-            case R.id.btn_next:
-                mPresenter.updateUserInfo("", sex, "");
+        int i = view.getId();
+        if (i == R.id.iv_gender_male) {
+            sex = "1";
+            ivGenderMale.setSelected(true);
+            ivGenderFemale.setSelected(false);
+            ivGenderRobot.setSelected(false);
+
+        } else if (i == R.id.iv_gender_female) {
+            sex = "2";
+            ivGenderMale.setSelected(false);
+            ivGenderFemale.setSelected(true);
+            ivGenderRobot.setSelected(false);
+
+        } else if (i == R.id.iv_gender_robot) {
+            sex = "3";
+            ivGenderMale.setSelected(false);
+            ivGenderFemale.setSelected(false);
+            ivGenderRobot.setSelected(true);
+
+        } else if (i == R.id.btn_next) {
+            mPresenter.updateUserInfo("", sex, "");
 //                start(CreateUserAgeFragment.newInstance());
-                break;
-            default:
-                break;
+
+        } else {
         }
     }
 

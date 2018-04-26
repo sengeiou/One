@@ -21,6 +21,7 @@ import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.R2;
 import com.ubt.loginmodule.TextWatcherUtil;
 
 import java.util.List;
@@ -37,17 +38,17 @@ import butterknife.Unbinder;
  */
 public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.View, RegisterPresenter> implements RegisterContract.View {
     private Unbinder unbinder;
-    @BindView(R.id.edt_email) EditText edtEmail;
-    @BindView(R.id.edt_password) EditText edtPassword;
-    @BindView(R.id.edt_security_code) EditText edtSecurityCode;
-    @BindView(R.id.iv_clear_account) ImageView ivClearAccount;
-    @BindView(R.id.iv_clear_password) ImageView ivClearPassword;
-    @BindView(R.id.iv_show_password) ImageView ivShowPassword;
-    @BindView(R.id.btn_send_security) Button btnSendSecurityCode;
-    @BindView(R.id.btn_sign_up) Button btnSignUp;
-    @BindView(R.id.iv_privacy) ImageView ivPrivacy;
-    @BindView(R.id.tv_service_privacy) TextView tvServicePrivacy;
-    @BindView(R.id.view_div) View viewDiv;
+    @BindView(R2.id.edt_email) EditText edtEmail;
+    @BindView(R2.id.edt_password) EditText edtPassword;
+    @BindView(R2.id.edt_security_code) EditText edtSecurityCode;
+    @BindView(R2.id.iv_clear_account) ImageView ivClearAccount;
+    @BindView(R2.id.iv_clear_password) ImageView ivClearPassword;
+    @BindView(R2.id.iv_show_password) ImageView ivShowPassword;
+    @BindView(R2.id.btn_send_security) Button btnSendSecurityCode;
+    @BindView(R2.id.btn_sign_up) Button btnSignUp;
+    @BindView(R2.id.iv_privacy) ImageView ivPrivacy;
+    @BindView(R2.id.tv_service_privacy) TextView tvServicePrivacy;
+    @BindView(R2.id.view_div) View viewDiv;
 
     private boolean showPassword = false;
     private boolean select = true;
@@ -141,86 +142,81 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
         }));
     }
 
-    @OnClick({R.id.iv_clear_account, R.id.iv_clear_password, R.id.iv_show_password, R.id.btn_send_security,R.id.btn_sign_up,R.id.iv_privacy,R.id.tv_service_privacy})
+    @OnClick({R2.id.iv_clear_account, R2.id.iv_clear_password, R2.id.iv_show_password, R2.id.btn_send_security,R2.id.btn_sign_up,R2.id.iv_privacy,R2.id.tv_service_privacy})
     public void onClickView(View view){
-        switch (view.getId()){
-            case R.id.iv_clear_account:
-                edtEmail.setText("");
-                break;
-            case R.id.iv_clear_password:
-                edtPassword.setText("");
-                break;
-            case R.id.iv_show_password:
-                if(showPassword){
-                    //if show hidden
-                    edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    edtPassword.setSelection(edtPassword.getText().length());
-                    ivShowPassword.setImageResource(R.drawable.ic_password_disshow);
-                    showPassword = false;
-                }else{
-                    // if hidden show
-                    edtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    edtPassword.setSelection(edtPassword.getText().length());
-                    ivShowPassword.setImageResource(R.drawable.ic_password_show);
-                    showPassword = true;
-                }
-                break;
-            case R.id.btn_send_security:
-                //TODO send code to service
-                if(LoginUtil.isEmail(edtEmail.getText().toString())){
-                    String email = edtEmail.getText().toString();
-                    mPresenter.sendSecurityCode(email);
-                    requestCountDown.start();
-                    btnSendSecurityCode.setEnabled(false);
-                }else{
-                    TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_input_wrong_email_warning,TSnackbar.LENGTH_LONG)
-                            .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
-                            .setMessageGravity(Gravity.CENTER)
-                            .setMessageTextColor(getResources().getColor(R.color.white))
-                            .show();
-                }
-                break;
-            case R.id.btn_sign_up:
-                //TODO sign up
-                if(!select){
-                    TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_select_privacy,TSnackbar.LENGTH_LONG)
-                            .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
-                            .setMessageGravity(Gravity.CENTER)
-                            .setMessageTextColor(getResources().getColor(R.color.white))
-                            .show();
-                    return;
-                }
+        int i = view.getId();
+        if (i == R.id.iv_clear_account) {
+            edtEmail.setText("");
+
+        } else if (i == R.id.iv_clear_password) {
+            edtPassword.setText("");
+
+        } else if (i == R.id.iv_show_password) {
+            if (showPassword) {
+                //if show hidden
+                edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                edtPassword.setSelection(edtPassword.getText().length());
+                ivShowPassword.setImageResource(R.drawable.ic_password_disshow);
+                showPassword = false;
+            } else {
+                // if hidden show
+                edtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                edtPassword.setSelection(edtPassword.getText().length());
+                ivShowPassword.setImageResource(R.drawable.ic_password_show);
+                showPassword = true;
+            }
+
+        } else if (i == R.id.btn_send_security) {//TODO send code to service
+            if (LoginUtil.isEmail(edtEmail.getText().toString())) {
+                String email = edtEmail.getText().toString();
+                mPresenter.sendSecurityCode(email);
+                requestCountDown.start();
+                btnSendSecurityCode.setEnabled(false);
+            } else {
+                TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_input_wrong_email_warning, TSnackbar.LENGTH_LONG)
+                        .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
+                        .setMessageGravity(Gravity.CENTER)
+                        .setMessageTextColor(getResources().getColor(R.color.white))
+                        .show();
+            }
+
+        } else if (i == R.id.btn_sign_up) {//TODO sign up
+            if (!select) {
+                TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_select_privacy, TSnackbar.LENGTH_LONG)
+                        .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
+                        .setMessageGravity(Gravity.CENTER)
+                        .setMessageTextColor(getResources().getColor(R.color.white))
+                        .show();
+                return;
+            }
 
 
-                if(LoginUtil.isEmail(edtEmail.getText().toString())){
-                    String email = edtEmail.getText().toString();
-                    String password = edtPassword.getText().toString();
-                    String code = edtSecurityCode.getText().toString();
-                    mPresenter.signUp(email, password, code);
-                }else{
-                    TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_input_wrong_email_warning,TSnackbar.LENGTH_LONG)
-                            .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
-                            .setMessageGravity(Gravity.CENTER)
-                            .setMessageTextColor(getResources().getColor(R.color.white))
-                            .show();
-                }
-                break;
-            case R.id.iv_privacy:
-                if(select){
-                    select = false;
-                    ivPrivacy.setImageResource(R.drawable.ic_policy_row_disselect);
-                }else{
-                    select = true;
-                    ivPrivacy.setImageResource(R.drawable.ic_policy_row_selected);
-                }
-                break;
-            case R.id.tv_service_privacy:
-                //TODO url to h5
-                ToastUtils.showShort("Privacy Policy!");
-                break;
-            default:
-                break;
+            if (LoginUtil.isEmail(edtEmail.getText().toString())) {
+                String email = edtEmail.getText().toString();
+                String password = edtPassword.getText().toString();
+                String code = edtSecurityCode.getText().toString();
+                mPresenter.signUp(email, password, code);
+            } else {
+                TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_input_wrong_email_warning, TSnackbar.LENGTH_LONG)
+                        .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
+                        .setMessageGravity(Gravity.CENTER)
+                        .setMessageTextColor(getResources().getColor(R.color.white))
+                        .show();
+            }
 
+        } else if (i == R.id.iv_privacy) {
+            if (select) {
+                select = false;
+                ivPrivacy.setImageResource(R.drawable.ic_policy_row_disselect);
+            } else {
+                select = true;
+                ivPrivacy.setImageResource(R.drawable.ic_policy_row_selected);
+            }
+
+        } else if (i == R.id.tv_service_privacy) {//TODO url to h5
+            ToastUtils.showShort("Privacy Policy!");
+
+        } else {
         }
     }
 

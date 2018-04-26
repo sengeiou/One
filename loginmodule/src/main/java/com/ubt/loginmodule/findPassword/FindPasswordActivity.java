@@ -3,10 +3,10 @@ package com.ubt.loginmodule.findPassword;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.loginmodule.R;
-
-import butterknife.ButterKnife;
 
 /**
  * @author admin
@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
  * @update
  */
 
-
+@Route(path = ModuleUtils.FindPassword)
 public class FindPasswordActivity extends MVPBaseActivity<FindPasswordContract.View, FindPasswordPresenter> implements FindPasswordContract.View {
 
     @Override
@@ -27,7 +27,6 @@ public class FindPasswordActivity extends MVPBaseActivity<FindPasswordContract.V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
         FindPasswordFragment findPasswordFragment = findFragment(FindPasswordFragment.class);
         if (findPasswordFragment == null) {
             loadRootFragment(R.id.find_container, FindPasswordFragment.newInstance());

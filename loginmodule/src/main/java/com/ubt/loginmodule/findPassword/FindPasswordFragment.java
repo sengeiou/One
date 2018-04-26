@@ -19,6 +19,7 @@ import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.R;
+import com.ubt.loginmodule.R2;
 import com.ubt.loginmodule.TextWatcherUtil;
 import com.vise.log.ViseLog;
 
@@ -39,19 +40,19 @@ import butterknife.Unbinder;
 public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.View, FindPasswordPresenter> implements FindPasswordContract.View {
 
     Unbinder unbinder;
-    @BindView(R.id.iv_back)
+    @BindView(R2.id.iv_back)
     ImageView ivBack;
-    @BindView(R.id.tv_next)
+    @BindView(R2.id.tv_next)
     TextView tvNext;
-    @BindView(R.id.edt_email)
+    @BindView(R2.id.edt_email)
     EditText edtEmail;
-    @BindView(R.id.edt_security_code)
+    @BindView(R2.id.edt_security_code)
     EditText edtSecurityCode;
-    @BindView(R.id.btn_send_security)
+    @BindView(R2.id.btn_send_security)
     Button btnSendSecurity;
-    @BindView(R.id.iv_clear_account)
+    @BindView(R2.id.iv_clear_account)
     ImageView ivClearAccount;
-    @BindView(R.id.tv_valid_email)
+    @BindView(R2.id.tv_valid_email)
     TextView tvValidEmail;
     RequestCountDown requestCountDown;
     private static final long REQUEST_TIME = 61 * 1000;
@@ -110,37 +111,36 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
         }));
     }
 
-    @OnClick({R.id.tv_next, R.id.btn_send_security, R.id.iv_back, R.id.iv_clear_account})
+    @OnClick({R2.id.tv_next, R2.id.btn_send_security, R2.id.iv_back, R2.id.iv_clear_account})
     public void onClickView(View view) {
-        switch (view.getId()){
-            case R.id.tv_next:
-                String email = edtEmail.getText().toString();
-                String code = edtSecurityCode.getText().toString();
-                mPresenter.requestVerifyAccount(email, code);
-                break;
-            case R.id.btn_send_security:
-                String account = edtEmail.getText().toString();
-                if(LoginUtil.isEmail(account)){
-                    tvValidEmail.setVisibility(View.INVISIBLE);
-                    mPresenter.requestSecurityCode(account);
-                    requestCountDown.start();
-                    btnSendSecurity.setEnabled(false);
-                }else{
-                    tvValidEmail.setVisibility(View.VISIBLE);
-                }
-                break;
-            case R.id.iv_back:
-                if(getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1){
-                    pop();
-                }else{
-                    getActivity().finish();
-                }
-                break;
-            case R.id.iv_clear_account:
-                edtEmail.setText("");
-                break;
-            default:
-                break;
+        int i = view.getId();
+        if (i == R.id.tv_next) {
+            String email = edtEmail.getText().toString();
+            String code = edtSecurityCode.getText().toString();
+            mPresenter.requestVerifyAccount(email, code);
+
+        } else if (i == R.id.btn_send_security) {
+            String account = edtEmail.getText().toString();
+            if (LoginUtil.isEmail(account)) {
+                tvValidEmail.setVisibility(View.INVISIBLE);
+                mPresenter.requestSecurityCode(account);
+                requestCountDown.start();
+                btnSendSecurity.setEnabled(false);
+            } else {
+                tvValidEmail.setVisibility(View.VISIBLE);
+            }
+
+        } else if (i == R.id.iv_back) {
+            if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                pop();
+            } else {
+                getActivity().finish();
+            }
+
+        } else if (i == R.id.iv_clear_account) {
+            edtEmail.setText("");
+
+        } else {
         }
     }
 
