@@ -78,14 +78,17 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
         mPresenter.getYearData();
         loopViewYear.setItemsVisibleCount(5);
         loopViewYear.setTextSize(18);
+        loopViewYear.setCurrentPosition(89);
 
         mPresenter.getMonthData();
         loopViewMonth.setItemsVisibleCount(5);
         loopViewMonth.setTextSize(18);
+        loopViewMonth.setCurrentPosition(0);
 
         mPresenter.getDayData(31); //默认设置每月有31天，然后根据选择的月份再计算出相应月份的天数
         loopViewDay.setItemsVisibleCount(5);
         loopViewDay.setTextSize(18);
+        loopViewDay.setCurrentPosition(0);
 
         loopViewYear.setListener(new OnItemSelectedListener() {
             @Override

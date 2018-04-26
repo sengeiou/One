@@ -137,7 +137,7 @@ public class WelcomActivity extends AppCompatActivity {
      * 跳转到其它模块
      */
     private void startMainActivity(){
-        final String startModule = ModuleUtils.Main_MainActivity;
+        final String startModule = ModuleUtils.Login_Module;
         /*UserModel userModel = (UserModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         if (null != userModel) {
             if (!TextUtils.isEmpty(userModel.getPhone())){

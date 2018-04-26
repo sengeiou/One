@@ -58,9 +58,6 @@ public interface ModuleUtils {
 
     String Bluetooh_ConnectService = "/bluetooh/ConnectService";
 
-    /**
-     * 逻辑编程模块
-     */
-    String Block_Module = "/main/BlocklyActivity";
+
 
 }

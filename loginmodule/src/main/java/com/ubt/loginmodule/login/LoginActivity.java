@@ -181,7 +181,7 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     @Override
     public void loginSuccess() {
         ToastUtils.showShort(getTextById(R.string.login_login_success));
-        ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+        ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation();
         this.finish();
     }
 

@@ -1,5 +1,7 @@
 package com.ubt.baselib.model1E;
 
+import java.io.Serializable;
+
 /**
  * @author admin
  * @className
@@ -9,7 +11,7 @@ package com.ubt.baselib.model1E;
  */
 
 
-public class UserInfoModel {
+public class UserInfoModel implements Serializable{
 
     private String userId;
     private String nickName;

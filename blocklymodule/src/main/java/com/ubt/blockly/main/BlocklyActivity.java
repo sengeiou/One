@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  * @update
  */
 
-@Route(path = ModuleUtils.Block_Module)
+@Route(path = ModuleUtils.Blockly_BlocklyProgram)
 public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, BlocklyPresenter> implements BlocklyContract.View {
 
     @BindView(R.id.blockly_webView)
