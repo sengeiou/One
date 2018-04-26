@@ -159,12 +159,10 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
     }
 
     @Override
-    public void updateUserInfo(String userName, String sex, String birth) {
+    public void updateUserInfo(final String userName, final String sex, final String birth) {
         UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
         final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         ViseLog.d("userInfoModel:" + userInfoModel);
-//        updateUserInfoRequest.setEmail(SPUtils.getInstance().getString(LoginSP.SP_EMAIL));
-//        updateUserInfoRequest.setUserId(SPUtils.getInstance().getString(LoginSP.SP_USER_ID));
         updateUserInfoRequest.setEmail(userInfoModel.getEmail());
         updateUserInfoRequest.setUserId(userInfoModel.getUserId());
         if(!TextUtils.isEmpty(userName)){
@@ -183,12 +181,21 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                 .setJson(GsonImpl.get().toJson(updateUserInfoRequest)))
                 .request(new ACallback<String>() {
                     @Override
-                    public void onSuccess(String o) {
-                        ViseLog.d("USER_UPDATE onSuccess:" + o.toString());
-                        if(mView != null){
-                            //TODO
-                            mView.updateUserInfoSuccess(true);
+                    public void onSuccess(String data) {
+                        ViseLog.d("USER_UPDATE onSuccess:" + data.toString());
+                        BaseResponseModel<UserInfoModel> baseResponseModel = GsonImpl.get().toObject(data,
+                                new TypeToken<BaseResponseModel<UserInfoModel>>() {
+                                }.getType());
+                        if(baseResponseModel.status){
+                            UserInfoModel userInfoModel =  baseResponseModel.models;
+                            SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO,userInfoModel);
+                            if(mView != null){
+                                //TODO
+                                mView.updateUserInfoSuccess(true);
+                            }
                         }
+
+
                     }
 
                     @Override

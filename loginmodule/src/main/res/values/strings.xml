@@ -26,6 +26,7 @@
     <string name="login_select_privacy">Please read and confirm the terms below. </string>
     <string name="login_next">Next</string>
     <string name="login_finish">Finish</string>
+    <string name="login_skip">Skip</string>
 
     <!-- fill in profile string -->
 

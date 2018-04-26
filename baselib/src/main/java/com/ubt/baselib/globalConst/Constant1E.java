@@ -37,6 +37,7 @@ public interface Constant1E {
     int KEY_NICK_GRADE = 4; //年级
     int KEY_NICK_HEAD = 5; //头像
 
+    public static final String EMPTY_NICK_NAME = "empty_nick_name";
 
 
 }
