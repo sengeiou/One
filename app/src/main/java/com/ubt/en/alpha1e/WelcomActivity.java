@@ -158,27 +158,24 @@ public class WelcomActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(null == userInfoModel){
-                    ARouter.getInstance().build(startModule).navigation();
-                }else{
-                    if(TextUtils.isEmpty(userInfoModel.getEmail())){
-                        ARouter.getInstance().build(startModule).navigation();
-                    }else{
-                        if(TextUtils.isEmpty(userInfoModel.getNickName())){
-                            ARouter.getInstance().build(ModuleUtils.Login_Register).withBoolean(Constant1E.EMPTY_NICK_NAME,true).navigation();
-                        }else{
-
-                            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
-
-                        }
-
-                    }
-                }
-
-
                 WelcomActivity.this.finish();
             }
         },1000);
 
+        if(null == userInfoModel){
+            ARouter.getInstance().build(startModule).navigation();
+        }else{
+            if(TextUtils.isEmpty(userInfoModel.getEmail())){
+                ARouter.getInstance().build(startModule).navigation();
+            }else{
+                if(TextUtils.isEmpty(userInfoModel.getNickName())){
+                    ARouter.getInstance().build(ModuleUtils.Login_Register).withBoolean(Constant1E.EMPTY_NICK_NAME,true).navigation();
+                }else{
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+
+                }
+
+            }
+        }
     }
 }
