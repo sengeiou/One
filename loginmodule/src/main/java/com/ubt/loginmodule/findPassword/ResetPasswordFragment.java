@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.app.abby.tsnackbar.TSnackbar;
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.R;
@@ -170,6 +171,7 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
             String passwordAgain = edtPasswordAgain.getText().toString();
             if (password.equals(passwordAgain)) {
                 mPresenter.resetPassword(email, edtPassword.getText().toString());
+                BaseLoadingDialog.show(getActivity());
             } else {
                 TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_password_confirm_not_match, TSnackbar.LENGTH_LONG)
                         .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
@@ -211,14 +213,14 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
 
     @Override
     public void resetPasswordSuccess() {
-        //TODO reset password succes goto app
-        getActivity().finish();
+        BaseLoadingDialog.dismiss(getActivity());
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
+        getActivity().finish();
     }
 
     @Override
     public void resetPasswordFailed() {
-
+        BaseLoadingDialog.dismiss(getActivity());
     }
 }

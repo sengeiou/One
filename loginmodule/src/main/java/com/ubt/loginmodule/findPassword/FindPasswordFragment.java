@@ -55,7 +55,7 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     @BindView(R2.id.tv_valid_email)
     TextView tvValidEmail;
     RequestCountDown requestCountDown;
-    private static final long REQUEST_TIME = 61 * 1000;
+    private static final long REQUEST_TIME = 181 * 1000;
 
     public static FindPasswordFragment newInstance() {
         return new FindPasswordFragment();

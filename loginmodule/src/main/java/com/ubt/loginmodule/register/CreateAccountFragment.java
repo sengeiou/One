@@ -24,6 +24,7 @@ import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
 import com.ubt.loginmodule.TextWatcherUtil;
+import com.vise.log.ViseLog;
 
 import java.util.List;
 
@@ -85,6 +86,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment_create_account,container, false);
         unbinder = ButterKnife.bind(this, view);
+        ((RegisterActivity)getActivity()).setTvSkipVisible(false);
         requestCountDown = new RequestCountDown(REQUEST_TIME, 1000);
         initView();
         return view;
@@ -230,6 +232,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
         if(requestCountDown != null){
             requestCountDown.cancel();
         }
+        BaseLoadingDialog.dismiss(getActivity());
     }
 
     @Override
@@ -252,6 +255,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
 
     @Override
     public void signUpSuccess() {
+        ViseLog.d("signUpSuccess");
         BaseLoadingDialog.dismiss(getActivity());
         start(CreateAccountSuccessFragment.newInstance());
     }
@@ -292,10 +296,19 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
 
     @Override
     public void sendSecurityCodeSuccess(boolean success) {
-//        if(success) {
-//            requestCountDown.start();
-//            btnSendSecurityCode.setEnabled(false);
-//        }
+        if(success) {
+            TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_sent_code_prompt,TSnackbar.LENGTH_LONG)
+                    .setBackgroundColor(getResources().getColor(R.color.login_bg_green_color))
+                    .setMessageGravity(Gravity.CENTER)
+                    .setMessageTextColor(getResources().getColor(R.color.white))
+                    .show();
+        }else{
+            TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_sent_code_fail_prompt,TSnackbar.LENGTH_LONG)
+                    .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
+                    .setMessageGravity(Gravity.CENTER)
+                    .setMessageTextColor(getResources().getColor(R.color.white))
+                    .show();
+        }
     }
 
 

@@ -64,6 +64,7 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment_user_gender, container, false);
         unbinder = ButterKnife.bind(this, view);
+        ((RegisterActivity)getActivity()).setTvSkipVisible(true);
         initView();
         return view;
     }
@@ -161,5 +162,6 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        BaseLoadingDialog.dismiss(getActivity());
     }
 }

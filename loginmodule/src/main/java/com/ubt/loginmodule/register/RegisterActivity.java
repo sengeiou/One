@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
 import com.vise.log.ViseLog;
@@ -63,18 +64,23 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
     @Override
     protected void onResume() {
         super.onResume();
-        if(getTopFragment() instanceof CreateUserGenderFragment){
-            ViseLog.d("top fragment is CreateUserGenderFragment");
+        ViseLog.d("onResume :" + getTopFragment());
+    }
+
+    public void setTvSkipVisible(boolean visible){
+        if(visible){
             tvSkip.setVisibility(View.VISIBLE);
         }else{
             tvSkip.setVisibility(View.INVISIBLE);
         }
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        SPUtils.getInstance().remove(Constant1E.SP_USER_INFO);
     }
 
     @OnClick({R2.id.iv_back, R2.id.login_tv_skip})
