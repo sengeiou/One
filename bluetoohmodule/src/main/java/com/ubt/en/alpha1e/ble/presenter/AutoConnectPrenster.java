@@ -19,9 +19,9 @@ import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
+import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
-import com.ubt.en.alpha1e.ble.model.ManualEvent;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
@@ -64,7 +64,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
 
     private boolean isCancleScan;
 
-    private static final long TIME_OUT = 20 * 1000;
+    private static final long TIME_OUT = 30 * 1000;
 
     /**
      * 蓝牙搜索超时
@@ -121,7 +121,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
         if (!MyLifecycleCallback.isBackground() && mBlueClient.getConnectionState() != 3) {
             BleDevice bleDevice = DataSupport.findFirst(BleDevice.class);
             if (bleDevice != null) {
-                ViseLog.e("connectBleDevice"+bleDevice.toString());
+                ViseLog.e("connectBleDevice" + bleDevice.toString());
                 mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
                 mBlueClient.connect(bleDevice.getMac());
                 isConnecting = true;
@@ -142,7 +142,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
         if (manualEvent.getEvent() == ManualEvent.Event.MANUAL_ENTER) {//进入蓝牙联网页面
             this.isManualConnectMode = manualEvent.isManual();
             if (isManualConnectMode && mBlueClient.getConnectionState() != 3) {
-              //  mBlueClient.cancelScan();
+                //  mBlueClient.cancelScan();
                 ViseLog.d("进入蓝牙联网页面");
             } else {
                 ViseLog.d("退出蓝牙联网页面");
@@ -164,7 +164,9 @@ public class AutoConnectPrenster implements IProtolPackListener {
         if (backgroundEvent.getEvent() == EnterBackgroundEvent.Event.ENTER_BACKGROUND) {
             ViseLog.d("APP退到后台");
             isCancleScan = true;
-            mBlueClient.cancelScan();
+            if (mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTED) {
+                mBlueClient.cancelScan();
+            }
         } else if (backgroundEvent.getEvent() == EnterBackgroundEvent.Event.ENTER_RESUME) {
             ViseLog.d("APP进入前台");
             startScanBleDevice();
@@ -378,13 +380,14 @@ public class AutoConnectPrenster implements IProtolPackListener {
      * 扫描蓝牙
      */
     private void startScanBleDevice() {
-        if (!isManualDisConnect && mBlueClient.getConnectionState() != 3 && !MyLifecycleCallback.isBackground()) {
-            //mBlueClient.cancelScan();
+        if (!isManualDisConnect && mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTED && !MyLifecycleCallback.isBackground()) {
             isCancleScan = false;
             mBlueClient.startScan();
         } else {
             isCancleScan = true;
-            mBlueClient.cancelScan();
+            if (mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTED) {
+                mBlueClient.cancelScan();
+            }
         }
 
     }

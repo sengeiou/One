@@ -22,13 +22,13 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.BlueTooth.BleDevice;
+import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
 import com.ubt.en.alpha1e.ble.model.BluetoothDeviceListAdapter;
-import com.ubt.en.alpha1e.ble.model.ManualEvent;
 import com.ubt.en.alpha1e.ble.presenter.BleConnectPrenster;
 import com.vise.log.ViseLog;
 
@@ -251,7 +251,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
 
         TextView btn = contentView.findViewById(R.id.btn_confirm);
 
-        String btnMsg = isConnecting ? SkinManager.getInstance().getTextById(R.string.ble_cancle) :
+        String btnMsg = isConnecting ? SkinManager.getInstance().getTextById(R.string.ble_cancel) :
                 SkinManager.getInstance().getTextById(R.string.ble_try_again);
 
         btn.setText(btnMsg);
