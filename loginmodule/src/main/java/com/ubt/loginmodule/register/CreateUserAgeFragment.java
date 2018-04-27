@@ -49,9 +49,9 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
     private List<String> listYear;
     private List<String> listMonth ;
     private List<String> listDay;
-    private String year;
-    private String month;
-    private String day;
+    private String year = "1990";
+    private String month = "1";
+    private String day = "1";
 
     public static CreateUserAgeFragment newInstance() {
         return new CreateUserAgeFragment();

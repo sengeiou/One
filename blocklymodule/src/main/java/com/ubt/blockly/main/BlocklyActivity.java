@@ -14,6 +14,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.blockly.R;
@@ -55,7 +56,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     private void init() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER );
-
+        BaseLoadingDialog.show(this);
         initWebView();
 
     }
@@ -82,40 +83,13 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-          /*      if(HttpAddress.WebServiceAdderss.contains(HttpAddress.WebAddressDevelop)){
-                    //webview 忽略证书
-                    handler.proceed();
-                }else {
                     super.onReceivedSslError(view, handler, error);
-                }*/
             }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
-       /*         isLoadFinish = true;
-                loadError = true;
-                if(!checkWalk){
-                    dismissLoading();
-                }
-
-                if(rlBlank != null){
-                    rlBlank.setVisibility(View.VISIBLE);
-                }
-                mWebView.setVisibility(View.INVISIBLE);
-
-                if(mHelper != null && mHelper.isStartHibitsProcess()){
-                    mHelper.showStartHibitsProcess(new IDismissCallbackListener() {
-                        @Override
-                        public void onDismissCallback(Object obj) {
-                            UbtLog.d(TAG,"onDismissCallback = obj == " + obj);
-                            if((boolean)obj){
-                                //行为习惯流程未结束，退出当前流程
-                                finish();
-                            }
-                        }
-                    });
-                }*/
+                BaseLoadingDialog.dismiss(BlocklyActivity.this);
 
             }
 
@@ -127,57 +101,8 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-      /*          isLoadFinish = true;
-                if(!loadError){
-                    if(rlBlank != null){
-                        rlBlank.setVisibility(View.GONE);
-                    }
-                    mWebView.setVisibility(View.VISIBLE);
-                }
-                dismissLoading();
-                if(isBulueToothConnected()){
-                    UbtLog.d(TAG, "do start infrared!");
-                    mSensorHelper.doReadInfraredSensor((byte)0x01);  //进入block如果连接蓝牙立马开始读取红外传感器数据
-//                    mSensorHelper.doReadGyroData((byte)0x01);
-//                    mSensorHelper.doReadAcceleration((byte)0x01);
-                    mSensorHelper.doRead6DState();
-                    mSensorHelper.doReadTemperature((byte)0x01);
-                }
+                BaseLoadingDialog.dismiss(BlocklyActivity.this);
 
-                if(isBulueToothConnected()){
-                    mainHelper.doReadState();
-                }
-
-                UbtLog.d(TAG,"onPageFinished isLoadActionFinish = " + isLoadActionFinish);
-                if(isLoadActionFinish){
-                    if(isFromCourse){
-                        mHandler.sendEmptyMessage(DO_SHOW_LESSON_TASK);
-                    }
-                    dismissLoading();
-                }
-
-                if(fromVideo && !loadError){
-                    rlGoVideo.setVisibility(View.VISIBLE);
-                    Bitmap bitmap = BitmapFactory.decodeFile(BlocklyUtil.getPath() + SHOTCUT_NAME+ ".jpg");
-                    if(bitmap != null){
-                        ivShotAlbum.setImageBitmap(bitmap);
-                    }
-
-                }else{
-                    rlGoVideo.setVisibility(View.GONE);
-                }
-                if(mHelper != null && mHelper.isStartHibitsProcess()){
-                    mHelper.showStartHibitsProcess(new IDismissCallbackListener() {
-                        @Override
-                        public void onDismissCallback(Object obj) {
-                            UbtLog.d(TAG,"onDismissCallback = obj == " + obj);
-                            if((boolean)obj){
-                                //行为习惯流程未结束，退出当前流程
-                                finish();
-                            }
-                        }
-                    });
-                }*/
             }
 
         };
@@ -186,7 +111,6 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
         mBlocklyJsInterface = new BlocklyJsInterface(BlocklyActivity.this);
         mWebView.addJavascriptInterface(mBlocklyJsInterface, "blocklyObj");
-//        mWebView.loadUrl(URL);
         try {
             if (Build.VERSION.SDK_INT >= 16) {
                 Class<?> clazz = mWebView.getSettings().getClass();
@@ -206,7 +130,6 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             e.printStackTrace();
         }
 
-//        mWebView.loadUrl("file:///"+getBlocklyPath(this));
         mWebView.loadUrl(URL);
     }
 
