@@ -6,14 +6,16 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.RightBar;
-import com.ubt.en.alpha1e.ble.service.ConnectService;
+import com.ubt.baselib.model1E.ManualEvent;
+import com.ubt.en.alpha1e.ble.model.BleConnectServiceUtil;
 import com.ubt.mainmodule.controlCenter.CtlCenterFragment;
 import com.ubt.mainmodule.main.MainFragment;
 import com.ubt.mainmodule.user.UserMainFragment;
 import com.vise.log.ViseLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +34,7 @@ public class MainActivity extends SupportActivity {
 
     private SupportFragment[] mFragments = new SupportFragment[3];
     private int fragmentCur = FIRST; //标识当前fragment标号
+    BleConnectServiceUtil util;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,15 @@ public class MainActivity extends SupportActivity {
         initFragment();
         ButterKnife.bind(this);
         initRightBarClick(); //初始化右边栏点击事件
-        ConnectService service = (ConnectService) ARouter.getInstance().build(ModuleUtils.Bluetooh_ConnectService).navigation();
-        service.startAutoService();
+//        ConnectService service = (ConnectService) ARouter.getInstance().build(ModuleUtils.Bluetooh_ConnectService).navigation();
+//        service.startAutoService();
+
+        util = new BleConnectServiceUtil();
+        EventBus.getDefault().register(util);
+        ManualEvent manualEvent = new ManualEvent(this, ManualEvent.Event.START_AUTOSERVICE);
+        manualEvent.setManual(true);
+        EventBus.getDefault().post(manualEvent);
+
     }
 
     private void initFragment() {
@@ -132,6 +142,7 @@ public class MainActivity extends SupportActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(util);
     }
 
 

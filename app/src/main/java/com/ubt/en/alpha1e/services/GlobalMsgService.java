@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
-import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.en.alpha1e.xinge.XGConstact;
-import com.ubt.globaldialog.GlobalDialog;
 import com.vise.log.ViseLog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -68,31 +65,33 @@ public class GlobalMsgService extends Service {
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
-                new GlobalDialog.Builder(this).setMsg("蓝牙掉线").setNegativeButton("connect", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
-                    }
-                }).setPositiveButton("cancle", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                }).build().show();
+                ToastUtils.showShort("Bluetooh is disconnect");
+//                new GlobalDialog.Builder(this).setMsg("蓝牙掉线").setNegativeButton("cancel", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                    }
+//                }).setPositiveButton("connect", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+//                    }
+//                }).build().show();
                 break;
             default:
 
                 break;
         }
     }
+
     @Subscribe
     public void onDataSynEvent(XGPushShowedResult xgPushShowedResult) {
         ViseLog.i("onDataSynEvent event---->" + xgPushShowedResult.getContent());
         try {
             JSONObject mJson = new JSONObject(xgPushShowedResult.getCustomContent());
-            if( mJson.getString("category").equals(XGConstact.BEHAVIOUR_HABIT)) {
+            if (mJson.getString("category").equals(XGConstact.BEHAVIOUR_HABIT)) {
                 if (mJson.get("eventId") != null) {
-                    Log.d("TPush"," contents"+xgPushShowedResult.getContent());
+                    Log.d("TPush", " contents" + xgPushShowedResult.getContent());
                    /* new HibitsAlertDialog(AppManager.getInstance().currentActivity()).builder()
                             .setCancelable(true)
                             .setEventId(mJson.get("eventId").toString())
@@ -106,4 +105,4 @@ public class GlobalMsgService extends Service {
         }
     }
 
-    }
+}

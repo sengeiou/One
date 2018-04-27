@@ -1,4 +1,6 @@
-package com.ubt.en.alpha1e.ble.model;
+package com.ubt.baselib.model1E;
+
+import android.content.Context;
 
 /**
  * @author：liuhai
@@ -15,14 +17,22 @@ public class ManualEvent {
 
     private Event mEvent;
 
+    private Context mContext;
     public enum Event {
         MANUAL_ENTER,
         MANUAL_DISCONNECT,
-
+        START_AUTOSERVICE
     }
+
+
 
     public ManualEvent(Event event) {
         this.mEvent = event;
+    }
+
+    public ManualEvent( Context context,Event event) {
+        mEvent = event;
+        mContext = context;
     }
 
     public boolean isManual() {
@@ -40,4 +50,9 @@ public class ManualEvent {
     public void setEvent(Event event) {
         mEvent = event;
     }
+
+    public Context getContext() {
+        return mContext;
+    }
+
 }
