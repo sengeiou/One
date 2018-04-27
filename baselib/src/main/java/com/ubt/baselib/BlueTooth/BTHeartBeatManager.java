@@ -129,6 +129,7 @@ public class BTHeartBeatManager {
         public void onReceive(Context context, Intent intent) {
             if (mHeartCnt.incrementAndGet() < 6 && am != null && pi != null) {
                  if (mBlueClientUtil != null) {
+                     ViseLog.i("发送蓝牙心跳");
                     mBlueClientUtil.sendData(heartDatas);
                 }
                 am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + repeatTime, pi);
