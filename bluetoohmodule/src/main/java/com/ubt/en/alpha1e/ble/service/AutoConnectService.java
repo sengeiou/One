@@ -7,6 +7,7 @@ import android.os.IBinder;
 
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.presenter.AutoConnectPrenster;
+import com.vise.log.ViseLog;
 
 import java.util.Date;
 
@@ -54,9 +55,17 @@ public class AutoConnectService extends Service {
     }
 
 
+    /**
+     * 停止服务
+     */
+    public void doStopSelf(){
+             stopSelf();
+    }
+
     @Override
     public void onDestroy() {
         mPresenter.unRegister();
+        ViseLog.d("结束服务");
         super.onDestroy();
     }
 }

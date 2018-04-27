@@ -1,7 +1,6 @@
 package com.ubt.en.alpha1e;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -9,6 +8,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.alibaba.android.arouter.facade.Postcard;
+import com.alibaba.android.arouter.facade.callback.NavigationCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
@@ -42,6 +43,7 @@ public class WelcomActivity extends AppCompatActivity {
     @BindView(R.id.gif_start_welcome)
     ImageView gifWelcome;
     GifDrawable gifDrawable;
+    private NavigationCallback navigationCallback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,32 @@ public class WelcomActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
         gifDrawable.start();
+        initNavigationListener();
+    }
+
+    private void initNavigationListener() {
+        navigationCallback = new NavigationCallback() {
+            @Override
+            public void onFound(Postcard postcard) {
+
+            }
+
+            @Override
+            public void onLost(Postcard postcard) {
+
+            }
+
+            @Override
+            public void onArrival(Postcard postcard) {
+                ViseLog.i("postcard="+postcard.toString());
+                WelcomActivity.this.finish();
+            }
+
+            @Override
+            public void onInterrupt(Postcard postcard) {
+
+            }
+        };
     }
 
     private void initView() {
@@ -144,41 +172,23 @@ public class WelcomActivity extends AppCompatActivity {
         final String startModule = ModuleUtils.Login_Module;
         final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         ViseLog.d("userInfoModel:" + userInfoModel);
-        /*        if (null != userInfoModel) {
-            if (!TextUtils.isEmpty(userModel.getPhone())){
-                if (TextUtils.isEmpty(userModel.getAge())) {
-                    startModule = ModuleUtils.Login_UserEdit;
-                    startModule = ModuleUtils.Main_MainActivity;
-
-                } else {
-                    startModule = ModuleUtils.Main_MainActivity;
-                }
-            }
-        }*/
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(null == userInfoModel){
-                    ARouter.getInstance().build(startModule).navigation();
+        if(null == userInfoModel){
+            ARouter.getInstance().build(startModule).navigation();
+        }else{
+            if(TextUtils.isEmpty(userInfoModel.getEmail())){
+                ARouter.getInstance().build(startModule).navigation();
+            }else{
+                if(TextUtils.isEmpty(userInfoModel.getNickName())){
+                    ARouter.getInstance().build(ModuleUtils.Login_Register)
+                            .withBoolean(Constant1E.EMPTY_NICK_NAME,true)
+                            .navigation(WelcomActivity.this,navigationCallback);
                 }else{
-                    if(TextUtils.isEmpty(userInfoModel.getEmail())){
-                        ARouter.getInstance().build(startModule).navigation();
-                    }else{
-                        if(TextUtils.isEmpty(userInfoModel.getNickName())){
-                            ARouter.getInstance().build(ModuleUtils.Login_Register).withBoolean(Constant1E.EMPTY_NICK_NAME,true).navigation();
-                        }else{
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity)
+                            .navigation(WelcomActivity.this,navigationCallback);
 
-                            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
-
-                        }
-
-                    }
                 }
 
-
-                WelcomActivity.this.finish();
             }
-        },1000);
-
+        }
     }
 }

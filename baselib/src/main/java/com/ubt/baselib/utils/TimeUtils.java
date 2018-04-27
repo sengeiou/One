@@ -1,5 +1,7 @@
 package com.ubt.baselib.utils;
 
+import com.vise.log.ViseLog;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -131,5 +133,20 @@ public class TimeUtils {
 			timeData[i] = Byte.parseByte(data[i]);
 		}
 		return timeData;
+	}
+
+	// 两次点击按钮之间的点击间隔不能少于1000毫秒
+	private static final int MIN_CLICK_DELAY_TIME = 1000;
+	private static long lastClickTime;
+
+	public static boolean isFastClick() {
+		boolean flag = false;
+		long curClickTime = System.currentTimeMillis();
+		if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+			flag = true;
+		}
+		lastClickTime = curClickTime;
+		ViseLog.d("isFastClick", "lastclickTime===" + lastClickTime + "         ++++flag==" + flag);
+		return flag;
 	}
 }

@@ -13,4 +13,5 @@ import com.alibaba.android.arouter.facade.template.IProvider;
 
 public interface ConnectService extends IProvider {
     void startAutoService();
+    void stopAutoService();
 }

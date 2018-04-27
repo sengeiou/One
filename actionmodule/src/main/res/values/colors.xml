@@ -6,11 +6,20 @@
 
     <color name="btn_get_code_color" tools:ignore="ResourceName">#ffffff</color>
     <color name="action_filter_color">#0B4E75</color>
+    <color name="action_recy_background_color">#9DDB50</color>
+    <color name="action_recy_background_boder_color">#79C13A</color>
+    <color name="action_recy_bottom_background_color">#A1DCFF</color>
     <color name="action_background">#F9F9FB</color>
     <color name="sec_new_progress" tools:ignore="ResourceName">#adeadc</color>
     <color name="action_edit_filter_color">#C4EDFF</color>
-    <color name="action_dilog_title">#16A4E3</color>
+    <color name="action_dilog_title">#37AAFF</color>
     <color name="sec_txt_disc" tools:ignore="ResourceName">#666c72</color>
     <color name="action_dialog_filter_color">#E7E8E9</color>
     <color name="tv_user_edit_color" tools:ignore="ResourceName">#1D3740</color>
+    <!--2017/8/16-->
+    <color name="action_text_confirm_color">#2c87f1</color>
+    <color name="action_save_text_rect_color">#F9F9F9</color>
+    <color name="action_save_text_border_color">#E4E4E4</color>
+    <color name="action_save_text_color">#9F9FA3</color>
+    <color name="action_main_hite">#cc1b1b1b</color>
 </resources>

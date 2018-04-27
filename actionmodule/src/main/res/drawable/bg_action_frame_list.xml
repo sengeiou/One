@@ -6,9 +6,9 @@
     <!-- 外框 -->
     <stroke
         android:width="1px"
-        android:color="@color/action_filter_color" />
+        android:color="@color/action_recy_background_boder_color" />
     <!-- 内容 -->
-    <solid android:color="@color/action_filter_color" />
+    <solid android:color="@color/action_recy_background_color" />
     <!-- 拐角 -->
     <corners android:radius="4px" />
 

@@ -121,6 +121,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
         if (!MyLifecycleCallback.isBackground() && mBlueClient.getConnectionState() != 3) {
             BleDevice bleDevice = DataSupport.findFirst(BleDevice.class);
             if (bleDevice != null) {
+                ViseLog.e("connectBleDevice"+bleDevice.toString());
                 mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
                 mBlueClient.connect(bleDevice.getMac());
                 isConnecting = true;

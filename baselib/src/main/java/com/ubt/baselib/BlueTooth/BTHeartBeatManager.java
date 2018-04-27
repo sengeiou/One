@@ -127,7 +127,7 @@ public class BTHeartBeatManager {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (mHeartCnt.incrementAndGet() < 3 && am != null && pi != null) {
+            if (mHeartCnt.incrementAndGet() < 6 && am != null && pi != null) {
                  if (mBlueClientUtil != null) {
                     mBlueClientUtil.sendData(heartDatas);
                 }

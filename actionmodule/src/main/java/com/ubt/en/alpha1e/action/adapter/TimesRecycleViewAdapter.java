@@ -1,4 +1,4 @@
-package com.ubt.en.alpha1e.action.util;
+package com.ubt.en.alpha1e.action.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -3,7 +3,7 @@
                 android:id="@+id/rl_time_root"
                 android:layout_width="80dp"
                 android:layout_height="26dp"
-                android:background="#8B489D"
+                android:background="@color/action_recy_background_color"
     >
 
 

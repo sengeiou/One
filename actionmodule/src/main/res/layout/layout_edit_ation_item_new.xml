@@ -4,6 +4,7 @@
                 android:id="@+id/lay_frame_data_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background=" #093759"
                 android:clickable="true"
                 android:visibility="gone"
                 tools:ignore="ResourceName">
@@ -176,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_delete"/>
+                android:src="@drawable/ble_ic_delete"/>
 
             <TextView
                 android:layout_width="wrap_content"

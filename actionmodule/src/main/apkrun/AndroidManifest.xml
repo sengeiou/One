@@ -15,18 +15,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="label">
-        <activity android:name="com.ubt.en.alpha1e.action.ActionCreateActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="landscape"
-                  android:theme="@style/NoTitleThemeFullScreen"
-                  android:windowSoftInputMode="adjustPan">
+        <activity
+            android:name="com.ubt.en.alpha1e.action.ActionSaveActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ActionCreateActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ActionMainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

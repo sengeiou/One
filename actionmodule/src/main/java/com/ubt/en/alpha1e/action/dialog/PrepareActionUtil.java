@@ -1,4 +1,4 @@
-package com.ubt.en.alpha1e.action.util;
+package com.ubt.en.alpha1e.action.dialog;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -22,6 +22,7 @@ import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.model.PrepareDataModel;
 import com.ubt.en.alpha1e.action.model.PrepareMusicModel;
+import com.ubt.en.alpha1e.action.util.ActionConstant;
 
 import java.util.ArrayList;
 import java.util.List;

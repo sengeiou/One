@@ -199,6 +199,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mPresenter.unRegister();
         mUnbinder.unbind();
     }
 }

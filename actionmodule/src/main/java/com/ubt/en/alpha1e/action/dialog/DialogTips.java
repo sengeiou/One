@@ -1,4 +1,4 @@
-package com.ubt.en.alpha1e.action.util;
+package com.ubt.en.alpha1e.action.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

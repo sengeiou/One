@@ -1,4 +1,4 @@
-package com.ubt.en.alpha1e.action.util;
+package com.ubt.en.alpha1e.action.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
+import com.ubt.en.alpha1e.action.util.CourseArrowAminalUtil;
 import com.vise.log.ViseLog;
 
 

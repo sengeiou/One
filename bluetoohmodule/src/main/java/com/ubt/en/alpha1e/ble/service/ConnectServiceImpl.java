@@ -26,6 +26,11 @@ public class ConnectServiceImpl implements ConnectService {
     }
 
     @Override
+    public void stopAutoService() {
+        mContext.stopService(new Intent(mContext, AutoConnectService.class));
+    }
+
+    @Override
     public void init(Context context) {
         this.mContext = context;
     }

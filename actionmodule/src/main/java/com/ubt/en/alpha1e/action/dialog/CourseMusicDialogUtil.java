@@ -1,4 +1,4 @@
-package com.ubt.en.alpha1e.action.util;
+package com.ubt.en.alpha1e.action.dialog;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -24,8 +24,11 @@ import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.PermissionUtils;
+import com.ubt.baselib.utils.TimeUtils;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.model.PrepareMusicModel;
+import com.ubt.en.alpha1e.action.util.ActionConstant;
+import com.ubt.en.alpha1e.action.util.FileTools;
 import com.vise.log.ViseLog;
 
 import java.io.File;
@@ -43,48 +46,59 @@ import java.util.List;
  * version
  */
 
-public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
+public class CourseMusicDialogUtil implements BaseQuickAdapter.OnItemClickListener, OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
     private Context mContext;
     private int mType = -1;
     List<PrepareMusicModel> list = new ArrayList<>();
     MusicAdapter actionAdapter;
     private TextView tvCancle;
     private TextView tvConfirm;
-    private PrepareActionUtil.OnDialogListener mDialogListener;
+    private OnMusicDialogListener mDialogListener;
     private PrepareMusicModel selectDataModel;
     DialogPlus mDialogPlus;
 
     private boolean isShowDelete;
-    private ImageView ivDelete;
+    AnimationDrawable animation2;
+    private ImageView ivConfirmArrow;
+    private int selectPosition;
+    private boolean isShow = true;
 
-    public PrepareMusicUtil(Context context) {
+    public CourseMusicDialogUtil(Context context) {
         this.mContext = context;
     }
 
     /**
      * 显示对话框
      */
-    public void showMusicDialog(PrepareActionUtil.OnDialogListener mDialogListener) {
+    public void showMusicDialog(int position, OnMusicDialogListener mDialogListener) {
+        isShow = true;
         isShowDelete = false;
         this.mDialogListener = mDialogListener;
         list = ActionConstant.getMusicList(mContext);
-        View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_aciton_select, null);
+        if (position == 1000) {
+            this.selectPosition = list.size() - 1;
+        } else {
+            this.selectPosition = position;
+        }
+        View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_aciton_course_select, null);
         ViewHolder viewHolder = new ViewHolder(contentView);
         TextView tvTitle = contentView.findViewById(R.id.title_actions);
         tvTitle.setText(SkinManager.getInstance().getTextById(R.string.ui_create_music));
-        ivDelete = contentView.findViewById(R.id.iv_delete);
-        ivDelete.setVisibility(View.VISIBLE);
+        ImageView imageView = contentView.findViewById(R.id.iv_delete);
+        imageView.setVisibility(View.VISIBLE);
         tvCancle = contentView.findViewById(R.id.tv_cancel);
         tvConfirm = contentView.findViewById(R.id.tv_confirm);
-        tvConfirm.setText(mContext.getResources().getString(R.string.ui_common_add));
-        tvCancle.setVisibility(View.VISIBLE);
+        ivConfirmArrow = contentView.findViewById(R.id.iv_add_action_arrow);
         RecyclerView recyclerView = contentView.findViewById(R.id.rv_actions);
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 5);
         recyclerView.setLayoutManager(layoutManager);
-        actionAdapter = new MusicAdapter(R.layout.item_actions, list);
+        actionAdapter = new MusicAdapter(R.layout.item_actions1, list);
         actionAdapter.setOnItemClickListener(this);
         actionAdapter.setOnItemChildClickListener(this);
         recyclerView.setAdapter(actionAdapter);
+        if (position == 1000) {
+            recyclerView.scrollToPosition(actionAdapter.getItemCount() - 1);
+        }
         WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         int width = (int) ((display.getWidth()) * 0.8); //设置宽度
@@ -94,6 +108,7 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
                 .setGravity(Gravity.CENTER)
                 .setContentWidth(width)
                 .setOnClickListener(this)
+                .setCancelable(false)
                 .setOnDismissListener(new OnDismissListener() {
                     @Override
                     public void onDismiss(DialogPlus dialog) {
@@ -102,10 +117,26 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
                         }
                     }
                 })
-                .setCancelable(true)
                 .create();
         mDialogPlus.show();
         selectDataModel = null;
+    }
+
+    /**
+     * 显示添加动画
+     */
+    public void showAddAnimal(boolean flag) {
+        if (flag) {
+            ivConfirmArrow.setVisibility(View.VISIBLE);
+            ivConfirmArrow.setImageResource(R.drawable.animal_left_arrow);
+            animation2 = (AnimationDrawable) ivConfirmArrow.getDrawable();
+            animation2.start();
+        } else {
+            ivConfirmArrow.setVisibility(View.GONE);
+            if (null != animation2) {
+                animation2.stop();
+            }
+        }
     }
 
     /**
@@ -118,15 +149,15 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         //第一个位置弹出录音框
-        if (position == 0) {
-            PermissionUtils.getInstance( ).request(new PermissionUtils.PermissionLocationCallback() {
+        if (position == 0 && selectPosition == 0) {
+            PermissionUtils.getInstance().request(new PermissionUtils.PermissionLocationCallback() {
                 @Override
                 public void onSuccessful() {
                     if (null != mDialogPlus && mDialogPlus.isShowing()) {
                         mDialogPlus.dismiss();
                     }
-//                    DialogDub dialogDub = new DialogDub(mContext);
-//                    dialogDub.show();
+                    DialogDub dialogDub = new DialogDub(mContext, 1, mDialogListener);
+                    dialogDub.show();
                 }
 
                 @Override
@@ -143,25 +174,26 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
                 public void onCancelRationSetting() {
                 }
 
-            }, PermissionUtils.PermissionEnum.MICROPHONE,mContext);
+            }, PermissionUtils.PermissionEnum.MICROPHONE, mContext);
 
 
         } else {
-            if(isShowDelete){
-                return;
-            }
-            selectDataModel = (PrepareMusicModel) adapter.getData().get(position);
-            previewMusic(selectDataModel);
-            for (int i = 0; i < list.size(); i++) {
-                if (selectDataModel.getMusicName().equals(list.get(i).getMusicName())) {
-                    list.get(i).setPlaying(true);
-                } else {
-                    list.get(i).setPlaying(false);
+            if (position == selectPosition) {
+                isShow = false;
+                showAddAnimal(true);
+                selectDataModel = (PrepareMusicModel) adapter.getData().get(position);
+                previewMusic(selectDataModel);
+                for (int i = 0; i < list.size(); i++) {
+                    if (selectDataModel.getMusicName().equals(list.get(i).getMusicName())) {
+                        list.get(i).setPlaying(true);
+                    } else {
+                        list.get(i).setPlaying(false);
+                    }
                 }
+                tvConfirm.setTextColor(mContext.getResources().getColor(R.color.action_text_confirm_color));
+                tvConfirm.setEnabled(true);
+                actionAdapter.notifyDataSetChanged();
             }
-            tvConfirm.setTextColor(mContext.getResources().getColor(R.color.tv_user_edit_color));
-            tvConfirm.setEnabled(true);
-            actionAdapter.notifyDataSetChanged();
         }
     }
 
@@ -169,33 +201,21 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
     @Override
     public void onClick(DialogPlus dialog, View view) {
         int i = view.getId();
-        if (i == R.id.tv_cancel) {
-            dialog.dismiss();
+        if (i == R.id.tv_cancel) {// dialog.dismiss();
 
+        } else if (i == R.id.iv_delete) {// isShowDelete = true;
+            //actionAdapter.notifyDataSetChanged();
 
-        } else if (i == R.id.tv_confirm) {
-            if (selectDataModel == null) {
-                return;
+        } else if (i == R.id.iv_add_action_arrow || i == R.id.tv_confirm) {
+            if (TimeUtils.isFastClick()) {
+                if (selectDataModel == null) {
+                    return;
+                }
+                if (null != mDialogListener) {
+                    mDialogListener.onMusicConfirm(selectDataModel);
+                }
+                dialog.dismiss();
             }
-            if (null != mDialogListener) {
-                mDialogListener.onMusicConfirm(selectDataModel);
-            }
-            dialog.dismiss();
-
-
-        } else if (i == R.id.iv_delete) {
-            if (player != null) {
-                player.stop();
-            }
-            if (isShowDelete) {
-                isShowDelete = false;
-                ivDelete.setImageResource(R.drawable.ic_delete_grey);
-            } else {
-                isShowDelete = true;
-                //ivDelete.setImageResource(R.drawable.icon_save);
-            }
-
-            actionAdapter.notifyDataSetChanged();
 
         } else {
         }
@@ -210,14 +230,9 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
      */
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        //deleteMP3RecordFile(list.get(position).getMusicName());
-        ViseLog.d("onItemChildClick", "list:" + list.get(position) );
-        if(mDialogListener != null){
-            mDialogListener.onMusicDelete(list.get(position));
-        }
+        deleteMP3RecordFile(list.get(position).getMusicName());
         list.remove(position);
         actionAdapter.notifyDataSetChanged();
-
     }
 
 
@@ -244,7 +259,7 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
                 ivDelete.setVisibility(View.GONE);
                 textView.setVisibility(View.INVISIBLE);
             } else {
-                ivSelect.setVisibility(View.INVISIBLE);
+                 ivSelect.setVisibility(View.INVISIBLE);
                 textView.setVisibility(View.VISIBLE);
                 textView.setText(item.getMusicName());
                 gifView.setVisibility(View.VISIBLE);
@@ -259,21 +274,27 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
                 } else {
                     ivDelete.setVisibility(View.GONE);
                 }
-                if(isShowDelete){
-                    if(animationDrawable != null){
-                        selectDataModel = null;
-                        tvConfirm.setTextColor(mContext.getResources().getColor(R.color.tv_user_edit_color));
-                        tvConfirm.setEnabled(true);
-                        item.setPlaying(false);
-                        animationDrawable.stop();
-                    }
-                }
             }
+            ImageView ivArrow = helper.getView(R.id.iv_add_action_arrow);
 
+            if (item.getMusicName().equals(list.get(selectPosition).getMusicName()) && isShow) {
+                ivArrow.setVisibility(View.VISIBLE);
+                ivArrow.setImageResource(R.drawable.animal_left_arrow);
+                AnimationDrawable animation1;
+                animation1 = (AnimationDrawable) ivArrow.getDrawable();
+                animation1.start();
+            } else {
+                ivArrow.setVisibility(View.GONE);
+            }
 
         }
     }
 
+    public void pause() {
+        if (player != null && player.isPlaying()) {
+            player.pause();
+        }
+    }
 
     private MediaPlayer player;
 
@@ -364,11 +385,21 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
     }
 
 
-//    //删除用户录音的临时文件
-//    public void deleteMP3RecordFile(String name) {
-//        ViseLog.d("deleteMP3RecordFile", "deleteMP3RecordFile:" + name);
-//        FileTools.DeleteFile(new File(FileTools.record + File.separator + name + ".mp3"));
-//
-//    }
+    //删除用户录音的临时文件
+    public void deleteMP3RecordFile(String name) {
+        ViseLog.d("deleteMP3RecordFile", "deleteMP3RecordFile:" + name);
+        FileTools.DeleteFile(new File(FileTools.record + File.separator + name + ".mp3"));
+
+    }
+
+    public interface OnMusicDialogListener {
+
+        void onMusicConfirm(PrepareMusicModel prepareMusicModel);
+
+        void onMusicDelete(PrepareMusicModel prepareMusicModel);
+
+        void onStopRecord(PrepareMusicModel prepareMusicModel, int type);
+    }
+
 
 }
