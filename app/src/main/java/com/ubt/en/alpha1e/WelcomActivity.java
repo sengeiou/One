@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.globalConst.Constant1E;
+import com.ubt.baselib.model1E.UserInfoModel;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.vise.log.ViseLog;
 import com.yanzhenjie.permission.AndPermission;
