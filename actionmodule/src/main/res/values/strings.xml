@@ -155,10 +155,11 @@
     <string name="ui_square_science" tools:ignore="ResourceName">科普</string>
     <string name="ui_square_childrensong" tools:ignore="ResourceName">儿歌</string>
 
-     <string name="ui_action_name_exist" tools:ignore="ResourceName">名称已存在</string>
+    <string name="ui_action_name_exist" tools:ignore="ResourceName">名称已存在</string>
     <string name="ui_action_name_empty" tools:ignore="ResourceName">名称不能为空</string>
     <string name="ui_action_name_too_long" tools:ignore="ResourceName">名称过长</string>
     <string name="ui_action_name_spaces" tools:ignore="ResourceName">名称不可包含空格</string>
     <string name="ui_remote_synchoronize_unknown_error" tools:ignore="ResourceName">未知错误</string>
+    <string name="ui_about_feedback_input_too_long" tools:ignore="ResourceName">输入过长</string>
 
 </resources>

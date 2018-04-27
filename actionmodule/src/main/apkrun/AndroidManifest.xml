@@ -42,6 +42,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".SaveSuccessActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="landscape"
+                  android:theme="@style/NoTitleThemeFullScreen"
+                  android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

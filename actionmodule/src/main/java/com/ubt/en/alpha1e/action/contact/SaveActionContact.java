@@ -17,6 +17,8 @@ import com.ubt.htslib.base.NewActionInfo;
 public class SaveActionContact {
     public interface View extends BaseView {
         void notifyDataSetChanged();
+        void saveActionSuccess();
+        void saveActionFailed();
     }
 
     public interface Presenter extends BasePresenter<View> {

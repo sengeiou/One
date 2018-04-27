@@ -226,8 +226,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     private RelativeLayout rlRecordingState;
     private TextView tvRecordIndex;
     private TextView tvRecordTime;
-
-    public BaseActionEditLayout(Context context) {
+     public BaseActionEditLayout(Context context) {
         super(context);
         mContext = context;
         init(context);
@@ -815,14 +814,6 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     }
 
     public void saveNewAction(int type) {
-
-//        if (null != list_frames && list_frames.size() > 80) {
-//            for (int i = list_frames.size()-1; i > 80; i--) {
-//                ViseLog.d( "list_frames====remove" + i);
-//                list_frames.remove(i);
-//            }
-//            adapter.notifyDataSetChanged();
-//        }
         if (musicTimes == 0) {
             if (list_frames.size() < 1) {
                 new BaseDialog.Builder(mContext)
@@ -876,10 +867,10 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         if (mDir != "") {
             inte.putExtra(ActionSaveActivity.MUSIC_DIR, mDir);
         }
-//        if (listener != null) {
-//            listener.startSave(inte);
-//        }
-        mContext.startActivity(inte);
+        if (listener != null) {
+            listener.startSave(inte);
+        }
+
     }
 
     public void pause() {
