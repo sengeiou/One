@@ -789,7 +789,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
                         if (view.getId() == com.ubt.baselib.R.id.button_confirm) {
-                            saveNewAction(1);
+                            //saveNewAction(1);
                             if (mHelper.getNewPlayerState() == NewActionPlayer.PlayerState.PLAYING) {
                                 mHelper.doActionCommand(ActionsEditHelper.Command_type.Do_Stop,
                                         getEditingPreviewActions());
