@@ -2,6 +2,8 @@ package com.ubt.en.alpha1e.action.contact;
 
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
+import com.ubt.en.alpha1e.action.model.ActionTypeModel;
+import com.ubt.htslib.base.NewActionInfo;
 
 /**
  * @author：liuhai
@@ -22,5 +24,8 @@ public class SaveActionContact {
         void initActionTypeData();
 
         public void selectActionMode(int position);
+
+
+        void saveNewAction(ActionTypeModel actionModel, NewActionInfo actionInfo,String musicDir);
     }
 }

@@ -18,6 +18,7 @@ import com.ubt.en.alpha1e.action.model.ActionTypeModel;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.ubt.en.alpha1e.action.presenter.SaveActionPrenster;
 import com.ubt.htslib.base.NewActionInfo;
+import com.vise.log.ViseLog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,6 +84,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         mCurrentAction = getIntent().getParcelableExtra(ActionsEditHelper.New_ActionInfo);//get parcelable object
         musicDir = getIntent().getStringExtra(MUSIC_DIR);
         initView();
+        ViseLog.d(mCurrentAction.toString());
     }
 
 
@@ -119,7 +121,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     }
 
 
-    @OnClick({R2.id.iv_demo1, R2.id.iv_demo2, R2.id.iv_demo3})
+    @OnClick({R2.id.iv_demo1, R2.id.iv_demo2, R2.id.iv_demo3,R2.id.iv_save})
     public void ClickView(View view) {
         int id = view.getId();
         if (id == R.id.iv_demo1) {
@@ -131,6 +133,8 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         } else if (id == R.id.iv_demo3) {
             selectModel.setLeftSelectedImage(selectModel.getImageTypeArray()[2]);
             mImgActionLogo.setImageResource(selectModel.getLeftSelectedImage());
+        }else if (id==R.id.iv_save){
+            mPresenter.saveNewAction(selectModel,mCurrentAction,musicDir);
         }
     }
 
