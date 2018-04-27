@@ -20,6 +20,18 @@
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
         />
+    <TextView
+        android:id="@+id/login_tv_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/login_skip"
+        android:textColor="@color/login_text_blue_color"
+        android:textSize="@dimen/sp_15"
+        android:visibility="invisible"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <FrameLayout
         android:id="@+id/register_container"

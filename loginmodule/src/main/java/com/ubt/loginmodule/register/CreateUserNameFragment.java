@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.R;
@@ -87,6 +88,7 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
         }
         String userName = firstName + lastName;
         mPresenter.updateUserInfo(userName, null,null);
+        BaseLoadingDialog.show(getActivity());
 
     }
 
@@ -132,6 +134,7 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
 
     @Override
     public void updateUserInfoSuccess(boolean success) {
+        BaseLoadingDialog.dismiss(getActivity());
         if(success){
             start(CreateUserGenderFragment.newInstance());
         }else{

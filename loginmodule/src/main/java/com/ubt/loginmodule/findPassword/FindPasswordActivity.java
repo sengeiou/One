@@ -3,8 +3,6 @@ package com.ubt.loginmodule.findPassword;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.loginmodule.R;
 
@@ -16,7 +14,6 @@ import com.ubt.loginmodule.R;
  * @update
  */
 
-@Route(path = ModuleUtils.FindPassword)
 public class FindPasswordActivity extends MVPBaseActivity<FindPasswordContract.View, FindPasswordPresenter> implements FindPasswordContract.View {
 
     @Override

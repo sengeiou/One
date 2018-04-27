@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseFragment;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
 import com.ubt.loginmodule.login.LoginActivity;
@@ -140,6 +142,7 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
     public void onClick() {
         String birthday = year + "-" + month + "-" + day;
         mPresenter.updateUserInfo("","",birthday);
+        BaseLoadingDialog.show(getActivity());
     }
 
     @Override
@@ -187,9 +190,12 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
 
     @Override
     public void updateUserInfoSuccess(boolean success) {
+        BaseLoadingDialog.dismiss(getActivity());
         if(success) {
             getActivity().finish();
             startActivity(new Intent(getActivity(), LoginActivity.class));
+        }else{
+            ToastUtils.showShort("提交后台失败");
         }
     }
 

@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseFragment;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
 
@@ -93,6 +95,7 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
 
         } else if (i == R.id.btn_next) {
             mPresenter.updateUserInfo("", sex, "");
+            BaseLoadingDialog.show(getActivity());
 //                start(CreateUserAgeFragment.newInstance());
 
         } else {
@@ -141,8 +144,11 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
 
     @Override
     public void updateUserInfoSuccess(boolean success) {
+        BaseLoadingDialog.show(getActivity());
         if(success) {
             start(CreateUserAgeFragment.newInstance());
+        }else{
+            ToastUtils.showShort("提交失败");
         }
     }
 

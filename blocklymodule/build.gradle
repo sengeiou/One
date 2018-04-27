@@ -1,4 +1,4 @@
-def isBuildApk = true
+def isBuildApk = false
 if (isBuildApk) {
     apply plugin: 'com.android.application'
 } else {
@@ -37,14 +37,14 @@ android {
         }
     }
 
- /*   sourceSets {
+    sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
             if (isBuildApk) {
                 Manifest.srcFile 'src/main/apkrun/AndroidManifest.xml'
             }
         }
-    }*/
+    }
 
     if (!isBuildApk) {
         android.libraryVariants.all { variant ->

@@ -137,12 +137,13 @@ public class WelcomActivity extends AppCompatActivity {
      * 跳转到其它模块
      */
     private void startMainActivity(){
-        final String startModule = ModuleUtils.Main_MainActivity;
-        /*UserModel userModel = (UserModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
-        if (null != userModel) {
+        final String startModule = ModuleUtils.Login_Module;
+        final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        ViseLog.d("userInfoModel:" + userInfoModel);
+        /*        if (null != userInfoModel) {
             if (!TextUtils.isEmpty(userModel.getPhone())){
                 if (TextUtils.isEmpty(userModel.getAge())) {
-                   // startModule = ModuleUtils.Login_UserEdit;
+                    startModule = ModuleUtils.Login_UserEdit;
                     startModule = ModuleUtils.Main_MainActivity;
 
                 } else {
@@ -159,5 +160,20 @@ public class WelcomActivity extends AppCompatActivity {
             }
         },1000);
 
+        if(null == userInfoModel){
+            ARouter.getInstance().build(startModule).navigation();
+        }else{
+            if(TextUtils.isEmpty(userInfoModel.getEmail())){
+                ARouter.getInstance().build(startModule).navigation();
+            }else{
+                if(TextUtils.isEmpty(userInfoModel.getNickName())){
+                    ARouter.getInstance().build(ModuleUtils.Login_Register).withBoolean(Constant1E.EMPTY_NICK_NAME,true).navigation();
+                }else{
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+
+                }
+
+            }
+        }
     }
 }

@@ -16,8 +16,10 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.app.abby.tsnackbar.TSnackbar;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseLoadingDialog;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
-import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
@@ -173,21 +175,27 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
                     .show();
             return;
         }
-
+        BaseLoadingDialog.show(this);
         mPresenter.loginUseEmail(account, password);
 
     }
 
     @Override
     public void loginSuccess() {
-        ToastUtils.showShort(getTextById(R.string.login_login_success));
-        ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation();
+        BaseLoadingDialog.dismiss(this);
+        boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
+        if(noFirst){
+            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+        }else{
+            ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation();
+        }
+
         this.finish();
     }
 
     @Override
     public void loginFailed() {
-        ToastUtils.showShort(getTextById(R.string.login_login_failed));
+        BaseLoadingDialog.dismiss(this);
     }
 }
 

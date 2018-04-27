@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_bg"
+    tools:ignore="ResourceName">
+
+    <!--上面按钮开始-->
+    <RelativeLayout
+        android:id="@+id/action_top_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        >
+
+        <ImageView
+            android:id="@+id/block_iv_back"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_12"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_back"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_charging_backgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/block_title"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/action_top_title"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_block_create"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_home_blockly_1"/>
+
+            <TextView
+                android:id="@+id/tv_create_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/dp_75"
+                android:gravity="center"
+                android:text="@string/block_make_up"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18"
+                />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.6"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_block_work"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/img_home_action_2"
+                    >
+
+
+                    <TextView
+                        android:id="@+id/tv_work_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/dp_35"
+                        android:gravity="center"
+                        android:text="@string/block_my_works"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_18"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_block_download"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/img_home_action_3"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_download_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/dp_35"
+                        android:gravity="center"
+                        android:text="@string/block_download"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_18"
+                        />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_block_make"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/img_home_action_4"
+                >
+
+                <TextView
+                    android:id="@+id/tv_d_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/block_courses"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_18"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--上面按钮结束-->
+
+
+</RelativeLayout>

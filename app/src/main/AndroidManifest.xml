@@ -24,6 +24,7 @@
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"
 
             >
 

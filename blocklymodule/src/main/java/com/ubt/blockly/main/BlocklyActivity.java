@@ -14,11 +14,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.blockly.R;
+import com.ubt.blockly.R2;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,10 +33,9 @@ import butterknife.ButterKnife;
  * @update
  */
 
-@Route(path = ModuleUtils.Blockly_BlocklyProgram)
 public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, BlocklyPresenter> implements BlocklyContract.View {
 
-    @BindView(R.id.blockly_webView)
+    @BindView(R2.id.blockly_webView)
     WebView mWebView;
     public static String URL = BaseHttpEntity.BLOCKLY_CODEMAO_URL;
     private BlocklyJsInterface mBlocklyJsInterface;
