@@ -64,6 +64,7 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment_user_gender, container, false);
         unbinder = ButterKnife.bind(this, view);
+        ((RegisterActivity)getActivity()).setTvSkipVisible(true);
         initView();
         return view;
     }
@@ -96,7 +97,6 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
         } else if (i == R.id.btn_next) {
             mPresenter.updateUserInfo("", sex, "");
             BaseLoadingDialog.show(getActivity());
-//                start(CreateUserAgeFragment.newInstance());
 
         } else {
         }
@@ -144,7 +144,7 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
 
     @Override
     public void updateUserInfoSuccess(boolean success) {
-        BaseLoadingDialog.show(getActivity());
+        BaseLoadingDialog.dismiss(getActivity());
         if(success) {
             start(CreateUserAgeFragment.newInstance());
         }else{
@@ -161,5 +161,6 @@ public class CreateUserGenderFragment extends MVPBaseFragment<RegisterContract.V
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        BaseLoadingDialog.dismiss(getActivity());
     }
 }

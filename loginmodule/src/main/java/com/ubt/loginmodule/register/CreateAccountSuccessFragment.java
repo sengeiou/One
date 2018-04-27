@@ -57,6 +57,7 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment_sign_up_success, container, false);
         unbinder = ButterKnife.bind(this, view);
+        ((RegisterActivity)getActivity()).setTvSkipVisible(false);
         return view;
     }
 

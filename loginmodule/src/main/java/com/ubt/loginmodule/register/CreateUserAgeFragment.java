@@ -72,6 +72,7 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment_user_age, container, false);
         unbinder = ButterKnife.bind(this, view);
+        ((RegisterActivity)getActivity()).setTvSkipVisible(false);
         initView();
         return view;
     }
@@ -80,7 +81,7 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
         mPresenter.getYearData();
         loopViewYear.setItemsVisibleCount(5);
         loopViewYear.setTextSize(18);
-        loopViewYear.setCurrentPosition(89);
+        loopViewYear.setCurrentPosition(90);
 
         mPresenter.getMonthData();
         loopViewMonth.setItemsVisibleCount(5);
@@ -208,6 +209,7 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        BaseLoadingDialog.dismiss(getActivity());
     }
 
 

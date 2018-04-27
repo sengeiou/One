@@ -50,6 +50,9 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                             }
                         }else{
                             ToastUtils.showShort(baseResponseModel.info);
+                            if(mView != null){
+                                mView.loginFailed();
+                            }
                         }
 
 
@@ -58,6 +61,9 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                     @Override
                     public void onFail(int i, String s) {
                         ToastUtils.showShort("login failed:" + s);
+                        if(mView != null){
+                            mView.loginFailed();
+                        }
                     }
                 });
 

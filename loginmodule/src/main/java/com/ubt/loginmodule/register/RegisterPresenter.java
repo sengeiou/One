@@ -64,6 +64,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
 
     @Override
     public void signUp(final String account, String password, String code) {
+
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setEmail(account);
         registerRequest.setPassword(password);
@@ -88,17 +89,17 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                                 userInfoModel.setEmail(account);
                                 ViseLog.d("userInfoModel:" + userInfoModel);
                                 SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO, userInfoModel);
-//                                SPUtils.getInstance().put(LoginSP.SP_USER_ID,userIdModel.getUserId());
-//                                SPUtils.getInstance().put(LoginSP.SP_EMAIL, account);
-//                                SpCache spCache = new SpCache(ContextUtils.getContext());
-//                                spCache.put(LoginSP.SP_USER_ID, userIdModel.getUserId());
-//                                spCache.put(LoginSP.SP_EMAIL, account);
+
                             }
                             if(mView != null){
                                 mView.signUpSuccess();
                             }
                         }else{
                             ToastUtils.showShort(baseResponseModel.info);
+                            if(mView != null){
+                                mView.signUpFailed();
+                            }
+
                         }
                     }
 
@@ -190,12 +191,13 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                             UserInfoModel userInfoModel =  baseResponseModel.models;
                             SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO,userInfoModel);
                             if(mView != null){
-                                //TODO
                                 mView.updateUserInfoSuccess(true);
                             }
+                        }else{
+                            if(mView != null){
+                                mView.updateUserInfoSuccess(false);
+                            }
                         }
-
-
                     }
 
                     @Override
@@ -205,6 +207,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                         }
                     }
                 });
+
 
 
     }

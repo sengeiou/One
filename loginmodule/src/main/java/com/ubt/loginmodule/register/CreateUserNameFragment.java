@@ -69,6 +69,7 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment_user_name, container, false);
         unbinder = ButterKnife.bind(this, view);
+        ((RegisterActivity)getActivity()).setTvSkipVisible(false);
         return view;
     }
 
@@ -151,5 +152,6 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        BaseLoadingDialog.dismiss(getActivity());
     }
 }
