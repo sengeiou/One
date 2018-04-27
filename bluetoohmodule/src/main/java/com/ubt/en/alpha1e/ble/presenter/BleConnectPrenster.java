@@ -212,6 +212,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                     return;
                 }
                 mBlueClient.sendData(new BTCmdHandshake().toByteArray());
+                ViseLog.e("发送握手协议");
                 mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT, TIME_OUT);
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
@@ -297,12 +298,12 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      */
     private void connectBySHortDistance(BluetoothDevice device, int rssi) {
 
-        ViseLog.d("-connectBySHortDistance，juli==" + getDistance((short) rssi));
         if (!isConnecting && getDistance((short) rssi) < 0.8) {
             if (mBlueClient.getConnectionState() == 3) {
                 ViseLog.d("-蓝牙已经连上，则不使用自动连接--");
                 return;
             }
+            ViseLog.d("-connectBySHortDistance，juli==" + getDistance((short) rssi));
             //stopConnectBleTask();
             mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
             ViseLog.d("距离近 进行自动连接");
