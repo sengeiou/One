@@ -81,7 +81,7 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
         mPresenter.getYearData();
         loopViewYear.setItemsVisibleCount(5);
         loopViewYear.setTextSize(18);
-        loopViewYear.setCurrentPosition(89);
+        loopViewYear.setCurrentPosition(90);
 
         mPresenter.getMonthData();
         loopViewMonth.setItemsVisibleCount(5);

@@ -320,16 +320,21 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
 
         @Override
         public void onFinish() {
+            if(null != btnSendSecurityCode){
+                btnSendSecurityCode.setText(getString(R.string.login_resend_security_code));
+                btnSendSecurityCode.setEnabled(true);
+            }
 
-            btnSendSecurityCode.setText(getString(R.string.login_resend_security_code));
-            btnSendSecurityCode.setEnabled(true);
 
 
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            btnSendSecurityCode.setText("" + (millisUntilFinished / 1000) + " s");
+            if(null != btnSendSecurityCode){
+                btnSendSecurityCode.setText("" + (millisUntilFinished / 1000) + " s");
+            }
+
         }
     }
 

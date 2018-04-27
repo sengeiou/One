@@ -103,22 +103,18 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
 
     @Override
     public void sendSuccess() {
-
     }
 
     @Override
     public void sendFailed() {
-
     }
 
     @Override
     public void signUpSuccess() {
-
     }
 
     @Override
     public void signUpFailed() {
-
     }
 
     @Override
@@ -138,17 +134,14 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
 
     @Override
     public void registerFinish() {
-
     }
 
     @Override
     public void updateUserInfoSuccess(boolean success) {
-
     }
 
     @Override
     public void sendSecurityCodeSuccess(boolean success) {
-
     }
 
 

@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.callback.NavigationCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.app.abby.tsnackbar.TSnackbar;
 import com.ubt.baselib.commonModule.ModuleUtils;
@@ -62,10 +64,9 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     @BindView(R2.id.iv_show_password)
     ImageView ivShowPassword;
 
-
     private boolean showPassword = false;
-
     Unbinder unbinder;
+    private NavigationCallback navigationCallback;
 
 
     @Override
@@ -79,7 +80,34 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
         ViseLog.d( "LoginActivity onCreate");
         unbinder = ButterKnife.bind(this);
         initView();
+        initNavigationListener();
     }
+
+    private void initNavigationListener() {
+        navigationCallback = new NavigationCallback() {
+            @Override
+            public void onFound(Postcard postcard) {
+
+            }
+
+            @Override
+            public void onLost(Postcard postcard) {
+
+            }
+
+            @Override
+            public void onArrival(Postcard postcard) {
+                ViseLog.i("postcard="+postcard.toString());
+                LoginActivity.this.finish();
+            }
+
+            @Override
+            public void onInterrupt(Postcard postcard) {
+
+            }
+        };
+    }
+
 
     private void initView() {
        edtAccount.addTextChangedListener(new TextWatcherUtil(edtAccount, new TextWatcherUtil.TextWatcherListener() {
@@ -185,12 +213,11 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
         BaseLoadingDialog.dismiss(this);
         boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
         if(noFirst){
-            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation(LoginActivity.this, navigationCallback);
         }else{
-            ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation();
+            ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation(LoginActivity.this, navigationCallback);
         }
 
-        this.finish();
     }
 
     @Override

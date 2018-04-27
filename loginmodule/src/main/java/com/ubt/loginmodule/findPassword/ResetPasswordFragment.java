@@ -189,6 +189,7 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        BaseLoadingDialog.dismiss(getActivity());
     }
 
     @Override

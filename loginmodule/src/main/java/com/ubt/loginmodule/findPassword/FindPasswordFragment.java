@@ -209,16 +209,21 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
 
         @Override
         public void onFinish() {
+            if(null != btnSendSecurity){
+                btnSendSecurity.setText(getString(R.string.login_resend_security_code));
+                btnSendSecurity.setEnabled(true);
+            }
 
-            btnSendSecurity.setText(getString(R.string.login_resend_security_code));
-            btnSendSecurity.setEnabled(true);
 
 
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            btnSendSecurity.setText("" + (millisUntilFinished / 1000) + " s");
+            if(null != btnSendSecurity){
+                btnSendSecurity.setText("" + (millisUntilFinished / 1000) + " s");
+            }
+
         }
     }
 

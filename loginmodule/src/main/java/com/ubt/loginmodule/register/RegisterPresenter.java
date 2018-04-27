@@ -191,12 +191,13 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                             UserInfoModel userInfoModel =  baseResponseModel.models;
                             SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO,userInfoModel);
                             if(mView != null){
-                                //TODO
                                 mView.updateUserInfoSuccess(true);
                             }
+                        }else{
+                            if(mView != null){
+                                mView.updateUserInfoSuccess(false);
+                            }
                         }
-
-
                     }
 
                     @Override

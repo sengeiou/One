@@ -173,10 +173,10 @@ public class WelcomActivity extends AppCompatActivity {
         final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         ViseLog.d("userInfoModel:" + userInfoModel);
         if(null == userInfoModel){
-            ARouter.getInstance().build(startModule).navigation();
+            ARouter.getInstance().build(startModule).navigation(WelcomActivity.this, navigationCallback);
         }else{
             if(TextUtils.isEmpty(userInfoModel.getEmail())){
-                ARouter.getInstance().build(startModule).navigation();
+                ARouter.getInstance().build(startModule).navigation(WelcomActivity.this,navigationCallback);
             }else{
                 if(TextUtils.isEmpty(userInfoModel.getNickName())){
                     ARouter.getInstance().build(ModuleUtils.Login_Register)
