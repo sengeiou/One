@@ -63,7 +63,6 @@ public class ConfigureBaseLib {
         this.isIssue = isIssue;
         BaseHttpEntity.init(this.isIssue);
 
-        // initSkin(appContext);
         SkinManager.getInstance().init(appContext);
         ContextUtils.init(appContext);
         initLog();

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/B6"
               android:gravity="center_horizontal"
               android:orientation="vertical"
-    >
+              tools:ignore="ResourceName">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,10 +38,10 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_width="77dp"
-        android:layout_height="87dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_save"/>
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_80"
+        android:layout_marginTop="@dimen/dp_10"
+        android:src="@drawable/img_connect_bt_succeed"/>
 
 
     <LinearLayout

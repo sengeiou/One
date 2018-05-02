@@ -6,7 +6,6 @@
         <activity
             android:name=".ActionCreateActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
@@ -14,7 +13,6 @@
         <activity
             android:name=".ActionMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
@@ -22,18 +20,28 @@
         <activity
             android:name=".ActionSaveActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".SaveSuccessActivity"
+        <activity
+            android:name=".SaveSuccessActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".course.ActionCourseActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".course.ActionLevelOneActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:launchMode="singleTask"
                   android:screenOrientation="landscape"
                   android:theme="@style/NoTitleThemeFullScreen"
-                  android:windowSoftInputMode="adjustPan">
-        </activity>
+                  android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

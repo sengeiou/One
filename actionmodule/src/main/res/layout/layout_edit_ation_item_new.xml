@@ -4,7 +4,7 @@
                 android:id="@+id/lay_frame_data_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background=" #093759"
+                android:background="#093759"
                 android:clickable="true"
                 android:visibility="gone"
                 tools:ignore="ResourceName">

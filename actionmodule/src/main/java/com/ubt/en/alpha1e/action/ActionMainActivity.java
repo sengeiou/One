@@ -12,6 +12,7 @@ import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.contact.ActionMainContact;
+import com.ubt.en.alpha1e.action.course.ActionCourseActivity;
 import com.ubt.en.alpha1e.action.presenter.ActionMainPrenster;
 
 import butterknife.BindView;
@@ -60,6 +61,7 @@ public class ActionMainActivity extends MVPBaseActivity<ActionMainContact.View, 
                 startActivity(new Intent(this, ActionCreateActivity.class));
             }
         } else if (i == R.id.rl_action_work) {
+            startActivity(new Intent(this, ActionCourseActivity.class));
         } else if (i == R.id.rl_action_download) {
         } else if (i == R.id.rl_action_make) {
         }

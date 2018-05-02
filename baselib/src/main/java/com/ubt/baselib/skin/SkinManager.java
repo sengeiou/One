@@ -29,7 +29,7 @@ public class SkinManager {
 
     public void init(Application application) {
         mContext = application;
-        initSkin(application);
+        //initSkin(application);
     }
 
     public static SkinManager getInstance() {
@@ -75,6 +75,8 @@ public class SkinManager {
      * @return
      */
     public String getTextById(int id) {
-        return SkinCompatResources.getString(mContext, id);
+
+        return mContext.getResources().getString(id);
+        //return SkinCompatResources.getString(mContext, id);
     }
 }

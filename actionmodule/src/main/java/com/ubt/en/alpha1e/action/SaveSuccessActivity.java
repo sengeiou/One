@@ -1,6 +1,7 @@
 package com.ubt.en.alpha1e.action;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.en.alpha1e.action.contact.ActionMainContact;
@@ -16,5 +17,11 @@ public class SaveSuccessActivity extends MVPBaseActivity<ActionMainContact.View,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        findViewById(R.id.img_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

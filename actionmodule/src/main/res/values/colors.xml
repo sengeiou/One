@@ -22,4 +22,6 @@
     <color name="action_save_text_border_color">#E4E4E4</color>
     <color name="action_save_text_color">#9F9FA3</color>
     <color name="action_main_hite">#cc1b1b1b</color>
+
+    <color name="action_background_gray">#AA000000</color>
 </resources>
