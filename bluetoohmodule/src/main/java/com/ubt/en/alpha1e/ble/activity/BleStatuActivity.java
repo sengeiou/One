@@ -3,6 +3,7 @@ package com.ubt.en.alpha1e.ble.activity;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,9 +13,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
@@ -90,6 +93,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     @BindView(R2.id.iv_notconnect_wifi)
     ImageView mIvNotconnectWifi;
 
+    private int fromeType;
+
     @Override
     public int getContentViewId() {
         return R.layout.ble_activity_ble_statu;
@@ -100,7 +105,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
         mPresenter.init(this);
-
+        fromeType = getIntent().getIntExtra(Constant1E.ENTER_BLESTATU_ACTIVITY, 0);
     }
 
     @Override
@@ -113,9 +118,9 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     public void clickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_back_disconnect) {
-            finish();
+            finishBleStatuActivity();
         } else if (i == R.id.bleImageview3) {
-            finish();
+            finishBleStatuActivity();
         } else if (i == R.id.ble_statu_connect) {
             BleConnectActivity.launch(this, false);
         } else if (i == R.id.tv_wifi_select) {
@@ -128,7 +133,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     .setMessage(s)
                     .setConfirmButtonId(R.string.ble_disconnect)
                     .setConfirmButtonColor(R.color.base_color_red)
-                    .setCancleButtonID(R.string.base_cancle)
+                    .setCancleButtonID(R.string.base_cancel)
                     .setCancleButtonColor(R.color.black)
                     .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                         @Override
@@ -202,4 +207,31 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         mPresenter.unRegister();
         mUnbinder.unbind();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finishBleStatuActivity();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 结束页面
+     * fromeType 0默认从主页跳转过来直接finish
+     * 1从第一次进入蓝牙联网页面跳转主页
+     * 2逻辑编程页面
+     */
+    private void finishBleStatuActivity() {
+        if (fromeType == 0) {
+
+        } else if (fromeType == 1) {
+            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+        } else if (fromeType == 2) {
+            setResult(RESULT_OK);
+        }
+        finish();
+    }
+
 }

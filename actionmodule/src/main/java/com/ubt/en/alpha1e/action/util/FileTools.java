@@ -52,7 +52,7 @@ public class FileTools {
     private static String SDCardPath = Environment
             .getExternalStorageDirectory().getPath();
 
-    public static final String file_path = SDCardPath + "/ubt_alpha1e";
+    public static final String file_path = SDCardPath + "/ubt_enalpha1e";
     public static final String file_cache = file_path + "/cache";
     public static final String image_cache = file_cache + "/images";
     public static final String media_cache = file_cache + "/medias";

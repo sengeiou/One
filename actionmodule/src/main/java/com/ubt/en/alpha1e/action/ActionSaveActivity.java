@@ -1,8 +1,10 @@
 package com.ubt.en.alpha1e.action;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,13 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.action.adapter.SelectGridAdapter;
 import com.ubt.en.alpha1e.action.contact.SaveActionContact;
 import com.ubt.en.alpha1e.action.model.ActionTypeModel;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.ubt.en.alpha1e.action.presenter.SaveActionPrenster;
 import com.ubt.htslib.base.NewActionInfo;
+import com.vise.log.ViseLog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,6 +89,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         mCurrentAction = getIntent().getParcelableExtra(ActionsEditHelper.New_ActionInfo);//get parcelable object
         musicDir = getIntent().getStringExtra(MUSIC_DIR);
         initView();
+        ViseLog.d(mCurrentAction.toString());
     }
 
 
@@ -119,7 +126,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     }
 
 
-    @OnClick({R2.id.iv_demo1, R2.id.iv_demo2, R2.id.iv_demo3})
+    @OnClick({R2.id.iv_demo1, R2.id.iv_demo2, R2.id.iv_demo3, R2.id.iv_save, R2.id.iv_back})
     public void ClickView(View view) {
         int id = view.getId();
         if (id == R.id.iv_demo1) {
@@ -131,14 +138,19 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         } else if (id == R.id.iv_demo3) {
             selectModel.setLeftSelectedImage(selectModel.getImageTypeArray()[2]);
             mImgActionLogo.setImageResource(selectModel.getLeftSelectedImage());
+        } else if (id == R.id.iv_save) {
+            saveAction();
+        } else if (id == R.id.iv_back) {
+            finish();
         }
     }
+
 
     /**
      * 设置左边图片展示
      */
     private void setLeftImageShow() {
-        mEdtDisc.setText(selectModel.getActionDescrion());
+        mEdtDisc.setHint(selectModel.getActionDescrion());
         mIvDemo1.setImageResource(selectModel.getImageTypeArray()[0]);
         mIvDemo2.setImageResource(selectModel.getImageTypeArray()[1]);
         mIvDemo3.setImageResource(selectModel.getImageTypeArray()[2]);
@@ -152,5 +164,49 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     @Override
     public void notifyDataSetChanged() {
         mSelectGridAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void saveActionSuccess() {
+        BaseLoadingDialog.dismiss(this);
+        Intent intent = new Intent();
+        intent.putExtra(ActionsEditHelper.SaveActionResult,true);
+        setResult(ActionsEditHelper.SaveActionReq, intent);
+        finish();
+    }
+
+    @Override
+    public void saveActionFailed() {
+        BaseLoadingDialog.dismiss(this);
+    }
+
+
+    private void saveAction() {
+        if (mEdtName.getText().toString().equals("")) {
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_action_name_empty));
+            return;
+        }
+
+        if (!mPresenter.isRightName(mEdtName.getText().toString(), -1, false, "")) {
+            return;
+        }
+
+        int length = mEdtDisc.getText().toString().length();
+
+        if (length > 100) {
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_about_feedback_input_too_long));
+            return;
+        }
+
+        if (TextUtils.isEmpty(mEdtDisc.getText().toString())) {
+            mCurrentAction.actionDesciber = mEdtDisc.getHint().toString();
+        } else {
+            mCurrentAction.actionDesciber = mEdtDisc.getText().toString();
+        }
+        mCurrentAction.actionName = mEdtName.getText().toString().replace("\n", "");
+        mCurrentAction.actionSonType = selectModel.getActionType();
+        mCurrentAction.actionType = selectModel.getActionType();
+        BaseLoadingDialog.show(this);
+        mPresenter.saveNewAction(selectModel, mCurrentAction, musicDir);
     }
 }

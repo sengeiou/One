@@ -14,8 +14,7 @@ import com.ubt.globaldialog.customDialog.ConfirmDialog;
 import com.vise.log.ViseLog;
 
 
-
-public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View,ActionMainPrenster> implements ActionMainContact.View, IEditActionUI, ActionsEditHelper.PlayCompleteListener, BaseActionEditLayout.OnSaveSucessListener {
+public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View, ActionMainPrenster> implements ActionMainContact.View, IEditActionUI, ActionsEditHelper.PlayCompleteListener, BaseActionEditLayout.OnSaveSucessListener {
 
     ActionEditsStandard mActionEdit;
 
@@ -35,7 +34,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         mHelper = new ActionsEditHelper(this, this);
+        mHelper = new ActionsEditHelper(this, this);
         ((ActionsEditHelper) mHelper).setListener(this);
         mActionEdit = (ActionEditsStandard) findViewById(R.id.action_edit);
         mActionEdit.setUp(mHelper);
@@ -100,16 +99,15 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
                 return;
             }
             isSaveSuccess = (Boolean) data.getExtras().get(ActionsEditHelper.SaveActionResult);
-//            if(isSaveSuccess){
-//                if(mHelper != null){
-//                    UbtLog.d(TAG, "退出动作编辑模式");
-//                    ((ActionsEditHelper) mHelper).doEnterOrExitActionEdit((byte)0x04);
-//                }
-//                NewActionInfo actionInfo = ((ActionsEditHelper)mHelper).getNewActionInfo();
-//                Intent intent = new Intent(this, SaveSuccessActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
+            if (isSaveSuccess) {
+                if (mHelper != null) {
+                    ViseLog.d("退出动作编辑模式");
+                    ((ActionsEditHelper) mHelper).doEnterOrExitActionEdit((byte) 0x04);
+                }
+                //NewActionInfo actionInfo = ((ActionsEditHelper)mHelper).getNewActionInfo();
+                Intent intent = new Intent(this, SaveSuccessActivity.class);
+                startActivity(intent);
+            }
 
         }
 

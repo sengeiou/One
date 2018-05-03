@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +17,9 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
@@ -115,13 +119,38 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         } else if (i == R.id.ble_connect_wifi) {
             wifiName = mBleEditName.getText().toString().trim();
             wifiPasswd = mBleEditPasswd.getText().toString().trim();
-            if (!TextUtils.isEmpty(wifiName) && !TextUtils.isEmpty(wifiPasswd)) {
-                mPresenter.sendPasswd(wifiName, wifiPasswd);
-                BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connecting));
-                mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
+            if (!TextUtils.isEmpty(wifiName)) {
+                if (!TextUtils.isEmpty(wifiPasswd)) {
+                    mPresenter.sendPasswd(wifiName, wifiPasswd);
+                    BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connecting));
+                    mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
+                } else {
+                    new BaseDialog.Builder(this)
+                            .setMessage(R.string.ble_wifi_connect_without_password)
+                            .setConfirmButtonId(R.string.ui_common_confirm)
+                            .setConfirmButtonColor(R.color.base_color_red)
+                            .setCancleButtonID(R.string.base_cancel)
+                            .setCancleButtonColor(R.color.black)
+                            .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                                @Override
+                                public void onClick(DialogPlus dialog, View view) {
+                                    if (view.getId() == R.id.button_confirm) {
+                                        mPresenter.sendPasswd(wifiName, wifiPasswd);
+                                        BaseLoadingDialog.show(BleWifiInputActivity.this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connecting));
+                                        mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
+                                        dialog.dismiss();
+                                    } else if (view.getId() == R.id.button_cancle) {
+                                        dialog.dismiss();
+                                    }
+
+                                }
+                            }).create().show();
+                }
+
             }
 
         } else {
+
         }
     }
 
@@ -136,6 +165,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         if (!TextUtils.isEmpty(wifiName)) {
             mBleEditPasswd.setFocusable(true);
         }
+        mBleEditName.addTextChangedListener(mTextWatcher);
         mPresenter.init(this);
     }
 
@@ -186,4 +216,45 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
             }
         }
     };
+
+    /**
+     * 文本内容改变监听器
+     */
+    private TextWatcher mTextWatcher = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            ViseLog.d("afterTextChanged 改变");
+
+            setNetworkButtonState();
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+            // TODO Auto-generated method stub
+        }
+    };
+
+    /**
+     * 文本内容改变，按钮处理逻辑
+     * 内容为空时，不可点击，非空时，可以点击
+     */
+    private void setNetworkButtonState() {
+        if (mBleEditName == null) {
+            return;
+        }
+        if (mBleEditName.getText().toString().trim().length() > 0) {
+            ViseLog.d("afterTextChanged ENBLE");
+            mBleConnectWifi.setEnabled(true);
+        } else {
+            ViseLog.d("afterTextChanged DISABLE");
+            mBleConnectWifi.setEnabled(false);
+        }
+    }
 }

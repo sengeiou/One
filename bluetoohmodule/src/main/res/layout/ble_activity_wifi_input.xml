@@ -108,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
-        android:background="@drawable/btn_blue"
+        android:background="@drawable/ble_connect_btn_selector"
         android:gravity="center"
         android:text="@string/ble_connect"
         android:textColor="@color/white"

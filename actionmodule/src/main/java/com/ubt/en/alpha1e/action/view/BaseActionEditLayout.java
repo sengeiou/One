@@ -23,28 +23,30 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.baoyz.pg.PG;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.PermissionUtils;
 import com.ubt.baselib.utils.TimeUtils;
 import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.en.alpha1e.action.ActionSaveActivity;
 import com.ubt.en.alpha1e.action.R;
+import com.ubt.en.alpha1e.action.adapter.FrameRecycleViewAdapter;
+import com.ubt.en.alpha1e.action.adapter.TimesHideRecycleViewAdapter;
+import com.ubt.en.alpha1e.action.adapter.TimesRecycleViewAdapter;
+import com.ubt.en.alpha1e.action.dialog.DialogMusic;
+import com.ubt.en.alpha1e.action.dialog.DialogTips;
+import com.ubt.en.alpha1e.action.dialog.PrepareActionUtil;
+import com.ubt.en.alpha1e.action.dialog.PrepareMusicUtil;
 import com.ubt.en.alpha1e.action.model.ActionDataModel;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.ubt.en.alpha1e.action.model.NewActionPlayer;
 import com.ubt.en.alpha1e.action.model.PrepareDataModel;
 import com.ubt.en.alpha1e.action.model.PrepareMusicModel;
 import com.ubt.en.alpha1e.action.util.ActionConstant;
-import com.ubt.en.alpha1e.action.dialog.DialogMusic;
 import com.ubt.en.alpha1e.action.util.DialogPreview;
-import com.ubt.en.alpha1e.action.dialog.DialogTips;
 import com.ubt.en.alpha1e.action.util.FileTools;
-import com.ubt.en.alpha1e.action.adapter.FrameRecycleViewAdapter;
-import com.ubt.en.alpha1e.action.dialog.PrepareActionUtil;
-import com.ubt.en.alpha1e.action.dialog.PrepareMusicUtil;
-import com.ubt.en.alpha1e.action.adapter.TimesHideRecycleViewAdapter;
-import com.ubt.en.alpha1e.action.adapter.TimesRecycleViewAdapter;
 import com.ubt.htslib.base.ByteHexHelper;
 import com.ubt.htslib.base.FrameActionInfo;
 import com.ubt.htslib.base.NewActionInfo;
@@ -224,8 +226,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     private RelativeLayout rlRecordingState;
     private TextView tvRecordIndex;
     private TextView tvRecordTime;
-
-    public BaseActionEditLayout(Context context) {
+     public BaseActionEditLayout(Context context) {
         super(context);
         mContext = context;
         init(context);
@@ -787,7 +788,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
                         if (view.getId() == com.ubt.baselib.R.id.button_confirm) {
-                            saveNewAction(1);
+                            //saveNewAction(1);
                             if (mHelper.getNewPlayerState() == NewActionPlayer.PlayerState.PLAYING) {
                                 mHelper.doActionCommand(ActionsEditHelper.Command_type.Do_Stop,
                                         getEditingPreviewActions());
@@ -813,14 +814,6 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     }
 
     public void saveNewAction(int type) {
-
-//        if (null != list_frames && list_frames.size() > 80) {
-//            for (int i = list_frames.size()-1; i > 80; i--) {
-//                ViseLog.d( "list_frames====remove" + i);
-//                list_frames.remove(i);
-//            }
-//            adapter.notifyDataSetChanged();
-//        }
         if (musicTimes == 0) {
             if (list_frames.size() < 1) {
                 new BaseDialog.Builder(mContext)
@@ -861,24 +854,23 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
             }
         }
 
-//        Intent inte = new Intent();
-//        if (type == 1) {
-//            inte.setClass(mContext, ActionsEditSaveActivity.class);
-//        } else {
-//            inte.setClass(mContext, ActionsCourseSaveActivity.class);
-//        }
-//        inte.putExtra(ActionsEditHelper.NewActionInfo, PG.convertParcelable(getEditingActions()));
-//        inte.putExtra(SCHEME_ID, mSchemeId);
-//        inte.putExtra(SCHEME_NAME, mSchemeName);
-//        inte.putExtra(FROM_TYPE, type);
-//        inte.putExtra(Constant.SCREEN_ORIENTATION, 0);
-//        if (mDir != "") {
-//            inte.putExtra(ActionsEditSaveActivity.MUSIC_DIR, mDir);
-//        }
-//        if (listener != null) {
-//            listener.startSave(inte);
-//        }
-//        mContext.startActivity(inte);
+        Intent inte = new Intent();
+        if (type == 1) {
+            inte.setClass(mContext, ActionSaveActivity.class);
+        } else {
+            //  inte.setClass(mContext, ActionsCourseSaveActivity.class);
+        }
+        inte.putExtra(ActionsEditHelper.New_ActionInfo, PG.convertParcelable(getEditingActions()));
+        inte.putExtra(SCHEME_ID, mSchemeId);
+        inte.putExtra(SCHEME_NAME, mSchemeName);
+        inte.putExtra(FROM_TYPE, type);
+        if (mDir != "") {
+            inte.putExtra(ActionSaveActivity.MUSIC_DIR, mDir);
+        }
+        if (listener != null) {
+            listener.startSave(inte);
+        }
+
     }
 
     public void pause() {

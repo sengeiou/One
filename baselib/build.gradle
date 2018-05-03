@@ -68,7 +68,7 @@ dependencies {
     compile(name: 'globaldialog-1.0.0.1', ext: 'aar')
     compile(name: 'htslib-1.0.0.1', ext: 'aar')
     compile(name: 'skin-support-1.0.0.1', ext: 'aar')
-
+    compile(name: 'highlight-release', ext: 'aar')
     //权限申请库
     compile 'com.yanzhenjie:permission:1.1.2'
     //okhttpUtils

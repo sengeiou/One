@@ -9,7 +9,7 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
-        versionName "1.0.0.1"
+        versionName "1.0.0.2"
         flavorDimensions "${versionName}"
 
         multiDexEnabled = true
@@ -24,9 +24,9 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('./ReleaseKey/alpha1e_ubtrobot.jks')
+            storeFile file('./ReleaseKey/alphaebot_en.jks')
             storePassword 'alpha1s_2015_4_10_ubtrobot'
-            keyAlias 'alpha 1e ubt'
+            keyAlias 'ebot_en'
             keyPassword 'alpha1s_2015_4_10_ubtrobot'
         }
     }
@@ -45,7 +45,7 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-           // signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
 

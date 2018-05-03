@@ -6,6 +6,7 @@ import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,8 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.en.alpha1e.ble.Contact.WifiConnectContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -106,7 +111,7 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.iv_back) {
-            finish();
+            finishActivity();
         } else if (i == R.id.ble_input) {
             BleWifiInputActivity.launch(this, "", isFirstEnter);
 
@@ -124,5 +129,24 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         ScanResult scanResult = (ScanResult) adapter.getData().get(position);
         BleWifiInputActivity.launch(this, scanResult.SSID, isFirstEnter);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finishActivity();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void finishActivity() {
+        boolean isFirstSearchWifi = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_WIFI_LIST, false);
+        if (!isFirstSearchWifi) {
+            ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).withInt(Constant1E.ENTER_BLESTATU_ACTIVITY, 1).navigation();
+            SPUtils.getInstance().put(Constant1E.IS_FIRST_ENTER_WIFI_LIST, true);
+        }
+        finish();
     }
 }
