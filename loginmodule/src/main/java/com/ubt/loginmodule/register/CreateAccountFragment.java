@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,9 +53,11 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
     @BindView(R2.id.iv_privacy) ImageView ivPrivacy;
     @BindView(R2.id.tv_service_privacy) TextView tvServicePrivacy;
     @BindView(R2.id.view_div) View viewDiv;
+    @BindView(R2.id.cl_create_account)
+    ConstraintLayout cl_create_account;
 
     private boolean showPassword = false;
-    private boolean select = true;
+    private boolean select = false;
     RequestCountDown requestCountDown;
     private static final long REQUEST_TIME = 181 * 1000;
 
@@ -145,7 +149,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
         }));
     }
 
-    @OnClick({R2.id.iv_clear_account, R2.id.iv_clear_password, R2.id.iv_show_password, R2.id.btn_send_security,R2.id.btn_sign_up,R2.id.iv_privacy,R2.id.tv_service_privacy})
+    @OnClick({R2.id.iv_clear_account, R2.id.iv_clear_password, R2.id.iv_show_password, R2.id.btn_send_security,R2.id.btn_sign_up,R2.id.iv_privacy,R2.id.tv_service_privacy,R2.id.cl_create_account})
     public void onClickView(View view){
         int i = view.getId();
         if (i == R.id.iv_clear_account) {
@@ -220,7 +224,11 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
         } else if (i == R.id.tv_service_privacy) {//TODO url to h5
             ToastUtils.showShort("Privacy Policy!");
 
-        } else {
+        } else if(i == R.id.cl_create_account){
+            InputMethodManager imm = (InputMethodManager) (getActivity().getSystemService(Context.INPUT_METHOD_SERVICE));
+            if(imm.isActive() ){
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -251,6 +259,13 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
                 .setMessageGravity(Gravity.CENTER)
                 .setMessageTextColor(getResources().getColor(R.color.white))
                 .show();
+        if(requestCountDown != null){
+            requestCountDown.cancel();
+        }
+        if(null != btnSendSecurityCode){
+            btnSendSecurityCode.setText(getString(R.string.login_resend_security_code));
+            btnSendSecurityCode.setEnabled(true);
+        }
     }
 
     @Override

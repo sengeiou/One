@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -49,6 +51,8 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
     Button btnNext;
     @BindView(R2.id.tv_hint)
     TextView tvHint;
+    @BindView(R2.id.cl_user_name)
+    ConstraintLayout constraintLayout;
 
     public static CreateUserNameFragment newInstance(){
         return new CreateUserNameFragment();
@@ -73,23 +77,32 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
         return view;
     }
 
-    @OnClick(R2.id.btn_next)
-    public void onClick() {
-        String firstName = edtFirstName.getText().toString();
-        String lastName = edtLastName.getText().toString();
-        if(TextUtils.isEmpty(firstName)){
-            viewFistName.setBackgroundColor(getResources().getColor(R.color.login_bg_red_color));
+    @OnClick({R2.id.btn_next,R2.id.cl_user_name})
+    public void onClick(View view) {
+        int id = view.getId();
+        if(id == R.id.btn_next){
+            String firstName = edtFirstName.getText().toString();
+            String lastName = edtLastName.getText().toString();
+            if(TextUtils.isEmpty(firstName)){
+                viewFistName.setBackgroundColor(getResources().getColor(R.color.login_bg_red_color));
+            }
+            if(TextUtils.isEmpty(lastName)){
+                viewLastName.setBackgroundColor(getResources().getColor(R.color.login_bg_red_color));
+            }
+            if(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName)){
+                tvHint.setTextColor(getResources().getColor(R.color.login_bg_red_color));
+                return;
+            }
+            String userName = firstName + lastName;
+            mPresenter.updateUserInfo(userName, null,null);
+            BaseLoadingDialog.show(getActivity());
+        }else if(id == R.id.cl_user_name){
+            InputMethodManager imm = (InputMethodManager) (getActivity().getSystemService(Context.INPUT_METHOD_SERVICE));
+            if(imm.isActive() ){
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
-        if(TextUtils.isEmpty(lastName)){
-            viewLastName.setBackgroundColor(getResources().getColor(R.color.login_bg_red_color));
-        }
-        if(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName)){
-            tvHint.setTextColor(getResources().getColor(R.color.login_bg_red_color));
-            return;
-        }
-        String userName = firstName + lastName;
-        mPresenter.updateUserInfo(userName, null,null);
-        BaseLoadingDialog.show(getActivity());
+
 
     }
 

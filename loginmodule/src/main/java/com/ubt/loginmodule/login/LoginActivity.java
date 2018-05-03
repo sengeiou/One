@@ -1,12 +1,15 @@
 package com.ubt.loginmodule.login;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -63,6 +66,8 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     Button btnLogin;
     @BindView(R2.id.iv_show_password)
     ImageView ivShowPassword;
+    @BindView(R2.id.cl_root)
+    ConstraintLayout constraintLayout;
 
     private boolean showPassword = false;
     Unbinder unbinder;
@@ -146,7 +151,7 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
         }));
     }
 
-    @OnClick({R2.id.tv_register, R2.id.btn_login, R2.id.tv_forgot_password, R2.id.iv_clear_account, R2.id.iv_clear_password, R2.id.iv_show_password})
+    @OnClick({R2.id.tv_register, R2.id.btn_login, R2.id.tv_forgot_password, R2.id.iv_clear_account, R2.id.iv_clear_password, R2.id.iv_show_password, R2.id.cl_root})
     public void onClickView(View view){
         int i = view.getId();
         if (i == R.id.tv_register) {
@@ -179,7 +184,11 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
                 showPassword = true;
             }
 
-        } else {
+        } else if(i == R.id.cl_root){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(imm.isActive() ){
+                imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
 
     }
