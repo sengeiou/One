@@ -18,6 +18,18 @@
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".course.BlocklyCourseActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".course.courselist.CourseListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"
+            />
 
 
     </application>

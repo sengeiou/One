@@ -3,13 +3,27 @@ package com.ubt.blockly.main;
 import android.app.Activity;
 import android.webkit.JavascriptInterface;
 
+import com.ubt.baselib.globalConst.Constant1E;
+import com.ubt.baselib.model1E.UserInfoModel;
+import com.ubt.baselib.utils.ByteHexHelper;
+import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.SPUtils;
+import com.ubt.blockly.main.bean.BlocklyEvent;
+import com.ubt.blockly.main.bean.BlocklyProjectMode;
+import com.ubt.blockly.main.bean.RobotSensor;
+import com.ubt.blockly.main.bean.SensorObservable;
+import com.ubt.blockly.main.bean.SensorObserver;
+import com.ubt.blockly.main.bean.WalkDirectionEnum;
+import com.ubt.blockly.main.bean.WalkSpeedEnum;
 import com.vise.log.ViseLog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -57,7 +71,7 @@ public class BlocklyJsInterface {
 
     private String parseActionList() {
 
-    /*    List<String> names = ((BlocklyActivity) mBaseActivity).getActionList();
+        List<String> names = ((BlocklyActivity) mBaseActivity).getActionList();
         ViseLog.d(TAG, "parseActionList=" + names);
         if (names != null && names.size() > 0) {
             for (int i = 0; i < names.size(); i++) {
@@ -71,7 +85,7 @@ public class BlocklyJsInterface {
         }else{
             ViseLog.d(TAG, "mActions=" + mActions);
             return mActions;
-        }*/
+        }
         return mActions.substring(0, mActions.length()-1);
     }
 
@@ -94,7 +108,7 @@ public class BlocklyJsInterface {
     public void executeByCmd(String params) {
         String action = params;
         ViseLog.d(TAG, "params:" + params);
-//        ((BlocklyActivity) mBaseActivity).playRobotAction(action, false, "", false);
+        ((BlocklyActivity) mBaseActivity).playRobotAction(action);
 
     }
 
@@ -117,7 +131,7 @@ public class BlocklyJsInterface {
     @JavascriptInterface
     public void stopRobot() {
         ViseLog.d(TAG, "stopRobot");
-//        ((BlocklyActivity) mBaseActivity).stopPlay();
+        ((BlocklyActivity) mBaseActivity).stopPlay();
     }
 
 
@@ -140,7 +154,7 @@ public class BlocklyJsInterface {
     @JavascriptInterface
     public void bluetoothConnect() {
         ViseLog.d(TAG, "js call bluetoothConnect");
-//        ((BlocklyActivity) mBaseActivity).connectBluetooth();
+        ((BlocklyActivity) mBaseActivity).connectBluetooth();
 
     }
 
@@ -153,8 +167,7 @@ public class BlocklyJsInterface {
     @JavascriptInterface
     public boolean getBluetoothState() {
 //        ViseLog.d(TAG, "getBluetoothState=" + ((BlocklyActivity) mBaseActivity).isBulueToothConnected());
-//        return ((BlocklyActivity) mBaseActivity).isBulueToothConnected();
-        return true;
+        return ((BlocklyActivity) mBaseActivity).isBlueToothConnected();
     }
 
     /**
@@ -165,6 +178,7 @@ public class BlocklyJsInterface {
     public void showRobotInfo() {
         ViseLog.d(TAG, "showRobotInfo");
 //        RobotInfoActivity.launchActivity(mBaseActivity, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        ((BlocklyActivity) mBaseActivity).connectBluetooth();
     }
 
 
@@ -175,11 +189,11 @@ public class BlocklyJsInterface {
     public int matchPhoneDirection(String direction) {
         ViseLog.d(TAG, "direction=" + direction);
 
-//        if (((BlocklyActivity) mBaseActivity).getmDirection().equalsIgnoreCase(direction)) {
+        if (((BlocklyActivity) mBaseActivity).getmDirection().equalsIgnoreCase(direction)) {
             return 1;
-//        } else {
-//            return 0;
-//        }
+        } else {
+            return 0;
+        }
 
     }
 
@@ -205,7 +219,7 @@ public class BlocklyJsInterface {
     public void showEmoji(String params) {
         //TODO 让机器人执行相应的表情动作
         ViseLog.d(TAG, "showEmoji params=" + params);
-//        ((BlocklyActivity) mBaseActivity).showEmoji(params);
+        ((BlocklyActivity) mBaseActivity).showEmoji(params);
     }
 
     /**
@@ -215,7 +229,7 @@ public class BlocklyJsInterface {
     @JavascriptInterface
     public void playAudio(String params) {
         ViseLog.d(TAG, "playAudio params=" + params);
-//        ((BlocklyActivity) mBaseActivity).playSoundAudio(params);
+        ((BlocklyActivity) mBaseActivity).playSoundAudio(params);
     }
 
 
@@ -233,17 +247,13 @@ public class BlocklyJsInterface {
             String direction = params.split(",")[0];
             String speed = params.split(",")[1];
             String time = params.split(",")[2];
-
-
-//            ((BlocklyActivity) mBaseActivity).doWalk(parseDirection(direction),parseSpeed(speed), ByteHexHelper.intToFourHexBytes(Integer.valueOf(time)));
-//            String actionName = direction + "_" + speed;
-//            ((BlocklyActivity) mBaseActivity).playRobotAction(actionName, true, time, false);
+           ((BlocklyActivity) mBaseActivity).doWalk(parseDirection(direction),parseSpeed(speed), ByteHexHelper.intToFourHexBytes(Integer.valueOf(time)));
         }
 
     }
 
     private byte parseDirection(String direct) {
- /*       if(direct.equals(FORWARD)){
+        if(direct.equals(FORWARD)){
             return WalkDirectionEnum.FORWARD.getValue();
         }else if(direct.equals(BACK)){
             return WalkDirectionEnum.BACK.getValue();
@@ -251,18 +261,18 @@ public class BlocklyJsInterface {
             return  WalkDirectionEnum.LEFT.getValue();
         }else if(direct.equals(RIGHT)) {
             return WalkDirectionEnum.RIGHT.getValue();
-        }*/
+        }
         return 0;
     }
 
     private byte parseSpeed(String speed) {
-  /*      if(speed.equals(FAST)){
+        if(speed.equals(FAST)){
             return WalkSpeedEnum.FAST.getValue();
         }else if(speed.equals(MID)) {
             return WalkSpeedEnum.MID.getValue();
         }else if(speed.equals(SLOW)){
             return  WalkSpeedEnum.SLOW.getValue();
-        }*/
+        }
         return 1;
     }
 
@@ -286,9 +296,10 @@ public class BlocklyJsInterface {
      */
 
     @JavascriptInterface
-    public long getUserID() {
+    public String getUserID() {
         ViseLog.d(TAG, "getUserID");
-        return 0/*((BlocklyActivity) mBaseActivity).getCurrentUserID()*/;
+        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        return userInfoModel.getUserId();
     }
 
 
@@ -309,8 +320,8 @@ public class BlocklyJsInterface {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     jsonObject = jsonArray.getJSONObject(i);
                     if (jsonObject != null) {
-//                        SensorObserver sensorObserver = GsonImpl.get().toObject(jsonObject.toString(), SensorObserver.class);
-//                        SensorObservable.getInstance().addObserver(sensorObserver);
+                        SensorObserver sensorObserver = GsonImpl.get().toObject(jsonObject.toString(), SensorObserver.class);
+                        SensorObservable.getInstance().addObserver(sensorObserver);
                         if (jsonObject.get("sensorType").equals(RobotSensor.SensorType.INFRARED)) {
                             EventBus.getDefault().post(new BlocklyEvent(BlocklyEvent.CALL_START_INFRARED));
                         }
@@ -402,7 +413,7 @@ public class BlocklyJsInterface {
     @JavascriptInterface
     public void stopPlayAudio() {
         ViseLog.d(TAG, "stopPlayAudio");
-//        ((BlocklyActivity) mBaseActivity).stopPlayAudio();
+        ((BlocklyActivity) mBaseActivity).stopPlayAudio();
     }
 
 
@@ -411,7 +422,7 @@ public class BlocklyJsInterface {
     @JavascriptInterface
     public void setEyeStatusParameter(String params) {
         ViseLog.d(TAG, "setEyeStatusParameter params=" + params);
-//        ((BlocklyActivity) mBaseActivity).setLedLight(params);
+        ((BlocklyActivity) mBaseActivity).setLedLight(params);
 
     }
 
@@ -496,7 +507,7 @@ public class BlocklyJsInterface {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        ((BlocklyActivity) mBaseActivity).playSoundAudio(params);
+        ((BlocklyActivity) mBaseActivity).playSoundAudio(params);
     }
 
 
@@ -537,53 +548,6 @@ public class BlocklyJsInterface {
 
 
 
-
-/*    *//**
-     * 获取app当前语言代码
-     *
-     * @return
-     *//*
-    @JavascriptInterface
-    public String getAppLanguageCode() {
-        String localLanguage = mBaseActivity.getAppCurrentLanguage();
-        if (localLanguage.contains("zh")) {
-            String country = AlphaApplication.getBaseActivity().getAppCurrentCountry();
-            if ("tw".equalsIgnoreCase(country) || "hk".equalsIgnoreCase(country)) {
-                localLanguage = "zh_tw";
-            } else {
-                localLanguage = "zh_cn";
-            }
-        }
-
-        localLanguage = mBaseActivity.getStandardLocale(localLanguage);
-        ViseLog.d(TAG, "localLanguage == " + localLanguage);
-        return localLanguage;
-    }*/
-
-    /**
-     * 获取当前是否第一次进入blockly程序
-     *
-     * @return
-     */
-    @JavascriptInterface
-    public boolean isFirstTimeBlockly() {
-        ViseLog.d(TAG, "-isFirstTimeBlockly-");
-   /*     if (BasicSharedPreferencesOperator
-                .getInstance(mBaseActivity, BasicSharedPreferencesOperator.DataType.USER_USE_RECORD)
-                .doReadSync(BasicSharedPreferencesOperator.IS_FIRST_USE_BLOCKLY)
-                .equals(BasicSharedPreferencesOperator.IS_FIRST_USE_BLOCKLY_FALSE)) {
-            return false;
-        }
-
-        BasicSharedPreferencesOperator.getInstance(mBaseActivity,
-                BasicSharedPreferencesOperator.DataType.USER_USE_RECORD).doWrite(
-                BasicSharedPreferencesOperator.IS_FIRST_USE_BLOCKLY,
-                BasicSharedPreferencesOperator.IS_FIRST_USE_BLOCKLY_FALSE,
-                null, -1);*/
-        return true;
-    }
-
-
     /**
      *开始执行动作
      */
@@ -613,7 +577,7 @@ public class BlocklyJsInterface {
     public void stopAllAction() {
         //TODO 停止所有动作
         ViseLog.d(TAG, "stopAllAction");
-//        ((BlocklyActivity) mBaseActivity).stopPlay();
+        ((BlocklyActivity) mBaseActivity).stopPlay();
     }
 
     /**
@@ -624,7 +588,7 @@ public class BlocklyJsInterface {
     @JavascriptInterface
     public void saveProject(String saveString) {
         ViseLog.d(TAG, "saveProject:" + saveString);
-  /*      try {
+        try {
             JSONObject jsonObject = new JSONObject(saveString);
             String pid = jsonObject.getString("pid");
             String name = jsonObject.getString("name");
@@ -641,7 +605,7 @@ public class BlocklyJsInterface {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
 
     }
 
@@ -669,7 +633,8 @@ public class BlocklyJsInterface {
     }
 
     private String getProjectList() {
-  /*      String userId = SPUtils.getInstance().getString(Constant.SP_USER_ID);
+        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+       String userId = userInfoModel.getUserId();
         List<BlocklyProjectMode> projectModeList = DataSupport.findAll(BlocklyProjectMode.class);
 
         ViseLog.d(TAG, "json:" + projectModeList.toString());
@@ -692,8 +657,8 @@ public class BlocklyJsInterface {
         }
 
         String json = jsonArray.toString().replace("\\/", "/");
-        ViseLog.d(TAG, "json:" + json);*/
-        return ""/*json*/;
+        ViseLog.d(TAG, "json:" + json);
+        return json;
 
 
     }

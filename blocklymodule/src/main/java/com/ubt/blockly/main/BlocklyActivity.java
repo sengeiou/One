@@ -2,6 +2,7 @@ package com.ubt.blockly.main;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.net.http.SslError;
@@ -9,19 +10,50 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.gson.reflect.TypeToken;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.Constant1E;
+import com.ubt.baselib.model1E.BaseResponseModel;
+import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.ByteHexHelper;
+import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.SPUtils;
+import com.ubt.blockly.BlockHttpEntity;
 import com.ubt.blockly.R;
 import com.ubt.blockly.R2;
+import com.ubt.blockly.main.bean.BaseRequest;
+import com.ubt.blockly.main.bean.BlocklyProjectDelRequest;
+import com.ubt.blockly.main.bean.BlocklyProjectMode;
+import com.ubt.blockly.main.bean.BlocklyProjectRequest;
+import com.ubt.blockly.main.bean.BlocklyRespondMode;
+import com.ubt.blockly.main.bean.BlocklySaveMode;
+import com.ubt.blockly.main.bean.DeviceDirectionEnum;
+import com.ubt.blockly.main.bean.DirectionSensorEventListener;
+import com.ubt.blockly.main.bean.LedColorEnum;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
+import com.vise.log.ViseLog;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+import com.vise.xsnow.http.request.PostRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,8 +66,9 @@ import butterknife.ButterKnife;
  * @update
  */
 
-public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, BlocklyPresenter> implements BlocklyContract.View {
+public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, BlocklyPresenter> implements BlocklyContract.View,DirectionSensorEventListener.ActionListener {
 
+    private String TAG = "BlocklyActivity";
     @BindView(R2.id.blockly_webView)
     WebView mWebView;
     public static String URL = BaseHttpEntity.BLOCKLY_CODEMAO_URL;
@@ -45,11 +78,16 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private String mDirection = DeviceDirectionEnum.NONE.getValue();
+    private List<String> actionList = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        mPresenter.register(this);
+        if(BlueClientUtil.getInstance().getConnectionState() == 3){
+            mPresenter.getActionList();
+        }
         init();
     }
 
@@ -58,6 +96,10 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER );
         BaseLoadingDialog.show(this);
         initWebView();
+        if(mListener == null){
+            mListener = new DirectionSensorEventListener(this);
+            mSensorManager.registerListener(mListener,mSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        }
 
     }
 
@@ -73,7 +115,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
         mWebView.getSettings().setAllowContentAccess(true);
         mWebView.getSettings().setDatabaseEnabled(true);
         mWebView.getSettings().setDomStorageEnabled(true);
-//        new HeightVisibleChangeListener(mWebView);
+        new HeightVisibleChangeListener(mWebView);
 
         WebViewClient webViewClient = new WebViewClient() {
             @Override
@@ -102,6 +144,13 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 BaseLoadingDialog.dismiss(BlocklyActivity.this);
+                if(BlueClientUtil.getInstance().getConnectionState() == 3){
+
+                    mPresenter.doReadInfraredSensor((byte)0x01);  //进入block如果连接蓝牙立马开始读取红外传感器数据
+                    mPresenter.doRead6Dstate();
+                    mPresenter.doReadTemperature((byte)0x01);
+                    mPresenter.startOrStopRun((byte)0x01);
+                }
 
             }
 
@@ -137,4 +186,564 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     public int getContentViewId() {
         return R.layout.block_activity_blockly;
     }
+
+
+    @Override
+    public void getActionList(List<String> actionList) {
+        ViseLog.d("actionList:" + actionList.toString());
+        this.actionList = actionList;
+    }
+
+    @Override
+    public void notePlayFinish(String actionName) {
+        ViseLog.d("notePlayFinish:" + actionName);
+        if(actionName.equals("default") || actionName.equals("初始化")){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("javascript:continueSteps()");
+                }
+            });
+        }else{
+            mPresenter.playAction("初始化");
+        }
+    }
+
+    @Override
+    public void playEmojiFinish() {
+        if(mWebView != null){
+            ViseLog.d( "play sound or emoji finish!");
+            mWebView.loadUrl("javascript:continueSteps()");
+//                        mWebView.loadUrl("javascript:playSoundEffectFinish()");
+        }
+    }
+
+    @Override
+    public void playSoundFinish() {
+        if(mWebView != null){
+            ViseLog.d( "play sound or emoji finish!");
+            mWebView.loadUrl("javascript:continueSteps()");
+//                        mWebView.loadUrl("javascript:playSoundEffectFinish()");
+        }
+    }
+
+    @Override
+    public void doWalkFinish() {
+        playRobotAction("初始化");
+    }
+
+    @Override
+    public void infraredSensor(final int state) {
+        if(mWebView != null ){
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    ViseLog.d(TAG, "uploadInfraredSensorDistance:" + state);
+                    mWebView.loadUrl("javascript:uploadInfraredSensorDistance(" + state + ")");
+                }
+            });
+        }
+    }
+
+    @Override
+    public void read6DState(final int state) {
+        mWebView.post(new Runnable() {
+            @Override
+            public void run() {
+                ViseLog.d(TAG, "gesture:" + state);
+                mWebView.loadUrl("javascript:robotPostture(" + state + ")");
+            }
+        });
+    }
+
+    @Override
+    public void tempState(final String state) {
+        mWebView.post(new Runnable() {
+            @Override
+            public void run() {
+                ViseLog.d(TAG, "humidity:" + state);
+                mWebView.loadUrl("javascript:humidity(" + state + ")");
+            }
+        });
+    }
+
+    public void playRobotAction(String name) {
+        ViseLog.d("playRobotAction:" + name);
+        mPresenter.playAction(name);
+    }
+
+    public void stopPlay(){
+        mPresenter.stopAction();
+    }
+
+    public List<String> getActionList(){
+        return actionList;
+    }
+
+    public void connectBluetooth(){
+//        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).withString(Constant1E.).navigation(this, 2);
+    }
+
+    public boolean isBlueToothConnected(){
+        if(BlueClientUtil.getInstance().getConnectionState() == 3){
+            return true;
+        }else{
+            return  false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unRegister();
+        if(BlueClientUtil.getInstance().getConnectionState() == 3){
+            mPresenter.doReadInfraredSensor((byte)0x00);
+            mPresenter.startOrStopRun((byte)0x02);
+            mPresenter.doReadTemperature((byte)0x00);
+        }
+        destroyWebView();
+    }
+
+    public void destroyWebView() {
+
+        if(mWebView != null) {
+            mWebView.removeAllViews();
+            mWebView.clearHistory();
+            mWebView.clearCache(true);
+            mWebView.freeMemory();
+            mWebView.destroy();
+            mWebView = null; // Note that mWebView.destroy() and mWebView = null do the exact same thing
+        }
+
+    }
+
+    @Override
+    public void onShake(long timeStamp, float[] value) {
+        mDirection = DeviceDirectionEnum.SWING.getValue();
+    }
+
+    @Override
+    public void onLeftUp() {
+        mDirection = DeviceDirectionEnum.LEFT.getValue();
+    }
+
+    @Override
+    public void onRightUp() {
+        mDirection = DeviceDirectionEnum.RIGHT.getValue();
+    }
+
+    @Override
+    public void onTopUp() {
+        mDirection = DeviceDirectionEnum.UP.getValue();
+    }
+
+    @Override
+    public void onBottomUp() {
+        mDirection = DeviceDirectionEnum.DOWN.getValue();
+    }
+
+    @Override
+    public void onDirectionNone() {
+        mDirection = DeviceDirectionEnum.NONE.getValue();
+    }
+
+    public String getmDirection(){
+        return mDirection;
+    }
+
+    /**
+     * 显示表情
+     * @param params
+     */
+    public void showEmoji(String params) {
+        mPresenter.playEmoji(params);
+    }
+
+    public void playSoundAudio(String params){
+        mPresenter.playSound(params);
+    }
+
+    public void doWalk(byte direct, byte speed, byte[] step) {
+        if(mPresenter != null){
+            mPresenter.doWalk(direct, speed, step);
+        }
+    }
+
+    public void stopPlayAudio(){
+        mPresenter.stopPlayAudio();
+        mPresenter.stopPlayEmoji();
+        mPresenter.stopLedLight();
+    }
+
+    public static final String LED_NORMAL = "normal";
+    public static final String LED_FAST = "fast";
+    public static final String LED_SLOW = "slow";
+    public static final String LED_OFF = "off";
+    public static final String RED = "red";
+    public static final String ORANGE = "orange";
+    public static final String YELLOW = "yellow";
+    public static final String GREEN = "green";
+    public static final String CYAN = "cyan";
+    public static final String BLUE = "blue";
+    public static final String PURPLE = "purple";
+    public static final String WHITE = "white";
+
+    LedColorEnum colorEnum = LedColorEnum.WHITE;
+    public void setLedLight(String status){
+        try {
+            if(status != null){
+                JSONObject jsonObject = new JSONObject(status);
+                String state = jsonObject.getString("state");
+                String color = jsonObject.getString("EyeColor");
+                String time = jsonObject.getString("time");
+                byte [] params = new byte[5];
+                if(state.equalsIgnoreCase(LED_NORMAL)){
+                    params[0] = (byte)0x01;
+                }else if(state.equalsIgnoreCase(LED_FAST)){
+                    params[0] = (byte)0x02;
+                }else if(state.equalsIgnoreCase(LED_SLOW)){
+                    params[0] = (byte)0x03;
+                }else if(state.equalsIgnoreCase(LED_OFF)){
+                    params[0] = (byte)0x04;
+                }
+
+                if(color.equalsIgnoreCase(RED)) {
+                    colorEnum = LedColorEnum.RED;
+                }else if(color.equalsIgnoreCase(ORANGE)) {
+                    colorEnum = LedColorEnum.ORANGE;
+                }else if(color.equalsIgnoreCase(YELLOW)) {
+                    colorEnum = LedColorEnum.YELLOW;
+                }else if(color.equalsIgnoreCase(GREEN)) {
+                    colorEnum = LedColorEnum.GREEN;
+                }else if(color.equalsIgnoreCase(CYAN)) {
+                    colorEnum = LedColorEnum.CYAN;
+                }else if(color.equalsIgnoreCase(BLUE)) {
+                    colorEnum = LedColorEnum.BLUE;
+                }else if(color.equalsIgnoreCase(PURPLE)) {
+                    colorEnum = LedColorEnum.PURPLE;
+                }else if(color.equalsIgnoreCase(WHITE)) {
+                    colorEnum = LedColorEnum.WHITE;
+                }
+
+                params[1] = ByteHexHelper.intToHexByte(colorEnum.getR());
+                params[2] = ByteHexHelper.intToHexByte(colorEnum.getG());
+                params[3] = ByteHexHelper.intToHexByte(colorEnum.getB());
+
+                params[4] = ByteHexHelper.intToHexByte(Integer.valueOf(time));
+                mPresenter.playLedLight(params);
+
+            }
+        }catch (JSONException e){
+            ViseLog.d(e.getMessage());
+        }
+
+    }
+
+
+
+    public void saveUserProgram(final String pid, final String programName, final String programData){
+
+        BlocklySaveMode saveMode = new BlocklySaveMode();
+        saveMode.setProgramName(programName);
+        saveMode.setProgramData(programData);
+        List<BlocklySaveMode> list = new ArrayList<BlocklySaveMode>();
+        list.add(saveMode);
+        BlocklyProjectRequest request = new BlocklyProjectRequest();
+        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        request.setUserId(userInfoModel.getUserId());
+        request.setToken("222222");
+        request.setList(list);
+
+        ViseHttp.BASE(new PostRequest(BlockHttpEntity.SAVE_USER_PROGRAM)
+                .setJson(GsonImpl.get().toJson(request)))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String response) {
+                        ViseLog.d(TAG, "saveUserProgram onResponse:" + response);
+                        BaseResponseModel<BlocklyRespondMode> baseResponseModel = GsonImpl.get().toObject(response,
+                                new TypeToken<BaseResponseModel<List<BlocklyRespondMode>>>() {
+                                }.getType());
+
+                        List<BlocklyRespondMode> blocklyRespondModeList = new ArrayList<BlocklyRespondMode>();
+
+                        if (baseResponseModel.status) {
+
+                            blocklyRespondModeList = (List<BlocklyRespondMode>) baseResponseModel.models;
+
+                            ViseLog.d(TAG, "blocklyRespondMode:" + blocklyRespondModeList.toString());
+
+                            for(int i= 0; i < blocklyRespondModeList.size(); i++ ){
+                                BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
+                                blocklyProjectMode.setPid(blocklyRespondModeList.get(i).getId());
+                                blocklyProjectMode.setUserId(blocklyRespondModeList.get(i).getUserId());
+                                blocklyProjectMode.setProgramName(blocklyRespondModeList.get(i).getProgramName());
+                                blocklyProjectMode.setProgramData(blocklyRespondModeList.get(i).getProgramData());
+                                blocklyProjectMode.setDelState(false);
+                                blocklyProjectMode.setServerState(true);
+
+                                blocklyProjectMode.save();
+                            }
+
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int i, String s) {
+                        ViseLog.e( "saveUserProgram onError e:" + s);
+                        BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
+                        blocklyProjectMode.setPid(pid);
+                        UserInfoModel userInfoModel = (UserInfoModel)SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+                        blocklyProjectMode.setUserId(userInfoModel.getUserId());
+                        blocklyProjectMode.setProgramName(programName);
+                        blocklyProjectMode.setProgramData(programData);
+                        blocklyProjectMode.setDelState(false);
+                        blocklyProjectMode.setServerState(false);
+
+                        blocklyProjectMode.saveOrUpdate("pid = ?", pid);
+                    }
+                });
+
+    }
+
+
+    public void listUserProgram() {
+        BaseRequest baseRequest = new BaseRequest();
+        UserInfoModel userInfoModel = (UserInfoModel)SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        baseRequest.setUserId(userInfoModel.getUserId());
+        baseRequest.setToken("222222");
+
+        ViseHttp.BASE(new PostRequest(BlockHttpEntity.GET_USER_PROGRAM)
+                .setJson(GsonImpl.get().toJson(baseRequest)))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String response) {
+                        ViseLog.d(TAG, "listUserProgram onResponse:" + response);
+                        BaseResponseModel<BlocklyRespondMode> baseResponseModel = GsonImpl.get().toObject(response,
+                                new TypeToken<BaseResponseModel<List<BlocklyRespondMode>>>() {
+                                }.getType());
+
+                        List<BlocklyRespondMode> blocklyRespondModeList = new ArrayList<BlocklyRespondMode>();
+
+                        if (baseResponseModel.status) {
+
+                            blocklyRespondModeList = (List<BlocklyRespondMode>) baseResponseModel.models;
+
+                            ViseLog.d(TAG, "listUserProgram blocklyRespondMode:" + blocklyRespondModeList.toString());
+
+                            for(int i= 0; i < blocklyRespondModeList.size(); i++ ){
+                                BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
+                                blocklyProjectMode.setPid(blocklyRespondModeList.get(i).getId());
+                                blocklyProjectMode.setUserId(blocklyRespondModeList.get(i).getUserId());
+                                blocklyProjectMode.setProgramName(blocklyRespondModeList.get(i).getProgramName());
+                                blocklyProjectMode.setProgramData(blocklyRespondModeList.get(i).getProgramData());
+                                blocklyProjectMode.setDelState(false);
+                                blocklyProjectMode.setServerState(true);
+
+                                blocklyProjectMode.saveOrUpdate("pid = ?", blocklyRespondModeList.get(i).getId());
+                            }
+
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int i, String s) {
+                        ViseLog.e( "listUserProgram onError:" + s);
+                    }
+                });
+
+
+    }
+
+
+    public void deleteUserProgram(final String[] programIds) {
+
+
+        List<String> ids = new ArrayList<String>();
+        for(int i =0; i < programIds.length; i++){
+            ids.add(i, programIds[i]);
+        }
+
+        BlocklyProjectDelRequest blocklyProjectDelRequest = new BlocklyProjectDelRequest();
+        blocklyProjectDelRequest.setProgramIds(ids);
+        blocklyProjectDelRequest.setToken("222222");
+        UserInfoModel userInfoModel = (UserInfoModel)SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        blocklyProjectDelRequest.setUserId(userInfoModel.getUserId());
+        ViseHttp.BASE(new PostRequest(BlockHttpEntity.DEL_USER_PROGRAM)
+                .setJson(GsonImpl.get().toJson(blocklyProjectDelRequest)))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String response) {
+                        ViseLog.d(TAG, "deleteUserProgram onResponse:" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if((boolean)jsonObject.get("status")){
+                                JSONArray jsonArray = jsonObject.getJSONArray("models");
+                                for(int i = 0; i<jsonArray.length(); i++){
+                                    String pid = jsonArray.get(i).toString();
+                                    DataSupport.deleteAll(BlocklyProjectMode.class, "pid = ?", pid);
+                                }
+                                if(mWebView != null){
+                                    mWebView.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ViseLog.d(TAG, "projectIsOver");
+                                            mWebView.loadUrl("javascript:projectIsOver()");
+                                        }
+                                    });
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int e, String s) {
+                        ViseLog.d(TAG, "deleteUserProgram onError:" + s);
+                        for(int i = 0; i<programIds.length; i++){
+
+                            DataSupport.deleteAll(BlocklyProjectMode.class, "pid = ?", programIds[i]);
+                        }
+                        if(mWebView != null){
+                            mWebView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ViseLog.d(TAG, "projectIsOver");
+                                    mWebView.loadUrl("javascript:projectIsOver()");
+                                }
+                            });
+                        }
+                    }
+                });
+
+
+
+
+    }
+
+
+    public void updateUserProgram(final String pid, final String programName, final String programData) {
+        BlocklySaveMode saveMode = new BlocklySaveMode();
+        saveMode.setProgramId(pid);
+        saveMode.setProgramName(programName);
+        saveMode.setProgramData(programData);
+        List<BlocklySaveMode> list = new ArrayList<BlocklySaveMode>();
+        list.add(saveMode);
+
+        BlocklyProjectRequest request = new BlocklyProjectRequest();
+        request.setList(list);
+        UserInfoModel userInfoModel = (UserInfoModel)SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        request.setUserId(userInfoModel.getUserId());
+        request.setToken("222222");
+        ViseHttp.BASE(new PostRequest(BlockHttpEntity.UPDATE_USER_PROGRAM)
+                .setJson(GsonImpl.get().toJson(request)))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String response) {
+                        ViseLog.d(TAG, "updateUserProgram onResponse:" + response);
+                        BaseResponseModel<BlocklyRespondMode> baseResponseModel = GsonImpl.get().toObject(response,
+                                new TypeToken<BaseResponseModel<List<BlocklyRespondMode>>>() {
+                                }.getType());
+
+                        List<BlocklyRespondMode> blocklyRespondModeList = new ArrayList<BlocklyRespondMode>();
+
+                        if (baseResponseModel.status) {
+
+                            blocklyRespondModeList = (List<BlocklyRespondMode>) baseResponseModel.models;
+
+                            ViseLog.d(TAG, "blocklyRespondMode:" + blocklyRespondModeList.toString());
+
+                            for(int i= 0; i < blocklyRespondModeList.size(); i++ ){
+                                BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
+                                blocklyProjectMode.setPid(blocklyRespondModeList.get(i).getId());
+                                blocklyProjectMode.setUserId(blocklyRespondModeList.get(i).getUserId());
+                                blocklyProjectMode.setProgramName(blocklyRespondModeList.get(i).getProgramName());
+                                blocklyProjectMode.setProgramData(blocklyRespondModeList.get(i).getProgramData());
+                                blocklyProjectMode.setDelState(false);
+                                blocklyProjectMode.setServerState(true);
+
+                                blocklyProjectMode.saveOrUpdate("pid = ?", blocklyRespondModeList.get(i).getId());
+                            }
+
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int i, String s) {
+                        ViseLog.d(TAG, "updateUserProgram onError e:" +s);
+
+                        BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
+                        blocklyProjectMode.setPid(pid);
+                        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+                        blocklyProjectMode.setUserId(userInfoModel.getUserId());
+                        blocklyProjectMode.setProgramName(programName);
+                        blocklyProjectMode.setProgramData(programData);
+                        blocklyProjectMode.setDelState(false);
+                        blocklyProjectMode.setServerState(false);
+
+                        blocklyProjectMode.saveOrUpdate("pid = ?", pid);
+                    }
+                });
+
+    }
+
+
+
+    public static class HeightVisibleChangeListener implements ViewTreeObserver.OnGlobalLayoutListener {
+
+        private WebView webview;
+        public HeightVisibleChangeListener(WebView webView){
+            this.webview = webView;
+            webview.getViewTreeObserver().addOnGlobalLayoutListener(this);
+        }
+
+        int lastHeight;
+        int lastVisibleHeight;
+
+        @Override
+        public void onGlobalLayout() {
+            Rect visible = new Rect();
+            Rect size = new Rect();
+            webview.getWindowVisibleDisplayFrame(visible);
+            webview.getHitRect(size);
+
+            int height = size.bottom-size.top;
+            int visibleHeight = visible.bottom - visible.top;
+
+            if(height == lastHeight && lastVisibleHeight == visibleHeight){
+                return;
+            }
+
+            lastHeight = height;
+            lastVisibleHeight = visibleHeight;
+            int moveHeight = height - visibleHeight;
+            ViseLog.d("height:" + height + "__visibleHeight:" + visibleHeight  + "_moveHeight:" + moveHeight
+                    + "屏幕占比:" + moveHeight/height);
+            String ratio = cop(moveHeight, height);
+            ViseLog.d("ratio:" +ratio);
+            webview.loadUrl("javascript:phoneKeyborad(" + ratio + ")");
+        }
+
+        private String cop(int num1, int num2){
+            NumberFormat numberFormat = NumberFormat.getInstance();
+
+            // 设置精确到小数点后2位
+
+            numberFormat.setMaximumFractionDigits(2);
+
+            String result = numberFormat.format((float) num1 / (float) num2 );
+            return  result;
+        }
+
+    }
+
+
+
+
 }

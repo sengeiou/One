@@ -1,4 +1,4 @@
-package com.ubt.blockly.main;
+package com.ubt.blockly.main.bean;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

@@ -303,6 +303,7 @@ public interface BTCmd {
 
     /**
      * 读取机器人加速度, 0x01开启上报， 0x00关闭上报
+     * update:目前未读取温湿度传感器数据接口
      */
     byte DV_READ_ROBOT_ACCELERATION = (byte) 0x54;
 
