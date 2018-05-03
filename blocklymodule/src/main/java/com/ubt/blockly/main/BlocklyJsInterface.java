@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.webkit.JavascriptInterface;
 
 import com.ubt.baselib.globalConst.Constant1E;
+import com.ubt.baselib.model1E.BlocklyProjectMode;
 import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.utils.ByteHexHelper;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.blockly.main.bean.BlocklyEvent;
-import com.ubt.blockly.main.bean.BlocklyProjectMode;
 import com.ubt.blockly.main.bean.RobotSensor;
 import com.ubt.blockly.main.bean.SensorObservable;
 import com.ubt.blockly.main.bean.SensorObserver;

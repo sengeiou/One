@@ -1,4 +1,4 @@
-package com.ubt.blockly.main.bean;
+package com.ubt.baselib.model1E;
 
 import org.litepal.crud.DataSupport;
 
