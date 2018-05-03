@@ -13,8 +13,13 @@ public interface Constant1E {
     String SP_ROBOT_PRODUCT_ID = "sp_robot_product_id";
     String SP_ROBOT_DSN = "sp_robot_dsn";
 
-    public final String IS_FIRST_ENTER_GREET="first_enter_greet";
+    public final String IS_FIRST_ENTER_GREET = "first_enter_greet";
 
+    public final String IS_FIRST_ENTER_WIFI_LIST = "first_search_wifi";
+    /**
+     * 进入蓝牙状态页面
+     */
+    public final String ENTER_BLESTATU_ACTIVITY = "enter_ble_statu_activity";
     /**
      * 用户账号属性
      */

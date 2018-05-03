@@ -138,7 +138,7 @@ public class PermissionUtils {
         new BaseDialog.Builder(context).setTitle(R.string.base_setting)
                 .setMessage(message).
                 setConfirmButtonId(R.string.base_setting)
-                .setCancleButtonID(R.string.base_cancle)
+                .setCancleButtonID(R.string.base_cancel)
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
