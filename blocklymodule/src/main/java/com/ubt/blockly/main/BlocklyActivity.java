@@ -1,6 +1,7 @@
 package com.ubt.blockly.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.hardware.Sensor;
@@ -16,7 +17,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.reflect.TypeToken;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.globalConst.Constant1E;
@@ -192,6 +195,15 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     public void getActionList(List<String> actionList) {
         ViseLog.d("actionList:" + actionList.toString());
         this.actionList = actionList;
+        if(mWebView != null){
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("javascript:checkBlueConnectState()");
+                }
+            });
+        }
+
     }
 
     @Override
@@ -281,7 +293,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     }
 
     public void connectBluetooth(){
-//        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).withString(Constant1E.).navigation(this, 2);
+        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).withString(Constant1E.ENTER_BLESTATU_ACTIVITY, "2").navigation(this, 1);
     }
 
     public boolean isBlueToothConnected(){
@@ -739,6 +751,25 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
             String result = numberFormat.format((float) num1 / (float) num2 );
             return  result;
+        }
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if (requestCode == 1){
+                if(mPresenter != null ){
+                    mPresenter.getActionList();
+                    mPresenter.doReadInfraredSensor((byte)0x01);
+                    mPresenter.startOrStopRun((byte)0x01);
+                    mPresenter.doRead6Dstate();
+                    mPresenter.doReadTemperature((byte)0x01);
+                }
+
+            }
         }
 
     }
