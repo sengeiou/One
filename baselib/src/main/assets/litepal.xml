@@ -34,7 +34,10 @@
     <list>
         <mapping class="com.ubt.baselib.BlueTooth.BleDevice"/>
         <mapping class="com.ubt.baselib.model1E.LocalActionRecord"/>
+        <mapping class="com.ubt.baselib.model1E.BlocklyProjectMode"/>
+        <mapping class="com.ubt.baselib.model1E.CourseData" />
     </list>
+
 
     <!--
         Define where the .db file should be. "internal" means the .db file

@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.blockly.course.courselist.CourseListActivity;
 import com.ubt.blockly.main.BlocklyActivity;
 
 import butterknife.BindView;
@@ -63,6 +64,7 @@ public class BlocklyMainActivity extends MVPBaseActivity<BlocklyMainContract.Vie
         } else if (i == R.id.rl_block_work) {
         } else if (i == R.id.rl_block_download) {
         } else if (i == R.id.rl_block_make) {
+            startActivity(new Intent(this, CourseListActivity.class));
         }
     }
 

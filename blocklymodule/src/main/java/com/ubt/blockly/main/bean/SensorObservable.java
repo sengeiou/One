@@ -1,4 +1,4 @@
-package com.ubt.blockly.main;
+package com.ubt.blockly.main.bean;
 
 import java.util.Observable;
 import java.util.Observer;

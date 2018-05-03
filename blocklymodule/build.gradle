@@ -79,6 +79,7 @@ dependencies {
     //butterknife
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler
+    compile 'com.shuyu:GSYVideoPlayer:2.1.3'
 
 
 }
