@@ -8,7 +8,6 @@ import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.model1E.LocalActionRecord;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.contact.ActionCourseContact;
 import com.ubt.en.alpha1e.action.model.ActionCourseModel;
@@ -193,7 +192,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
 
                     @Override
                     public void onFail(int i, String s) {
-                        ToastUtils.showShort("login failed:" + s);
+
                         getAllCourseScore();
                     }
                 });
@@ -228,7 +227,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
 
                     @Override
                     public void onFail(int i, String s) {
-                        ToastUtils.showShort("login failed:" + s);
+
                         praseCourseData(null);
                     }
                 });

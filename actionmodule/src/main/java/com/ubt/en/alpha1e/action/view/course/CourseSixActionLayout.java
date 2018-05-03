@@ -292,6 +292,7 @@ public class CourseSixActionLayout extends BaseActionEditLayout implements Actio
 
     }
 
+    @Override
     public void playComplete() {
         ViseLog.d("播放完成");
         if (((Activity) mContext).isFinishing()) {
@@ -314,6 +315,7 @@ public class CourseSixActionLayout extends BaseActionEditLayout implements Actio
     /**
      * Activity执行onPause方法
      */
+    @Override
     public void onPause() {
         mHandler.removeMessages(1111);
         mHandler.removeMessages(1112);

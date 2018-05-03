@@ -463,6 +463,7 @@ public class CourseSevenActionLayout extends BaseActionEditLayout implements Act
 
     }
 
+    @Override
     public void playComplete() {
        ViseLog.d("播放完成");
         if (((Activity) mContext).isFinishing()) {

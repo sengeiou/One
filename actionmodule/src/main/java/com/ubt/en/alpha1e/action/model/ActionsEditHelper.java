@@ -473,7 +473,7 @@ public class ActionsEditHelper implements IProtolPackListener {
         void confirm();
     }
 
-    private String getCourseDialogTitle(int course) {
+    public static String getCourseDialogTitle(int course) {
         String title = "";
         if (course == 1) {
             title = "第一关 了解动作编辑器";

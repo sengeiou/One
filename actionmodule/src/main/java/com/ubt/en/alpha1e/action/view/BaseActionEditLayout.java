@@ -35,6 +35,7 @@ import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.adapter.FrameRecycleViewAdapter;
 import com.ubt.en.alpha1e.action.adapter.TimesHideRecycleViewAdapter;
 import com.ubt.en.alpha1e.action.adapter.TimesRecycleViewAdapter;
+import com.ubt.en.alpha1e.action.course.ActionSaveCourseActivity;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.DialogMusic;
 import com.ubt.en.alpha1e.action.dialog.DialogTips;
@@ -866,7 +867,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         if (type == 1) {
             inte.setClass(mContext, ActionSaveActivity.class);
         } else {
-            //  inte.setClass(mContext, ActionsCourseSaveActivity.class);
+              inte.setClass(mContext, ActionSaveCourseActivity.class);
         }
         inte.putExtra(ActionsEditHelper.New_ActionInfo, PG.convertParcelable(getEditingActions()));
         inte.putExtra(SCHEME_ID, mSchemeId);
@@ -875,6 +876,11 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         if (mDir != "") {
             inte.putExtra(ActionSaveActivity.MUSIC_DIR, mDir);
         }
+
+        if (type==2){
+            mContext.startActivity(inte);
+        }
+
         if (listener != null) {
             listener.startSave(inte);
         }

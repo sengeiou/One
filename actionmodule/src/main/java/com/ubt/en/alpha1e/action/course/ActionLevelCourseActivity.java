@@ -1,14 +1,24 @@
 package com.ubt.en.alpha1e.action.course;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.OnDismissListener;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.en.alpha1e.action.R;
@@ -115,9 +125,9 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
     private void showExitDialog() {
         new BaseDialog.Builder(this)
                 .setMessage("成功就在眼前，放弃闯关吗？")
-                .setConfirmButtonId(R.string.action_continue_course)
+                .setConfirmButtonId(R.string.base_cancel)
                 .setConfirmButtonColor(R.color.base_blue)
-                .setCancleButtonID(R.string.action_cancel_course)
+                .setCancleButtonID(R.string.base_confirm)
                 .setCancleButtonColor(R.color.black)
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
@@ -256,14 +266,26 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
         mHelper.playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_victory editor.hts");
 
-        new BaseDialog.Builder(this)
-                .setMessage("闯关成功")
-                .setConfirmButtonId(R.string.base_confirm)
-                .setConfirmButtonColor(R.color.base_blue)
-                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.action_dialog_course_result, null);
+        TextView tvResult = contentView.findViewById(R.id.tv_result);
+        tvResult.setText("闯关成功");
+        TextView title = contentView.findViewById(R.id.tv_card_name);
+        title.setText(ActionsEditHelper.getCourseDialogTitle(level));
+        ((ImageView) contentView.findViewById(R.id.iv_result)).setImageResource(R.drawable.action_img_level_success);
+        ViewHolder viewHolder = new ViewHolder(contentView);
+        WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        int width = (int) ((display.getWidth()) * 0.6); //设置宽度
+
+        DialogPlus.newDialog(this)
+                .setContentHolder(viewHolder)
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(width)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
-                        if (view.getId() == R.id.button_confirm) {
+                        if (view.getId() == R.id.btn_retry) {//点击确定以后刷新列表并解锁下一关
                             mHelper.doEnterCourse((byte) 0);
                             Intent intent = new Intent();
                             intent.putExtra("course", level);//第几关
@@ -275,8 +297,16 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
                             finish();
                             dialog.dismiss();
                         }
-
                     }
-                }).create().show();
+                })
+                .setOnDismissListener(new OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogPlus dialog) {
+                    }
+                })
+                .setCancelable(false)
+                .create().show();
+
+
     }
 }
