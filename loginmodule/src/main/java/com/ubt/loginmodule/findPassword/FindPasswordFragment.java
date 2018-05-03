@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,6 +56,8 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     ImageView ivClearAccount;
     @BindView(R2.id.tv_valid_email)
     TextView tvValidEmail;
+    @BindView(R2.id.cl_find_password)
+    ConstraintLayout constraintLayoutFindPassword;
     RequestCountDown requestCountDown;
     private static final long REQUEST_TIME = 181 * 1000;
 
@@ -111,7 +115,7 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
         }));
     }
 
-    @OnClick({R2.id.tv_next, R2.id.btn_send_security, R2.id.iv_back, R2.id.iv_clear_account})
+    @OnClick({R2.id.tv_next, R2.id.btn_send_security, R2.id.iv_back, R2.id.iv_clear_account,R2.id.cl_find_password})
     public void onClickView(View view) {
         int i = view.getId();
         if (i == R.id.tv_next) {
@@ -140,7 +144,11 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
         } else if (i == R.id.iv_clear_account) {
             edtEmail.setText("");
 
-        } else {
+        } else if( i== R.id.cl_find_password){
+            InputMethodManager imm = (InputMethodManager) (getActivity().getSystemService(Context.INPUT_METHOD_SERVICE));
+            if(imm.isActive() ){
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -170,6 +178,13 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
                 .setMessageGravity(Gravity.CENTER)
                 .setMessageTextColor(getResources().getColor(R.color.white))
                 .show();
+        if(requestCountDown != null){
+            requestCountDown.cancel();
+        }
+        if(null != btnSendSecurity){
+            btnSendSecurity.setText(getString(R.string.login_resend_security_code));
+            btnSendSecurity.setEnabled(true);
+        }
     }
 
     @Override

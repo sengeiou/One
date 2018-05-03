@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,6 +63,8 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
     View viewDiv;
     @BindView(R2.id.view_div_again)
     View viewDivAgain;
+    @BindView(R2.id.cl_reset_password)
+    ConstraintLayout clResetPassword;
     private boolean showPassword = false;
     private boolean showPasswordAgain = false;
     private String email;
@@ -124,7 +128,7 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
         }));
     }
 
-    @OnClick({R2.id.iv_clear_password, R2.id.iv_clear_password_again, R2.id.iv_show_password, R2.id.iv_show_password_again, R2.id.btn_confirm,R2.id.iv_back})
+    @OnClick({R2.id.iv_clear_password, R2.id.iv_clear_password_again, R2.id.iv_show_password, R2.id.iv_show_password_again, R2.id.btn_confirm,R2.id.iv_back,R2.id.cl_reset_password})
     public void onClickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_back) {
@@ -181,7 +185,11 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
             }
 
 
-        } else {
+        } else if(i == R.id.cl_reset_password){
+            InputMethodManager imm = (InputMethodManager) (getActivity().getSystemService(Context.INPUT_METHOD_SERVICE));
+            if(imm.isActive() ){
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 

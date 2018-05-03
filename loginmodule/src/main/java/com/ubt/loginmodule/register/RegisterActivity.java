@@ -1,8 +1,11 @@
 package com.ubt.loginmodule.register;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +37,8 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
     ImageView ivBack;
     @BindView(R2.id.login_tv_skip)
     TextView tvSkip;
+    @BindView(R2.id.cl_register_root)
+    ConstraintLayout cl_register_root;
     Unbinder unbinder;
     boolean emptyNickName = false;
 
@@ -83,7 +88,7 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
         SPUtils.getInstance().remove(Constant1E.SP_USER_INFO);
     }
 
-    @OnClick({R2.id.iv_back, R2.id.login_tv_skip})
+    @OnClick({R2.id.iv_back, R2.id.login_tv_skip, R2.id.cl_register_root})
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.iv_back){
@@ -96,6 +101,11 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
             CreateUserAgeFragment createUserAgeFragment = findFragment(CreateUserAgeFragment.class);
             if (createUserAgeFragment == null) {
                 loadRootFragment(R.id.register_container, CreateUserAgeFragment.newInstance());
+            }
+        }else if(id == R.id.cl_register_root){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(imm.isActive() ){
+                imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
 
