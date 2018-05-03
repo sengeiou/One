@@ -22,5 +22,6 @@ public class CourseContract {
     public interface  Presenter extends BasePresenter<View> {
         void getCourseOneData(Context context);
         void getCourseTwoData(Context context);
+        void savaCourseDataToDB(int currentCourse, int courseLevel);
     }
 }

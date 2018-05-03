@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.ubt.en.alpha1e.action.R;
+import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.vise.log.ViseLog;
 
@@ -33,8 +34,23 @@ public class ActionEditsStandard extends BaseActionEditLayout {
     }
 
     @Override
+    public void setData(CourseProgressListener courseProgressListener) {
+
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.action_create_layout;
+
+    }
+
+    @Override
+    public void playComplete() {
+
+    }
+
+    @Override
+    public void onPause() {
 
     }
 

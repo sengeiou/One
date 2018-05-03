@@ -2,7 +2,6 @@ package com.ubt.en.alpha1e.action.view.course;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -11,13 +10,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ubt.baselib.model1E.LocalActionRecord;
-import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.ActionCourseTwoUtil;
+import com.ubt.en.alpha1e.action.dialog.CourseMusicDialogUtil;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.ubt.en.alpha1e.action.model.PrepareDataModel;
+import com.ubt.en.alpha1e.action.model.PrepareMusicModel;
 import com.ubt.en.alpha1e.action.util.ActionCourseDataManager;
+import com.ubt.en.alpha1e.action.util.CourseArrowAminalUtil;
 import com.ubt.en.alpha1e.action.view.BaseActionEditLayout;
 import com.vise.log.ViseLog;
 
@@ -25,22 +26,21 @@ import org.litepal.crud.DataSupport;
 
 /**
  * @author：liuhai
- * @date：2018/5/2 15:26
+ * @date：2018/5/3 16:22
  * @modifier：ubt
- * @modify_date：2018/5/2 15:26
+ * @modify_date：2018/5/3 16:22
  * [A brief description]
  * version
  */
 
-public class CourseTwoActionLayout extends BaseActionEditLayout implements ActionCourseTwoUtil.OnCourseDialogListener {
-    private String TAG = CourseTwoActionLayout.class.getSimpleName();
-    private ImageView ivLeftArrow;
+public class CourseSixActionLayout extends BaseActionEditLayout implements ActionCourseTwoUtil.OnCourseDialogListener, CourseMusicDialogUtil.OnMusicDialogListener {
+    private String TAG = CourseSixActionLayout.class.getSimpleName();
+    private ImageView ivAddLibArrow;
     private ImageView ivLeftArrow1;
-    private ImageView playArrow;
 
-    AnimationDrawable animation1;
-    AnimationDrawable animation2;
-    AnimationDrawable animation3;
+    private ImageView ivMusiArrow;
+
+    private ImageView ivPlayArrow;
     ActionCourseTwoUtil mActionCourseTwoUtil;
     /**
      * 高亮对话框的TextView显示
@@ -49,34 +49,32 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
     RelativeLayout mRlInstruction;
     private TextView mTextView;
     CourseProgressListener courseProgressListener;
-
     private ImageView ivBackInStruction;
     /**
      * 当前课时
      */
     private int currentCourse = 1;
-    private int oneIndex = 0;
-    private int secondIndex = 0;
-    private int threeIndex = 0;
+
 
     private boolean isPlayAction;
 
+    private CourseMusicDialogUtil mMusicDialogUtil;
 
-    public CourseTwoActionLayout(Context context) {
+    public CourseSixActionLayout(Context context) {
         super(context);
     }
 
-    public CourseTwoActionLayout(Context context, @Nullable AttributeSet attrs) {
+    public CourseSixActionLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CourseTwoActionLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CourseSixActionLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.action_create_course_layout;
+        return R.layout.dialog_action_course_content;
     }
 
     /**
@@ -90,10 +88,10 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
         int level = 1;// 当前第几个课时
         LocalActionRecord record = DataSupport.findFirst(LocalActionRecord.class);
         if (null != record) {
-            ViseLog.d(TAG, "record===" + record.toString());
+            ViseLog.d("record===" + record.toString());
             int course = record.getCourseLevel();
             int recordlevel = record.getPeriodLevel();
-            if (course == 2) {
+            if (course == 6) {
                 if (recordlevel == 0) {
                     level = 1;
                 } else if (recordlevel == 1) {
@@ -118,28 +116,22 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
      */
     public void setLayoutByCurrentCourse() {
         setImageViewBg();
-        ViseLog.d(TAG, "currentCourse==" + currentCourse);
+        ViseLog.d("currentCourse==" + currentCourse);
         if (currentCourse == 1) {
             mRlInstruction.setVisibility(View.VISIBLE);
-            mHelper.playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor8.hts");
+            ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor22.hts");
             //showOneCardContent();
         } else if (currentCourse == 2) {
             ivActionLib.setEnabled(true);
             ivActionLibMore.setEnabled(false);
-            showLeftArrow(true);
-            showPlayArrow1(false);
-            secondIndex = 1;
-            mHelper.playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor9.hts");
-            // mHelper.playSoundAudio("{\"filename\":\"AE_action editor9.mp3\",\"playcount\":1}");
         } else if (currentCourse == 3) {
-            ivActionLib.setEnabled(false);
-            ivActionLibMore.setEnabled(true);
-            showLeftArrow1(true);
-            mHelper.playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor12.hts");
-            // mHelper.playSoundAudio("{\"filename\":\"AE_action editor12.mp3\",\"playcount\":1}");
-            threeIndex = 1;
+            ivActionBgm.setEnabled(true);
+            CourseArrowAminalUtil.startViewAnimal(true, ivMusiArrow, 2);
+        } else if (currentCourse == 4) {
+            ivPlay.setEnabled(true);
+            CourseArrowAminalUtil.startViewAnimal(true, ivPlayArrow, 2);
+            ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor25.hts");
         }
-
         if (courseProgressListener != null) {
             courseProgressListener.completeCurrentCourse(currentCourse);
         }
@@ -157,15 +149,18 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
         ivAddFrame.setEnabled(false);
         ivAddFrame.setImageResource(R.drawable.ic_addaction_disable);
         setImageViewBg();
-        ivLeftArrow = findViewById(R.id.iv_add_action_arrow);
-        ivLeftArrow.setOnClickListener(this);
+        ivAddLibArrow = findViewById(R.id.iv_add_action_arrow);
+        ivAddLibArrow.setOnClickListener(this);
         ivLeftArrow1 = findViewById(R.id.iv_add_action_arrow1);
         ivLeftArrow1.setOnClickListener(this);
-        playArrow = findViewById(R.id.iv_play_arrow);
-        playArrow.setOnClickListener(this);
         mRlInstruction = findViewById(R.id.rl_instruction);
         mTextView = findViewById(R.id.tv_all_introduc);
-        mTextView.setText(SkinManager.getInstance().getTextById(R.string.action_course_card2_1_all));
+        mTextView.setText("现在给阿尔法的踢腿动作配一个声音吧！");
+
+        ivMusiArrow = findViewById(R.id.iv_music_arrow);
+
+        ivPlayArrow = findViewById(R.id.iv_play_arrow);
+
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);
     }
@@ -185,68 +180,6 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
         ivAddFrame.setEnabled(false);
     }
 
-    /**
-     * 左边箭头动效
-     *
-     * @param flag true 播放 false 结束
-     */
-    private void showLeftArrow(boolean flag) {
-        if (flag) {
-            ivLeftArrow.setVisibility(View.VISIBLE);
-            ivLeftArrow.setImageResource(R.drawable.animal_left_arrow);
-            animation1 = (AnimationDrawable) ivLeftArrow.getDrawable();
-            animation1.start();
-            playArrow.setVisibility(View.GONE);
-        } else {
-            ivLeftArrow.setVisibility(View.GONE);
-            if (null != animation1) {
-                animation1.stop();
-            }
-        }
-    }
-
-    /**
-     * 左边箭头动效
-     *
-     * @param flag true 播放 false 结束
-     */
-    private void showLeftArrow1(boolean flag) {
-        if (flag) {
-            ivLeftArrow1.setVisibility(View.VISIBLE);
-            ivLeftArrow1.setImageResource(R.drawable.animal_left_arrow);
-            animation2 = (AnimationDrawable) ivLeftArrow1.getDrawable();
-            animation2.start();
-        } else {
-            ivLeftArrow1.setVisibility(View.GONE);
-            if (null != animation2) {
-                animation2.stop();
-            }
-        }
-    }
-
-    /**
-     * 播放按钮箭头动效
-     *
-     * @param flag true 播放 false 结束
-     */
-    private void showPlayArrow1(boolean flag) {
-        ivPlay.setEnabled(true);
-        // ivBack.setEnabled(false);
-        ivActionLibMore.setEnabled(false);
-        ivAddFrame.setEnabled(false);
-        ivAddFrame.setImageResource(R.drawable.ic_addaction_disable);
-        if (flag) {
-            playArrow.setVisibility(View.VISIBLE);
-            playArrow.setImageResource(R.drawable.animal_left_arrow);
-            animation3 = (AnimationDrawable) playArrow.getDrawable();
-            animation3.start();
-        } else {
-            playArrow.setVisibility(View.GONE);
-            if (null != animation3) {
-                animation3.stop();
-            }
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -268,6 +201,12 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
         } else if (i == R.id.iv_add_action_arrow1) {
             showActionDialog();
 
+        } else if (i == R.id.iv_action_bgm) {
+            showMusicDialog();
+
+        } else if (i == R.id.iv_music_arrow) {
+            showMusicDialog();
+
         } else if (i == R.id.iv_play_music) {
             playAction();
 
@@ -287,75 +226,87 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
      * 播放按钮，过3秒钟结束
      */
     private void playAction() {
+
         startPlayAction();
-        showPlayArrow1(false);
+        CourseArrowAminalUtil.startViewAnimal(false, ivPlayArrow, 2);
+        ivPlay.setEnabled(false);
+        ivPlay.setImageResource(R.drawable.ic_pause);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                pause();
+                onPlayMusicComplete();
+            }
+        }, 10000);
+    }
+
+    @Override
+    public void onFinishPlay() {
+        ViseLog.d("onFinishPlay=======");
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor20.hts");
+                ivAddFrame.setEnabled(false);
+                ivPlay.setEnabled(false);
+                ivPlay.setEnabled(true);
+                ivPlay.setImageResource(R.drawable.ic_play_disable);
+                ivReset.setEnabled(true);
+                ivReset.setImageResource(R.drawable.ic_reset);
                 if (courseProgressListener != null) {
                     courseProgressListener.completeSuccess(true);
                 }
             }
-        }, 4000);
+        });
 
+    }
+
+    /**
+     * 点击弹出音乐对话框
+     */
+    private void showMusicDialog() {
+        CourseArrowAminalUtil.startViewAnimal(false, ivMusiArrow, 2);
+        ((ActionsEditHelper) mHelper).stopAction();
+
+        if (null == mMusicDialogUtil) {
+            mMusicDialogUtil = new CourseMusicDialogUtil(mContext);
+        }
+        if (currentCourse == 1) {
+            mMusicDialogUtil.showMusicDialog(0, this);
+        } else if (currentCourse == 3) {
+            mMusicDialogUtil.showMusicDialog(1000, this);
+        }
     }
 
     /**
      * 显示动作对话框
      */
     public void showActionDialog() {
-        mHelper.stopSoundAudio();
+        CourseArrowAminalUtil.startViewAnimal(false, ivAddLibArrow, 1);
+        ((ActionsEditHelper) mHelper).stopSoundAudio();
         if (null == mActionCourseTwoUtil) {
             mActionCourseTwoUtil = new ActionCourseTwoUtil(mContext);
         }
-        if (currentCourse == 2) {
-            secondIndex = 0;
-            showLeftArrow(false);
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mHelper.playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor10.hts");
-                    // mHelper.playSoundAudio("{\"filename\":\"AE_action editor10.mp3\",\"playcount\":1}");
-                }
-            }, 1000);
-            mActionCourseTwoUtil.showActionDialog(1, this);
-        } else if (currentCourse == 3) {
-            threeIndex = 0;
-            showLeftArrow1(false);
-            mActionCourseTwoUtil.showActionDialog(2, this);
 
-        }
+        mActionCourseTwoUtil.showActionDialog(1, this);
+
     }
 
-    /**
-     * 机器人播放音乐和动作回调
-     */
-    @Override
     public void playComplete() {
-        ViseLog.d(TAG, "播放完成");
+        ViseLog.d("播放完成");
         if (((Activity) mContext).isFinishing()) {
             return;
         }
         if (currentCourse == 1) {
             mRlInstruction.setVisibility(View.GONE);
-            showNextDialog(2);
+            ivActionBgm.setEnabled(true);
+            CourseArrowAminalUtil.startViewAnimal(true, ivMusiArrow, 2);
         } else if (currentCourse == 2) {
-            ViseLog.d(TAG, "secondIndex==" + secondIndex);
-            if (secondIndex == 1) {
-                secondIndex = 2;
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
 
-                    }
-                }, 500);
-            }
         } else if (currentCourse == 3) {
-            if (threeIndex == 1) {
-                threeIndex = 2;
-            }
+
         }
-        ViseLog.d(TAG, "isPlayAction==" + isPlayAction);
+        ViseLog.d("isPlayAction==" + isPlayAction);
 
     }
 
@@ -363,10 +314,22 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
     /**
      * Activity执行onPause方法
      */
-    @Override
     public void onPause() {
         mHandler.removeMessages(1111);
- 
+        mHandler.removeMessages(1112);
+        mHandler.removeMessages(1113);
+        mHandler.removeMessages(1115);
+
+    }
+
+
+    /**
+     * 响应所有R.id.iv_known的控件的点击事件
+     * <p>
+     * 移除高亮布局
+     * </p>
+     */
+    public void clickKnown() {
 
     }
 
@@ -377,16 +340,16 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
      * @param current 跳转课程
      */
     private void showNextDialog(int current) {
-        currentCourse = current;
-        ViseLog.d(TAG, "进入第二课时，弹出对话框");
 
-        mHelper.showNextDialog(mContext, 2, current, new ActionsEditHelper.ClickListener() {
+        currentCourse = current;
+        ViseLog.d("进入第6课时，弹出对话框");
+
+        mHelper.showNextDialog(mContext, 6, current, new ActionsEditHelper.ClickListener() {
             @Override
             public void confirm() {
                 setLayoutByCurrentCourse();
             }
         });
-
     }
 
     /**
@@ -396,41 +359,63 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
      */
     @Override
     public void onCourseConfirm(PrepareDataModel prepareDataModel) {
-        ViseLog.d(TAG, "onCourseConfirm====" + currentCourse);
+        ViseLog.d("onCourseConfirm====" + currentCourse);
         onActionConfirm(prepareDataModel);
-        mHelper.stopSoundAudio();
-        isSaveAction = true;
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (currentCourse == 2) {
-                    showNextDialog(3);
-                    ViseLog.d(TAG, "showNextDialog====");
-                } else if (currentCourse == 3) {
-                    showPlayArrow1(true);
+                showNextDialog(4);
 
-                }
             }
         }, 1000);
-
     }
 
     @Override
     public void playCourseAction(PrepareDataModel prepareDataModel, int type) {
         isPlayAction = true;
-        playAction(prepareDataModel);
-        ViseLog.d(TAG, "playCourseAction===" + currentCourse);
+        //  playAction(prepareDataModel);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (null != mActionCourseTwoUtil) {
                     mActionCourseTwoUtil.showAddAnimal();
                 }
-                mHelper.playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor11.hts");
             }
-        }, 1200);
+        }, 1000);
+    }
 
+    @Override
+    public void onMusicConfirm(PrepareMusicModel prepareMusicModel) {
+        super.onMusicConfirm(prepareMusicModel);
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ivActionLib.setEnabled(true);
+                ivActionBgm.setEnabled(false);
+                CourseArrowAminalUtil.startViewAnimal(true, ivAddLibArrow, 2);
+
+            }
+        });
     }
 
 
+    @Override
+    public void onStopRecord(PrepareMusicModel prepareMusicModel, int type) {
+        ViseLog.d("onStopRecord===========type==" + type);
+
+        if (type == 1) {
+            if (courseProgressListener != null) {
+                courseProgressListener.completeCurrentCourse(1);
+            }
+            currentCourse = 2;
+        } else if (type == 2) {
+            showNextDialog(3);
+            ((ActionsEditHelper) mHelper).stopAction();
+            doReset();
+        } else if (type == 3) {
+            ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor23.hts");
+        } else if (type == 4) {
+            ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor24.hts");
+        }
+    }
 }

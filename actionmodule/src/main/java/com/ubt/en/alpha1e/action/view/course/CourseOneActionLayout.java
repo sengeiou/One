@@ -6,30 +6,18 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.model1E.LocalActionRecord;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
-import com.ubt.en.alpha1e.action.adapter.CourseItemAdapter;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.ubt.en.alpha1e.action.model.CourseOne1Content;
-import com.ubt.en.alpha1e.action.util.ActionConstant;
 import com.ubt.en.alpha1e.action.util.ActionCourseDataManager;
 import com.ubt.en.alpha1e.action.view.BaseActionEditLayout;
 import com.vise.log.ViseLog;
@@ -119,6 +107,7 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
      *
      * @param courseProgressListener 回调监听
      */
+    @Override
     public void setData(CourseProgressListener courseProgressListener) {
         mOne1ContentList.clear();
         mOne1ContentList.addAll(ActionCourseDataManager.getCardOneList(mContext));
@@ -189,17 +178,10 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
         ivAddFrame.setEnabled(false);
         ivAddFrame.setImageResource(R.drawable.ic_addaction_enable);
         setImageViewBg();
-        ivLeftArrow = findViewById(R.id.iv_left_arrow);
-        ivLeftArrow.setOnClickListener(this);
-        ivRightArrow = findViewById(R.id.iv_add_frame_arrow);
-        initLeftArrow();
 
-        rlActionCenter = findViewById(R.id.rl_action_animal);
-        ivCenterAction = findViewById(R.id.iv_center_action);
         mRlInstruction = (RelativeLayout) findViewById(R.id.rl_instruction);
         mTextView = (TextView) findViewById(R.id.tv_all_introduc);
         mTextView.setText(SkinManager.getInstance().getTextById(R.string.action_course_card1_1_all));
-
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);
     }
@@ -235,20 +217,6 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
     }
 
 
-    /**
-     * 初始化箭头图片宽高
-     */
-    private void initLeftArrow() {
-        // 获取屏幕密度（方法2）
-        DisplayMetrics dm = new DisplayMetrics();
-        dm = getResources().getDisplayMetrics();
-        float density = dm.density;
-        ViseLog.d("density:" + density);
-
-        ivLeftArrow.setLayoutParams(ActionConstant.getIvRobotParams(density, ivLeftArrow));
-        ViseLog.d("ivLeftArrow:" + ivLeftArrow.getWidth() + "/" + ivLeftArrow.getHeight());
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -257,9 +225,11 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
             if (null != courseProgressListener) {
                 courseProgressListener.finishActivity();
             }
-
+        }else if (i == R.id.iv_back_instruction) {
+            if (null != courseProgressListener) {
+                courseProgressListener.finishActivity();
+            }
         }
-
 
     }
 
@@ -281,12 +251,12 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
     /**
      * 完成播放
      */
+    @Override
     public void playComplete() {
         ViseLog.d("播放完成" + currentCourse);
         if (((Activity) mContext).isFinishing()) {
             return;
         }
-
         if (currentCourse == 1) {
             if (isInstruction) {
                 isInstruction = false;
@@ -324,6 +294,7 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
     /**
      * Activity执行onPause方法
      */
+    @Override
     public void onPause() {
         mHandler.removeMessages(1111);
     }
@@ -547,43 +518,16 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
     private void showNextDialog(int current) {
         currentCourse = current;
         ViseLog.d("进入第二课时，弹出对话框");
-        View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_action_course_content, null);
-        TextView title = contentView.findViewById(R.id.tv_card_name);
-        title.setText("第一关 了解动作编辑器");
 
-        Button button = contentView.findViewById(R.id.btn_pos);
-        button.setText("下一节");
+        mHelper.showNextDialog(mContext, 1, current, new ActionsEditHelper.ClickListener() {
+            @Override
+            public void confirm() {
+                currentIndex = 0;
+                setLayoutByCurrentCourse();
+            }
+        });
 
-        RecyclerView mrecyle = contentView.findViewById(R.id.recyleview_content);
-        mrecyle.setLayoutManager(new LinearLayoutManager(mContext));
 
-        CourseItemAdapter itemAdapter = new CourseItemAdapter(R.layout.layout_action_course_dialog, ActionCourseDataManager.getCourseActionModel(1, current));
-        mrecyle.setAdapter(itemAdapter);
-
-        ViewHolder viewHolder = new ViewHolder(contentView);
-        WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        int screenHeight = (int) (display.getHeight() * 0.6);
-        int screenWidth = (int) (display.getWidth() * 0.6);
-        int width = Math.max(screenWidth, screenHeight); //设置宽度
-
-        DialogPlus.newDialog(mContext)
-                .setContentHolder(viewHolder)
-                .setGravity(Gravity.CENTER)
-                .setContentWidth(width)
-                .setContentBackgroundResource(R.drawable.action_dialog_filter_rect)
-                .setOnClickListener(new com.orhanobut.dialogplus.OnClickListener() {
-                    @Override
-                    public void onClick(DialogPlus dialog, View view) {
-                        if (view.getId() == R.id.btn_pos) {
-                            currentIndex = 0;
-                            setLayoutByCurrentCourse();
-                            dialog.dismiss();
-                        }
-                    }
-                })
-                .setCancelable(false)
-                .create().show();
     }
 
 

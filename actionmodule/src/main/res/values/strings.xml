@@ -167,6 +167,8 @@
     <string name="action_course_card1_3">3.了解播放键</string>
     <string name="action_course_card1_1_all">阿尔法的动作是怎样创建出来的呢？让我们先来了解一下动作编辑器吧。</string>
 
+    <string name="action_continue_course">继续闯关</string>
+    <string name="action_cancel_course">放弃闯关</string>
     <string name="action_course_card1_1_1"> 时间轴: 这是时间轴，它就像一个奇妙的盒子，上面装着音乐，下面装着动作，添加的动作会按先后顺序显示在轴上。右侧的“+ 、-”图标：点击这里，可以让时间轴变大变小，这样才能看清上面的动作，更好地编辑它们。</string>
     <string name="action_course_card1_1_2">点击这里，可以让时间轴变大变小，这样才能看清上面的动作，更好地编辑它们。</string>
     <string name="action_course_card1_1_3">音乐轴: 在这里，可以给阿尔法的动作配上音乐，让它随着音乐节拍跳舞、做动作。仔细听清音乐节拍，使用标记工具，可以帮你将动作安放在恰当的节拍上。</string>
@@ -191,5 +193,5 @@
 
 
     <string name="action_course_card3_1_all">这是音乐库,里面有很多好听的音乐。进入这里,可以把这些音乐添加到时间轴上,让阿尔法的动作有音乐相伴,更生动有趣。</string>
-
+    <string name="action_ui_course_principle_exit_tip">课程未完成，是否退出？</string>
 </resources>

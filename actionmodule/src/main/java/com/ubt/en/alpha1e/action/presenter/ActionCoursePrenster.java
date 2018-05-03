@@ -14,6 +14,7 @@ import com.ubt.en.alpha1e.action.contact.ActionCourseContact;
 import com.ubt.en.alpha1e.action.model.ActionCourseModel;
 import com.ubt.en.alpha1e.action.model.CourseDetailScoreModule;
 import com.ubt.en.alpha1e.action.model.CourseLastProgressModule;
+import com.ubt.en.alpha1e.action.model.request.ActionHttpEntity;
 import com.ubt.en.alpha1e.action.model.request.SaveCourseProQuest;
 import com.ubt.en.alpha1e.action.model.request.SaveCourseStatuRequest;
 import com.vise.log.ViseLog;
@@ -43,6 +44,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
 
     public void init(Context context) {
         this.mContext = context;
+
         initActionCourseData();
     }
 
@@ -156,12 +158,12 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
             record1.save();
         }
 
-        ViseHttp.BASE(new PostRequest("http://10.10.1.14:8080/alpha1e/course/getCourseProgress")
+        ViseHttp.BASE(new PostRequest(ActionHttpEntity.BASE_GET_LAST_PROGRESS)
                 .setJson(GsonImpl.get().toJson(proQequest)))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
-                        ViseLog.d("LOGIN onSuccess:" + response);
+                        ViseLog.d("getLastCourseProgress onSuccess:" + response);
                         BaseResponseModel<CourseLastProgressModule> baseResponseModel = GsonImpl.get().toObject(response,
                                 new TypeToken<BaseResponseModel<CourseLastProgressModule>>() {
                                 }.getType());
@@ -207,12 +209,12 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         statuRequest.setType(2);
         statuRequest.setUserId("775562");
         statuRequest.setToken("0e5a4625166a4442896aa8fdb97fdace775562");
-        ViseHttp.BASE(new PostRequest("http://10.10.1.14:8080/alpha1e/course/getCourseStatus")
+        ViseHttp.BASE(new PostRequest(ActionHttpEntity.BASE_GET_ALL_SCORE)
                 .setJson(GsonImpl.get().toJson(statuRequest)))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
-                        ViseLog.d("LOGIN onSuccess:" + response);
+                        ViseLog.d("getAllCourseScore onSuccess:" + response);
                         BaseResponseModel<List<CourseDetailScoreModule>> baseResponseModel = GsonImpl.get().toObject(response,
                                 new TypeToken<BaseResponseModel<List<CourseDetailScoreModule>>>() {
                                 }.getType());
@@ -279,24 +281,58 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         proQequest.setProgressTwo(courseTwo);
         proQequest.setCourseTwo(progressOne);
         proQequest.setType(2);
-//        OkHttpClientUtils.getJsonByPostRequest(HttpEntity.SAVE_COURSE_PROGRESS, proQequest, 100)
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e, int id) {
-//                        UbtLog.d("saveLastProgress", "e===" + e.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String response, int id) {
-//                        UbtLog.d("saveLastProgress", "response===" + response);
-//                        LocalActionRecord record = DataSupport.findFirst(LocalActionRecord.class);
-//                        if (null != record) {
-//                            ContentValues values = new ContentValues();
-//                            values.put("isUpload", true);
-//                            DataSupport.updateAll(LocalActionRecord.class, values);
-//                        }
-//                    }
-//                });
+        proQequest.setUserId("222222");
+        proQequest.setToken("0e5a4625166a4442896aa8fdb97fdace775562");
+        ViseHttp.BASE(new PostRequest(ActionHttpEntity.SAVE_COURSE_PROGRESS)
+                .setJson(GsonImpl.get().toJson(proQequest)))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String response) {
+                        ViseLog.d("saveLastProgress=====response===" + response);
+                        LocalActionRecord record = DataSupport.findFirst(LocalActionRecord.class);
+                        if (null != record) {
+                            ContentValues values = new ContentValues();
+                            values.put("isUpload", true);
+                            DataSupport.updateAll(LocalActionRecord.class, values);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFail(int i, String s) {
+                        ViseLog.d("e===" + s);
+
+                    }
+                });
+
+    }
+
+    /**
+     * 保存每个关卡的分数
+     */
+    public void saveCourseProgress(String course, String statu) {
+        SaveCourseStatuRequest statuRequest = new SaveCourseStatuRequest();
+        statuRequest.setType(2);
+        statuRequest.setCourse(course);
+        statuRequest.setStatus(statu);
+        statuRequest.setUserId("222222");
+        statuRequest.setToken("0e5a4625166a4442896aa8fdb97fdace775562");
+        ViseHttp.BASE(new PostRequest(ActionHttpEntity.COURSE_SAVE_STATU)
+                .setJson(GsonImpl.get().toJson(statuRequest)))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String response) {
+                        ViseLog.d("saveCourseProgress===response===" + response);
+
+                    }
+
+                    @Override
+                    public void onFail(int i, String s) {
+                        ViseLog.d("e===" + s);
+
+                    }
+                });
+
     }
 
 }

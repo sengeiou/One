@@ -92,6 +92,8 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
     private boolean isSaveSuccess = false;
 
+    private long originActionId = 0;
+
     public void init(Context context) {
         this.mContext = context;
         initActionTypeData();
@@ -212,7 +214,12 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
             String actionHeadUrl = getActionTypeImage(selectActionType.getLeftSelectedImage());
             ViseLog.d("actionHeadUrl=" + actionHeadUrl);
             actionInfo.actionHeadUrl = actionHeadUrl;
-            actionInfo.actionOriginalId = System.currentTimeMillis();
+            if (originActionId != 0) {
+                actionInfo.actionOriginalId = originActionId;
+            } else {
+                actionInfo.actionOriginalId = System.currentTimeMillis();
+            }
+
             actionInfo.actionId = actionInfo.actionOriginalId;
             final String mDir = FileTools.actions_new_cache + File.separator + actionInfo.actionOriginalId + "";
             String mFileName = actionInfo.actionOriginalId + ".hts";
@@ -331,6 +338,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
         params.put("actionTime", newActionInfo.actionTime + "");
         // String url = HttpAddress.getRequestUrl(HttpAddress.Request_type.createaction_upload);
         // String url = HttpAddress.getRequestUrl(HttpEntity.SAVE_ACTION);
+        originActionId = newActionInfo.actionOriginalId;
         ViseLog.d("maptojson", new Gson().toJson(params));
         OkHttpUtils.post()//
                 .addFile("mFile1", file.getName(), file)//
@@ -353,6 +361,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
                         try {
                             JSONObject json = new JSONObject(s);
                             if ((Boolean) json.get("status")) {
+                                originActionId = 0;
                                 if (mView != null) {
                                     mView.saveActionSuccess();
                                 }

@@ -87,7 +87,7 @@
             android:gravity="center"
             android:onClick="false"
             android:padding="10dp"
-            android:text="@string/ui_common_confirm"
+            android:text="@string/base_confirm"
             android:textColor="@color/tv_user_edit_color"
             android:textSize="16sp"
             />

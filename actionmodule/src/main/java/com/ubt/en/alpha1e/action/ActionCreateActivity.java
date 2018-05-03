@@ -107,6 +107,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
                 //NewActionInfo actionInfo = ((ActionsEditHelper)mHelper).getNewActionInfo();
                 Intent intent = new Intent(this, SaveSuccessActivity.class);
                 startActivity(intent);
+                finish();
             }
 
         }

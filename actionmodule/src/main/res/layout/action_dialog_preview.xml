@@ -94,7 +94,7 @@
             android:layout_width="120dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
-            android:text="@string/ui_common_confirm"
+            android:text="@string/base_confirm"
             android:textSize="16sp"
             android:gravity="center"
             android:textColor="@color/tv_user_edit_color"

@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.bluetoothlib.base.BluetoothState;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.adapter.ActionCoursedapter;
 import com.ubt.en.alpha1e.action.contact.ActionCourseContact;
@@ -77,6 +80,38 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        startActivity(new Intent(this, ActionLevelOneActivity.class));
+        if (BlueClientUtil.getInstance().getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            ActionLevelCourseActivity.launchActivity(this, position + 1);
+        } else {
+            ToastUtils.showShort("请连接蓝牙");
+        }
+    }
+
+    private static final int REQUESTCODE = 10000;
+
+    // 为了获取结果
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // RESULT_OK，判断另外一个activity已经结束数据输入功能，Standard activity result:
+        // operation succeeded. 默认值是-1
+        if (resultCode == 1) {
+            if (requestCode == REQUESTCODE) {
+                //设置结果显示框的显示数值
+                ViseLog.d("课程完成通过");
+                int resulttype = data.getIntExtra("resulttype", 0);
+                if (resulttype == 0) {
+                    int course = data.getIntExtra("course", 1);
+                    int leavel = data.getIntExtra("leavel", 1);
+                    boolean isComplete = data.getBooleanExtra("isComplete", false);
+                    int score = data.getIntExtra("score", 0);
+                    if (course < 10) {
+                        mPresenter.getActionCourseModels().get(course).setActionLockType(1);
+                    }
+                    mPresenter.getActionCourseModels().get(course - 1).setActionCourcesScore(1);
+                    mActionCoursedapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 }
