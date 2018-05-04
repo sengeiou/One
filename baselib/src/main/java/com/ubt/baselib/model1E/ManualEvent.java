@@ -21,7 +21,8 @@ public class ManualEvent {
     public enum Event {
         MANUAL_ENTER,
         MANUAL_DISCONNECT,
-        START_AUTOSERVICE
+        START_AUTOSERVICE,
+        CONNECT_ROBOT_SUCCESS
     }
 
 

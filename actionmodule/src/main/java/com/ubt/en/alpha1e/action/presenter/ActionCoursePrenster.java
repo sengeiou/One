@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import com.google.gson.reflect.TypeToken;
+import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.model1E.LocalActionRecord;
 import com.ubt.baselib.mvp.BasePresenterImpl;
@@ -142,14 +143,14 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
     private void getLastCourseProgress() {
         SaveCourseProQuest proQequest = new SaveCourseProQuest();
         proQequest.setType(2);
-        proQequest.setUserId("775562");
-        proQequest.setToken("0e5a4625166a4442896aa8fdb97fdace775562");
+        proQequest.setUserId(BaseHttpEntity.getUserId());
+        proQequest.setToken("5556778888");
 
         LocalActionRecord record = DataSupport.findFirst(LocalActionRecord.class);
         //本地没有记录，说明之前没用过，则根据后台返回保存本地记录
         if (null == record) {
             LocalActionRecord record1 = new LocalActionRecord();
-            record1.setUserId("775562");
+            record1.setUserId(BaseHttpEntity.getUserId());
             record1.setCourseLevel(1);
             record1.setPeriodLevel(0);
             record1.setUpload(true);
@@ -206,8 +207,8 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
     private void getAllCourseScore() {
         SaveCourseStatuRequest statuRequest = new SaveCourseStatuRequest();
         statuRequest.setType(2);
-        statuRequest.setUserId("775562");
-        statuRequest.setToken("0e5a4625166a4442896aa8fdb97fdace775562");
+        statuRequest.setUserId(BaseHttpEntity.getUserId());
+        statuRequest.setToken("5556778888");
         ViseHttp.BASE(new PostRequest(ActionHttpEntity.BASE_GET_ALL_SCORE)
                 .setJson(GsonImpl.get().toJson(statuRequest)))
                 .request(new ACallback<String>() {
@@ -252,7 +253,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
             if (null != record) {
                 int course = record.getCourseLevel();
                 int level = record.getPeriodLevel();//课时3
-                ViseLog.d("后台获取数据为null   getCourseScores==" + "course==" + course + "   leavel==" + level);
+                ViseLog.d("后台获取数据为   getCourseScores==" + "course==" + course + "   leavel==" + level);
                 for (int i = 0; i < course; i++) {
                     mActionCourseModels.get(i).setActionLockType(1);
                     mActionCourseModels.get(i).setActionCourcesScore(1);
@@ -280,8 +281,8 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         proQequest.setProgressTwo(courseTwo);
         proQequest.setCourseTwo(progressOne);
         proQequest.setType(2);
-        proQequest.setUserId("222222");
-        proQequest.setToken("0e5a4625166a4442896aa8fdb97fdace775562");
+        proQequest.setUserId(BaseHttpEntity.getUserId());
+        proQequest.setToken("5556778888");
         ViseHttp.BASE(new PostRequest(ActionHttpEntity.SAVE_COURSE_PROGRESS)
                 .setJson(GsonImpl.get().toJson(proQequest)))
                 .request(new ACallback<String>() {
@@ -314,8 +315,8 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         statuRequest.setType(2);
         statuRequest.setCourse(course);
         statuRequest.setStatus(statu);
-        statuRequest.setUserId("222222");
-        statuRequest.setToken("0e5a4625166a4442896aa8fdb97fdace775562");
+        statuRequest.setUserId(BaseHttpEntity.getUserId());
+        statuRequest.setToken("5556778888");
         ViseHttp.BASE(new PostRequest(ActionHttpEntity.COURSE_SAVE_STATU)
                 .setJson(GsonImpl.get().toJson(statuRequest)))
                 .request(new ACallback<String>() {

@@ -560,7 +560,7 @@
                         android:src="@drawable/ic_backtotop_disable"
                         />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_46"
                         android:background="@drawable/bg_action_bottom_frame_list"
@@ -583,7 +583,7 @@
                             android:src="@drawable/zuojiantou_4"
                             android:visibility="gone"
                             />
-                    </LinearLayout>
+                    </RelativeLayout>
 
 
                 </LinearLayout>

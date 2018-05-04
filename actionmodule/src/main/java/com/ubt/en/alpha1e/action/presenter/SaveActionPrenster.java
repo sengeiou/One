@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.BitmapUtil;
@@ -319,7 +320,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
         SaveActionRequest request = new SaveActionRequest();
         request.setActionoriginalid(newActionInfo.actionOriginalId + "");
-        request.setActionuserid("775562");
+        request.setActionuserid(BaseHttpEntity.getUserId());
         request.setActiondesciber(typeModel.getActionDescrion());
         request.setServiceversion("V1.0.0.1");
         request.setActionname("test");
@@ -331,7 +332,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
         Map<String, String> params = getBasicParamsMap(mContext);
 
         params.put("actionOriginalId", newActionInfo.actionOriginalId + "");
-        params.put("actionUserId", 775562 + "");
+        params.put("actionUserId", BaseHttpEntity.getUserId() + "");
         params.put("actionName", "test");
         params.put("actionDesciber", typeModel.getActionDescrion());
         params.put("actionType", newActionInfo.actionType + "");

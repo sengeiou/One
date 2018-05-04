@@ -94,7 +94,7 @@ public class CourseSevenActionLayout extends BaseActionEditLayout implements Act
 
     @Override
     public int getLayoutId() {
-        return R.layout.dialog_action_course_content;
+        return R.layout.action_create_course_layout;
     }
 
     /**
@@ -221,6 +221,7 @@ public class CourseSevenActionLayout extends BaseActionEditLayout implements Act
     @Override
     public void onClick(View v) {
         int i = v.getId();
+        ViseLog.d("i==="+i+"     R.id.iv_hand_left=="+R.id.iv_hand_left+"    i == R.id.iv_left_arrow=="+ R.id.iv_left_arrow);
         if (i == R.id.iv_back) {
             if (null != courseProgressListener) {
                 courseProgressListener.finishActivity();

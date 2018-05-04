@@ -494,7 +494,7 @@ public class ActionsEditHelper implements IProtolPackListener {
         } else if (course == 9) {
             title = "第九关 快速创建连续动作";
         } else if (course == 10) {
-            title = "第四关 添加动作＋音频";
+            title = "第十关 自定义动作";
         }
         return title;
     }

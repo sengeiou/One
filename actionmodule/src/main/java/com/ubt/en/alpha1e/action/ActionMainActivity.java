@@ -61,9 +61,10 @@ public class ActionMainActivity extends MVPBaseActivity<ActionMainContact.View, 
                 startActivity(new Intent(this, ActionCreateActivity.class));
             }
         } else if (i == R.id.rl_action_work) {
-            startActivity(new Intent(this, ActionCourseActivity.class));
+
         } else if (i == R.id.rl_action_download) {
         } else if (i == R.id.rl_action_make) {
+            startActivity(new Intent(this, ActionCourseActivity.class));
         }
     }
 

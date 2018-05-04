@@ -74,7 +74,7 @@ public class CourseSixActionLayout extends BaseActionEditLayout implements Actio
 
     @Override
     public int getLayoutId() {
-        return R.layout.dialog_action_course_content;
+        return R.layout.action_create_course_layout;
     }
 
     /**

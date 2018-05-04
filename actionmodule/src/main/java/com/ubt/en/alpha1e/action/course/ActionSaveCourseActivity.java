@@ -1,10 +1,15 @@
 package com.ubt.en.alpha1e.action.course;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -103,6 +108,33 @@ public class ActionSaveCourseActivity extends MVPBaseActivity<SaveActionContact.
         mSelectGridAdapter.setOnItemClickListener(this);
         selectModel = mPresenter.getTypeModelList().get(0);
         setLeftImageShow();
+        mIvSave.setEnabled(false);
+        mEdtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 这里可以知道你已经输入的字数，大家可以自己根据需求来自定义文本控件实时的显示已经输入的字符个数
+                Log.e("此时你已经输入了", "" + s.length());
+
+                int after_length = s.length();// 输入内容后编辑框所有内容的总长度
+                // 如果字符添加后超过了限制的长度，那么就移除后面添加的那一部分，这个很关键
+                if (after_length > 1) {
+                    mEdtName.setFocusable(false);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mEdtName.getWindowToken(), 0); //强制隐藏键盘
+                    mSelectGridAdapter.setisShowArrow(true);
+                }
+            }
+        });
     }
 
     @Override
@@ -123,6 +155,10 @@ public class ActionSaveCourseActivity extends MVPBaseActivity<SaveActionContact.
         mPresenter.selectActionMode(position);
         selectModel = mPresenter.getTypeModelList().get(position);
         setLeftImageShow();
+        if (position == 2) {
+            CourseArrowAminalUtil.startViewAnimal(true, mIvSaveArrow, 1);
+            mIvSave.setEnabled(true);
+        }
     }
 
 
@@ -172,18 +208,13 @@ public class ActionSaveCourseActivity extends MVPBaseActivity<SaveActionContact.
 
     @Override
     public void saveActionSuccess() {
-        BaseLoadingDialog.dismiss(this);
-        Intent intent = new Intent();
-        intent.putExtra(ActionsEditHelper.SaveActionResult,true);
-        setResult(ActionsEditHelper.SaveActionReq, intent);
-        finish();
+
     }
 
     @Override
     public void saveActionFailed() {
         BaseLoadingDialog.dismiss(this);
     }
-
 
 
 }

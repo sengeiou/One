@@ -877,10 +877,6 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
             inte.putExtra(ActionSaveActivity.MUSIC_DIR, mDir);
         }
 
-        if (type==2){
-            mContext.startActivity(inte);
-        }
-
         if (listener != null) {
             listener.startSave(inte);
         }

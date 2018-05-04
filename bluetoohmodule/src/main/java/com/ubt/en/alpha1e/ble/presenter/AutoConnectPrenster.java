@@ -120,7 +120,7 @@ public class AutoConnectPrenster implements IProtolPackListener {
         //如果APP在前台并且没有连接蓝牙
         if (!MyLifecycleCallback.isBackground() && mBlueClient.getConnectionState() != 3) {
             BleDevice bleDevice = DataSupport.findFirst(BleDevice.class);
-            if (bleDevice != null) {
+            if (bleDevice != null&&mBlueClient.isEnabled()) {
                 ViseLog.e("connectBleDevice" + bleDevice.toString());
                 mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
                 mBlueClient.connect(bleDevice.getMac());
@@ -266,6 +266,9 @@ public class AutoConnectPrenster implements IProtolPackListener {
                     return;
                 }
                 ViseLog.e("-----------握手成功----------与机器人正式连接");
+                ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.CONNECT_ROBOT_SUCCESS);
+                manualEvent.setManual(true);
+                EventBus.getDefault().post(manualEvent);
                 mHandler.removeMessages(MESSAG_HANDSHAKE_TIMEOUT);
                 break;
             default:
@@ -380,8 +383,10 @@ public class AutoConnectPrenster implements IProtolPackListener {
      * 扫描蓝牙
      */
     private void startScanBleDevice() {
+        ViseLog.d("开始扫描蓝牙startScanBleDevice"+"isManualDisConnect=="+isManualDisConnect);
         if (!isManualDisConnect && mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTED && !MyLifecycleCallback.isBackground()) {
             isCancleScan = false;
+            ViseLog.d("开始扫描蓝牙startScanBleDevice");
             mBlueClient.startScan();
         } else {
             isCancleScan = true;

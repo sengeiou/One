@@ -30,6 +30,8 @@ public class BleStatuContact {
         void setRobotSoftVersion(String softVersion);
 
         void setRobotSN(String SN);
+
+        void goBleSraechActivity();
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -41,6 +43,8 @@ public class BleStatuContact {
         void getRobotBleConnect();
 
         void dissConnectRobot();
+
+        void checkBlestatu();
 
     }
 }

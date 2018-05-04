@@ -8,10 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.R;
@@ -83,7 +84,7 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
         if (BlueClientUtil.getInstance().getConnectionState() == BluetoothState.STATE_CONNECTED) {
             ActionLevelCourseActivity.launchActivity(this, position + 1);
         } else {
-            ToastUtils.showShort("请连接蓝牙");
+            ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
         }
     }
 
@@ -110,6 +111,8 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
                     }
                     mPresenter.getActionCourseModels().get(course - 1).setActionCourcesScore(1);
                     mActionCoursedapter.notifyDataSetChanged();
+                    mPresenter.saveCourseProgress(String.valueOf(course), "1");
+
                 }
             }
         }

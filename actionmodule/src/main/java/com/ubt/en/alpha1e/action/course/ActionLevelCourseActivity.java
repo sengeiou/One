@@ -30,7 +30,7 @@ import com.ubt.en.alpha1e.action.util.ActionCourseDataManager;
 import com.ubt.en.alpha1e.action.view.BaseActionEditLayout;
 import com.vise.log.ViseLog;
 
-public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.View, CoursePrenster> implements CourseContract.View, IEditActionUI, ActionsEditHelper.PlayCompleteListener, CourseProgressListener {
+public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.View, CoursePrenster> implements CourseContract.View, IEditActionUI, ActionsEditHelper.PlayCompleteListener, CourseProgressListener, BaseActionEditLayout.OnSaveSucessListener {
 
 
     BaseActionEditLayout mActionEdit;
@@ -90,6 +90,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         //行为习惯流程未开始，该干啥干啥
         ((ActionsEditHelper) mHelper).doEnterCourse((byte) 1);
         mActionEdit.setData(this);
+        mActionEdit.setOnSaveSucessListener(this);
     }
 
     @Override
@@ -246,6 +247,9 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
     public void completeCurrentCourse(int current) {
         currentCourse = current;
         mPresenter.savaCourseDataToDB(level, current);
+        if (level == 10) {
+            returnCardActivity();
+        }
     }
 
     @Override
@@ -307,6 +311,28 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
                 .setCancelable(false)
                 .create().show();
 
+
+    }
+
+    @Override
+    public void startSave(Intent intent) {
+        if (level != 10) {
+            startActivityForResult(intent, ActionsEditHelper.SaveActionReq);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ActionsEditHelper.SaveActionReq) {
+            if (null != data) {
+                boolean isSaveSuccess = (Boolean) data.getExtras().get(ActionsEditHelper.SaveActionResult);
+                if (isSaveSuccess) {
+                    completeSuccess(true);
+                }
+            }
+        }
 
     }
 }
