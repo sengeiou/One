@@ -3,6 +3,7 @@ package com.ubt.blockly.main;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -16,6 +17,7 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.reflect.TypeToken;
@@ -33,6 +35,7 @@ import com.ubt.baselib.utils.SPUtils;
 import com.ubt.blockly.BlockHttpEntity;
 import com.ubt.blockly.R;
 import com.ubt.blockly.R2;
+import com.ubt.blockly.course.BlocklyUtil;
 import com.ubt.blockly.main.bean.BaseRequest;
 import com.ubt.blockly.main.bean.BlocklyProjectDelRequest;
 import com.ubt.blockly.main.bean.BlocklyProjectRequest;
@@ -40,6 +43,7 @@ import com.ubt.blockly.main.bean.BlocklyRespondMode;
 import com.ubt.blockly.main.bean.BlocklySaveMode;
 import com.ubt.blockly.main.bean.DeviceDirectionEnum;
 import com.ubt.blockly.main.bean.DirectionSensorEventListener;
+import com.ubt.blockly.main.bean.DragView;
 import com.ubt.blockly.main.bean.LedColorEnum;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
@@ -74,6 +78,10 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     private String TAG = "BlocklyActivity";
     @BindView(R2.id.blockly_webView)
     WebView mWebView;
+    @BindView(R2.id.rl_go_video)
+    DragView rlGoVideo;
+    @BindView(R2.id.iv_shot_album)
+    ImageView ivShotAlbum;
     public static String URL = BaseHttpEntity.BLOCKLY_CODEMAO_URL;
     private BlocklyJsInterface mBlocklyJsInterface;
 
@@ -83,6 +91,11 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     private String mDirection = DeviceDirectionEnum.NONE.getValue();
     private List<String> actionList = new ArrayList<>();
 
+    private boolean fromVideo = false;
+    public static final String FROM_VIDEO = "fromVideo";
+    public static final String SHOTCUT_NAME = "shotVideo";
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +104,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
         if(BlueClientUtil.getInstance().getConnectionState() == 3){
             mPresenter.getActionList();
         }
+        fromVideo =  getIntent().getBooleanExtra(FROM_VIDEO, false);
         init();
     }
 
@@ -103,6 +117,16 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             mListener = new DirectionSensorEventListener(this);
             mSensorManager.registerListener(mListener,mSensor,SensorManager.SENSOR_DELAY_NORMAL);
         }
+
+        rlGoVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!rlGoVideo.isDrag()){
+                    finish();
+                }
+
+            }
+        });
 
     }
 
@@ -153,6 +177,17 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                     mPresenter.doRead6Dstate();
                     mPresenter.doReadTemperature((byte)0x01);
                     mPresenter.startOrStopRun((byte)0x01);
+                }
+
+                if(fromVideo){
+                    rlGoVideo.setVisibility(View.VISIBLE);
+                    Bitmap bitmap = BitmapFactory.decodeFile(BlocklyUtil.getPath() + SHOTCUT_NAME+ ".jpg");
+                    if(bitmap != null){
+                        ivShotAlbum.setImageBitmap(bitmap);
+                    }
+
+                }else{
+                    rlGoVideo.setVisibility(View.GONE);
                 }
 
             }

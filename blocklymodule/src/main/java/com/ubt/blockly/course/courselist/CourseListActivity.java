@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.model1E.CourseData;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.SPUtils;
@@ -26,7 +27,6 @@ import com.ubt.blockly.R2;
 import com.ubt.blockly.course.BlocklyCourseActivity;
 import com.ubt.blockly.course.BlocklyUtil;
 import com.ubt.blockly.course.adapter.BlocklyCourseAdapter;
-import com.ubt.globaldialog.customDialog.loading.LoadingDialog;
 import com.vise.log.ViseLog;
 import com.zhy.http.okhttp.callback.FileCallBack;
 
@@ -77,7 +77,8 @@ public class CourseListActivity extends MVPBaseActivity<CourseListContract.View,
         }else{
             mPresenter.getBlocklyCourseList(this);
         }
-        LoadingDialog.show(this);
+        BaseLoadingDialog.show(this);
+//        LoadingDialog.show(this);
 
     }
 
@@ -118,7 +119,8 @@ public class CourseListActivity extends MVPBaseActivity<CourseListContract.View,
         ViseLog.d("setBlocklyCourseData list:" + list.toString());
         courseList.addAll(list);
         courseAdapter.notifyDataSetChanged();
-        LoadingDialog.dismiss(this);
+        BaseLoadingDialog.dismiss(this);
+//        LoadingDialog.dismiss(this);
     }
 
     @Override

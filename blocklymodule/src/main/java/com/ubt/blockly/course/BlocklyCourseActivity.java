@@ -2,6 +2,7 @@ package com.ubt.blockly.course;
 
 
 import android.annotation.TargetApi;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,22 +30,39 @@ import com.shuyu.gsyvideoplayer.listener.GSYVideoShotListener;
 import com.shuyu.gsyvideoplayer.model.VideoOptionModel;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.CourseData;
+import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.blockly.BlockHttpEntity;
+import com.ubt.blockly.BlockSPConstant;
 import com.ubt.blockly.R;
 import com.ubt.blockly.R2;
+import com.ubt.blockly.course.model.UpdateCourseRequest;
 import com.ubt.blockly.course.videoPlayer.BlocklyVideoPlayer;
 import com.ubt.blockly.course.videoPlayer.BlocklyVideoPlayerListener;
 import com.ubt.blockly.course.videoPlayer.OnTransitionListener;
 import com.ubt.blockly.course.videoPlayer.ViewListener;
 import com.ubt.blockly.main.BlocklyActivity;
 import com.vise.log.ViseLog;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+import com.vise.xsnow.http.request.PostRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 
@@ -65,6 +83,7 @@ public class BlocklyCourseActivity extends MVPBaseActivity<BlocklyCourseContract
     ImageView ivGoPro;
     @BindView(R2.id.iv_pause)
     ImageView ivPause;
+    Unbinder unbinder;
 
 
     OrientationUtils orientationUtils;
@@ -83,6 +102,7 @@ public class BlocklyCourseActivity extends MVPBaseActivity<BlocklyCourseContract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        unbinder = ButterKnife.bind(this);
         isTransition = getIntent().getBooleanExtra(TRANSITION, false);
         courseData = (CourseData)getIntent().getSerializableExtra(COURSE_DATA);
         ViseLog.d(TAG, "onCreate courseData:" + courseData);
@@ -146,18 +166,15 @@ public class BlocklyCourseActivity extends MVPBaseActivity<BlocklyCourseContract
                     @Override
                     public void getBitmap(final Bitmap bitmap) {
                         if(bitmap != null){
-
-//                            try {
-//                                BlocklyUtil.saveBitmap(bitmap, BlocklyActivity.SHOTCUT_NAME);
-                                ViseLog.d(TAG, "jump block bitmap");
+                            try {
+                                BlocklyUtil.saveBitmap(bitmap, BlocklyActivity.SHOTCUT_NAME);
                                 Intent intent = new Intent();
-//                                intent.putExtra(BlocklyActivity.FROM_VIDEO, true);
+                                intent.putExtra(BlocklyActivity.FROM_VIDEO, true);
                                 intent.setClass(BlocklyCourseActivity.this, BlocklyActivity.class);
                                 startActivity(intent);
-//                                overridePendingTransition(R.anim.activity_open_up_down, 0);
-//                            } catch (FileNotFoundException e) {
-//                                e.printStackTrace();
-//                            }
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
 
                         }
                     }
@@ -269,6 +286,7 @@ public class BlocklyCourseActivity extends MVPBaseActivity<BlocklyCourseContract
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -346,11 +364,49 @@ public class BlocklyCourseActivity extends MVPBaseActivity<BlocklyCourseContract
                     public void onClick(final DialogPlus dialog, View view) {
                         if (view.getId() == R.id.btn_retry) {
 
-                     /*       if(courseData.getCid() >= courseData.getCurrGraphProgramId()){
+                            if(courseData.getCid() >= courseData.getCurrGraphProgramId()){
                                 UpdateCourseRequest courseRequest = new UpdateCourseRequest();
                                 ViseLog.d(TAG, "cid:" + courseData.getCid());
                                 courseRequest.setCurrGraphProgramId(courseData.getCid()+1);
-                                OkHttpClientUtils.getJsonByPostRequest(BlockHttpEntity.UPDATE_BLOCKLY_COURSE, courseRequest, 0).execute(new StringCallback() {
+                                UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+                                courseRequest.setUserId(userInfoModel.getUserId());
+                                courseRequest.setToken("5556778888");
+                                ViseHttp.BASE(new PostRequest(BlockHttpEntity.UPDATE_BLOCKLY_COURSE)
+                                        .setJson(GsonImpl.get().toJson(courseRequest)))
+                                        .request(new ACallback<String>() {
+                                            @Override
+                                            public void onSuccess(String response) {
+                                                ViseLog.d(TAG, "updateCurrentCourse onResponse:" + response.toString());
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response);
+                                                    boolean status = jsonObject.getBoolean("status");
+                                                    if(status){
+                                                        onBackPressed();
+                                                        dialog.dismiss();
+                                                    }
+
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFail(int i, String s) {
+                                                ViseLog.e(TAG, "updateCurrentCourse onError:" + s);
+                                                //保存失败则主动更新本地数据，并保存当前进度
+                                                ContentValues values = new ContentValues();
+                                                values.put("currGraphProgramId", courseData.getCid() + 1);
+                                                DataSupport.updateAll(CourseData.class, values);
+                                                SPUtils.getInstance().put(BlockSPConstant.SP_CURRENT_BLOCK_COURSE_ID, courseData.getCid() + 1);
+                                                CourseData updateCourseData = new CourseData();
+                                                updateCourseData.setStatus("1");
+                                                updateCourseData.update(courseData.getCid() + 1);
+
+                                                onBackPressed();
+                                                dialog.dismiss();
+                                            }
+                                        });
+                       /*         OkHttpClientUtils.getJsonByPostRequest(BlockHttpEntity.UPDATE_BLOCKLY_COURSE, courseRequest, 0).execute(new StringCallback() {
                                     @Override
                                     public void onError(Call call, Exception e, int id) {
                                         ViseLog.e(TAG, "updateCurrentCourse onError:" + e.getMessage());
@@ -384,12 +440,12 @@ public class BlocklyCourseActivity extends MVPBaseActivity<BlocklyCourseContract
                                         }
 
                                     }
-                                });
+                                });*/
                             }else{
                                 onBackPressed();
                                 dialog.dismiss();
                             }
-*/
+
 
                         }
                     }

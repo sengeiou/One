@@ -3,10 +3,13 @@ package com.ubt.blockly.course.courselist;
 import android.content.Context;
 
 import com.google.gson.reflect.TypeToken;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.model1E.CourseData;
+import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.blockly.BlockHttpEntity;
 import com.ubt.blockly.course.model.BaseRequest;
@@ -34,12 +37,14 @@ public class CourseListPresenter extends BasePresenterImpl<CourseListContract.Vi
     public void getBlocklyCourseList(final Context context) {
         //从服务器获取数据并保存本地数据
         final BaseRequest request = new BaseRequest();
-        request.setUserId("775562");
+        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        request.setUserId(userInfoModel.getUserId());
+        request.setToken("5556778888");
         ViseHttp.BASE(new PostRequest(BlockHttpEntity.BLOCKLY_COURSE_LIST)
                 .setJson(GsonImpl.get().toJson(request)))
-                .request(new ACallback<Object>() {
+                .request(new ACallback<String>() {
                     @Override
-                    public void onSuccess(Object response) {
+                    public void onSuccess(String response) {
                         ViseLog.d("BLOCKLY_COURSE_LIST onResponse:" + response.toString());
                         BaseResponseModel<List<BlocklyCourseModel>> baseResponseModel = GsonImpl.get().toObject(response.toString(),
                                 new TypeToken<BaseResponseModel<List<BlocklyCourseModel>>>(){}.getType());
