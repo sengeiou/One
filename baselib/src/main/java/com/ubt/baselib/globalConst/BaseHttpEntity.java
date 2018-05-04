@@ -1,5 +1,7 @@
 package com.ubt.baselib.globalConst;
 
+import com.ubt.baselib.model1E.UserInfoModel;
+import com.ubt.baselib.utils.SPUtils;
 import com.vise.log.ViseLog;
 
 /**
@@ -31,5 +33,18 @@ public class BaseHttpEntity {
             BASIC_UBX_SYS_BIND="https://prodapi.ubtrobot.com/equipment/";
             BLOCKLY_CODEMAO_URL = "https://ubt.codemao.cn/";
         }
+    }
+
+    /**
+     * 获取用户ID
+     * @return
+     */
+    public static String getUserId(){
+        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        String userId ="";
+        if (userInfoModel!=null){
+            userId= userInfoModel.getUserId();
+        }
+        return userId;
     }
 }

@@ -122,7 +122,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         } else if (i == R.id.bleImageview3) {
             finishBleStatuActivity();
         } else if (i == R.id.ble_statu_connect) {
-            BleConnectActivity.launch(this, false);
+            mPresenter.checkBlestatu();
         } else if (i == R.id.tv_wifi_select) {
             BleSearchWifiActivity.launch(this, false);
 
@@ -199,6 +199,11 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         if (!TextUtils.isEmpty(SN)) {
             mTvRobotSerial.setText(SN);
         }
+    }
+
+    @Override
+    public void goBleSraechActivity() {
+        BleConnectActivity.launch(this, false);
     }
 
     @Override

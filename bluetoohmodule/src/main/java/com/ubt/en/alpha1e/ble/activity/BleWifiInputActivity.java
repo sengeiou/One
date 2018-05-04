@@ -127,7 +127,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
                 } else {
                     new BaseDialog.Builder(this)
                             .setMessage(R.string.ble_wifi_connect_without_password)
-                            .setConfirmButtonId(R.string.ui_common_confirm)
+                            .setConfirmButtonId(R.string.base_confirm)
                             .setConfirmButtonColor(R.color.base_color_red)
                             .setCancleButtonID(R.string.base_cancel)
                             .setCancleButtonColor(R.color.black)

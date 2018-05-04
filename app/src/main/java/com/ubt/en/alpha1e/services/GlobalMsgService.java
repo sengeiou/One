@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.en.alpha1e.xinge.XGConstact;
 import com.vise.log.ViseLog;
@@ -65,7 +64,7 @@ public class GlobalMsgService extends Service {
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
-                ToastUtils.showShort("Bluetooh is disconnect");
+
 //                new GlobalDialog.Builder(this).setMsg("蓝牙掉线").setNegativeButton("cancel", new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {

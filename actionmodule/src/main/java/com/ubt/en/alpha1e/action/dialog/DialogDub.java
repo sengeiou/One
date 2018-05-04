@@ -350,7 +350,7 @@ public class DialogDub extends Dialog {
 
             new BaseDialog.Builder(context)
                     .setMessage(R.string.ui_resave_tip).
-                    setConfirmButtonId(com.ubt.baselib.R.string.ui_common_confirm)
+                    setConfirmButtonId(com.ubt.baselib.R.string.base_confirm)
                      .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                         @Override
                         public void onClick(DialogPlus dialog, View view) {

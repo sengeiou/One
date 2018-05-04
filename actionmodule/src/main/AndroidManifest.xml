@@ -37,7 +37,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".course.ActionLevelOneActivity"
+        <activity android:name=".course.ActionLevelCourseActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:screenOrientation="landscape"
+                  android:theme="@style/NoTitleThemeFullScreen"
+                  android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".course.ActionSaveCourseActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:screenOrientation="landscape"
                   android:theme="@style/NoTitleThemeFullScreen"

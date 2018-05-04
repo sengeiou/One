@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.BitmapUtil;
@@ -91,6 +92,8 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
     private Context mContext;
 
     private boolean isSaveSuccess = false;
+
+    private long originActionId = 0;
 
     public void init(Context context) {
         this.mContext = context;
@@ -212,7 +215,12 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
             String actionHeadUrl = getActionTypeImage(selectActionType.getLeftSelectedImage());
             ViseLog.d("actionHeadUrl=" + actionHeadUrl);
             actionInfo.actionHeadUrl = actionHeadUrl;
-            actionInfo.actionOriginalId = System.currentTimeMillis();
+            if (originActionId != 0) {
+                actionInfo.actionOriginalId = originActionId;
+            } else {
+                actionInfo.actionOriginalId = System.currentTimeMillis();
+            }
+
             actionInfo.actionId = actionInfo.actionOriginalId;
             final String mDir = FileTools.actions_new_cache + File.separator + actionInfo.actionOriginalId + "";
             String mFileName = actionInfo.actionOriginalId + ".hts";
@@ -312,7 +320,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
         SaveActionRequest request = new SaveActionRequest();
         request.setActionoriginalid(newActionInfo.actionOriginalId + "");
-        request.setActionuserid("775562");
+        request.setActionuserid(BaseHttpEntity.getUserId());
         request.setActiondesciber(typeModel.getActionDescrion());
         request.setServiceversion("V1.0.0.1");
         request.setActionname("test");
@@ -324,13 +332,14 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
         Map<String, String> params = getBasicParamsMap(mContext);
 
         params.put("actionOriginalId", newActionInfo.actionOriginalId + "");
-        params.put("actionUserId", 775562 + "");
+        params.put("actionUserId", BaseHttpEntity.getUserId() + "");
         params.put("actionName", "test");
         params.put("actionDesciber", typeModel.getActionDescrion());
         params.put("actionType", newActionInfo.actionType + "");
         params.put("actionTime", newActionInfo.actionTime + "");
         // String url = HttpAddress.getRequestUrl(HttpAddress.Request_type.createaction_upload);
         // String url = HttpAddress.getRequestUrl(HttpEntity.SAVE_ACTION);
+        originActionId = newActionInfo.actionOriginalId;
         ViseLog.d("maptojson", new Gson().toJson(params));
         OkHttpUtils.post()//
                 .addFile("mFile1", file.getName(), file)//
@@ -353,6 +362,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
                         try {
                             JSONObject json = new JSONObject(s);
                             if ((Boolean) json.get("status")) {
+                                originActionId = 0;
                                 if (mView != null) {
                                     mView.saveActionSuccess();
                                 }

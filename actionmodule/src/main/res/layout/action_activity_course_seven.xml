@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:ignore="ResourceName">
 
-    <com.ubt.en.alpha1e.action.view.course.CourseTwoActionLayout
+    <com.ubt.en.alpha1e.action.view.course.CourseSevenActionLayout
         android:id="@+id/action_layout_course_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

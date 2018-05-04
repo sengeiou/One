@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.model.ActionTypeModel;
 
@@ -23,6 +24,13 @@ import java.util.List;
 public class SelectGridAdapter extends BaseQuickAdapter<ActionTypeModel, BaseViewHolder> {
 
 
+    private boolean isShow;
+
+    public void setisShowArrow(boolean isShow) {
+        this.isShow = isShow;
+        notifyDataSetChanged();
+    }
+
     public SelectGridAdapter(int layoutResId, @Nullable List<ActionTypeModel> data) {
         super(layoutResId, data);
     }
@@ -37,6 +45,13 @@ public class SelectGridAdapter extends BaseQuickAdapter<ActionTypeModel, BaseVie
             ivSelected.setVisibility(View.VISIBLE);
         } else {
             ivSelected.setVisibility(View.GONE);
+        }
+
+        ImageView ivArrow = helper.getView(R.id.iv_show_arrow);
+        if (isShow && item.getActionName().equals(SkinManager.getInstance().getTextById(R.string.ui_square_sport))) {
+            ivArrow.setVisibility(View.VISIBLE);
+        } else {
+            ivArrow.setVisibility(View.GONE);
         }
     }
 }

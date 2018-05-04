@@ -105,7 +105,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/action_btn_alert_bg"
                 android:gravity="center"
-                android:text="@string/ui_common_confirm"
+                android:text="@string/base_confirm"
                 android:textColor="@color/tv_user_edit_color"
                 android:textSize="16sp"
                 />

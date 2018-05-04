@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
+import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
@@ -13,6 +14,7 @@ import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
+import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
@@ -80,6 +82,22 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     }
 
     /**
+     * 监听到蓝牙开启立即申请定位权限
+     *
+     * @param stateChanged
+     */
+    @Subscribe
+    public void onActionStateChanged(BTStateChanged stateChanged) {
+        ViseLog.i(stateChanged.toString());
+        if (stateChanged.getState() == BTStateChanged.STATE_ON) {
+            ViseLog.e("开启蓝牙");
+            if (mView != null) {
+                mView.goBleSraechActivity();
+            }
+        }
+    }
+
+    /**
      * 读取蓝牙回调数据
      *
      * @param readData
@@ -105,12 +123,14 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 if (mView != null) {
                     mView.setRobotNetWork(bleNetWork);
                 }
+                mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
                 break;
             case BTCmd.DV_READ_SOFTWARE_VERSION:
                 ViseLog.d("机器人版本号：" + new String(packet.getmParam()));
                 if (mView != null) {
                     mView.setRobotSoftVersion(new String(packet.getmParam()));
                 }
+                mBlueClientUtil.sendData(new BTCmdReadSNCode().toByteArray());
                 break;
 
             case BTCmd.READ_SN_CODE:
@@ -121,6 +141,18 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 进入退出手动连接
+     *
+     * @param manualEvent 进入为true 退出为false
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doEntryManalConnect(ManualEvent manualEvent) {
+        if (manualEvent.getEvent() == ManualEvent.Event.CONNECT_ROBOT_SUCCESS) {//进入蓝牙联网页面
+            getRobotBleConnect();
         }
     }
 
@@ -136,13 +168,12 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     public void getRobotBleConnect() {
         BluetoothDevice device = mBlueClientUtil.getConnectedDevice();
         if (mView != null) {
-            if (mBlueClientUtil.getConnectionState() == 3) {
+            if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
                 mView.setBleConnectStatu(device);
                 if (device != null) {//查询网络状态
                     // BTCmdGetWifiStatus
                     mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
-                    mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
-                    mBlueClientUtil.sendData(new BTCmdReadSNCode().toByteArray());
+
                 }
             } else {
                 mView.setBleConnectStatu(null);
@@ -159,6 +190,17 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     @Override
     public void dissConnectRobot() {
         mBlueClientUtil.disconnect();
+    }
+
+    @Override
+    public void checkBlestatu() {
+        if (mBlueClientUtil.isEnabled()) {
+            if (mView != null) {
+                mView.goBleSraechActivity();
+            }
+        } else {
+            mBlueClientUtil.openBluetooth();
+        }
     }
 
 

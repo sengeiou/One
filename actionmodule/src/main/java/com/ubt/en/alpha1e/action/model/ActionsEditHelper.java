@@ -3,7 +3,18 @@ package com.ubt.en.alpha1e.action.model;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
@@ -25,6 +36,9 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdSwitchEditStatus;
 import com.ubt.baselib.utils.ByteHexHelper;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
+import com.ubt.en.alpha1e.action.R;
+import com.ubt.en.alpha1e.action.adapter.CourseItemAdapter;
+import com.ubt.en.alpha1e.action.util.ActionCourseDataManager;
 import com.ubt.htslib.base.NewActionInfo;
 import com.vise.log.ViseLog;
 
@@ -377,7 +391,7 @@ public class ActionsEditHelper implements IProtolPackListener {
         }
 
         if (comm_type == Command_type.Do_play) {
-            ViseLog.d("Play Action "+action.toString());
+            ViseLog.d("Play Action " + action.toString());
             mNewPlayer.PlayAction(action, mContext);
 
         } else if (comm_type == Command_type.Do_pause_or_continue) {
@@ -413,4 +427,75 @@ public class ActionsEditHelper implements IProtolPackListener {
         EventBus.getDefault().unregister(this);
     }
 
+
+    public void showNextDialog(Context context, int course, int level, final ClickListener clickListener) {
+        View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_action_course_content, null);
+        TextView title = contentView.findViewById(R.id.tv_card_name);
+        title.setText(getCourseDialogTitle(course));
+
+        Button button = contentView.findViewById(R.id.btn_pos);
+        button.setText("下一节");
+
+        RecyclerView mrecyle = contentView.findViewById(R.id.recyleview_content);
+        mrecyle.setLayoutManager(new LinearLayoutManager(context));
+
+        CourseItemAdapter itemAdapter = new CourseItemAdapter(R.layout.layout_action_course_dialog, ActionCourseDataManager.getCourseActionModel(course, level));
+        mrecyle.setAdapter(itemAdapter);
+
+        ViewHolder viewHolder = new ViewHolder(contentView);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        int screenHeight = (int) (display.getHeight() * 0.6);
+        int screenWidth = (int) (display.getWidth() * 0.6);
+        int width = Math.max(screenWidth, screenHeight); //设置宽度
+
+        DialogPlus.newDialog(context)
+                .setContentHolder(viewHolder)
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(width)
+                .setContentBackgroundResource(R.drawable.action_dialog_filter_rect)
+                .setOnClickListener(new com.orhanobut.dialogplus.OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.btn_pos) {
+                            if (clickListener != null) {
+                                clickListener.confirm();
+                            }
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .setCancelable(false)
+                .create().show();
+    }
+
+    public interface ClickListener {
+        void confirm();
+    }
+
+    public static String getCourseDialogTitle(int course) {
+        String title = "";
+        if (course == 1) {
+            title = "第一关 了解动作编辑器";
+        } else if (course == 2) {
+            title = "第二关 学习动作库";
+        } else if (course == 3) {
+            title = "第三关 了解音乐库";
+        } else if (course == 4) {
+            title = "第四关 添加动作＋音频";
+        } else if (course == 5) {
+            title = "第五关 创建动作";
+        } else if (course == 6) {
+            title = "第六关 创建音频";
+        } else if (course == 7) {
+            title = "第七关 修改动作";
+        } else if (course == 8) {
+            title = "第八关 连续动作";
+        } else if (course == 9) {
+            title = "第九关 快速创建连续动作";
+        } else if (course == 10) {
+            title = "第十关 自定义动作";
+        }
+        return title;
+    }
 }

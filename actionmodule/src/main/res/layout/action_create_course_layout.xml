@@ -560,7 +560,7 @@
                         android:src="@drawable/ic_backtotop_disable"
                         />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_46"
                         android:background="@drawable/bg_action_bottom_frame_list"
@@ -583,7 +583,7 @@
                             android:src="@drawable/zuojiantou_4"
                             android:visibility="gone"
                             />
-                    </LinearLayout>
+                    </RelativeLayout>
 
 
                 </LinearLayout>
@@ -657,19 +657,20 @@
         android:layout_height="match_parent"
         android:background="#AA000000"
         android:visibility="gone"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_8"
         >
 
 
         <ImageView
             android:id="@+id/iv_back_instruction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_34"
+            android:layout_height="@dimen/dp_34"
             android:layout_alignParentTop="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp"
             android:src="@drawable/ic_back"
-            />
+             />
+
 
 
         <LinearLayout

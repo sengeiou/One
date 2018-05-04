@@ -35,6 +35,8 @@ import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.adapter.FrameRecycleViewAdapter;
 import com.ubt.en.alpha1e.action.adapter.TimesHideRecycleViewAdapter;
 import com.ubt.en.alpha1e.action.adapter.TimesRecycleViewAdapter;
+import com.ubt.en.alpha1e.action.course.ActionSaveCourseActivity;
+import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.DialogMusic;
 import com.ubt.en.alpha1e.action.dialog.DialogTips;
 import com.ubt.en.alpha1e.action.dialog.PrepareActionUtil;
@@ -226,7 +228,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     private RelativeLayout rlRecordingState;
     private TextView tvRecordIndex;
     private TextView tvRecordTime;
-     public BaseActionEditLayout(Context context) {
+
+    public BaseActionEditLayout(Context context) {
         super(context);
         mContext = context;
         init(context);
@@ -245,7 +248,13 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         init(context);
     }
 
+    public abstract void setData(CourseProgressListener courseProgressListener);
+
     public abstract int getLayoutId();
+
+    public abstract void playComplete();
+
+    public abstract void onPause();
 
     public void init(Context context) {
         View.inflate(context, getLayoutId(), this);
@@ -858,7 +867,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         if (type == 1) {
             inte.setClass(mContext, ActionSaveActivity.class);
         } else {
-            //  inte.setClass(mContext, ActionsCourseSaveActivity.class);
+              inte.setClass(mContext, ActionSaveCourseActivity.class);
         }
         inte.putExtra(ActionsEditHelper.New_ActionInfo, PG.convertParcelable(getEditingActions()));
         inte.putExtra(SCHEME_ID, mSchemeId);
@@ -867,6 +876,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         if (mDir != "") {
             inte.putExtra(ActionSaveActivity.MUSIC_DIR, mDir);
         }
+
         if (listener != null) {
             listener.startSave(inte);
         }
@@ -2042,7 +2052,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         new BaseDialog.Builder(mContext)
                 .setMessage(content).
-                setConfirmButtonId(com.ubt.baselib.R.string.ui_common_confirm)
+                setConfirmButtonId(com.ubt.baselib.R.string.base_confirm)
                 .setConfirmButtonColor(R.color.base_tv_large_black)
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
