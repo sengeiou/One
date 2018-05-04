@@ -117,6 +117,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             mListener = new DirectionSensorEventListener(this);
             mSensorManager.registerListener(mListener,mSensor,SensorManager.SENSOR_DELAY_NORMAL);
         }
+        listUserProgram();
 
         rlGoVideo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -498,7 +499,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
         BlocklyProjectRequest request = new BlocklyProjectRequest();
         UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         request.setUserId(userInfoModel.getUserId());
-        request.setToken("222222");
+        request.setToken("5556778888");
         request.setList(list);
 
         ViseHttp.BASE(new PostRequest(BlockHttpEntity.SAVE_USER_PROGRAM)
@@ -559,7 +560,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
         BaseRequest baseRequest = new BaseRequest();
         UserInfoModel userInfoModel = (UserInfoModel)SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         baseRequest.setUserId(userInfoModel.getUserId());
-        baseRequest.setToken("222222");
+        baseRequest.setToken("5556778888");
 
         ViseHttp.BASE(new PostRequest(BlockHttpEntity.GET_USER_PROGRAM)
                 .setJson(GsonImpl.get().toJson(baseRequest)))
@@ -616,7 +617,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
         BlocklyProjectDelRequest blocklyProjectDelRequest = new BlocklyProjectDelRequest();
         blocklyProjectDelRequest.setProgramIds(ids);
-        blocklyProjectDelRequest.setToken("222222");
+        blocklyProjectDelRequest.setToken("5556778888");
         UserInfoModel userInfoModel = (UserInfoModel)SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         blocklyProjectDelRequest.setUserId(userInfoModel.getUserId());
         ViseHttp.BASE(new PostRequest(BlockHttpEntity.DEL_USER_PROGRAM)
@@ -685,7 +686,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
         request.setList(list);
         UserInfoModel userInfoModel = (UserInfoModel)SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         request.setUserId(userInfoModel.getUserId());
-        request.setToken("222222");
+        request.setToken("5556778888");
         ViseHttp.BASE(new PostRequest(BlockHttpEntity.UPDATE_USER_PROGRAM)
                 .setJson(GsonImpl.get().toJson(request)))
                 .request(new ACallback<String>() {

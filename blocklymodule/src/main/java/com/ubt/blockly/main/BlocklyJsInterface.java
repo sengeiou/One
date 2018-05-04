@@ -617,7 +617,7 @@ public class BlocklyJsInterface {
     public void deleteProjectXml(String xml) {
         ViseLog.d(TAG, "deleteProjectXml:" + xml);
 
-//        ((BlocklyActivity) mBaseActivity).deleteUserProgram(new String[]{xml});
+        ((BlocklyActivity) mBaseActivity).deleteUserProgram(new String[]{xml});
 
     }
 
