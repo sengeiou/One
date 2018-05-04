@@ -254,6 +254,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
 
     @Override
     public void sendFailed() {
+        ViseLog.d(" sss sendFailed ");
         TSnackbar.make(getActivity().getWindow().getDecorView(),R.string.login_sent_code_fail_prompt,TSnackbar.LENGTH_LONG)
                 .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
                 .setMessageGravity(Gravity.CENTER)
@@ -323,6 +324,13 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
                     .setMessageGravity(Gravity.CENTER)
                     .setMessageTextColor(getResources().getColor(R.color.white))
                     .show();
+            if(requestCountDown != null){
+                requestCountDown.cancel();
+            }
+            if(null != btnSendSecurityCode){
+                btnSendSecurityCode.setText(getString(R.string.login_resend_security_code));
+                btnSendSecurityCode.setEnabled(true);
+            }
         }
     }
 
