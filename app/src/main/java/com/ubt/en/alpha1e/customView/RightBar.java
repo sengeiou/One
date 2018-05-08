@@ -1,4 +1,4 @@
-package com.ubt.baselib.customView;
+package com.ubt.en.alpha1e.customView;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.ubt.baselib.R;
+import com.ubt.en.alpha1e.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

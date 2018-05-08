@@ -44,6 +44,7 @@ public interface ModuleUtils {
     String Joystick_ActionProgram = "/joystick/JoystickPlay";  //遥控机模块
 
     String Playcenter_module = "/playcenter/PlayCenter";  //播放中心模块
+    String VolumeCmd_module = "/volumecommond/VolumeCmd";  //语音指令模块
 
 
     /**

@@ -162,6 +162,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         wifiName = getIntent().getStringExtra("WIFI_NAME");
         isFirstEnter = getIntent().getBooleanExtra("first_enter", false);
         mBleEditName.setText(wifiName);
+        mBleEditName.setSelection(wifiName.length());//将光标移至文字末尾
         if (!TextUtils.isEmpty(wifiName)) {
             mBleEditPasswd.setFocusable(true);
         }
@@ -176,6 +177,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         mHandler.removeMessages(MESSAGE_WHAT_CONNECT);
         mHandler.removeMessages(MESSAGE_WHAT_DISSMISS_SUCCESS);
         mHandler.removeMessages(MESSAGE_WHAT_DISSMISS_FAILED);
+        mPresenter.unRegister();
     }
 
     /**

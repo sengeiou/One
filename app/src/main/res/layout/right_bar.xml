@@ -19,13 +19,13 @@
             android:id="@+id/right_bar_top_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/right_bar_home_on"
+            android:src="@mipmap/right_bar_home_on"
              />
         <ImageView
             android:id="@+id/right_bar_top_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/right_bar_home_off"
+            android:src="@mipmap/right_bar_home_off"
             android:visibility="gone"
             />
     </RelativeLayout>
@@ -43,13 +43,13 @@
             android:id="@+id/right_bar_center_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/right_bar_control_on" />
+            android:src="@mipmap/right_bar_control_on" />
         <ImageView
             android:id="@+id/right_bar_center_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:src="@drawable/right_bar_control_off" />
+            android:src="@mipmap/right_bar_control_off" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -65,12 +65,12 @@
             android:id="@+id/right_bar_bottom_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/right_bar_person_on" />
+            android:src="@mipmap/right_bar_person_on" />
         <ImageView
             android:id="@+id/right_bar_bottom_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:src="@drawable/right_bar_person_off" />
+            android:src="@mipmap/right_bar_person_off" />
     </RelativeLayout>
 </LinearLayout>
