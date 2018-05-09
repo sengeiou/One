@@ -60,6 +60,7 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     ConstraintLayout constraintLayoutFindPassword;
     RequestCountDown requestCountDown;
     private static final long REQUEST_TIME = 181 * 1000;
+    private boolean countDownFinish = true;
 
     public static FindPasswordFragment newInstance() {
         return new FindPasswordFragment();
@@ -90,7 +91,12 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
             @Override
             public void hasText() {
                 ivClearAccount.setVisibility(View.VISIBLE);
-                btnSendSecurity.setEnabled(true);
+                if(LoginUtil.isEmail(edtEmail.getText().toString()) && countDownFinish){
+                    btnSendSecurity.setEnabled(true);
+                }else{
+                    btnSendSecurity.setEnabled(false);
+                }
+
             }
 
             @Override
@@ -129,6 +135,7 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
                 tvValidEmail.setVisibility(View.INVISIBLE);
                 mPresenter.requestSecurityCode(account);
                 requestCountDown.start();
+                countDownFinish = false;
                 btnSendSecurity.setEnabled(false);
             } else {
                 tvValidEmail.setVisibility(View.VISIBLE);
@@ -156,6 +163,7 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        countDownFinish = true;
         if(requestCountDown != null){
             requestCountDown.cancel();
         }
@@ -178,6 +186,7 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
                 .setMessageGravity(Gravity.CENTER)
                 .setMessageTextColor(getResources().getColor(R.color.white))
                 .show();
+        countDownFinish = true;
         if(requestCountDown != null){
             requestCountDown.cancel();
         }
@@ -224,6 +233,7 @@ public class FindPasswordFragment extends MVPBaseFragment<FindPasswordContract.V
 
         @Override
         public void onFinish() {
+            countDownFinish = true;
             if(null != btnSendSecurity){
                 btnSendSecurity.setText(getString(R.string.login_resend_security_code));
                 btnSendSecurity.setEnabled(true);

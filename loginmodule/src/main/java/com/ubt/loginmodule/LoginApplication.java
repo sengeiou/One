@@ -75,11 +75,11 @@ public class LoginApplication extends Application {
                 //配置全局请求参数
                 .globalParams(new HashMap<String, String>())
                 //配置读取超时时间，单位秒
-                .readTimeout(30)
+                .readTimeout(1000)
                 //配置写入超时时间，单位秒
-                .writeTimeout(30)
+                .writeTimeout(1000)
                 //配置连接超时时间，单位秒
-                .connectTimeout(30)
+                .connectTimeout(1000)
                 //配置请求失败重试次数
                 .retryCount(3)
                 //配置请求失败重试间隔时间，单位毫秒

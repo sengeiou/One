@@ -9,7 +9,7 @@ package com.ubt.loginmodule.requestModel;
  */
 
 
-public class ValidateCodeRequest extends BaseLoginRequest {
+public class ValidateCodeRequest  {
 
     private String code;
 

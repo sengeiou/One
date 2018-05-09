@@ -74,7 +74,7 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
 
     public void setTvSkipVisible(boolean visible){
         if(visible){
-            tvSkip.setVisibility(View.VISIBLE);
+            tvSkip.setVisibility(View.INVISIBLE);
         }else{
             tvSkip.setVisibility(View.INVISIBLE);
         }

@@ -9,13 +9,14 @@ package com.ubt.loginmodule.requestModel;
  */
 
 
-public class UpdateUserInfoRequest extends BaseLoginRequest {
+public class UpdateUserInfoRequest {
 
     private String userId;
     private String nickName;
     private String sex;
     private String birthDate;
     private String headPic;
+    private String email;
 
     public String getUserId() {
         return userId;
@@ -57,6 +58,14 @@ public class UpdateUserInfoRequest extends BaseLoginRequest {
         this.headPic = headPic;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "UpdateUserInfoRequest{" +
@@ -65,6 +74,7 @@ public class UpdateUserInfoRequest extends BaseLoginRequest {
                 ", sex='" + sex + '\'' +
                 ", birthDate='" + birthDate + '\'' +
                 ", headPic='" + headPic + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

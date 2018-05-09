@@ -24,7 +24,8 @@ public interface Constant1E {
      * 用户账号属性
      */
     String SP_USER_ID = "sp_login_userId";
-    String SP_LOGIN_TOKEN = "sp_login_token";
+    String SP_USER_TOKEN = "sp_login_token";
+    String SP_USER_EMAIL = "sp_user_email";
     /**
      * 用户信息保存
      */
