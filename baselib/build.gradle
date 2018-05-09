@@ -69,6 +69,8 @@ dependencies {
     compile(name: 'htslib-1.0.0.1', ext: 'aar')
     compile(name: 'skin-support-1.0.0.1', ext: 'aar')
     compile(name: 'highlight-release', ext: 'aar')
+    compile(name: 'qiniu-android-sdk-7.3.12', ext: 'aar') //七牛库
+    compile(name: 'happy-dns-0.2.7', ext: 'aar') //七牛需要依赖的库
     //权限申请库
     compile 'com.yanzhenjie:permission:1.1.2'
     //okhttpUtils
