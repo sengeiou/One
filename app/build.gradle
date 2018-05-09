@@ -9,7 +9,7 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
-        versionName "1.0.0.2"
+        versionName "1.0.0.3"
         flavorDimensions "${versionName}"
 
         multiDexEnabled = true
@@ -81,14 +81,14 @@ dependencies {
     compile(name: 'xingemodule-1.0.1.1', ext: 'aar')
     //    compile(name: 'tvsloginlib', ext: 'aar')
     //    compile(name: 'loginmodule-1.0.1', ext: 'aar')
-    compile(name: 'mainmodule-1.0.0.1', ext: 'aar')
+    compile(name: 'mainmodule-1.0.0.3', ext: 'aar')
     //    implementation('com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2') {
     //        exclude group: 'com.tencent.wup'
     //    }
     //腾讯bugly
     compile 'com.tencent.bugly:crashreport:2.6.6.1'
     //业务模块
-    implementation project(':settingsmodule')
+//    implementation project(':settingsmodule')
     implementation project(':bluetoohmodule')
     //    implementation project(':mainmodule')
     implementation project(':loginmodule')

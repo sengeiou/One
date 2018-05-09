@@ -123,6 +123,7 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        mPresenter.unRegister();
     }
 
     @Override
