@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_53"
-        android:text="@string/ble_wifi_enter_password_title"
+        android:text="@string/ble_wifi_choose_wifi"
         android:textColor="@color/base_tv_large_black"
         android:textSize="@dimen/sp_15"
         />
