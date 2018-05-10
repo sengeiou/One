@@ -23,6 +23,7 @@
 
     <string name="ble_wifi_5G_tip">(Not support 5G Wi-Fi)</string>
     <string name="ble_wifi_enter_password_title">Enter Wi-Fi Password</string>
+    <string name="ble_wifi_choose_wifi">Choose Wi-fi</string>
     <string name="ble_wifi_change">Choose another network</string>
     <string name="ble_no_wifi_found">No Wi-Fi found</string>
     <string name="ble_no_wifi_tip">You can try to input Wi-Fi name</string>
