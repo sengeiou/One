@@ -25,9 +25,9 @@ public class LoginHttpEntity extends BaseHttpEntity{
     public static final String BASE_LOGIN_URL = "https://test79.ubtrobot.com/user-service-rest/v2/"; //测试环境
 //    public static final String BASE_LOGIN_URL = "https://account.ubtrobot.com/user-service-rest/v2/";  //正式环境
 
-    public static final String RESET = BASE_URL + "reset";
+    public static final String RESET = "user/password/reset";
     public static final String LOGIN = "user/login";
-    public static final String VALIDATE_CODE = BASE_URL + "validateCode";
+    public static final String VALIDATE_CODE = "user/captcha/verify-result";
     public static final String FIND_PASSWORD = BASE_URL + "backPwd";
     public static final String REGISTER = "user/register";
     public static final String GET_CODE = "htmlEmail/ebotcaptcha";

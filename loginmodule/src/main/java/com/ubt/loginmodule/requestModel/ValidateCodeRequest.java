@@ -11,13 +11,40 @@ package com.ubt.loginmodule.requestModel;
 
 public class ValidateCodeRequest  {
 
-    private String code;
+    private int accountType;
+    private String account;
+    private String captcha;
 
-    public String getCode() {
-        return code;
+    public int getAccountType() {
+        return accountType;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setAccountType(int accountType) {
+        this.accountType = accountType;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
+
+    @Override
+    public String toString() {
+        return "ValidateCodeRequest{" +
+                "accountType=" + accountType +
+                ", account='" + account + '\'' +
+                ", captcha='" + captcha + '\'' +
+                '}';
     }
 }

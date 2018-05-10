@@ -1,4 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="facebook_app_id" tools:ignore="ResourceName">882664668572429</string>
+    <string name="fb_login_protocol_scheme" tools:ignore="ResourceName">fb882664668572429</string>
+
     <string name="login_app_name">LoginModule</string>
 
     <!-- login email string -->

@@ -193,6 +193,15 @@ public class OkHttpClientUtils {
                 .build();
     }
 
+    public static RequestCall getJsonByPatchRequest(String url, String params, int id) {
+        ViseLog.d( "url:" + url + "__params:" + params);
+        return OkHttpUtils.patch()
+                .url(url)
+                .requestBody(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params))
+                .id(id)
+                .build();
+    }
+
 
     public static RequestCall getDownloadFile(String url) {
         return OkHttpUtils.get()

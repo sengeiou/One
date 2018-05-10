@@ -20,11 +20,18 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.callback.NavigationCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.app.abby.tsnackbar.TSnackbar;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.SPUtils;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
@@ -32,6 +39,8 @@ import com.ubt.loginmodule.TextWatcherUtil;
 import com.ubt.loginmodule.findPassword.FindPasswordActivity;
 import com.ubt.loginmodule.register.RegisterActivity;
 import com.vise.log.ViseLog;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,10 +77,18 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     ImageView ivShowPassword;
     @BindView(R2.id.cl_root)
     ConstraintLayout constraintLayout;
+    @BindView(R2.id.login_button)
+    ImageView loginButton;
+    @BindView(R2.id.tv_facebook)
+    TextView tvFacebook;
 
     private boolean showPassword = false;
     Unbinder unbinder;
     private NavigationCallback navigationCallback;
+
+    private CallbackManager callbackManager;
+    private static AccessToken accessToken;
+    public static String url = null;
 
 
     @Override
@@ -86,6 +103,99 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
         unbinder = ButterKnife.bind(this);
         initView();
         initNavigationListener();
+        callbackManager = CallbackManager.Factory.create();
+        initFacebook();
+    }
+
+    private void initFacebook() {
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginManager.getInstance().registerCallback(callbackManager,
+                        new FacebookCallback<LoginResult>() {
+                            @Override
+                            public void onSuccess(LoginResult loginResult) {
+                                accessToken = loginResult.getAccessToken();
+                                String userId = accessToken.getUserId();
+                                String token = accessToken.getToken();
+                                tvFacebook.setText("userId:" + userId + "token:" + token);
+                    /*            GraphRequest request = GraphRequest.newMeRequest(
+                                        accessToken,
+                                        new GraphRequest.GraphJSONObjectCallback() {
+                                            // 當RESPONSE回來的時候
+                                            @Override
+                                            public void onCompleted(JSONObject object,
+                                                                    GraphResponse response) {
+                                                // 讀出姓名 ID FB個人頁面連結
+                                                Log.d("FB", "complete");
+                                                tvFacebook.setText(object.toString() + "-accessToken:" + accessToken.getToken()+ "--userId:" + accessToken.getUserId());
+                                                ToastUtils.showShort("login facebook:" +object.toString());
+                                                ViseLog.d("login facebook:"+object.toString());
+                                                System.out.println(object.toString());
+                                                try {
+                                                    url = response.getJSONObject()
+                                                            .getJSONObject("picture")
+                                                            .getJSONObject("data")
+                                                            .getString("url");
+                                                } catch (JSONException e) {
+                                                    // TODO Auto-generated catch block
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                Bundle parameters = new Bundle();
+                                parameters.putString("fields",
+                                        "id,name,link,gender,picture.type(large)");
+                                request.setParameters(parameters);
+                                request.executeAsync();*/
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                ViseLog.e("Login onCancel");
+                                ToastUtils.showShort("login onCancel:" );
+                            }
+
+                            @Override
+                            public void onError(FacebookException e) {
+                                ViseLog.e("Login onError:" + e.getMessage());
+                                ToastUtils.showShort("login onError:" );
+                            }
+                        });
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
+                        Arrays.asList("public_profile"));
+            }
+        });
+
+   /*     loginButton.setReadPermissions("email");
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                ViseLog.d("loginButton onSuccess:" + loginResult.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+                ViseLog.e("loginButton onCancel:" );
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+                ViseLog.e("loginButton onError:"  + exception.toString());
+            }
+        });*/
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        ToastUtils.showShort("onActivityResult");
     }
 
     private void initNavigationListener() {
@@ -234,6 +344,4 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
         BaseLoadingDialog.dismiss(this);
     }
 }
-
-
 

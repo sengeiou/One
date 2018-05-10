@@ -1,8 +1,11 @@
 package com.ubt.loginmodule.login;
 
 
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.SPUtils;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.baselib.utils.http1E.OkHttpClientUtils;
 import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.LoginHttpEntity;
@@ -10,6 +13,9 @@ import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.requestModel.LoginRequest;
 import com.vise.log.ViseLog;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import okhttp3.Call;
 
@@ -43,12 +49,33 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         ViseLog.d("login onError:" + e.getMessage());
+                        ToastUtils.showShort("login failed:" + e.getMessage());
+                        if(mView != null){
+                            mView.loginFailed();
+                        }
 
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         ViseLog.d("login onResponse:" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject tokenJson = jsonObject.getJSONObject("token");
+                            JSONObject userJson = jsonObject.getJSONObject("user");
+                            String token = tokenJson.getString("token");
+                            long userId = userJson.getLong("userId");
+                            String userEmail = userJson.getString("userEmail");
+                            ViseLog.d("token:" + token + "-userId:" + userId);
+                            SPUtils.getInstance().put(Constant1E.SP_USER_ID, userId);
+                            SPUtils.getInstance().put(Constant1E.SP_USER_TOKEN, token);
+                            SPUtils.getInstance().put(Constant1E.SP_USER_EMAIL, userEmail);
+                            //TODO getuserInfo
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
 
                     }
                 });
@@ -123,6 +150,11 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                     }
                 });*/
 
+
+    }
+
+    @Override
+    public void loginThird(String token, String userId) {
 
     }
 }

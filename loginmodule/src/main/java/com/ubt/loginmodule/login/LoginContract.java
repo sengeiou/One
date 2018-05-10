@@ -15,12 +15,14 @@ public class LoginContract {
     interface View extends BaseView {
         void loginSuccess();
         void loginFailed();
+        void loginThirdFinish(boolean success);
 
     }
 
     interface  Presenter extends BasePresenter<View> {
 
         void loginUseEmail(String account, String password);
+        void loginThird(String token, String userId);
         
     }
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.facebook.FacebookSdk;
 import com.ubt.baselib.ConfigureBaseLib;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.utils.ContextUtils;
@@ -40,6 +41,7 @@ public class LoginApplication extends Application {
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始
 //        init(this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     public static void init(Application appContext){

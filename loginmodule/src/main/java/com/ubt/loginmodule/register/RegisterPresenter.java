@@ -46,24 +46,6 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
         getCodeRequest.setNickName("");
         ViseLog.d("url:" + LoginHttpEntity.GET_CODE + "_params:" + GsonImpl.get().toJson(getCodeRequest));
 
-  /*      OkHttpClientUtils.getJsonByPostRequest(LoginHttpEntity.BASE_LOGIN_URL+LoginHttpEntity.GET_CODE, GsonImpl.get().toJson(getCodeRequest), 0).execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                ViseLog.e("GET_CODE onError:"  + "-errMsg:" +  e.getMessage());
-                if(mView != null){
-                    mView.sendSecurityCodeSuccess(false);
-                }
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                ViseLog.d("GET_CODE onSuccess:" + response);
-
-                if(mView != null){
-                    mView.sendSecurityCodeSuccess(true);
-                }
-            }
-        });*/
 
         ViseHttp.POST(LoginHttpEntity.GET_CODE)
                 .baseUrl(LoginHttpEntity.BASE_LOGIN_URL).setJson( GsonImpl.get().toJson(getCodeRequest))
@@ -81,10 +63,19 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
             public void onFail(int errCode, String errMsg) {
                 //请求失败，errCode为错误码，errMsg为错误描述
                 ViseLog.e("GET_CODE onFail:" + errCode + "-errMsg:" +  errMsg);
+                try {
+                    JSONObject jsonObject = new JSONObject(errMsg);
+                    String msg = jsonObject.getString("message");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 if(mView != null){
                     mView.sendSecurityCodeSuccess(false);
                 }
+
+
             }
         });
 

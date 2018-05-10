@@ -1,9 +1,13 @@
 package com.ubt.en.alpha1e;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -24,6 +28,8 @@ import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,6 +66,7 @@ public class WelcomActivity extends AppCompatActivity {
         initView();
         gifDrawable.start();
         initNavigationListener();
+        getSHA();
     }
 
     private void initNavigationListener() {
@@ -189,6 +196,28 @@ public class WelcomActivity extends AppCompatActivity {
                 }
 
             }
+        }
+    }
+
+
+    private void getSHA() {
+        try {
+            int i = 0;
+            PackageInfo info = getPackageManager().getPackageInfo( getPackageName(),  PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                i++;
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String KeyHash = Base64.encodeToString(md.digest(), Base64.DEFAULT);
+                //KeyHash 就是你要的，不用改任何代码  复制粘贴 ;
+                ViseLog.e("KeyHash:" + KeyHash);
+            }
+        }
+        catch (PackageManager.NameNotFoundException e) {
+
+        }
+        catch (NoSuchAlgorithmException e) {
+
         }
     }
 }
