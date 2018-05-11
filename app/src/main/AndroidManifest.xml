@@ -42,6 +42,9 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:screenOrientation="landscape"/>
+        <activity
+            android:name=".voiceCmd.VoiceCmdActivity"
+            android:screenOrientation="landscape"/>
         <!--activity声明结束-->
 
         <!--服务声明-->
