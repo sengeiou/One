@@ -1,5 +1,7 @@
 package com.ubt.en.alpha1e.action.model;
 
+import android.graphics.Bitmap;
+
 import java.util.Arrays;
 
 /**
@@ -17,6 +19,8 @@ public class ActionTypeModel {
     private int drawableId;
     private String actionDescrion;
     private boolean isSelected;
+    private Bitmap mBitmap;
+
     /**
      * 左侧展示区显示的图片
      */
@@ -78,6 +82,15 @@ public class ActionTypeModel {
 
     public void setLeftSelectedImage(int leftSelectedImage) {
         this.leftSelectedImage = leftSelectedImage;
+    }
+
+
+    public Bitmap getBitmap() {
+        return mBitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        mBitmap = bitmap;
     }
 
     @Override

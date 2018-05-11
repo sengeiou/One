@@ -51,4 +51,6 @@ public interface Constant1E {
     public static final String EMPTY_BIRTHDAY = "empty_birthDay";
 
 
+    public static final String REMOTE_SHOW_TIP="remote_show_tip";
+
 }

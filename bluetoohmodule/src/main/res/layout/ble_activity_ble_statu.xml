@@ -178,14 +178,18 @@
                     android:text="@string/ble_about_robot_auto_update"
                     />
 
-                <Switch
-                    android:id="@+id/bleSwitch"
+                <CheckBox
+                    android:id="@+id/ble_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_40"
-                    />
+                    android:layout_marginTop="@dimen/dp_60"
+                    android:background="@android:color/transparent"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/checkbox_upgrade_style"/>
+
 
             </RelativeLayout>
 
