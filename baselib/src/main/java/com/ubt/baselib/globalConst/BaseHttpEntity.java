@@ -29,7 +29,7 @@ public class BaseHttpEntity {
         if(isIssue){
             BASE_XG_URL = "https://account.ubtrobot.com/xinge-push-rest/";
             BASIC_THIRD_LOGIN_URL="https://account.ubtrobot.com/user-service-rest/v2/";
-            BASIC_UBX_SYS="https://prodapi.ubtrobot.com/alpha1e/";
+            BASIC_UBX_SYS="https://interface.ubtrobot.com/alpha1e/";
             BASIC_UBX_SYS_BIND="https://prodapi.ubtrobot.com/equipment/";
             BLOCKLY_CODEMAO_URL = "https://ubt.codemao.cn/";
             BASE_FILE_UPLOAD = "https://test79.ubtrobot.com/file-service-rest/v2/";
