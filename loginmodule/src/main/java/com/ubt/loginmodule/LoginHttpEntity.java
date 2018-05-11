@@ -27,11 +27,16 @@ public class LoginHttpEntity extends BaseHttpEntity{
 
     public static final String RESET = "user/password/reset";
     public static final String LOGIN = "user/login";
+    public static final String LOGIN_THIRD = "user/login/third";
+    public static final String LOGIN_THIRD_FIRST = "user/login/third/isfirst";
     public static final String VALIDATE_CODE = "user/captcha/verify-result";
     public static final String FIND_PASSWORD = BASE_URL + "backPwd";
     public static final String REGISTER = "user/register";
     public static final String GET_CODE = "htmlEmail/ebotcaptcha";
     public static final String USER_UPDATE = BASE_URL + "update";
+    public static final String USER_GET_INFO = "get";
+
+
 
 }
 

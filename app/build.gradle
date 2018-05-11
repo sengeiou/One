@@ -29,6 +29,13 @@ android {
             keyAlias 'ebot_en'
             keyPassword 'alpha1s_2015_4_10_ubtrobot'
         }
+
+        debug {
+            storeFile file('./ReleaseKey/alphaebot_en.jks')
+            storePassword 'alpha1s_2015_4_10_ubtrobot'
+            keyAlias 'ebot_en'
+            keyPassword 'alpha1s_2015_4_10_ubtrobot'
+        }
     }
 
     lintOptions {

@@ -14,9 +14,10 @@ public class UpdateUserInfoRequest {
     private String userId;
     private String nickName;
     private String sex;
-    private String birthDate;
+    private String birthDay;
     private String headPic;
     private String email;
+    private String token;
 
     public String getUserId() {
         return userId;
@@ -24,6 +25,14 @@ public class UpdateUserInfoRequest {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getNickName() {
@@ -42,12 +51,12 @@ public class UpdateUserInfoRequest {
         this.sex = sex;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public String getBirthDay() {
+        return birthDay;
     }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
     }
 
     public String getHeadPic() {
@@ -72,7 +81,7 @@ public class UpdateUserInfoRequest {
                 "userId='" + userId + '\'' +
                 ", nickName='" + nickName + '\'' +
                 ", sex='" + sex + '\'' +
-                ", birthDate='" + birthDate + '\'' +
+                ", birthDay='" + birthDay + '\'' +
                 ", headPic='" + headPic + '\'' +
                 ", email='" + email + '\'' +
                 '}';

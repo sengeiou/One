@@ -42,6 +42,12 @@ public class LoginApplication extends Application {
         ARouter.init(this); // 尽可能早，推荐在Application中初始
 //        init(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
+   /*     TwitterConfig config = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(LoginSP.TWITTER_CONSUMER_KEY, LoginSP.TWITTER_CONSUMER_SECRET))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);*/
     }
 
     public static void init(Application appContext){

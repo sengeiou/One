@@ -106,7 +106,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                             JSONObject tokenJson = jsonObject.getJSONObject("token");
                             JSONObject userJson = jsonObject.getJSONObject("user");
                             String token = tokenJson.getString("token");
-                            long userId = userJson.getLong("userId");
+                            int userId = userJson.getInt("userId");
                             String userEmail = userJson.getString("userEmail");
                             ViseLog.d("token:" + token + "-userId:" + userId);
                             SPUtils.getInstance().put(Constant1E.SP_USER_ID, userId);
@@ -133,49 +133,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                 });
 
 
-    /*    ViseHttp.BASE(new PostRequest(LoginHttpEntity.REGISTER)
-                .baseUrl(LoginHttpEntity.BASE_LOGIN_URL)
-                .setJson(GsonImpl.get().toJson(registerRequest)))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        ViseLog.d("REGISTER onSuccess:" + data);
-                        BaseResponseModel<UserIdModel> baseResponseModel = GsonImpl.get().toObject(data,
-                                new TypeToken<BaseResponseModel<UserIdModel>>() {
-                                }.getType());
 
-                        if(baseResponseModel.status){
-                            if(null != baseResponseModel.models){
-                                UserIdModel userIdModel = baseResponseModel.models;
-                                ViseLog.d("userIdModel:" + userIdModel);
-                                UserInfoModel userInfoModel = new UserInfoModel();
-                                userInfoModel.setUserId(userIdModel.getUserId());
-                                userInfoModel.setEmail(account);
-                                ViseLog.d("userInfoModel:" + userInfoModel);
-                                SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO, userInfoModel);
-
-                            }
-                            if(mView != null){
-                                mView.signUpSuccess();
-                            }
-                        }else{
-                            ToastUtils.showShort(baseResponseModel.info);
-                            if(mView != null){
-                                mView.signUpFailed();
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        ViseLog.e("REGISTER onFail:" + errMsg);
-                        if(mView != null){
-                            mView.signUpFailed();
-                        }
-                    }
-                });
-*/
     }
 
     @Override
@@ -228,8 +186,9 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
         UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
         final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         ViseLog.d("userInfoModel:" + userInfoModel);
-//        updateUserInfoRequest.setEmail(userInfoModel.getEmail());
-        updateUserInfoRequest.setUserId(userInfoModel.getUserId());
+        updateUserInfoRequest.setEmail(SPUtils.getInstance().getString(Constant1E.SP_USER_EMAIL));
+        updateUserInfoRequest.setUserId(String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)));
+        updateUserInfoRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         if(!TextUtils.isEmpty(userName)){
             updateUserInfoRequest.setNickName(userName);
         }
@@ -237,7 +196,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
             updateUserInfoRequest.setSex(sex);
         }
         if(!TextUtils.isEmpty(birth)){
-            updateUserInfoRequest.setBirthDate(birth);
+            updateUserInfoRequest.setBirthDay(birth);
         }
 
         ViseLog.d("url:" + LoginHttpEntity.USER_UPDATE + "params:" + updateUserInfoRequest.toString());
@@ -266,6 +225,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
 
                     @Override
                     public void onFail(int i, String s) {
+                        ViseLog.d("USER_UPDATE onFail:" + s);
                         if(mView != null){
                             mView.updateUserInfoSuccess(false);
                         }

@@ -41,6 +41,8 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
     ConstraintLayout cl_register_root;
     Unbinder unbinder;
     boolean emptyNickName = false;
+    boolean emptySex = false;
+    boolean emptyBirthday = false;
 
     @Override
     public int getContentViewId() {
@@ -52,12 +54,26 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
         emptyNickName = getIntent().getBooleanExtra(Constant1E.EMPTY_NICK_NAME, false);
+        emptySex = getIntent().getBooleanExtra(Constant1E.EMPTY_SEX,false);
+        emptyBirthday = getIntent().getBooleanExtra(Constant1E.EMPTY_BIRTHDAY, false);
         if(emptyNickName){
             CreateUserNameFragment createUserNameFragment = findFragment(CreateUserNameFragment.class);
             if(createUserNameFragment == null){
                 loadRootFragment(R.id.register_container, CreateUserNameFragment.newInstance());
             }
-        }else{
+        }else if(emptySex){
+            CreateUserGenderFragment createUserGenderFragment = findFragment(CreateUserGenderFragment.class);
+            if(createUserGenderFragment == null){
+                loadRootFragment(R.id.register_container, CreateUserGenderFragment.newInstance());
+            }
+
+        }else if(emptyBirthday){
+            CreateUserAgeFragment createUserAgeFragment = findFragment(CreateUserAgeFragment.class);
+            if(createUserAgeFragment == null){
+                loadRootFragment(R.id.register_container, CreateUserAgeFragment.newInstance());
+            }
+        }
+        else{
             CreateAccountFragment createAccountFragment = findFragment(CreateAccountFragment.class);
             if (createAccountFragment == null) {
                 loadRootFragment(R.id.register_container, CreateAccountFragment.newInstance());

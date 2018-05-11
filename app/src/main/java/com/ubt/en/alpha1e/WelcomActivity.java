@@ -6,7 +6,6 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Window;
 import android.view.WindowManager;
@@ -182,20 +181,23 @@ public class WelcomActivity extends AppCompatActivity {
         if(null == userInfoModel){
             ARouter.getInstance().build(startModule).navigation(WelcomActivity.this, navigationCallback);
         }else{
-            if(TextUtils.isEmpty(userInfoModel.getEmail())){
-                ARouter.getInstance().build(startModule).navigation(WelcomActivity.this,navigationCallback);
+            if(userInfoModel.getNickName() == null){
+                ARouter.getInstance().build(ModuleUtils.Login_Register)
+                        .withBoolean(Constant1E.EMPTY_NICK_NAME,true)
+                        .navigation(WelcomActivity.this,navigationCallback);
+            }else if(userInfoModel.getSex() == null){
+                ARouter.getInstance().build(ModuleUtils.Login_Register)
+                        .withBoolean(Constant1E.EMPTY_SEX,true)
+                        .navigation(WelcomActivity.this,navigationCallback);
+            }else if(userInfoModel.getBirthDay() == null){
+                ARouter.getInstance().build(ModuleUtils.Login_Register)
+                        .withBoolean(Constant1E.EMPTY_BIRTHDAY,true)
+                        .navigation(WelcomActivity.this,navigationCallback);
             }else{
-                if(TextUtils.isEmpty(userInfoModel.getNickName())){
-                    ARouter.getInstance().build(ModuleUtils.Login_Register)
-                            .withBoolean(Constant1E.EMPTY_NICK_NAME,true)
-                            .navigation(WelcomActivity.this,navigationCallback);
-                }else{
-                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity)
-                            .navigation(WelcomActivity.this,navigationCallback);
-
-                }
-
+                ARouter.getInstance().build(ModuleUtils.Main_MainActivity)
+                        .navigation(WelcomActivity.this,navigationCallback);
             }
+
         }
     }
 

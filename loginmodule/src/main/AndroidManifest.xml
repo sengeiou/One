@@ -44,6 +44,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".third.TwitterWebView"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"
+            >
+
+        </activity>
+
 
 
     </application>
