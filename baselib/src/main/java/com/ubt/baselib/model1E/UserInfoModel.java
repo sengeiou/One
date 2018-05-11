@@ -52,12 +52,12 @@ public class UserInfoModel implements Serializable{
         this.sex = sex;
     }
 
-    public String getBirthDay() {
+    public String getBirthDate() {
         return birthDay;
     }
 
-    public void setBirthDay(String birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthDate(String birthDate) {
+        this.birthDay = birthDate;
     }
 
     public String getHeadPic() {
@@ -75,7 +75,7 @@ public class UserInfoModel implements Serializable{
                 ", nickName='" + nickName + '\'' +
                 ", email='" + email + '\'' +
                 ", sex='" + sex + '\'' +
-                ", birthDay='" + birthDay + '\'' +
+                ", birthDate='" + birthDay + '\'' +
                 ", headPic='" + headPic + '\'' +
                 '}';
     }
