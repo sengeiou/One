@@ -17,7 +17,9 @@
     <string name="ui_common_operate_fail">操作失败</string>
     <string name="ui_common_skip">跳过</string>
     <string name="ui_common_select">请选择</string>
+
     <string name="base_confirm">Confirm</string>
     <string name="base_setting">Setting</string>
     <string name="base_cancel">Cancel</string>
+    <string name="base_save">Save</string>
 </resources>

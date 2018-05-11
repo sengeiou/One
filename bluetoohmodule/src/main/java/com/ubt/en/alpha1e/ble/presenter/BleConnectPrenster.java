@@ -414,7 +414,8 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
     @Override
     public void connect(BleDevice device) {
         if (isConnecting) {
-            return;
+            mBlueClient.disconnect();
+            ViseLog.e("正在连接蓝牙，断开重连");
         }
         mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
         mHandler.sendEmptyMessageDelayed(MESSAG_CONNECT_TIMEOUT, TIME_OUT);

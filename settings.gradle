@@ -1,6 +1,5 @@
-include  ':baselib', ':app',  ':loginmodule', ':settingsmodule'
+include  ':baselib', ':app',  ':loginmodule'
 include  ':bluetoohmodule', ':blocklymodule', ':actionmodule'
-include  ':factorytest'
 
 //include ":mainmodule"
 //project(':mainmodule').projectDir = new File(settingsDir, '../EbotEnMainModule/mainmodule')
