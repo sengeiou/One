@@ -22,7 +22,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
 
     private boolean isSaveSuccess;
 
-
+    private static ActionCreateActivity mInstance;
     ConfirmDialog confirmDialog;
 
 
@@ -34,6 +34,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mInstance =this;
         mHelper = new ActionsEditHelper(this, this);
         ((ActionsEditHelper) mHelper).setListener(this);
         mActionEdit = (ActionEditsStandard) findViewById(R.id.action_edit);
@@ -48,6 +49,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
         if (mActionEdit != null) {
             mActionEdit.doReset();
         }
+        mInstance = null;
         mHelper.unRegister();
     }
 
@@ -85,7 +87,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
 
     @Override
     public void startSave(Intent intent) {
-        startActivityForResult(intent, ActionsEditHelper.SaveActionReq);
+        startActivity(intent);
     }
 
 
@@ -112,6 +114,12 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
 
         }
 
+    }
+
+    public static void finishSelf(){
+        if (mInstance != null && !mInstance.isFinishing()) {
+            mInstance.finish();
+        }
     }
 
 

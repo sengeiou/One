@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/rl_remote_item"
+        android:layout_width="@dimen/dp_180"
+        android:layout_height="@dimen/dp_240"
+        android:layout_marginTop="@dimen/dp_20"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_remote"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_170"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_fighter"
+                />
+
+            <ImageView
+                android:id="@+id/iv_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_lock_level"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_remote_name"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/rl_lock"
+            android:background="@drawable/remote_tv_bottom_background"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+</RelativeLayout>

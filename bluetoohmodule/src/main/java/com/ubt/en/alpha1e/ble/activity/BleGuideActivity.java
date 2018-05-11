@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
- public class BleGuideActivity extends MVPBaseActivity<BleGuideContact.View, BleGuidPrenster> {
+public class BleGuideActivity extends MVPBaseActivity<BleGuideContact.View, BleGuidPrenster> implements BleGuideContact.View {
     Unbinder mUnbinder;
 
     Button mBleButtonNext;
@@ -31,13 +31,14 @@ import butterknife.Unbinder;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
+        mPresenter.init(this);
         mBleButtonNext = findViewById(R.id.ble_connect);
         mBleButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // ARouter.getInstance().build(ModuleUtils.Bluetooh_BleConnectActivity).withBoolean("first_enter", true).navigation();
                 // startActivity(new Intent(BleGuideActivity.this, BleConnectActivity.class));
-                BleConnectActivity.launch(BleGuideActivity.this, true);
+                mPresenter.checkBlestatu();
             }
         });
 
@@ -55,5 +56,13 @@ import butterknife.Unbinder;
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        mPresenter.unRegister();
+    }
+
+    @Override
+    public void goBleSraechActivity() {
+        if (mCheckBox.isChecked()) {
+            BleConnectActivity.launch(BleGuideActivity.this, true);
+        }
     }
 }

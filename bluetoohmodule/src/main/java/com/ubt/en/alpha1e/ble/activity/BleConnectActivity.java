@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.BlueTooth.BleDevice;
@@ -253,7 +254,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         TextView btn = contentView.findViewById(R.id.btn_confirm);
 
         String btnMsg = isConnecting ? SkinManager.getInstance().getTextById(R.string.ble_cancel) :
-                SkinManager.getInstance().getTextById(R.string.ble_try_again);
+                SkinManager.getInstance().getTextById(R.string.ble_ok);
 
         btn.setText(btnMsg);
 
@@ -265,7 +266,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
                 .setGravity(Gravity.CENTER)
                 .setContentBackgroundResource(R.drawable.base_rect_background)
                 .setContentWidth(width)
-                .setCancelable(false)
+                .setCancelable(!isConnecting)
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
@@ -279,6 +280,13 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
                             }
                             dialog.dismiss();
                         }
+                    }
+                }).setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogPlus dialog) {
+                        mPresenter.getBleDevices().clear();
+                        notifyDataSetChanged();
+                        mPresenter.startScanBle();
                     }
                 })
                 .create();

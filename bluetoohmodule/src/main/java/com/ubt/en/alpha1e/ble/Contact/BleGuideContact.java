@@ -1,5 +1,7 @@
 package com.ubt.en.alpha1e.ble.Contact;
 
+import android.content.Context;
+
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
 
@@ -14,10 +16,16 @@ import com.ubt.baselib.mvp.BaseView;
 
 public class BleGuideContact {
     public interface View extends BaseView {
-
+        void goBleSraechActivity();
     }
 
     public interface  Presenter extends BasePresenter<View> {
+        void init(Context context);
 
+        void unRegister();
+
+
+
+        void checkBlestatu();
     }
 }

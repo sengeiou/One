@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.skin.SkinManager;
-import com.ubt.baselib.utils.BitmapUtil;
 import com.ubt.baselib.utils.FileUtils;
 import com.ubt.baselib.utils.TimeTools;
 import com.ubt.baselib.utils.ToastUtils;
@@ -212,7 +211,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
             boolean saveResult = false;
 
-            String actionHeadUrl = getActionTypeImage(selectActionType.getLeftSelectedImage());
+            String actionHeadUrl = getActionTypeImage(selectActionType.getBitmap());
             ViseLog.d("actionHeadUrl=" + actionHeadUrl);
             actionInfo.actionHeadUrl = actionHeadUrl;
             if (originActionId != 0) {
@@ -410,10 +409,10 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
     /**
      * 将图片Id保存至本地SD卡
      *
-     * @param drawableId
+     * @param bitmap
      */
-    public String getActionTypeImage(int drawableId) {
-        Bitmap bitmap = BitmapUtil.compressImage(mContext.getResources(), drawableId, 2);
+    public String getActionTypeImage(Bitmap bitmap) {
+        //Bitmap bitmap = BitmapUtil.compressImage(mContext.getResources(), drawableId, 2);
         String actionHeadUrl = FileTools.actions_new_cache + File.separator + "Images/" + System.currentTimeMillis() + ".jpg";
         File f = new File(actionHeadUrl);
         File path = new File(f.getParent());

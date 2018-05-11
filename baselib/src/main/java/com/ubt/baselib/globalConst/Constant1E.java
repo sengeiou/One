@@ -47,4 +47,6 @@ public interface Constant1E {
     public static final String EMPTY_NICK_NAME = "empty_nick_name";
 
 
+    public static final String REMOTE_SHOW_TIP="remote_show_tip";
+
 }

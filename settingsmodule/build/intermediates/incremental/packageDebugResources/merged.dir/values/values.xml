@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="setting_bg_line_color">#CFDDE3</color>
+    <color name="setting_home_background">#f0f3f3</color>
+    <color name="setting_login_line_color">#979797</color>
+    <color name="setting_tv_center_color">#3B6176</color>
+    <color name="setting_tv_no_data_color">#85B4C9</color>
+    <color name="setting_tv_notice_title">#AFBFC8</color>
+    <string name="setting_age">年龄</string>
+    <string name="setting_grade">年级</string>
+    <string name="setting_nick">昵称</string>
+    <string name="setting_retry_get"><b>点击重试</b></string>
+    <string name="setting_sex">性别</string>
+    <string name="setting_user_center_achievement">成就</string>
+    <string name="setting_user_center_dingdang">叮当</string>
+    <string name="setting_user_center_download">下载</string>
+    <string name="setting_user_center_dynamic">动态</string>
+    <string name="setting_user_center_info">信息</string>
+    <string name="setting_user_center_message">消息</string>
+    <string name="setting_user_center_original">原创</string>
+    <string name="setting_user_center_setting">设置</string>
+    <string name="setting_user_center_title">个人中心</string>
+    <style name="setting_text_userinfo_left_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginLeft">18dp</item>
+        <item name="android:textColor">@color/setting_tv_center_color</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="setting_text_userinfo_right_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:drawableRight">@drawable/setting_icon_right_arrow</item>
+        <item name="android:layout_marginRight">14dp</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

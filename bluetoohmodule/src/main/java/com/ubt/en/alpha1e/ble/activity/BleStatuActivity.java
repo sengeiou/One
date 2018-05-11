@@ -6,10 +6,10 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -64,8 +64,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     TextView mTvWifiSelect;
     @BindView(R2.id.rl_robot_wifi)
     RelativeLayout mRlRobotWifi;
-    @BindView(R2.id.bleSwitch)
-    Switch mBleSwitch;
+    @BindView(R2.id.ble_checkbox)
+    CheckBox mBleSwitch;
     @BindView(R2.id.rl_robot_update)
     RelativeLayout mRlRobotUpdate;
     @BindView(R2.id.tv_robot_version)

@@ -19,6 +19,7 @@
     <string name="ble_connect_success">Connection Successed</string>
 
     <string name="ble_try_again">Tray again</string>
+    <string name="ble_ok">ok</string>
     <string name="ble_cancel">Cancel</string>
 
     <string name="ble_wifi_5G_tip">(Not support 5G Wi-Fi)</string>
