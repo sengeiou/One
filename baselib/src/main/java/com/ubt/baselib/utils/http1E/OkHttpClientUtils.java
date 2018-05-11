@@ -57,7 +57,7 @@ public class OkHttpClientUtils {
      */
     public static RequestCall getJsonByPostRequest(String url, File file, BaseRequest request, int id) {
         request.setUserId(SPUtils.getInstance().getString(Constant1E.SP_USER_ID));
-        request.setToken(SPUtils.getInstance().getString(Constant1E.SP_LOGIN_TOKEN));
+        request.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
 
         ViseLog.d( "url===" + url + "request==" + request.toString());
         if (null != file) {
@@ -86,7 +86,7 @@ public class OkHttpClientUtils {
      */
     public static RequestCall getJsonByPostRequest(String url,BaseRequest request, Map<String,File> fileMap, int id) {
         request.setUserId(SPUtils.getInstance().getString(Constant1E.SP_USER_ID));
-        request.setToken(SPUtils.getInstance().getString(Constant1E.SP_LOGIN_TOKEN));
+        request.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         String params = GsonImpl.get().toJson(request);
         ViseLog.d("url = " + url + "  request = " + request + "   fileMap = " + fileMap);
         if (null != fileMap && !fileMap.isEmpty()) {
@@ -111,7 +111,7 @@ public class OkHttpClientUtils {
      */
     public static RequestCall getJsonByPostRequest(String url, BaseRequest request, int id) {
         request.setUserId(SPUtils.getInstance().getString(Constant1E.SP_USER_ID));
-        request.setToken(SPUtils.getInstance().getString(Constant1E.SP_LOGIN_TOKEN));
+        request.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         String params = GsonImpl.get().toJson(request);
         ViseLog.d("url===" + url + "___params==" + params);
         return OkHttpUtils.postString()
@@ -187,6 +187,15 @@ public class OkHttpClientUtils {
     public static RequestCall getJsonByPutRequest(String url, String params, int id) {
         ViseLog.d( "url:" + url + "__params:" + params);
         return OkHttpUtils.put()
+                .url(url)
+                .requestBody(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params))
+                .id(id)
+                .build();
+    }
+
+    public static RequestCall getJsonByPatchRequest(String url, String params, int id) {
+        ViseLog.d( "url:" + url + "__params:" + params);
+        return OkHttpUtils.patch()
                 .url(url)
                 .requestBody(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params))
                 .id(id)

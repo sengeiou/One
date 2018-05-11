@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.facebook.FacebookSdk;
 import com.ubt.baselib.ConfigureBaseLib;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.utils.ContextUtils;
@@ -40,6 +41,13 @@ public class LoginApplication extends Application {
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始
 //        init(this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+   /*     TwitterConfig config = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(LoginSP.TWITTER_CONSUMER_KEY, LoginSP.TWITTER_CONSUMER_SECRET))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);*/
     }
 
     public static void init(Application appContext){
@@ -75,11 +83,11 @@ public class LoginApplication extends Application {
                 //配置全局请求参数
                 .globalParams(new HashMap<String, String>())
                 //配置读取超时时间，单位秒
-                .readTimeout(30)
+                .readTimeout(1000)
                 //配置写入超时时间，单位秒
-                .writeTimeout(30)
+                .writeTimeout(1000)
                 //配置连接超时时间，单位秒
-                .connectTimeout(30)
+                .connectTimeout(1000)
                 //配置请求失败重试次数
                 .retryCount(3)
                 //配置请求失败重试间隔时间，单位毫秒

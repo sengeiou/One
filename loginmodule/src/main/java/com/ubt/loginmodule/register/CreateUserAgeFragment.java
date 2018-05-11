@@ -10,8 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLoadingDialog;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseFragment;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
@@ -193,8 +197,20 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
     public void updateUserInfoSuccess(boolean success) {
         BaseLoadingDialog.dismiss(getActivity());
         if(success) {
-            getActivity().finish();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
+            if(SPUtils.getInstance().getBoolean(Constant1E.SP_LOGIN)){
+                LoginActivity.finishSelf();
+                getActivity().finish();
+                boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
+                if(noFirst){
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation(getActivity());
+                }else{
+                    ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation(getActivity());
+                }
+            }else{
+                getActivity().finish();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+            }
+
         }else{
             ToastUtils.showShort("提交后台失败");
         }

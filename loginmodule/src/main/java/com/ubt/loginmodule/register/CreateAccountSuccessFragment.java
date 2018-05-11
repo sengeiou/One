@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ubt.baselib.globalConst.Constant1E;
-import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.loginmodule.R;
@@ -61,8 +60,8 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
         View view = inflater.inflate(R.layout.login_fragment_sign_up_success, container, false);
         unbinder = ButterKnife.bind(this, view);
         ((RegisterActivity)getActivity()).setTvSkipVisible(false);
-        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
-        tvAccount.setText(userInfoModel.getEmail());
+//        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        tvAccount.setText(SPUtils.getInstance().getString(Constant1E.SP_USER_EMAIL));
         return view;
     }
 

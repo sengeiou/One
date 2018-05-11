@@ -1,4 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="facebook_app_id" tools:ignore="ResourceName">882664668572429</string>
+    <string name="fb_login_protocol_scheme" tools:ignore="ResourceName">fb882664668572429</string>
+
     <string name="login_app_name">LoginModule</string>
 
     <!-- login email string -->
@@ -27,6 +31,7 @@
     <string name="login_next">Next</string>
     <string name="login_finish">Finish</string>
     <string name="login_skip">Skip</string>
+    <string name="login_password_tip">密码长度最少6位(need translation)</string>
 
     <!-- fill in profile string -->
 

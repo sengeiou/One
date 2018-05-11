@@ -20,18 +20,29 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.callback.NavigationCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.app.abby.tsnackbar.TSnackbar;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.SPUtils;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
 import com.ubt.loginmodule.TextWatcherUtil;
 import com.ubt.loginmodule.findPassword.FindPasswordActivity;
 import com.ubt.loginmodule.register.RegisterActivity;
+import com.ubt.loginmodule.third.ITwitterLoginListener;
+import com.ubt.loginmodule.third.MyTwitter;
 import com.vise.log.ViseLog;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,7 +56,7 @@ import butterknife.Unbinder;
  */
 
 @Route(path = ModuleUtils.Login_Module)
-public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPresenter>implements LoginContract.View {
+public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPresenter>implements LoginContract.View,ITwitterLoginListener {
 
 
     @BindView(R2.id.tv_register)
@@ -68,11 +79,25 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     ImageView ivShowPassword;
     @BindView(R2.id.cl_root)
     ConstraintLayout constraintLayout;
+    @BindView(R2.id.login_button)
+    ImageView loginButton;
+    @BindView(R2.id.tv_facebook)
+    TextView tvFacebook;
+    @BindView(R2.id.iv_twitter)
+    ImageView ivTwitter;
+
 
     private boolean showPassword = false;
     Unbinder unbinder;
     private NavigationCallback navigationCallback;
 
+    private CallbackManager callbackManager;
+    private static AccessToken accessToken;
+
+    private int loginType = 0; //0,表示默认邮箱， 1，表示facebook，2，表示twitter ， 3，表示Instagram
+
+
+    private static LoginActivity mInstance;
 
     @Override
     public int getContentViewId() {
@@ -83,9 +108,73 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ViseLog.d( "LoginActivity onCreate");
+        mInstance = this;
         unbinder = ButterKnife.bind(this);
         initView();
         initNavigationListener();
+        callbackManager = CallbackManager.Factory.create();
+        initFacebook();
+    }
+
+    private void initFacebook() {
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginType = 1;
+                LoginManager.getInstance().registerCallback(callbackManager,
+                        new FacebookCallback<LoginResult>() {
+                            @Override
+                            public void onSuccess(LoginResult loginResult) {
+                                accessToken = loginResult.getAccessToken();
+                                String userId = accessToken.getUserId();
+                                String token = accessToken.getToken();
+                                tvFacebook.setText("userId:" + userId + "token:" + token);
+                                mPresenter.loginThird(token, userId, "Facebook");
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                ViseLog.e("Login onCancel");
+                                ToastUtils.showShort("login onCancel:" );
+                            }
+
+                            @Override
+                            public void onError(FacebookException e) {
+                                ViseLog.e("Login onError:" + e.getMessage());
+                                ToastUtils.showShort("login onError:" );
+                            }
+                        });
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
+                        Arrays.asList("public_profile"));
+            }
+        });
+
+        ivTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginType = 2;
+                loginWithTwitter();
+
+            }
+        });
+
+
+    }
+
+    private void loginWithTwitter() {
+        MyTwitter.doLogin(LoginActivity.this, this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(loginType == 1){
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }else if(loginType == 2){
+            MyTwitter.onActivityResult(requestCode, resultCode, data);
+        }
+
     }
 
     private void initNavigationListener() {
@@ -197,6 +286,13 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        mInstance = null;
+    }
+
+    public static void finishSelf(){
+        if (mInstance!=null&&!mInstance.isFinishing()){
+            mInstance.finish();
+        }
     }
 
     private void login(){
@@ -233,7 +329,38 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     public void loginFailed() {
         BaseLoadingDialog.dismiss(this);
     }
+
+    @Override
+    public void loginThirdFinish(boolean success) {
+
+    }
+
+    @Override
+    public void test(String text) {
+        tvFacebook.setText("");
+        tvFacebook.setText(text);
+    }
+
+    @Override
+    public void UpdateUserInfo() {
+        ViseLog.d("UpdateUserInfo");
+
+      mPresenter.getUserInfo();
+    }
+
+    @Override
+    public void UpdateUserInfoFinish() {
+        SPUtils.getInstance().put(Constant1E.SP_LOGIN, true);
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        intent.putExtra(Constant1E.EMPTY_NICK_NAME, true);
+        startActivity(intent);
+    }
+
+    @Override
+    public void OnLoginComplete(twitter4j.auth.AccessToken accessToken) {
+        String token  = accessToken.getToken();
+        String userId = "" + accessToken.getUserId();
+        mPresenter.loginThird(token, userId, "Twitter");
+    }
 }
-
-
 

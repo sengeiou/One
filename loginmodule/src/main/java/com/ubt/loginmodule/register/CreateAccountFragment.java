@@ -60,6 +60,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
     private boolean select = false;
     RequestCountDown requestCountDown;
     private static final long REQUEST_TIME = 181 * 1000;
+    private boolean countDownFinish = true;
 
     public static CreateAccountFragment newInstance(){
         return new CreateAccountFragment();
@@ -102,7 +103,11 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
             @Override
             public void hasText() {
                 ivClearAccount.setVisibility(View.VISIBLE);
-                btnSendSecurityCode.setEnabled(true);
+                if(LoginUtil.isEmail(edtEmail.getText().toString()) && countDownFinish){
+                    btnSendSecurityCode.setEnabled(true);
+                }else{
+                    btnSendSecurityCode.setEnabled(false);
+                }
                 if(edtPassword.getText().length()>0 && edtSecurityCode.getText().length()>0){
                     btnSignUp.setEnabled(true);
                 }
@@ -178,6 +183,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
                 String email = edtEmail.getText().toString();
                 mPresenter.sendSecurityCode(email);
                 requestCountDown.start();
+                countDownFinish = false;
                 btnSendSecurityCode.setEnabled(false);
             } else {
                 TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_input_wrong_email_warning, TSnackbar.LENGTH_LONG)
@@ -190,6 +196,15 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
         } else if (i == R.id.btn_sign_up) {//TODO sign up
             if (!select) {
                 TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_select_privacy, TSnackbar.LENGTH_LONG)
+                        .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
+                        .setMessageGravity(Gravity.CENTER)
+                        .setMessageTextColor(getResources().getColor(R.color.white))
+                        .show();
+                return;
+            }
+
+            if(edtPassword.getText().length()<6){
+                TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_password_tip, TSnackbar.LENGTH_LONG)
                         .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
                         .setMessageGravity(Gravity.CENTER)
                         .setMessageTextColor(getResources().getColor(R.color.white))
@@ -237,6 +252,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        countDownFinish = true;
         if(requestCountDown != null){
             requestCountDown.cancel();
         }
@@ -260,6 +276,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
                 .setMessageGravity(Gravity.CENTER)
                 .setMessageTextColor(getResources().getColor(R.color.white))
                 .show();
+        countDownFinish = true;
         if(requestCountDown != null){
             requestCountDown.cancel();
         }
@@ -324,6 +341,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
                     .setMessageGravity(Gravity.CENTER)
                     .setMessageTextColor(getResources().getColor(R.color.white))
                     .show();
+            countDownFinish = true;
             if(requestCountDown != null){
                 requestCountDown.cancel();
             }
@@ -343,6 +361,7 @@ public class CreateAccountFragment extends  MVPBaseFragment<RegisterContract.Vie
 
         @Override
         public void onFinish() {
+            countDownFinish = true;
             if(null != btnSendSecurityCode){
                 btnSendSecurityCode.setText(getString(R.string.login_resend_security_code));
                 btnSendSecurityCode.setEnabled(true);

@@ -24,7 +24,9 @@ public interface Constant1E {
      * 用户账号属性
      */
     String SP_USER_ID = "sp_login_userId";
-    String SP_LOGIN_TOKEN = "sp_login_token";
+    String SP_USER_TOKEN = "sp_login_token";
+    String SP_USER_EMAIL = "sp_user_email";
+    String SP_LOGIN = "sp_login";
     /**
      * 用户信息保存
      */
@@ -45,6 +47,8 @@ public interface Constant1E {
     int KEY_NICK_HEAD = 5; //头像
 
     public static final String EMPTY_NICK_NAME = "empty_nick_name";
+    public static final String EMPTY_SEX = "empty_sex";
+    public static final String EMPTY_BIRTHDAY = "empty_birthDay";
 
 
     public static final String REMOTE_SHOW_TIP="remote_show_tip";

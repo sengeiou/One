@@ -10,16 +10,19 @@ import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
-import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.LoginHttpEntity;
+import com.ubt.loginmodule.LoginUtil;
 import com.ubt.loginmodule.requestModel.GetCodeRequest;
 import com.ubt.loginmodule.requestModel.RegisterRequest;
 import com.ubt.loginmodule.requestModel.UpdateUserInfoRequest;
-import com.ubt.loginmodule.userModel.UserIdModel;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.request.PostRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,33 +35,49 @@ import java.util.List;
 public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> implements RegisterContract.Presenter{
 
     private static final int START_YEAR = 1900;
-    private static final int END_YEAR = 2014;
+    private static final int END_YEAR = 2018;
 
     @Override
     public void sendSecurityCode(String account) {
         GetCodeRequest getCodeRequest = new GetCodeRequest();
+        getCodeRequest.setAppId(LoginSP.APPID);
         getCodeRequest.setEmail(account);
-        ViseHttp.BASE(new PostRequest(LoginHttpEntity.GET_CODE)
-                .setJson(GsonImpl.get().toJson(getCodeRequest)))
+        getCodeRequest.setEmailType(1);
+        getCodeRequest.setNickName("");
+        ViseLog.d("url:" + LoginHttpEntity.GET_CODE + "_params:" + GsonImpl.get().toJson(getCodeRequest));
+
+
+        ViseHttp.POST(LoginHttpEntity.GET_CODE)
+                .baseUrl(LoginHttpEntity.BASE_LOGIN_URL).setJson( GsonImpl.get().toJson(getCodeRequest))
                 .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        ViseLog.d("GET_CODE onSuccess:" + data);
-                        if(mView != null){
-                            mView.sendSecurityCodeSuccess(true);
-                        }
-                    }
+            @Override
+            public void onSuccess(String data) {
+                //请求成功
+                ViseLog.d("GET_CODE onSuccess:" + data);
+                if(mView != null){
+                    mView.sendSecurityCodeSuccess(true);
+                }
+            }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        ViseLog.e("GET_CODE onFail:" + errMsg);
-                        if(mView != null){
-                            mView.sendSecurityCodeSuccess(false);
-                        }
-                    }
+            @Override
+            public void onFail(int errCode, String errMsg) {
+                //请求失败，errCode为错误码，errMsg为错误描述
+                ViseLog.e("GET_CODE onFail:" + errCode + "-errMsg:" +  errMsg);
+                try {
+                    JSONObject jsonObject = new JSONObject(errMsg);
+                    String msg = jsonObject.getString("message");
 
-                });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                if(mView != null){
+                    mView.sendSecurityCodeSuccess(false);
+                }
+
+
+            }
+        });
 
     }
 
@@ -66,51 +85,54 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
     public void signUp(final String account, String password, String code) {
 
         RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail(account);
-        registerRequest.setPassword(password);
-        registerRequest.setCode(code);
-        ViseLog.d("url:" + LoginHttpEntity.REGISTER + "_json:" + GsonImpl.get().toJson(registerRequest));
-        ViseHttp.BASE(new PostRequest(LoginHttpEntity.REGISTER)
-                .setJson(GsonImpl.get().toJson(registerRequest)))
+        registerRequest.setAppId(LoginSP.APPID);
+        registerRequest.setAccount(account);
+        registerRequest.setAccountType(1);
+        registerRequest.setPassword(LoginUtil.encodeByMD5(password));
+        registerRequest.setCaptcha(code);
+        ViseLog.d("url:" +LoginHttpEntity.BASE_LOGIN_URL + LoginHttpEntity.REGISTER + "_json:" + GsonImpl.get().toJson(registerRequest));
+
+        ViseHttp.POST(LoginHttpEntity.REGISTER)
+                .baseUrl(LoginHttpEntity.BASE_LOGIN_URL)
+                .setJson(GsonImpl.get().toJson(registerRequest))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
+                        //请求成功
                         ViseLog.d("REGISTER onSuccess:" + data);
-                        BaseResponseModel<UserIdModel> baseResponseModel = GsonImpl.get().toObject(data,
-                                new TypeToken<BaseResponseModel<UserIdModel>>() {
-                                }.getType());
-
-                        if(baseResponseModel.status){
-                            if(null != baseResponseModel.models){
-                                UserIdModel userIdModel = baseResponseModel.models;
-                                ViseLog.d("userIdModel:" + userIdModel);
-                                UserInfoModel userInfoModel = new UserInfoModel();
-                                userInfoModel.setUserId(userIdModel.getUserId());
-                                userInfoModel.setEmail(account);
-                                ViseLog.d("userInfoModel:" + userInfoModel);
-                                SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO, userInfoModel);
-
-                            }
+//                        onSuccess(RegisterPresenter.java:88): REGISTER onSuccess:{"token":{"token":"3d0b8641972a4ec89c1fd2e31bcaf3f4806102","expireAt":1526437666734},"user":{"userId":806102,"userName":"weimin.ma@ubtrobot.com","userEmail":"weimin.ma@ubtrobot.com","userPhone":null,"userGender":null,"userImage":null,"countryCode":null,"nickName":"alpha1e-overseasuser1525832866638","userBirthday":null,"countryName":null,"emailVerify":null,"pwdCreateType":0,"userExtraPhone":null,"userExtraEmail":null}}
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            JSONObject tokenJson = jsonObject.getJSONObject("token");
+                            JSONObject userJson = jsonObject.getJSONObject("user");
+                            String token = tokenJson.getString("token");
+                            int userId = userJson.getInt("userId");
+                            String userEmail = userJson.getString("userEmail");
+                            ViseLog.d("token:" + token + "-userId:" + userId);
+                            SPUtils.getInstance().put(Constant1E.SP_USER_ID, userId);
+                            SPUtils.getInstance().put(Constant1E.SP_USER_TOKEN, token);
+                            SPUtils.getInstance().put(Constant1E.SP_USER_EMAIL, userEmail);
                             if(mView != null){
                                 mView.signUpSuccess();
                             }
-                        }else{
-                            ToastUtils.showShort(baseResponseModel.info);
-                            if(mView != null){
-                                mView.signUpFailed();
-                            }
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-                        ViseLog.e("REGISTER onFail:" + errMsg);
+                        //请求失败，errCode为错误码，errMsg为错误描述
+                        ViseLog.e("REGISTER onFail:" + errMsg +"-errCode:" +errCode);
                         if(mView != null){
                             mView.signUpFailed();
                         }
                     }
                 });
+
+
 
     }
 
@@ -164,8 +186,9 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
         UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
         final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         ViseLog.d("userInfoModel:" + userInfoModel);
-        updateUserInfoRequest.setEmail(userInfoModel.getEmail());
-        updateUserInfoRequest.setUserId(userInfoModel.getUserId());
+        updateUserInfoRequest.setEmail(SPUtils.getInstance().getString(Constant1E.SP_USER_EMAIL));
+        updateUserInfoRequest.setUserId(String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)));
+        updateUserInfoRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         if(!TextUtils.isEmpty(userName)){
             updateUserInfoRequest.setNickName(userName);
         }
@@ -173,7 +196,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
             updateUserInfoRequest.setSex(sex);
         }
         if(!TextUtils.isEmpty(birth)){
-            updateUserInfoRequest.setBirthDate(birth);
+            updateUserInfoRequest.setBirthDay(birth);
         }
 
         ViseLog.d("url:" + LoginHttpEntity.USER_UPDATE + "params:" + updateUserInfoRequest.toString());
@@ -202,6 +225,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
 
                     @Override
                     public void onFail(int i, String s) {
+                        ViseLog.d("USER_UPDATE onFail:" + s);
                         if(mView != null){
                             mView.updateUserInfoSuccess(false);
                         }

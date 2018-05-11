@@ -174,6 +174,14 @@ public class ResetPasswordFragment extends MVPBaseFragment<FindPasswordContract.
             String password = edtPassword.getText().toString();
             String passwordAgain = edtPasswordAgain.getText().toString();
             if (password.equals(passwordAgain)) {
+                if(password.length()<6){
+                    TSnackbar.make(getActivity().getWindow().getDecorView(), R.string.login_password_tip, TSnackbar.LENGTH_LONG)
+                            .setBackgroundColor(getResources().getColor(R.color.login_bg_red_color))
+                            .setMessageGravity(Gravity.CENTER)
+                            .setMessageTextColor(getResources().getColor(R.color.white))
+                            .show();
+                    return;
+                }
                 mPresenter.resetPassword(email, edtPassword.getText().toString());
                 BaseLoadingDialog.show(getActivity());
             } else {
