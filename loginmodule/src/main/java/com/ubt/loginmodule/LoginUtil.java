@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -117,6 +120,18 @@ public class LoginUtil {
         int d1 = n/16;
         int d2 = n%16;
         return hexDigits[d1] + hexDigits[d2];
+    }
+
+    public static String parseErrMsg(String errMsg){
+        try {
+            JSONObject jsonObject = new JSONObject(errMsg);
+            int code = jsonObject.getInt("code");
+            String message = jsonObject.getString("message");
+            return message;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return errMsg;
     }
 
 

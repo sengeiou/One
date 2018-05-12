@@ -84,10 +84,7 @@ public class FindPasswordPresenter extends BasePresenterImpl<FindPasswordContrac
         request.setCaptcha(code);
         request.setAccountType(1);
 
-       /* Map<String,Object> map = new HashMap<String, Object>();
-        map.put("account", email);
-        map.put("captcha", code);
-        map.put("accountType", 1);*/
+
 
         ViseHttp.GET(LoginHttpEntity.VALIDATE_CODE).baseUrl(LoginHttpEntity.BASE_LOGIN_URL)
                 .addParam("account", email)

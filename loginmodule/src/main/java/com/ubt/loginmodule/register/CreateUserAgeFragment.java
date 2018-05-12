@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.alibaba.android.arouter.facade.Postcard;
+import com.alibaba.android.arouter.facade.callback.NavigationCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLoadingDialog;
@@ -20,6 +22,7 @@ import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
 import com.ubt.loginmodule.login.LoginActivity;
+import com.vise.log.ViseLog;
 import com.weigan.loopview.LoopView;
 import com.weigan.loopview.OnItemSelectedListener;
 
@@ -57,6 +60,8 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
     private String month = "1";
     private String day = "1";
 
+    private NavigationCallback navigationCallback;
+
     public static CreateUserAgeFragment newInstance() {
         return new CreateUserAgeFragment();
     }
@@ -78,8 +83,37 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
         unbinder = ButterKnife.bind(this, view);
         ((RegisterActivity)getActivity()).setTvSkipVisible(false);
         initView();
+        initNavigationListener();
         return view;
     }
+
+    private void initNavigationListener() {
+        navigationCallback = new NavigationCallback() {
+            @Override
+            public void onFound(Postcard postcard) {
+
+            }
+
+            @Override
+            public void onLost(Postcard postcard) {
+
+            }
+
+            @Override
+            public void onArrival(Postcard postcard) {
+                ViseLog.i("postcard="+postcard.toString());
+//                WelcomActivity.this.finish();
+                getActivity().finish();
+                LoginActivity.finishSelf();
+            }
+
+            @Override
+            public void onInterrupt(Postcard postcard) {
+
+            }
+        };
+    }
+
 
     private void initView() {
         mPresenter.getYearData();
@@ -198,14 +232,14 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
         BaseLoadingDialog.dismiss(getActivity());
         if(success) {
             if(SPUtils.getInstance().getBoolean(Constant1E.SP_LOGIN)){
-                LoginActivity.finishSelf();
-                getActivity().finish();
+
                 boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
                 if(noFirst){
-                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation(getActivity());
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation(getActivity(),navigationCallback);
                 }else{
-                    ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation(getActivity());
+                    ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation(getActivity(),navigationCallback);
                 }
+
             }else{
                 getActivity().finish();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
