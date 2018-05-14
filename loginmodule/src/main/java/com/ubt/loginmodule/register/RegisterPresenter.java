@@ -10,6 +10,7 @@ import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.LoginConstant.LoginSP;
 import com.ubt.loginmodule.LoginHttpEntity;
 import com.ubt.loginmodule.LoginUtil;
@@ -19,7 +20,6 @@ import com.ubt.loginmodule.requestModel.UpdateUserInfoRequest;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
-import com.vise.xsnow.http.request.PostRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +63,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
             public void onFail(int errCode, String errMsg) {
                 //请求失败，errCode为错误码，errMsg为错误描述
                 ViseLog.e("GET_CODE onFail:" + errCode + "-errMsg:" +  errMsg);
+                ToastUtils.showShort(LoginUtil.parseErrMsg(errMsg));
                 try {
                     JSONObject jsonObject = new JSONObject(errMsg);
                     String msg = jsonObject.getString("message");
@@ -199,10 +200,10 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
             updateUserInfoRequest.setBirthDay(birth);
         }
 
-        ViseLog.d("url:" + LoginHttpEntity.USER_UPDATE + "params:" + updateUserInfoRequest.toString());
+        ViseLog.d("url:" +LoginHttpEntity.BASE_URL + LoginHttpEntity.USER_UPDATE + "params:" + updateUserInfoRequest.toString());
 
-        ViseHttp.BASE(new PostRequest(LoginHttpEntity.USER_UPDATE)
-                .setJson(GsonImpl.get().toJson(updateUserInfoRequest)))
+        ViseHttp.POST(LoginHttpEntity.USER_UPDATE).baseUrl(LoginHttpEntity.BASE_URL)
+                .setJson(GsonImpl.get().toJson(updateUserInfoRequest))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
@@ -230,6 +231,7 @@ public class RegisterPresenter extends BasePresenterImpl<RegisterContract.View> 
                             mView.updateUserInfoSuccess(false);
                         }
                     }
+
                 });
 
 

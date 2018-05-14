@@ -19,6 +19,7 @@ public class LoginContract {
         void test(String text);
         void UpdateUserInfo();
         void UpdateUserInfoFinish();
+        void getUserInfoFailed();
 
     }
 

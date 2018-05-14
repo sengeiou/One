@@ -129,7 +129,8 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
                                 accessToken = loginResult.getAccessToken();
                                 String userId = accessToken.getUserId();
                                 String token = accessToken.getToken();
-                                tvFacebook.setText("userId:" + userId + "token:" + token);
+//                                tvFacebook.setText("userId:" + userId + "token:" + token);
+                                BaseLoadingDialog.show(LoginActivity.this);
                                 mPresenter.loginThird(token, userId, "Facebook");
                             }
 
@@ -332,7 +333,7 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
 
     @Override
     public void loginThirdFinish(boolean success) {
-
+        BaseLoadingDialog.dismiss(this);
     }
 
     @Override
@@ -350,6 +351,7 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
 
     @Override
     public void UpdateUserInfoFinish() {
+        BaseLoadingDialog.dismiss(this);
         SPUtils.getInstance().put(Constant1E.SP_LOGIN, true);
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         intent.putExtra(Constant1E.EMPTY_NICK_NAME, true);
@@ -357,10 +359,17 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     }
 
     @Override
+    public void getUserInfoFailed() {
+        BaseLoadingDialog.dismiss(this);
+    }
+
+    @Override
     public void OnLoginComplete(twitter4j.auth.AccessToken accessToken) {
         String token  = accessToken.getToken();
         String userId = "" + accessToken.getUserId();
+        BaseLoadingDialog.show(this);
         mPresenter.loginThird(token, userId, "Twitter");
+
     }
 }
 

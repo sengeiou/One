@@ -23,6 +23,7 @@ public class BaseHttpEntity {
     public static String BASIC_UBX_SYS_BIND = "http://10.10.1.12:8085/equipment/"; //绑定相关 测试环境
     public static String BLOCKLY_CODEMAO_URL = "https://dev-ubt.codemao.cn/";
     public static String BASE_FILE_UPLOAD = "https://test79.ubtrobot.com/file-service-rest/v2/";
+    public static String BASIC_THIRD_LOGIN_URL_EN = "https://test79.ubtrobot.com/user-service-rest/v2/";
 
     public static void init(boolean isIssue){
         ViseLog.i("isIssue="+isIssue);
@@ -33,6 +34,7 @@ public class BaseHttpEntity {
             BASIC_UBX_SYS_BIND="https://prodapi.ubtrobot.com/equipment/";
             BLOCKLY_CODEMAO_URL = "https://ubt.codemao.cn/";
             BASE_FILE_UPLOAD = "https://test79.ubtrobot.com/file-service-rest/v2/";
+            BASIC_THIRD_LOGIN_URL_EN = "https://interface.ubtrobot.com/user-service-rest/v2/";
         }
     }
 

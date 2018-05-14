@@ -21,20 +21,21 @@ public class LoginHttpEntity extends BaseHttpEntity{
     /**
      * login base url
      */
-    public static final String BASE_URL = "http://10.10.1.14:8080/alpha1e/overseas/user/";
-    public static final String BASE_LOGIN_URL = "https://test79.ubtrobot.com/user-service-rest/v2/"; //测试环境
-//    public static final String BASE_LOGIN_URL = "https://account.ubtrobot.com/user-service-rest/v2/";  //正式环境
+    public static final String BASE_URL =BaseHttpEntity.BASIC_UBX_SYS /*"https://interface.ubtrobot.com/alpha1e/overseas/user/"*/; //正式环境
+//    public static final String BASE_URL = "http://10.10.1.14:8080/alpha1e/overseas/user/";  //测试环境
+//    public static final String BASE_LOGIN_URL = "https://test79.ubtrobot.com/user-service-rest/v2/"; //测试环境
+    public static final String BASE_LOGIN_URL = BaseHttpEntity.BASIC_THIRD_LOGIN_URL_EN; //正式环境
 
     public static final String RESET = "user/password/reset";
     public static final String LOGIN = "user/login";
     public static final String LOGIN_THIRD = "user/login/third";
     public static final String LOGIN_THIRD_FIRST = "user/login/third/isfirst";
     public static final String VALIDATE_CODE = "user/captcha/verify-result";
-    public static final String FIND_PASSWORD = BASE_URL + "backPwd";
+//    public static final String FIND_PASSWORD = BASE_URL + "backPwd";
     public static final String REGISTER = "user/register";
     public static final String GET_CODE = "htmlEmail/ebotcaptcha";
-    public static final String USER_UPDATE = BASE_URL + "update";
-    public static final String USER_GET_INFO = "get";
+    public static final String USER_UPDATE = "overseas/user/update";
+    public static final String USER_GET_INFO = "overseas/user/get";
 
 
 

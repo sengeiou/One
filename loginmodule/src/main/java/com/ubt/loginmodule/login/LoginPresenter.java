@@ -67,6 +67,7 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                     @Override
                     public void onFail(int i, String s) {
                         ViseLog.e("login failed:" + i +"-msg:" +  s);
+                        ToastUtils.showShort(LoginUtil.parseErrMsg(s));
                         if(mView != null){
                             mView.loginFailed();
                         }
@@ -126,7 +127,10 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
 
                     @Override
                     public void onFail(int i, String s) {
-                        ToastUtils.showShort("onFail:" + s);
+                        ToastUtils.showShort(LoginUtil.parseErrMsg(s));
+                        if(mView != null){
+                            mView.loginThirdFinish(false);
+                        }
                     }
                 });
 
@@ -165,6 +169,9 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
 
                         }else{
                             ToastUtils.showShort(baseResponseModel.info);
+                            if(mView != null){
+                                mView.getUserInfoFailed();
+                            }
                         }
 
                     }
@@ -172,6 +179,10 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                     @Override
                     public void onFail(int i, String s) {
                         ViseLog.d("USER_GET_INFO onFail:"+ i + "s:" +  s);
+                        ToastUtils.showShort(s);
+                        if(mView != null){
+                            mView.getUserInfoFailed();
+                        }
                     }
                 });
     }
