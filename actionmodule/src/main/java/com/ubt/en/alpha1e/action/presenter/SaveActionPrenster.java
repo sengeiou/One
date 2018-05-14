@@ -298,7 +298,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
         boolean saveResult;
 
-        final String BASIC_UBX_SYS = "http://10.10.1.14:8080/alpha1e/"; //测试环境
+      //  final String BASIC_UBX_SYS = "http://10.10.1.14:8080/alpha1e/"; //测试环境
         /**
          * 保存动作
          */
