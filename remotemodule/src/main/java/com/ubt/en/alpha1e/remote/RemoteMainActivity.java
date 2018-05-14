@@ -10,9 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.SPUtils;
@@ -24,7 +22,7 @@ import com.ubt.en.alpha1e.remote.presenster.RemoteMainPrenster;
  * 遥控器列表页面
  */
 
-@Route(path = ModuleUtils.Joystick_ActionProgram)
+//@Route(path = ModuleUtils.Joystick_ActionProgram)
 
 public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, RemoteMainPrenster> implements RemoteMainContact.View, View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 

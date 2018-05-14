@@ -2,6 +2,7 @@ package com.ubt.en.alpha1e.action.presenter;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
@@ -165,6 +166,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
                     @Override
                     public void onSuccess(String response) {
                         ViseLog.d("getLastCourseProgress onSuccess:" + response);
+                        Log.d("ActionCoursePrenster","getLastCourseProgress onSuccess:" + response);
                         BaseResponseModel<CourseLastProgressModule> baseResponseModel = GsonImpl.get().toObject(response,
                                 new TypeToken<BaseResponseModel<CourseLastProgressModule>>() {
                                 }.getType());
@@ -216,6 +218,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
                     @Override
                     public void onSuccess(String response) {
                         ViseLog.d("getAllCourseScore onSuccess:" + response);
+                        Log.d("ActionCoursePrenster","getAllCourseScore onSuccess:" + response);
                         BaseResponseModel<List<CourseDetailScoreModule>> baseResponseModel = GsonImpl.get().toObject(response,
                                 new TypeToken<BaseResponseModel<List<CourseDetailScoreModule>>>() {
                                 }.getType());
@@ -255,6 +258,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
                 int course = record.getCourseLevel();
                 int level = record.getPeriodLevel();//课时3
                 ViseLog.d("后台获取数据为   getCourseScores==" + "course==" + course + "   leavel==" + level);
+                Log.d("ActionCoursePrenster","后台获取数据为   getCourseScores==" + "course==" + course + "   leavel==" + level);
                 for (int i = 0; i < course; i++) {
                     mActionCourseModels.get(i).setActionLockType(1);
                     mActionCourseModels.get(i).setActionCourcesScore(1);
