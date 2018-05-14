@@ -1,6 +1,5 @@
 package com.ubt.en.alpha1e.remote;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.SPUtils;
@@ -22,8 +23,7 @@ import com.ubt.en.alpha1e.remote.presenster.RemoteMainPrenster;
  * 遥控器列表页面
  */
 
-//@Route(path = ModuleUtils.Joystick_ActionProgram)
-
+@Route(path = ModuleUtils.Joystick_ActionProgram)
 public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, RemoteMainPrenster> implements RemoteMainContact.View, View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
     private ImageView imgBack;
@@ -89,7 +89,7 @@ public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, 
 
         } else if (i == R.id.iv_close_publish) {
             rlTip.setVisibility(View.GONE);
-            SPUtils.getInstance().put(Constant1E.REMOTE_SHOW_TIP, false);
+            SPUtils.getInstance().put(Constant1E.REMOTE_SHOW_TIP, true);
 
         }
     }
@@ -104,7 +104,8 @@ public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (mPresenter.getRoleInfos().get(position).getBz() == 0) {
-            startActivity(new Intent(this,RemoteActivity.class));
+            //startActivity(new Intent(this,RemoteActivity.class));
+            RemoteActivity.launch(this,position+1);
         }
     }
 }

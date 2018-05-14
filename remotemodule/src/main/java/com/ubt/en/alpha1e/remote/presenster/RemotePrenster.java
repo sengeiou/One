@@ -39,10 +39,12 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
 
     private List<RemoteItem> mRemoteItems = new ArrayList<>();
     public int[] fighterdrawableId = {R.drawable.ic_forward, R.drawable.ic_left, R.drawable.ic_forward, R.drawable.ic_left, R.drawable.ic_forward, R.drawable.ic_left,
-            R.drawable.ic_fighter_1, R.drawable.ic_fighter_2, R.drawable.ic_fighter_3, R.drawable.ic_fighter_4, R.drawable.ic_fighter_5, R.drawable.ic_fighter_6};
+            R.drawable.remote_arrow_fighter_1_selector, R.drawable.remote_arrow_fighter_2_selector, R.drawable.remote_arrow_fighter_3_selector,
+            R.drawable.remote_arrow_fighter_4_selector, R.drawable.remote_arrow_fighter_5_selector, R.drawable.remote_arrow_fighter_6_selector};
 
     public int[] footballdrawableId = {R.drawable.ic_forward, R.drawable.ic_left, R.drawable.ic_forward, R.drawable.ic_left, R.drawable.ic_forward, R.drawable.ic_left,
-            R.drawable.ic_football_1, R.drawable.ic_football_2, R.drawable.ic_football_3, R.drawable.ic_football_4, R.drawable.ic_football_5, R.drawable.ic_football_6};
+            R.drawable.remote_arrow_football_1_selector, R.drawable.remote_arrow_football_2_selector, R.drawable.remote_arrow_football_3_selector,
+            R.drawable.remote_arrow_football_4_selector, R.drawable.remote_arrow_football_5_selector, R.drawable.remote_arrow_football_6_selector};
 
     private BlueClientUtil mBlueClientUtil;
 
@@ -155,6 +157,8 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
         String[] array = null;
         if (modeType == 1) {
             array = resources.getStringArray(R.array.remote_footerball);
+        }else if (modeType==2){
+            array = resources.getStringArray(R.array.remote_fighter);
         }
         for (int i = 0; i < array.length; i++) {
             RemoteItem item = new RemoteItem();

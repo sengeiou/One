@@ -333,7 +333,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
         params.put("actionOriginalId", newActionInfo.actionOriginalId + "");
         params.put("actionUserId", BaseHttpEntity.getUserId() + "");
-        params.put("actionName", "test");
+        params.put("actionName", newActionInfo.actionName);
         params.put("actionDesciber", typeModel.getActionDescrion());
         params.put("actionType", newActionInfo.actionType + "");
         params.put("actionTime", newActionInfo.actionTime + "");

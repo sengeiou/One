@@ -14,4 +14,19 @@
         <item>Fall backward rise.hts</item>
         <item>Fall forward rise.hts </item>
     </string-array>
+     
+    <string-array name="remote_fighter">
+        <item>Forward.hts</item>
+        <item>Leftward.hts</item>
+        <item>Rightward.hts</item>
+        <item>Backward.hts</item>
+        <item>TurnLeft.hts </item>
+        <item>TurnRight.hts</item>
+        <item>Right hits forward.hts</item>
+        <item>Left hits forward.hts</item>
+        <item>Hit left.hts</item>
+        <item>Hit right.hts</item>
+        <item>Fall forward rise.hts</item>
+        <item>Fall backward rise.hts</item>
+    </string-array>
 </resources>
