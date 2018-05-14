@@ -25,6 +25,7 @@ public class BaseHttpEntity {
 //    public static String BASE_FILE_UPLOAD = "https://test79.ubtrobot.com/file-service-rest/v2/";
     public static String BASIC_THIRD_LOGIN_URL_EN = "https://test79.ubtrobot.com/user-service-rest/v2/";*/
 
+    public static String BLOCKLY_CODEMAO_URL = "https://dev-ubt.codemao.cn/";
     public static String BASIC_UBX_SYS = "http://10.10.1.14:8080/";
     public static String BASE_UBX_COMMON = "https://test79.ubtrobot.com/";
 
@@ -39,6 +40,7 @@ public class BaseHttpEntity {
             BASE_FILE_UPLOAD = "https://test79.ubtrobot.com/file-service-rest/v2/";
             BASIC_THIRD_LOGIN_URL_EN = "https://interface.ubtrobot.com/user-service-rest/v2/";*/
 
+            BLOCKLY_CODEMAO_URL = "https://ubt.codemao.cn/";
             BASIC_UBX_SYS = "https://interface.ubtrobot.com/";
             BASE_UBX_COMMON = "https://interface.ubtrobot.com/";
         }
