@@ -95,7 +95,7 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
 
                     @Override
                     public void onSuccess(String response) {
-                        ToastUtils.showShort("onSuccess:" + response);
+//                        ToastUtils.showShort("onSuccess:" + response);
                         //第三方登录成功，保存userId和token，判断是否是第一次登录
                         try {
                             JSONObject jsonObject = new JSONObject(response);

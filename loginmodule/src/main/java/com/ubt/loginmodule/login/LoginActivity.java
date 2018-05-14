@@ -85,6 +85,8 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     TextView tvFacebook;
     @BindView(R2.id.iv_twitter)
     ImageView ivTwitter;
+    @BindView(R2.id.iv_ins)
+    ImageView ivIns;
 
 
     private boolean showPassword = false;
@@ -241,7 +243,7 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
         }));
     }
 
-    @OnClick({R2.id.tv_register, R2.id.btn_login, R2.id.tv_forgot_password, R2.id.iv_clear_account, R2.id.iv_clear_password, R2.id.iv_show_password, R2.id.cl_root})
+    @OnClick({R2.id.tv_register, R2.id.btn_login, R2.id.tv_forgot_password, R2.id.iv_clear_account, R2.id.iv_clear_password, R2.id.iv_show_password, R2.id.cl_root, R2.id.iv_ins})
     public void onClickView(View view){
         int i = view.getId();
         if (i == R.id.tv_register) {
@@ -279,6 +281,8 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
             if(imm.isActive() ){
                 imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
+        }else if(i == R.id.iv_ins){
+            ToastUtils.showShort("coming soon");
         }
 
     }
