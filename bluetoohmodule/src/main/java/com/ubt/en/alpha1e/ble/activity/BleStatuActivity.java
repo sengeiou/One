@@ -95,6 +95,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     private int fromeType;
 
+    private String wifiName;
+
     @Override
     public int getContentViewId() {
         return R.layout.ble_activity_ble_statu;
@@ -124,7 +126,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         } else if (i == R.id.ble_statu_connect) {
             mPresenter.checkBlestatu();
         } else if (i == R.id.tv_wifi_select) {
-            BleSearchWifiActivity.launch(this, false);
+            BleSearchWifiActivity.launch(this, false, wifiName);
 
         } else if (i == R.id.ble_tv_connect) {
             String s = String.format(getResources().getString(R.string.ble_about_robot_disconnect_dialogue), mTvBleName.getText());
@@ -176,6 +178,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     @Override
     public void setRobotNetWork(BleNetWork bleNetWork) {
         if (bleNetWork.isStatu()) {
+            wifiName = bleNetWork.getWifiName();
             mTvWifiSelect.setText(bleNetWork.getWifiName());
             mTvRobotIp.setText(bleNetWork.getIp());
             mIvNotconnectWifi.setVisibility(View.GONE);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
@@ -298,11 +299,11 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
         boolean saveResult;
 
-        final String BASIC_UBX_SYS = "http://10.10.1.14:8080/alpha1e/"; //测试环境
+        //  final String BASIC_UBX_SYS = "http://10.10.1.14:8080/alpha1e/"; //测试环境
         /**
          * 保存动作
          */
-        final String SAVE_ACTION = BASIC_UBX_SYS + "original/upload";
+        final String SAVE_ACTION = BaseHttpEntity.BASIC_UBX_SYS + "alpha1e/original/upload";
 
         String requestKey = Md5.getMD5(TimeTools.getTimeVal()
                 + "UBTech832%1293*6", 32);
@@ -340,6 +341,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
         // String url = HttpAddress.getRequestUrl(HttpEntity.SAVE_ACTION);
         originActionId = newActionInfo.actionOriginalId;
         ViseLog.d("maptojson", new Gson().toJson(params));
+        Log.d("saveAction", "SAVE_ACTION==="+SAVE_ACTION+"   maptojson===" + new Gson().toJson(params));
         OkHttpUtils.post()//
                 .addFile("mFile1", file.getName(), file)//
                 .addFile("mFile2", imageFile.getName(), imageFile)
@@ -358,6 +360,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
                     @Override
                     public void onResponse(String s, int i) {
                         ViseLog.d("onResponse:" + s);
+                        Log.d("saveAction", "response===" + s);
                         try {
                             JSONObject json = new JSONObject(s);
                             if ((Boolean) json.get("status")) {

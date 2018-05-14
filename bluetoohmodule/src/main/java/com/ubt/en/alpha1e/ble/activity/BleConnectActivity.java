@@ -186,7 +186,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
             @Override
             public void run() {
                 if (isFromFirst) {
-                    BleSearchWifiActivity.launch(BleConnectActivity.this, isFromFirst);
+                    BleSearchWifiActivity.launch(BleConnectActivity.this, isFromFirst,"");
                     finish();
                 } else {
                     finish();

@@ -4,16 +4,17 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.LocalActionRecord;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.en.alpha1e.action.contact.CourseContract;
 import com.ubt.en.alpha1e.action.model.request.ActionHttpEntity;
 import com.ubt.en.alpha1e.action.model.request.SaveCourseProQuest;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
-import com.vise.xsnow.http.request.PostRequest;
 
 import org.litepal.crud.DataSupport;
 
@@ -76,9 +77,9 @@ public class CoursePrenster extends BasePresenterImpl<CourseContract.View> imple
         proQequest.setProgressTwo(courseTwo);
         proQequest.setType(2);
         proQequest.setUserId(BaseHttpEntity.getUserId());
-        proQequest.setToken("5556778888");
-        ViseHttp.BASE(new PostRequest(ActionHttpEntity.SAVE_COURSE_PROGRESS)
-                .setJson(GsonImpl.get().toJson(proQequest)))
+        proQequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
+        ViseHttp.POST(ActionHttpEntity.SAVE_COURSE_PROGRESS)
+                .setJson(GsonImpl.get().toJson(proQequest))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {

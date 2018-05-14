@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.ubt.baselib.R;
+import com.vise.log.ViseLog;
 
 /**
  * @author：liuhai
@@ -50,6 +51,8 @@ public class PressImageView extends ImageView {
         Drawable src_s = a.getDrawable(R.styleable.PressImageView_src_press);
 
         a.recycle();//注意回收
+
+        ViseLog.d("srcn==="+src_n+"   src_s=="+src_s);
 
         setImageDrawable(createDrawable(src_s, src_n));
 

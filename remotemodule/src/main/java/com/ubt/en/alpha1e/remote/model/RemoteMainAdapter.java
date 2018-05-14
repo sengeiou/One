@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.ubt.en.alpha1e.action.R;
+import com.ubt.en.alpha1e.remote.R;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class RemoteMainAdapter extends BaseQuickAdapter<RemoteRoleInfo, BaseView
         TextView tvName = helper.getView(R.id.tv_remote_name);
         ivRemote.setImageResource(item.getRoleIcon());
         if (item.getBz() == 1) {
-            ivRemote.setAlpha(0.7f);
+            ivRemote.setAlpha(0.5f);
             ivLock.setVisibility(View.VISIBLE);
             tvName.setTextColor(mContext.getResources().getColorStateList(R.color.base_tv_ble_gray));
         } else {

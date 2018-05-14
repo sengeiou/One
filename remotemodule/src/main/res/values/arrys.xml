@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="remote_footerball">
+        <item>Forward.hts</item>
+        <item>Leftward.hts</item>
+        <item>Rightward.hts</item>
+        <item>Backward.hts</item>
+        <item>TurnLeft.hts </item>
+        <item>TurnRight.hts</item>
+        <item>Left slide tackle.hts</item>
+        <item>Right slide tackle.hts</item>
+        <item>Shoot right.hts</item>
+        <item>Shoot left.hts</item>
+        <item>Fall backward rise.hts</item>
+        <item>Fall forward rise.hts </item>
+    </string-array>
+</resources>
