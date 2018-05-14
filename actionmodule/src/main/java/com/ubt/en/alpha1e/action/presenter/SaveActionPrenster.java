@@ -302,7 +302,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
         /**
          * 保存动作
          */
-        final String SAVE_ACTION = BASIC_UBX_SYS + "original/upload";
+        final String SAVE_ACTION = BaseHttpEntity.BASIC_UBX_SYS + "alpha1e/original/upload";
 
         String requestKey = Md5.getMD5(TimeTools.getTimeVal()
                 + "UBTech832%1293*6", 32);

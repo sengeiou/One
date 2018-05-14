@@ -5,10 +5,12 @@ import android.content.Context;
 
 import com.google.gson.reflect.TypeToken;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.model1E.LocalActionRecord;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.contact.ActionCourseContact;
 import com.ubt.en.alpha1e.action.model.ActionCourseModel;
@@ -144,7 +146,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         SaveCourseProQuest proQequest = new SaveCourseProQuest();
         proQequest.setType(2);
         proQequest.setUserId(BaseHttpEntity.getUserId());
-        proQequest.setToken("5556778888");
+        proQequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
 
         LocalActionRecord record = DataSupport.findFirst(LocalActionRecord.class);
         //本地没有记录，说明之前没用过，则根据后台返回保存本地记录
@@ -208,7 +210,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         SaveCourseStatuRequest statuRequest = new SaveCourseStatuRequest();
         statuRequest.setType(2);
         statuRequest.setUserId(BaseHttpEntity.getUserId());
-        statuRequest.setToken("5556778888");
+        statuRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         ViseHttp.BASE(new PostRequest(ActionHttpEntity.BASE_GET_ALL_SCORE)
                 .setJson(GsonImpl.get().toJson(statuRequest)))
                 .request(new ACallback<String>() {
@@ -282,7 +284,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         proQequest.setCourseTwo(progressOne);
         proQequest.setType(2);
         proQequest.setUserId(BaseHttpEntity.getUserId());
-        proQequest.setToken("5556778888");
+        proQequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         ViseHttp.BASE(new PostRequest(ActionHttpEntity.SAVE_COURSE_PROGRESS)
                 .setJson(GsonImpl.get().toJson(proQequest)))
                 .request(new ACallback<String>() {
@@ -316,7 +318,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         statuRequest.setCourse(course);
         statuRequest.setStatus(statu);
         statuRequest.setUserId(BaseHttpEntity.getUserId());
-        statuRequest.setToken("5556778888");
+        statuRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         ViseHttp.BASE(new PostRequest(ActionHttpEntity.COURSE_SAVE_STATU)
                 .setJson(GsonImpl.get().toJson(statuRequest)))
                 .request(new ACallback<String>() {
