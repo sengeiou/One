@@ -15,7 +15,6 @@ import com.ubt.en.alpha1e.action.model.request.SaveCourseProQuest;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
-import com.vise.xsnow.http.request.PostRequest;
 
 import org.litepal.crud.DataSupport;
 
@@ -79,8 +78,8 @@ public class CoursePrenster extends BasePresenterImpl<CourseContract.View> imple
         proQequest.setType(2);
         proQequest.setUserId(BaseHttpEntity.getUserId());
         proQequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
-        ViseHttp.BASE(new PostRequest(ActionHttpEntity.SAVE_COURSE_PROGRESS)
-                .setJson(GsonImpl.get().toJson(proQequest)))
+        ViseHttp.POST(ActionHttpEntity.SAVE_COURSE_PROGRESS)
+                .setJson(GsonImpl.get().toJson(proQequest))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {

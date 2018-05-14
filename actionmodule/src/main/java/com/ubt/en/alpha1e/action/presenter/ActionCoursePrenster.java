@@ -22,7 +22,6 @@ import com.ubt.en.alpha1e.action.model.request.SaveCourseStatuRequest;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
-import com.vise.xsnow.http.request.PostRequest;
 
 import org.litepal.crud.DataSupport;
 
@@ -160,8 +159,8 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
             record1.save();
         }
 
-        ViseHttp.BASE(new PostRequest(ActionHttpEntity.BASE_GET_LAST_PROGRESS)
-                .setJson(GsonImpl.get().toJson(proQequest)))
+        ViseHttp.POST(ActionHttpEntity.BASE_GET_LAST_PROGRESS)
+                .setJson(GsonImpl.get().toJson(proQequest))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
@@ -211,8 +210,8 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         statuRequest.setType(2);
         statuRequest.setUserId(BaseHttpEntity.getUserId());
         statuRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
-        ViseHttp.BASE(new PostRequest(ActionHttpEntity.BASE_GET_ALL_SCORE)
-                .setJson(GsonImpl.get().toJson(statuRequest)))
+        ViseHttp.POST(ActionHttpEntity.BASE_GET_ALL_SCORE)
+                .setJson(GsonImpl.get().toJson(statuRequest))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
@@ -285,8 +284,8 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         proQequest.setType(2);
         proQequest.setUserId(BaseHttpEntity.getUserId());
         proQequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
-        ViseHttp.BASE(new PostRequest(ActionHttpEntity.SAVE_COURSE_PROGRESS)
-                .setJson(GsonImpl.get().toJson(proQequest)))
+        ViseHttp.POST(ActionHttpEntity.SAVE_COURSE_PROGRESS)
+                .setJson(GsonImpl.get().toJson(proQequest))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
@@ -319,8 +318,8 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         statuRequest.setStatus(statu);
         statuRequest.setUserId(BaseHttpEntity.getUserId());
         statuRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
-        ViseHttp.BASE(new PostRequest(ActionHttpEntity.COURSE_SAVE_STATU)
-                .setJson(GsonImpl.get().toJson(statuRequest)))
+        ViseHttp.POST(ActionHttpEntity.COURSE_SAVE_STATU)
+                .setJson(GsonImpl.get().toJson(statuRequest))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
