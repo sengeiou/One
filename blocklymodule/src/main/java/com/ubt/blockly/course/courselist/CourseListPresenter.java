@@ -39,7 +39,7 @@ public class CourseListPresenter extends BasePresenterImpl<CourseListContract.Vi
         final BaseRequest request = new BaseRequest();
         UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         request.setUserId(userInfoModel.getUserId());
-        request.setToken("5556778888");
+        request.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         ViseHttp.BASE(new PostRequest(BlockHttpEntity.BLOCKLY_COURSE_LIST)
                 .setJson(GsonImpl.get().toJson(request)))
                 .request(new ACallback<String>() {
