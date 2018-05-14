@@ -6,7 +6,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdActionDoDefault;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
-import com.ubt.en.alpha1e.action.R;
+import com.ubt.en.alpha1e.remote.R;
 import com.ubt.en.alpha1e.remote.contract.RemoteMainContact;
 import com.ubt.en.alpha1e.remote.model.RemoteRoleInfo;
 

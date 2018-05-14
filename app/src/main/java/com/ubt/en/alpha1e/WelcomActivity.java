@@ -189,7 +189,7 @@ public class WelcomActivity extends AppCompatActivity {
                 ARouter.getInstance().build(ModuleUtils.Login_Register)
                         .withBoolean(Constant1E.EMPTY_SEX,true)
                         .navigation(WelcomActivity.this,navigationCallback);
-            }else if(userInfoModel.getBirthDay() == null){
+            }else if(userInfoModel.getBirthDate() == null){
                 ARouter.getInstance().build(ModuleUtils.Login_Register)
                         .withBoolean(Constant1E.EMPTY_BIRTHDAY,true)
                         .navigation(WelcomActivity.this,navigationCallback);

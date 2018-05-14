@@ -4,6 +4,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,8 +25,14 @@ import java.util.List;
 
 public class WifiListAdapter extends BaseQuickAdapter<ScanResult, BaseViewHolder> {
 
+    private String selectedWifiName;
+
     public WifiListAdapter(@LayoutRes int layoutResId, @Nullable List<ScanResult> data) {
         super(layoutResId, data);
+    }
+
+    public void setSelectedWifiName(String selectedWifiName) {
+        this.selectedWifiName = selectedWifiName;
     }
 
     @Override
@@ -32,6 +40,7 @@ public class WifiListAdapter extends BaseQuickAdapter<ScanResult, BaseViewHolder
         helper.setText(R.id.tv_wifi_name, wifiInfo.SSID);
         ImageView ivSign = helper.getView(R.id.iv_wifi_sign);
 
+        ImageView ivSelected = helper.getView(R.id.iv_wifi_selected);
         //处理WIFI信号图片
         int strength = WifiManager.calculateSignalLevel(wifiInfo.level, 4);
         //处理是否有密码
@@ -41,6 +50,12 @@ public class WifiListAdapter extends BaseQuickAdapter<ScanResult, BaseViewHolder
         } else {
             ivSign.setImageResource(R.drawable.ble_wifi_sign);
             ivSign.setImageLevel(strength);
+        }
+
+        if (!TextUtils.isEmpty(selectedWifiName) && selectedWifiName.equals(wifiInfo.SSID)) {
+            ivSelected.setVisibility(View.VISIBLE);
+        } else {
+            ivSelected.setVisibility(View.GONE);
         }
     }
 }

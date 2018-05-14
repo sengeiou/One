@@ -5,7 +5,7 @@ import android.app.Application;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.ConfigureBaseLib;
 
-import static com.ubt.en.alpha1e.action.BuildConfig.DEBUG;
+import static com.ubt.en.alpha1e.remote.BuildConfig.DEBUG;
 
 
 /**

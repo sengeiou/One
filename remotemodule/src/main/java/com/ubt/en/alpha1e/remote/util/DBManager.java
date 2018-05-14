@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author：liuhai
@@ -33,6 +35,11 @@ public class DBManager {
         FOOTBALL_PLAYER, DANCER, FIGHTER, CUSTOM
     }
 
+
+
+
+
+
     //数据库的名称
     private String DB_NAME = "UbtLogs_20160506001";
 
@@ -50,7 +57,7 @@ public class DBManager {
         db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME,
                 null, SQLiteDatabase.OPEN_READWRITE);
         //   DataSupport.saveAll(dbHelper.getPDQuestion());//把查到的数据保存到LitePal中，方便使用查询
-        getRemoteInfoByModel(ModelType.FOOTBALL_PLAYER, false, "1");
+        //getRemoteInfoByModel(ModelType.FOOTBALL_PLAYER, false, "1");
     }
 
 
@@ -83,7 +90,7 @@ public class DBManager {
     }
 
 
-    public RemoteInfo getRemoteInfoByModel(ModelType modelType, boolean isCN, String model) {
+    public List<RemoteItem> getRemoteInfoByModel(ModelType modelType, boolean isCN, String model) {
 
         String str_get = "select log_btn_index,action_name,#,action_image_name from remote_info_logs left join remote_action_list on remote_info_logs.log_action_index = remote_action_list.action_index where log_model_index = $;";
         String _country = isCN ? "action_name_ch" : "action_name_en";
@@ -97,21 +104,30 @@ public class DBManager {
         str_get = str_get.replace("#", _country);
         str_get = str_get.replace("$", _model);
         RemoteInfo info = new RemoteInfo();
+        List<RemoteItem> remoteItemList = new ArrayList<>();
+        remoteItemList.clear();
         Cursor cursor = db.rawQuery(str_get, null);
         try {
             while (cursor.moveToNext()) {
                 int btn_index = cursor.getInt(cursor.getColumnIndex("log_btn_index"));
-                RemoteItem item = getItemByIndex(btn_index, info);
-                item.hts_name = cursor.getString(cursor.getColumnIndex("action_name"));
-                item.image_name = cursor.getString(cursor.getColumnIndex("action_image_name"));
-                item.show_name = cursor.getString(cursor.getColumnIndex(_country));
+                // RemoteItem item = getItemByIndex(btn_index, info);
+                RemoteItem item = new RemoteItem();
+                item.setHts_name(cursor.getString(cursor.getColumnIndex("action_name")));
+                item.setImage_name(cursor.getString(cursor.getColumnIndex("action_image_name")));
+                item.setShow_name(cursor.getString(cursor.getColumnIndex(_country)));
+                remoteItemList.add(item);
+//                item.hts_name = cursor.getString(cursor.getColumnIndex("action_name"));
+//                item.image_name = cursor.getString(cursor.getColumnIndex("action_image_name"));
+//                item.show_name = cursor.getString(cursor.getColumnIndex(_country));
+
                 ViseLog.d(item.toString());
                 //UbtLog.d(TAG,"更新遥控动作item.hts_name="+item.hts_name+"   item.image_name="+item.image_name+"  show_name="+item.show_name+"   btn_index="+btn_index);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            remoteItemList = null;
         }
-        return info;
+        return remoteItemList;
     }
 
     private int getModelIndex(ModelType type) {

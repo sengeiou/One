@@ -101,5 +101,5 @@ dependencies {
     implementation project(':loginmodule')
     implementation project(':actionmodule')
     implementation project(':blocklymodule')
-
+    implementation project(':remotemodule')
 }

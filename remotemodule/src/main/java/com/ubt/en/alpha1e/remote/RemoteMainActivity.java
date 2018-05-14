@@ -10,11 +10,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.SPUtils;
-import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.remote.contract.RemoteMainContact;
 import com.ubt.en.alpha1e.remote.model.RemoteMainAdapter;
 import com.ubt.en.alpha1e.remote.presenster.RemoteMainPrenster;
@@ -22,6 +23,9 @@ import com.ubt.en.alpha1e.remote.presenster.RemoteMainPrenster;
 /**
  * 遥控器列表页面
  */
+
+@Route(path = ModuleUtils.Joystick_ActionProgram)
+
 public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, RemoteMainPrenster> implements RemoteMainContact.View, View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
     private ImageView imgBack;
@@ -81,14 +85,14 @@ public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.remote_iv_back:
-                finish();
-                break;
-            case R.id.iv_close_publish:
-                rlTip.setVisibility(View.GONE);
-                SPUtils.getInstance().put(Constant1E.REMOTE_SHOW_TIP, false);
-                break;
+        int i = v.getId();
+        if (i == R.id.remote_iv_back) {
+            finish();
+
+        } else if (i == R.id.iv_close_publish) {
+            rlTip.setVisibility(View.GONE);
+            SPUtils.getInstance().put(Constant1E.REMOTE_SHOW_TIP, false);
+
         }
     }
 

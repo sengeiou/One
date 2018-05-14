@@ -17,22 +17,22 @@ public class ActionHttpEntity extends BaseHttpEntity {
     /**
      * 获取最新进度
      */
-    public static String BASE_GET_LAST_PROGRESS = BASE_ACTION_URL + "course/getCourseProgress";
+    public static String BASE_GET_LAST_PROGRESS = "course/getCourseProgress";
 
 
     /**
      * 获取所有上传分数
      */
-    public static String BASE_GET_ALL_SCORE = BASE_ACTION_URL + "course/getCourseStatus";
+    public static String BASE_GET_ALL_SCORE ="course/getCourseStatus";
 
 
     /**
      * 保存课程最新进度
      */
-    public static final String SAVE_COURSE_PROGRESS = BASE_ACTION_URL + "course/addCourseProgress";
+    public static final String SAVE_COURSE_PROGRESS =  "course/addCourseProgress";
 
     /**
      * 保存关卡分数
      */
-    public static final String COURSE_SAVE_STATU = BASE_ACTION_URL + "course/addCourseStatus";
+    public static final String COURSE_SAVE_STATU =  "course/addCourseStatus";
 }
