@@ -194,4 +194,8 @@
 
     <string name="action_course_card3_1_all">这是音乐库,里面有很多好听的音乐。进入这里,可以把这些音乐添加到时间轴上,让阿尔法的动作有音乐相伴,更生动有趣。</string>
     <string name="action_ui_course_principle_exit_tip">课程未完成，是否退出？</string>
+
+    <string name="action_empty_no_dynamiaction">你目前没有任何原创动作</string>
+    <string name="action_retry_get"><b>点击重试</b></string>
+
 </resources>

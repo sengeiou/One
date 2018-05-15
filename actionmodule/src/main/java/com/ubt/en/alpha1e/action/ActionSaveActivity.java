@@ -339,6 +339,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         mCurrentAction.actionName = mEdtName.getText().toString().replace("\n", "");
         mCurrentAction.actionSonType = selectModel.getActionType();
         mCurrentAction.actionType = selectModel.getActionType();
+        mCurrentAction.actionTime =  mCurrentAction.getTitleTime()/1000;
         BaseLoadingDialog.show(this);
         mPresenter.saveNewAction(selectModel, mCurrentAction, musicDir);
     }

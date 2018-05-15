@@ -3,9 +3,9 @@ package com.ubt.en.alpha1e.ble.Contact;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
+import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
-import com.ubt.en.alpha1e.ble.model.BleNetWork;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 
 /**

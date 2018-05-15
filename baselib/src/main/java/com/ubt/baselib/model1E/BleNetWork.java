@@ -1,4 +1,4 @@
-package com.ubt.en.alpha1e.ble.model;
+package com.ubt.baselib.model1E;
 
 /**
  * @author：liuhai

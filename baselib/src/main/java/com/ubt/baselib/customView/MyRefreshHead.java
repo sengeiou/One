@@ -59,12 +59,12 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class MyRefreshHead extends RelativeLayout implements RefreshHeader {
 
-    public static String REFRESH_HEADER_PULLDOWN = "刷新";
-    public static String REFRESH_HEADER_REFRESHING = "刷新";
-    public static String REFRESH_HEADER_LOADING = "刷新";
-    public static String REFRESH_HEADER_RELEASE = "刷新";
-    public static String REFRESH_HEADER_FINISH = "刷新";
-    public static String REFRESH_HEADER_FAILED = "刷新";
+    public static String REFRESH_HEADER_PULLDOWN = "";
+    public static String REFRESH_HEADER_REFRESHING = "";
+    public static String REFRESH_HEADER_LOADING = "";
+    public static String REFRESH_HEADER_RELEASE = "";
+    public static String REFRESH_HEADER_FINISH = "";
+    public static String REFRESH_HEADER_FAILED = "";
     public static String REFRESH_HEADER_LASTTIME = "上次更新 M-d HH:mm";
     public static String REFRESH_HEADER_SECOND_FLOOR = "释放进入二楼";
 //    public static String REFRESH_HEADER_LASTTIME = "'Last update' M-d HH:mm";
@@ -189,11 +189,12 @@ public class MyRefreshHead extends RelativeLayout implements RefreshHeader {
         if (ta.hasValue(R.styleable.ClassicsHeader_srlDrawableProgress)) {
             mProgressView.setImageDrawable(ta.getDrawable(R.styleable.ClassicsHeader_srlDrawableProgress));
         } else {
-            mProgressDrawable = new ProgressDrawable();
-            mProgressDrawable.setColor(context.getResources().getColor(R.color.tv_notice_title));
-            mProgressView.setImageDrawable(mProgressDrawable);
+//            mProgressDrawable = new ProgressDrawable();
+//            mProgressDrawable.setColor(context.getResources().getColor(R.color.tv_notice_title));
+//            mProgressView.setImageDrawable(mProgressDrawable);
+            //mProgressView.setImageResource(R.drawable.img_refresh_normal);
         }
-
+        mProgressView.setImageResource(R.drawable.img_refresh_normal);
         if (ta.hasValue(R.styleable.ClassicsHeader_srlTextSizeTitle)) {
             mTitleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, ta.getDimensionPixelSize(R.styleable.ClassicsHeader_srlTextSizeTitle, DensityUtil.dp2px(16)));
         } else {
