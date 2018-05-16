@@ -1,11 +1,9 @@
 package com.ubt.en.alpha1e.action;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,6 +24,8 @@ import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.BitmapUtil;
 import com.ubt.baselib.utils.FileUtils;
+import com.ubt.baselib.utils.LQRPhotoSelectUtils;
+import com.ubt.baselib.utils.PermissionUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.action.adapter.SelectGridAdapter;
 import com.ubt.en.alpha1e.action.contact.SaveActionContact;
@@ -89,7 +89,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     private String musicDir = "";
     public static String MUSIC_DIR = "music_dir";
     private Uri mImageUri;
-
+    File tempFile;
     /**
      * 拍照获取照片
      */
@@ -98,6 +98,8 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
      * 相册获取
      */
     public static final int GetUserHeadRequestCodeByFile = 1002;
+
+    LQRPhotoSelectUtils mLqrPhotoSelectUtils;
 
     @Override
     public int getContentViewId() {
@@ -126,6 +128,22 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         mSelectGridAdapter.setOnItemClickListener(this);
         selectModel = mPresenter.getTypeModelList().get(0);
         setLeftImageShow();
+        // 1、创建LQRPhotoSelectUtils（一个Activity对应一个LQRPhotoSelectUtils）
+        mLqrPhotoSelectUtils = new LQRPhotoSelectUtils(this, new LQRPhotoSelectUtils.PhotoSelectListener() {
+            @Override
+            public void onFinish(File outputFile, Uri outputUri) {
+//                // 4、当拍照或从图库选取图片成功后回调
+
+                Bitmap bitmap = null;
+                try {
+                    bitmap = FileUtils.getBitmapFormUri(ActionSaveActivity.this, outputUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mImgActionLogo.setImageBitmap(bitmap);
+                selectModel.setBitmap(bitmap);
+            }
+        }, false);//true裁剪，false不裁剪
     }
 
     @Override
@@ -202,17 +220,28 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     }
 
     public void getShootCamera() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String catchPath = FileUtils.getCacheDirectory(this, "");
-        // File path = new File(FileTools.image_cache);
-        File path = new File(catchPath + "/images");
-        if (!path.exists()) {
-            path.mkdirs();
-        }
-        mImageUri = Uri.fromFile(new File(path, System.currentTimeMillis() + ""));
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-        cameraIntent.putExtra("return-data", true);
-        startActivityForResult(cameraIntent, GetUserHeadRequestCodeByShoot);
+        PermissionUtils.getInstance().request(new PermissionUtils.PermissionLocationCallback() {
+            @Override
+            public void onSuccessful() {
+                mLqrPhotoSelectUtils.takePhoto();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onRationSetting() {
+
+            }
+
+            @Override
+            public void onCancelRationSetting() {
+
+            }
+        }, PermissionUtils.PermissionEnum.CAMERA, this);
+
     }
 
     /**
@@ -220,10 +249,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
      */
 
     public void takeImageFromAblum() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, GetUserHeadRequestCodeByFile);
+        mLqrPhotoSelectUtils.selectPhoto();
     }
 
 
@@ -238,40 +264,8 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
-        ViseLog.d("threadName==" + Thread.currentThread().getName());
-        if (requestCode == GetUserHeadRequestCodeByFile
-                || requestCode == GetUserHeadRequestCodeByShoot) {
-            if (resultCode == RESULT_OK) {
-                ContentResolver cr = this.getContentResolver();
-                if (requestCode == GetUserHeadRequestCodeByFile) {
-                    if (data == null) {
-                        return;
-                    }
-
-                    //android gao ban ben
-                    String h_type = cr.getType(data.getData());
-                    //android di ban ben
-                    String l_type = data.getType();
-                    ViseLog.d("h_type:" + h_type + "   l_type:" + l_type);
-                    if (h_type == null && l_type == null) {
-                        return;
-                    }
-                    mImageUri = data.getData();
-                }
-
-                try {
-                    Bitmap bitmap = FileUtils.getBitmapFormUri(this, mImageUri);
-                    mImgActionLogo.setImageBitmap(bitmap);
-                    selectModel.setBitmap(bitmap);
-                    //  headPath = FileUtils.SaveImage(this, "head", bitmap);
-                    ViseLog.d("ThreadName", "threadName==" + Thread.currentThread().getName());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
+        // 2、在Activity中的onActivityResult()方法里与LQRPhotoSelectUtils关联
+        mLqrPhotoSelectUtils.attachToActivityForResult(requestCode, resultCode, data);
     }
 
     /**
@@ -339,7 +333,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         mCurrentAction.actionName = mEdtName.getText().toString().replace("\n", "");
         mCurrentAction.actionSonType = selectModel.getActionType();
         mCurrentAction.actionType = selectModel.getActionType();
-        mCurrentAction.actionTime =  mCurrentAction.getTitleTime()/1000;
+        mCurrentAction.actionTime = mCurrentAction.getTitleTime() / 1000;
         BaseLoadingDialog.show(this);
         mPresenter.saveNewAction(selectModel, mCurrentAction, musicDir);
     }
