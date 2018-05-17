@@ -1,5 +1,7 @@
 package com.ubt.en.alpha1e.remote;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +9,7 @@ import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -62,17 +65,26 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
 
 
     private List<View> mViewList = new ArrayList<>();
+    private int remoteType = 0;
 
     @Override
     public int getContentViewId() {
         return R.layout.remote_activity;
     }
 
+
+    public static void launch(Context context, int remoteType) {
+        Intent intent = new Intent(context, RemoteActivity.class);
+        intent.putExtra("remote_type", remoteType);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
-        mPresenter.init(this, 1);
+        remoteType = getIntent().getIntExtra("remote_type", 1);
+        mPresenter.init(this, remoteType);
         initView();
     }
 
@@ -103,12 +115,10 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
 
         mIvBottomRight.setOnLongClickListener(viewOnLongTouchListener);
         mIvCenterStop.setOnClickListener(controlListener);
-        mIvTop.setOnClickListener(controlListener);
-        mIvLeft.setOnClickListener(controlListener);
-        mIvRight.setOnClickListener(controlListener);
-        mIvBottom.setOnClickListener(controlListener);
-        mIvBottomLeft.setOnClickListener(controlListener);
-        mIvBottomRight.setOnClickListener(controlListener);
+//        mIvTop.setOnClickListener(controlListener);
+//        mIvLeft.setOnClickListener(controlListener);
+//        mIvRight.setOnClickListener(controlListener);
+//        mIvBottom.setOnClickListener(controlListener);
 
         GridLayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         mRemoteRecyleview.setLayoutManager(mLayoutManager);
@@ -127,6 +137,14 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
         mGridAdapter = new RemoteGridAdapter(R.layout.remote_item_grid, mPresenter.getRemoteItems().subList(6, mPresenter.getRemoteItems().size()));
         mRemoteRecyleview.setAdapter(mGridAdapter);
         mGridAdapter.setOnItemClickListener(this);
+        mRemoteIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.startOrStopRun((byte) 0x06);
+                handler.sendEmptyMessage(EXEC_STOP_ACTION);
+                RemoteActivity.this.finish();
+            }
+        });
     }
 
 
@@ -135,10 +153,11 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
         public boolean onTouch(View view, MotionEvent event) {
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                ViseLog.d("viewOnTouchListener===  ACTION_DOWN" + keepExec);
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
 
                 //松开stop
-
+                ViseLog.d("viewOnTouchListener  ACTION_UP===" + keepExec);
                 if (!keepExec) {
                     return false;
                 }
@@ -159,6 +178,7 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
             longClickItem = view;
             execActions(longClickItem);
             keepExec = true;
+            ViseLog.d("viewOnLongTouchListener===" + keepExec);
             return false;
         }
     };
@@ -194,6 +214,7 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
                 return;
             }
             lastClickTime = System.currentTimeMillis();
+            ViseLog.d("controlListener===" + keepExec);
             execActions(arg0);
         }
     };
@@ -226,8 +247,18 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
 
     @Override
     public void playFinish() {
+        ViseLog.d("playFinish===" + keepExec);
         if (keepExec) {
             execActions(longClickItem);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            mPresenter.startOrStopRun((byte) 0x06);
+            handler.sendEmptyMessage(EXEC_STOP_ACTION);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
