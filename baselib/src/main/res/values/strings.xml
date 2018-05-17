@@ -22,4 +22,5 @@
     <string name="base_setting">Setting</string>
     <string name="base_cancel">Cancel</string>
     <string name="base_save">Save</string>
+    <string name="base_network_error">Network error. Tap to load again.</string>
 </resources>

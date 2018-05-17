@@ -14,12 +14,19 @@ import android.widget.ImageView;
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.callback.NavigationCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.reflect.TypeToken;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
+import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.model1E.UserInfoModel;
+import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.loginmodule.LoginHttpEntity;
+import com.ubt.loginmodule.requestModel.GetUserInfoRequest;
 import com.vise.log.ViseLog;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -144,7 +151,11 @@ public class WelcomActivity extends AppCompatActivity {
                 case REQUEST_CODE_PERMISSION_MULTI:
                     ViseLog.d("申请权限 onSucceed requestCode="+requestCode+
                                                     "grantPermissions:"+grantPermissions);
-                    startMainActivity();
+                    if(SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO) != null){
+                        getUserInfo();  //同步用户信息参数
+                    }else {
+                        startMainActivity();
+                    }
                     break;
                 default:
                     break;
@@ -221,5 +232,44 @@ public class WelcomActivity extends AppCompatActivity {
         catch (NoSuchAlgorithmException e) {
 
         }
+    }
+
+
+    /**
+     * 获取用户信息
+     */
+    public void getUserInfo() {
+        GetUserInfoRequest getUserInfoRequest = new GetUserInfoRequest();
+        getUserInfoRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
+        getUserInfoRequest.setUserId(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID));
+
+        ViseHttp.POST(LoginHttpEntity.USER_GET_INFO).baseUrl(LoginHttpEntity.BASE_URL)
+                .setJson(GsonImpl.get().toJson(getUserInfoRequest))
+                .connectTimeOut(5)
+                .request(new ACallback<String>() {
+
+                    @Override
+                    public void onSuccess(String data) {
+                        ViseLog.d("USER_GET_INFO onSuccess:" + data);
+
+                        BaseResponseModel<UserInfoModel> baseResponseModel = GsonImpl.get().toObject(data,
+                                new TypeToken<BaseResponseModel<UserInfoModel>>() {
+                                }.getType());
+                        if(baseResponseModel.status){
+                            UserInfoModel userInfoModel =  baseResponseModel.models;
+                            ViseLog.d("userInfoModel:" + (userInfoModel==null));
+                            if(userInfoModel!= null){
+                              SPUtils.getInstance().saveObject(Constant1E.SP_USER_INFO,userInfoModel);
+                            }
+                        }
+                        startMainActivity();
+                    }
+
+                    @Override
+                    public void onFail(int code, String errmsg) {
+                        ViseLog.d("USER_GET_INFO onFail:"+ code + "  errmsg:" +  errmsg);
+                        startMainActivity();
+                    }
+                });
     }
 }
