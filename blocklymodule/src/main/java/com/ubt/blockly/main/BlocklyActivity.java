@@ -259,6 +259,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
     @Override
     public void playEmojiFinish() {
+        showEmoji = false;
         if(mWebView != null){
             ViseLog.d( "play sound or emoji finish!");
             mWebView.loadUrl("javascript:continueSteps()");
@@ -268,6 +269,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
     @Override
     public void playSoundFinish() {
+        playSoundAudio = false;
         if(mWebView != null){
             ViseLog.d( "play sound or emoji finish!");
             mWebView.loadUrl("javascript:continueSteps()");
@@ -403,12 +405,22 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
      * 显示表情
      * @param params
      */
+    private boolean showEmoji = false;
     public void showEmoji(String params) {
-        mPresenter.playEmoji(params);
+        if(!showEmoji){
+            showEmoji = true;
+            mPresenter.playEmoji(params);
+        }
+
     }
 
+    private boolean playSoundAudio = false;
     public void playSoundAudio(String params){
-        mPresenter.playSound(params);
+        if(!playSoundAudio){
+            playSoundAudio = true;
+            mPresenter.playSound(params);
+        }
+
     }
 
     public void doWalk(byte direct, byte speed, byte[] step) {

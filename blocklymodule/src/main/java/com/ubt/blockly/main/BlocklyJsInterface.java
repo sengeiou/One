@@ -218,7 +218,7 @@ public class BlocklyJsInterface {
     @JavascriptInterface
     public void showEmoji(String params) {
         //TODO 让机器人执行相应的表情动作
-        ViseLog.d(TAG, "showEmoji params=" + params);
+        ViseLog.d("showEmoji params=" + params);
         ((BlocklyActivity) mBaseActivity).showEmoji(params);
     }
 
@@ -228,7 +228,7 @@ public class BlocklyJsInterface {
 
     @JavascriptInterface
     public void playAudio(String params) {
-        ViseLog.d(TAG, "playAudio params=" + params);
+        ViseLog.d("playAudio params=" + params);
         ((BlocklyActivity) mBaseActivity).playSoundAudio(params);
     }
 
