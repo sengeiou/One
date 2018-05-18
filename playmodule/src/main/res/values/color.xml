@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_playlist_title">#1D3740</color>
+    <color name="text_blue_color">#3AABFE</color>
+    <color name="bg_rect_grey">#E2E2E2</color>
+</resources>

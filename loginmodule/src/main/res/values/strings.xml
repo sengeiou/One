@@ -31,7 +31,7 @@
     <string name="login_next">Next</string>
     <string name="login_finish">Finish</string>
     <string name="login_skip">Skip</string>
-    <string name="login_password_tip">密码长度最少6位(need translation)</string>
+    <string name="login_password_tip">Password must have a at least 6 characters.</string>
 
     <!-- fill in profile string -->
 
