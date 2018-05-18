@@ -10,6 +10,7 @@ import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.model1E.LocalActionRecord;
 import com.ubt.baselib.mvp.BasePresenterImpl;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.en.alpha1e.action.R;
@@ -57,8 +58,8 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
     private void initActionCourseData() {
         mActionCourseModels.clear();
         ActionCourseModel courseModel1 = new ActionCourseModel();
-        courseModel1.setActionCourcesName("第1关");
-        courseModel1.setTitle("第一关 了解动作编辑器");
+        courseModel1.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_1));
+        courseModel1.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_1_content));
         courseModel1.setActionLockType(1);
         courseModel1.setDrawableId(R.drawable.ic_action_level1);
         courseModel1.setSize(3);
@@ -66,72 +67,72 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel1);
 
         ActionCourseModel courseModel2 = new ActionCourseModel();
-        courseModel2.setActionCourcesName("第2关");
-        courseModel2.setTitle("第二关 学习动作库");
+        courseModel2.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_2));
+        courseModel2.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_2_content));
         courseModel2.setDrawableId(R.drawable.ic_action_level2);
         courseModel2.setActionLockType(0);
         courseModel2.setSize(3);
         mActionCourseModels.add(courseModel2);
 
         ActionCourseModel courseModel3 = new ActionCourseModel();
-        courseModel3.setActionCourcesName("第3关");
-        courseModel3.setTitle("第三关 学习音乐库");
+        courseModel3.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_3));
+        courseModel3.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_3_content));
         courseModel3.setDrawableId(R.drawable.ic_action_level3);
         courseModel3.setActionLockType(0);
         courseModel3.setSize(2);
         mActionCourseModels.add(courseModel3);
 
         ActionCourseModel courseModel4 = new ActionCourseModel();
-        courseModel4.setActionCourcesName("第4关");
-        courseModel4.setTitle("第四关 添加动作+音频");
+        courseModel4.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_4));
+        courseModel4.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_4_content));
         courseModel4.setDrawableId(R.drawable.ic_action_level4);
         courseModel4.setActionLockType(0);
         courseModel4.setSize(3);
         mActionCourseModels.add(courseModel4);
 
         ActionCourseModel courseModel5 = new ActionCourseModel();
-        courseModel5.setActionCourcesName("第5关");
-        courseModel5.setTitle("第五关 创建动作");
+        courseModel5.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_5));
+        courseModel5.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_5_content));
         courseModel5.setDrawableId(R.drawable.ic_action_level5);
         courseModel5.setActionLockType(0);
         courseModel5.setSize(3);
         mActionCourseModels.add(courseModel5);
 
         ActionCourseModel courseModel6 = new ActionCourseModel();
-        courseModel6.setActionCourcesName("第6关");
-        courseModel6.setTitle("第六关 创建音频");
+        courseModel6.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_6));
+        courseModel6.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_6_content));
         courseModel6.setDrawableId(R.drawable.ic_action_level6);
         courseModel6.setActionLockType(0);
         courseModel6.setSize(4);
         mActionCourseModels.add(courseModel6);
 
         ActionCourseModel courseModel7 = new ActionCourseModel();
-        courseModel7.setActionCourcesName("第7关");
-        courseModel7.setTitle("第七关 修改动作");
+        courseModel7.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_7));
+        courseModel7.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_7_content));
         courseModel7.setDrawableId(R.drawable.ic_action_level7);
         courseModel7.setActionLockType(0);
         courseModel7.setSize(2);
         mActionCourseModels.add(courseModel7);
 
         ActionCourseModel courseModel8 = new ActionCourseModel();
-        courseModel8.setActionCourcesName("第8关");
-        courseModel8.setTitle("第八关 连续动作");
+        courseModel8.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_8));
+        courseModel8.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_8_content));
         courseModel8.setDrawableId(R.drawable.ic_action_level8);
         courseModel8.setActionLockType(0);
         courseModel8.setSize(2);
         mActionCourseModels.add(courseModel8);
 
         ActionCourseModel courseModel9 = new ActionCourseModel();
-        courseModel9.setActionCourcesName("第9关");
-        courseModel9.setTitle("第九关 快速创建连续动作");
+        courseModel9.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_9));
+        courseModel9.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_9_content));
         courseModel9.setDrawableId(R.drawable.ic_action_level9);
         courseModel9.setActionLockType(0);
         courseModel9.setSize(2);
         mActionCourseModels.add(courseModel9);
 
         ActionCourseModel courseModel10 = new ActionCourseModel();
-        courseModel10.setActionCourcesName("第10关");
-        courseModel10.setTitle("第十关 自定义动作");
+        courseModel10.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.action_level_10));
+        courseModel10.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_10_content));
         courseModel10.setDrawableId(R.drawable.ic_action_level10);
         courseModel10.setActionLockType(0);
         courseModel10.setSize(1);

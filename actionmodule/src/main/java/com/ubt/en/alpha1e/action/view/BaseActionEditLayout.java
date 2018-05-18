@@ -2130,7 +2130,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         ivLegLeft.setSelected(false);
         ivLegRight.setSelected(false);
         ivAddFrame.setEnabled(false);
-        ivAddFrame.setImageResource(R.drawable.ic_addaction_enable);
+        ivAddFrame.setImageResource(R.drawable.ic_addaction_disable);
         ids.clear();
     }
 

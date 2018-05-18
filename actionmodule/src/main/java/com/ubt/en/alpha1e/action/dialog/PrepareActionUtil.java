@@ -58,7 +58,7 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
     public void showActionDialog(int type, OnDialogListener mDialogListener) {
         this.mDialogListener = mDialogListener;
         this.mType = type;
-        String title="";
+        String title = "";
         if (type == 1) {
             title = SkinManager.getInstance().getTextById(R.string.ui_create_basic_action);
             list = ActionConstant.getBasicActionList(mContext);
@@ -104,7 +104,7 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
                 list.get(i).setSelected(false);
             }
         }
-        tvConfirm.setTextColor(mContext.getResources().getColor(R.color.tv_user_edit_color));
+        tvConfirm.setTextColor(mContext.getResources().getColor(R.color.base_blue));
         tvConfirm.setEnabled(true);
         actionAdapter.notifyDataSetChanged();
         if (mType == 1 || mType == 2) {

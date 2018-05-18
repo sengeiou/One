@@ -203,26 +203,27 @@ public class AutoConnectPrenster implements IProtolPackListener {
             return;
         }
         if (device != null) {
-            boolean isNewDevice = true;
-            for (BleDevice bleDevice : mBleDevices) {
-                if (bleDevice.getMac().equals(device.getAddress())) {
-                    ViseLog.d("mac : " + device.getAddress() + "    isNewDevice = " + isNewDevice);
-                    isNewDevice = false;
-                    break;
-                }
-            }
-            if (isNewDevice) {
-                BleDevice bleDevice = new BleDevice();
-                bleDevice.setBleName(device.getName());
-                bleDevice.setMac(device.getAddress());
-                bleDevice.setStatu(0);
-                mBleDevices.add(bleDevice);
-            }
-            if (!isConnecting && mBleDevices.size() > 0) {
-                mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
-            }
+//            boolean isNewDevice = true;
+//            for (BleDevice bleDevice : mBleDevices) {
+//                if (bleDevice.getMac().equals(device.getAddress())) {
+//                    ViseLog.d("mac : " + device.getAddress() + "    isNewDevice = " + isNewDevice);
+//                    isNewDevice = false;
+//                    break;
+//                }
+//            }
+//            if (isNewDevice) {
+//                BleDevice bleDevice = new BleDevice();
+//                bleDevice.setBleName(device.getName());
+//                bleDevice.setMac(device.getAddress());
+//                bleDevice.setStatu(0);
+//                mBleDevices.add(bleDevice);
+//            }
+//            if (!isConnecting && mBleDevices.size() > 0) {
+//                mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
+//            }
             BleDevice bleDevice = DataSupport.findFirst(BleDevice.class);
             String mac = device.getAddress();
+            ViseLog.d("localrecord==="+bleDevice.getMac()+"   mac===="+mac);
             if (bleDevice != null && !TextUtils.isEmpty(mac)
                     && bleDevice.getMac().equals(mac)) {
                 connectBleDevice();

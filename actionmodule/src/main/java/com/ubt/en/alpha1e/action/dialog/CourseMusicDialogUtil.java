@@ -190,7 +190,7 @@ public class CourseMusicDialogUtil implements BaseQuickAdapter.OnItemClickListen
                         list.get(i).setPlaying(false);
                     }
                 }
-                tvConfirm.setTextColor(mContext.getResources().getColor(R.color.action_text_confirm_color));
+                tvConfirm.setTextColor(mContext.getResources().getColor(R.color.base_blue));
                 tvConfirm.setEnabled(true);
                 actionAdapter.notifyDataSetChanged();
             }

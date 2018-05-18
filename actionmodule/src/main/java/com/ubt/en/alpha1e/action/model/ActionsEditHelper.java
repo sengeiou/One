@@ -33,6 +33,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdPowerOff;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAllEngine;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSoundStopPlay;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSwitchEditStatus;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.ByteHexHelper;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
@@ -431,10 +432,13 @@ public class ActionsEditHelper implements IProtolPackListener {
     public void showNextDialog(Context context, int course, int level, final ClickListener clickListener) {
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_action_course_content, null);
         TextView title = contentView.findViewById(R.id.tv_card_name);
-        title.setText(getCourseDialogTitle(course));
+        title.setText(getCourseDialogTitleLevel(course));
+
+        TextView tvContent = contentView.findViewById(R.id.tv_card_content);
+        tvContent.setText(getCourseDialogTitle(course));
 
         Button button = contentView.findViewById(R.id.btn_pos);
-        button.setText("下一节");
+        button.setText(SkinManager.getInstance().getTextById(R.string.action_next));
 
         RecyclerView mrecyle = contentView.findViewById(R.id.recyleview_content);
         mrecyle.setLayoutManager(new LinearLayoutManager(context));
@@ -445,8 +449,8 @@ public class ActionsEditHelper implements IProtolPackListener {
         ViewHolder viewHolder = new ViewHolder(contentView);
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
-        int screenHeight = (int) (display.getHeight() * 0.6);
-        int screenWidth = (int) (display.getWidth() * 0.6);
+        int screenHeight = (int) (display.getHeight() * 0.7);
+        int screenWidth = (int) (display.getWidth() * 0.7);
         int width = Math.max(screenWidth, screenHeight); //设置宽度
 
         DialogPlus.newDialog(context)
@@ -476,25 +480,51 @@ public class ActionsEditHelper implements IProtolPackListener {
     public static String getCourseDialogTitle(int course) {
         String title = "";
         if (course == 1) {
-            title = "第一关 了解动作编辑器";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_1_content);
         } else if (course == 2) {
-            title = "第二关 学习动作库";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_2_content);
         } else if (course == 3) {
-            title = "第三关 了解音乐库";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_3_content);
         } else if (course == 4) {
-            title = "第四关 添加动作＋音频";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_4_content);
         } else if (course == 5) {
-            title = "第五关 创建动作";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_5_content);
         } else if (course == 6) {
-            title = "第六关 创建音频";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_6_content);
         } else if (course == 7) {
-            title = "第七关 修改动作";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_7_content);
         } else if (course == 8) {
-            title = "第八关 连续动作";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_8_content);
         } else if (course == 9) {
-            title = "第九关 快速创建连续动作";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_9_content);
         } else if (course == 10) {
-            title = "第十关 自定义动作";
+            title = SkinManager.getInstance().getTextById(R.string.action_level_10_content);
+        }
+        return title;
+    }
+
+    public static String getCourseDialogTitleLevel(int course) {
+        String title = "";
+        if (course == 1) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_1);
+        } else if (course == 2) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_2);
+        } else if (course == 3) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_3);
+        } else if (course == 4) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_4);
+        } else if (course == 5) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_5);
+        } else if (course == 6) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_6);
+        } else if (course == 7) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_7);
+        } else if (course == 8) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_8);
+        } else if (course == 9) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_9);
+        } else if (course == 10) {
+            title = SkinManager.getInstance().getTextById(R.string.action_level_10);
         }
         return title;
     }

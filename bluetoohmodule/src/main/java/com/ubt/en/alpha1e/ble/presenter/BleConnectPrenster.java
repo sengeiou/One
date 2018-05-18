@@ -173,8 +173,9 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 if (mView != null) {
                     mView.connectSuccess();
                 }
-                boolean isExist = DataSupport.isExist(BleDevice.class, "mac=?", mCurrentBleDevice.getMac());
-                if (!isExist) {
+                //boolean isExist = DataSupport.isExist(BleDevice.class, "mac=?", mCurrentBleDevice.getMac());
+                if (mCurrentBleDevice != null) {
+                    DataSupport.deleteAll(BleDevice.class);
                     mCurrentBleDevice.save();
                 }
 
@@ -220,7 +221,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
-                 break;
+                break;
             default:
 
                 break;

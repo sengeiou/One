@@ -7,6 +7,30 @@
     <string name="actions_my_works">My works</string>
     <string name="actions_download">Download</string>
     <string name="actions_courses">How to make?</string>
+    <string name="action_next">Next</string>
+    <string name="action_level_1">Lesson 1</string>
+    <string name="action_level_2">Lesson 2</string>
+    <string name="action_level_3">Lesson 3</string>
+    <string name="action_level_4">Lesson 4</string>
+    <string name="action_level_5">Lesson 5</string>
+    <string name="action_level_6">Lesson 6</string>
+    <string name="action_level_7">Lesson 7</string>
+    <string name="action_level_8">Lesson 8</string>
+    <string name="action_level_9">Lesson 9</string>
+    <string name="action_level_10">Lesson 10</string>
+
+
+    <string name="action_level_1_content">第一关 了解动作编辑器</string>
+    <string name="action_level_2_content">第二关 学习动作库</string>
+    <string name="action_level_3_content">第三关 学习音乐库</string>
+    <string name="action_level_4_content">第四关 添加动作+音频</string>
+    <string name="action_level_5_content">第五关 创建动作</string>
+    <string name="action_level_6_content">第六关 创建音频</string>
+    <string name="action_level_7_content">第七关 修改动作</string>
+    <string name="action_level_8_content">第八关 连续动作</string>
+    <string name="action_level_9_content">第九关 快速创建连续动作</string>
+    <string name="action_level_10_content">第十关 自定义动作</string>
+
 
     <string name="action_ui_recording_txt">动作记录中...</string>
     <string name="ui_readback_play" tools:ignore="ResourceName">播放</string>
@@ -38,8 +62,8 @@
     <string name="ui_create_auto_record" tools:ignore="ResourceName">自动记录动作</string>
     <string name="ui_create_auto_record_tips" tools:ignore="ResourceName">开启自动模式后，机器人的运行轨迹将记录到创作中（每隔200ms），点击“开始”后可以自由调节机器人动作</string>
     <string name="ui_create_guide_add" tools:ignore="ResourceName">调节好动作后，点击这里停止记录</string>
-    <string name="ui_create_start" tools:ignore="ResourceName">开始</string>
-    <string name="ui_create_preview_action" tools:ignore="ResourceName">预览动作</string>
+    <string name="ui_create_start" tools:ignore="ResourceName">Start</string>
+    <string name="ui_create_preview_action" tools:ignore="ResourceName">Preview</string>
     <string name="ui_create_basic_action" tools:ignore="ResourceName">基础动作</string>
     <string name="ui_create_add" tools:ignore="ResourceName">添加</string>
     <string name="ui_create_music" tools:ignore="ResourceName">音频</string>
@@ -90,7 +114,7 @@
     <string name="action_ui_common_edit">编辑</string>
     <string name="action_ui_common_save">保存</string>
     <string name="action_ui_common_confirm">确定</string>
-    <string name="ui_common_add" tools:ignore="ResourceName">添加</string>
+    <string name="ui_common_add" tools:ignore="ResourceName">add</string>
     <string name="action_ui_bluetooth_hint">提示</string>
     <string name="action_ui_readback_not_null">动作序列不可为空</string>
     <string name="action_ui_readback_quit_tip">当前动作未保存，是否退出？</string>
@@ -198,4 +222,42 @@
     <string name="action_empty_no_dynamiaction">你目前没有任何原创动作</string>
     <string name="action_retry_get"><b>点击重试</b></string>
 
+
+    <string name="action_level_1_content_1">1.认识时间轴</string>
+    <string name="action_level_1_content_2">2.了解添加键</string>
+    <string name="action_level_1_content_3">3.了解播放键</string>
+
+    <string name="action_level_2_content_1">1.了解动作库</string>
+    <string name="action_level_2_content_2">2.初级动作库</string>
+    <string name="action_level_2_content_3">3.高级动作库</string>
+
+
+    <string name="action_level_3_content_1">1.了解音乐库</string>
+    <string name="action_level_3_content_2">2.添加音频</string>
+
+
+    <string name="action_level_4_content_1">1.添加舞蹈动作</string>
+    <string name="action_level_4_content_2">2.添加london音频</string>
+    <string name="action_level_4_content_3">3.预览执行</string>
+
+    <string name="action_level_5_content_1">1.模板讲解</string>
+    <string name="action_level_5_content_2">2.创建指定动作—踢腿</string>
+    <string name="action_level_5_content_3">3.保存动作</string>
+
+
+    <string name="action_level_6_content_1">1.模板讲解</string>
+    <string name="action_level_6_content_2">2.创建指定音频</string>
+    <string name="action_level_6_content_3">3.添加创建音频</string>
+    <string name="action_level_6_content_4">4.预览执行动作</string>
+
+    <string name="action_level_7_content_1">1.了解目标动作</string>
+    <string name="action_level_7_content_2">2.修改指定动作</string>
+
+    <string name="action_level_8_content_1">1.创建指定动作</string>
+    <string name="action_level_8_content_2">2.预览执行动作</string>
+
+    <string name="action_level_9_content_1">1.创建指定动作</string>
+    <string name="action_level_9_content_2">2.预览执行动作</string>
+
+    <string name="action_level_10_content_1">1.设计动作</string>
 </resources>

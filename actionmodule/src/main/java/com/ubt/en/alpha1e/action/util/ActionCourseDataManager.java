@@ -30,7 +30,7 @@ public class ActionCourseDataManager {
     /**
      * 动作课程播放路径
      */
-    public final static  String COURSE_ACTION_PATH ="action/course/motion/";
+    public final static String COURSE_ACTION_PATH = "action/course/motion/";
 
     /**
      * 获取关卡一第一个课时数据
@@ -58,7 +58,7 @@ public class ActionCourseDataManager {
         one1Content3.setIndex(2);
         one1Content3.setContent(SkinManager.getInstance().getTextById(R.string.action_course_card1_1_3));
         one1Content3.setId(R.id.rl_musicz_zpne);
-         one1Content3.setActionPath(COURSE_ACTION_PATH + "AE_action editor3.hts");
+        one1Content3.setActionPath(COURSE_ACTION_PATH + "AE_action editor3.hts");
         one1Content3.setTitle("音乐轴");
         one1Content3.setX(0);
         one1Content3.setY(-50);
@@ -110,64 +110,64 @@ public class ActionCourseDataManager {
         CourseActionModel model3 = null;
         CourseActionModel model4 = null;
         if (card == 1) {
-            model1 = new CourseActionModel("1.认识时间轴", 0);
-            model2 = new CourseActionModel("2.了解添加键", 0);
-            model3 = new CourseActionModel("3.了解播放键", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_1_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_1_content_2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_1_content_3), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
         } else if (card == 2) {
-            model1 = new CourseActionModel("1.了解动作库", 0);
-            model2 = new CourseActionModel("2.初级动作库", 0);
-            model3 = new CourseActionModel("3.高级动作库", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_2_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_2_content_2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_2_content_3), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
         } else if (card == 3) {
-            model1 = new CourseActionModel("1.了解音乐库", 0);
-            model2 = new CourseActionModel("2.添加音频", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_3_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_3_content_2), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 4) {
-            model1 = new CourseActionModel("1.添加舞蹈动作", 0);
-            model2 = new CourseActionModel("2.添加london音频", 0);
-            model3 = new CourseActionModel("3.预览执行", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_4_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_4_content_2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_4_content_3), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
         } else if (card == 5) {
-            model1 = new CourseActionModel("1.模板讲解", 0);
-            model2 = new CourseActionModel("2.创建指定动作—踢腿", 0);
-            model3 = new CourseActionModel("3.保存动作", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_5_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_5_content_2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_5_content_3), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
         } else if (card == 6) {
-            model1 = new CourseActionModel("1.模板讲解", 0);
-            model2 = new CourseActionModel("2.创建指定音频", 0);
-            model3 = new CourseActionModel("3.添加创建音频", 0);
-            model4 = new CourseActionModel("4.预览执行动作", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_6_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_6_content_2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_6_content_3), 0);
+            model4 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_6_content_4), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
             list.add(model4);
         } else if (card == 7) {
-            model1 = new CourseActionModel("1.了解目标动作", 0);
-            model2 = new CourseActionModel("2.修改指定动作", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_7_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_7_content_2), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 8) {
-            model1 = new CourseActionModel("1.创建指定动作", 0);
-            model2 = new CourseActionModel("2.预览执行动作", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_8_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_8_content_2), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 9) {
-            model1 = new CourseActionModel("1.创建指定动作", 0);
-            model2 = new CourseActionModel("2.预览执行动作", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_9_content_1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_9_content_2), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 10) {
-            model1 = new CourseActionModel("1.设计动作", 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_10_content_1), 0);
             list.add(model1);
 
         }

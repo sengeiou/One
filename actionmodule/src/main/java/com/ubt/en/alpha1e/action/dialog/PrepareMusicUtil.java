@@ -161,7 +161,7 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
                     list.get(i).setPlaying(false);
                 }
             }
-            tvConfirm.setTextColor(mContext.getResources().getColor(R.color.tv_user_edit_color));
+            tvConfirm.setTextColor(mContext.getResources().getColor(R.color.base_blue));
             tvConfirm.setEnabled(true);
             actionAdapter.notifyDataSetChanged();
         }
