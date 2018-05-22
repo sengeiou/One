@@ -7,7 +7,6 @@ import com.ubt.baselib.R;
 
 import skin.support.SkinCompatManager;
 import skin.support.content.res.SkinCompatResources;
-import skin.support.utils.MyTextViewLayoutInflater;
 
 /**
  * @author：liuhai
@@ -29,7 +28,7 @@ public class SkinManager {
 
     public void init(Application application) {
         mContext = application;
-        //initSkin(application);
+        initSkin(application);
     }
 
     public static SkinManager getInstance() {
@@ -46,7 +45,7 @@ public class SkinManager {
     public void initSkin(Application application) {
         SkinCompatManager.withoutActivity(application)
                 .addStrategy(new CustomSDCardLoader())          // 自定义加载策略，指定SDCard路径
-                .addInflater(new MyTextViewLayoutInflater())
+                //.addInflater(new MyTextViewLayoutInflater())
 //                .setSkinStatusBarColorEnable(false)             // 关闭状态栏换肤
 //                .setSkinWindowBackgroundEnable(false)           // 关闭windowBackground换肤
 //                .setSkinAllActivityEnable(false)                // true: 默认所有的Activity都换肤; false: 只有实现SkinCompatSupportable接口的Activity换肤
@@ -69,6 +68,36 @@ public class SkinManager {
     }
 
     /**
+     * 根据不同语言加载
+     *
+     * @param language
+     */
+    public void loadSkin(String language, final SkinListener listener) {
+        SkinCompatManager.getInstance().setLaguage(language).loadSkin("night.skin", new SkinCompatManager.SkinLoaderListener() {
+            @Override
+            public void onStart() {
+                listener.onStart();
+            }
+
+            @Override
+            public void onSuccess() {
+                listener.onSuccess();
+            }
+
+            @Override
+            public void onFailed(String errMsg) {
+                listener.onFailed(errMsg);
+            }
+        }, CustomSDCardLoader.SKIN_LOADER_STRATEGY_SDCARD);
+
+    }
+
+
+    public void restoreDefaultTheme() {
+        SkinCompatManager.getInstance().restoreDefaultTheme();
+    }
+
+    /**
      * 根据Id获取String
      *
      * @param id
@@ -76,7 +105,31 @@ public class SkinManager {
      */
     public String getTextById(int id) {
 
-        return mContext.getResources().getString(id);
-        //return SkinCompatResources.getString(mContext, id);
+        //return mContext.getResources().getString(id);
+        return SkinCompatResources.getString(mContext, id);
     }
+
+    public String[] getSkinArrayResource(int id) {
+        return SkinCompatResources.getStringArray(mContext, id);
+    }
+
+    public interface SkinListener {
+        /**
+         * 开始加载.
+         */
+        void onStart();
+
+        /**
+         * 加载成功.
+         */
+        void onSuccess();
+
+        /**
+         * 加载失败.
+         *
+         * @param errMsg 错误信息.
+         */
+        void onFailed(String errMsg);
+    }
+
 }

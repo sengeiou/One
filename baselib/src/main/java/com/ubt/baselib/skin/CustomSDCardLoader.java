@@ -24,6 +24,8 @@ public class CustomSDCardLoader extends SkinSDCardLoader {
         return new File(SkinFileUtils.getSkinDir(context), skinName).getAbsolutePath();
     }
 
+
+
     @Override
     public int getType() {
         return SKIN_LOADER_STRATEGY_SDCARD;

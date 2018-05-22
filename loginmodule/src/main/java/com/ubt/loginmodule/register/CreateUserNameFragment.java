@@ -91,6 +91,7 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
             }
             if(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName)){
                 tvHint.setTextColor(getResources().getColor(R.color.login_bg_red_color));
+                tvHint.setText(getString(R.string.login_input_no_name_warning));
                 return;
             }
             String userName = firstName + lastName;

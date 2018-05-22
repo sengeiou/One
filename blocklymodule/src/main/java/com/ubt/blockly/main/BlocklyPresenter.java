@@ -194,7 +194,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
      */
     @Override
     public void onProtocolPacket(ProtocolPacket packet) {
-        ViseLog.d("onProtocolPacket:" + packet.getmCmd());
+        ViseLog.d("onProtocolPacket:" + packet.getmCmd() + "---getmParam:" +  new String(packet.getmParam()));
         switch (packet.getmCmd()) {
             case BTCmd.UV_GETACTIONFILE:
                 ViseLog.d("UV_GETACTIONFILE:" + new String(packet.getmParam()));
@@ -215,6 +215,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
             case BTCmd.DV_SET_PLAY_EMOJI:
                 if(packet.getmParam()[0] == 1){
                     if(mView != null){
+                        ViseLog.d("playEmojiFinish");
                         mView.playEmojiFinish();
                     }
                 }
@@ -222,6 +223,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
             case BTCmd.DV_SET_PLAY_SOUND:
                 if(packet.getmParam()[0] == 1){
                     if(mView != null){
+                        ViseLog.d("playSoundFinish");
                         mView.playSoundFinish();
                     }
                 }

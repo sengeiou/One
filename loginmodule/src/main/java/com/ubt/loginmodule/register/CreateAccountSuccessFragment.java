@@ -2,6 +2,8 @@ package com.ubt.loginmodule.register;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -40,6 +42,16 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
     @BindView(R2.id.btn_next)
     Button btnNext;
 
+    private static int MSG_CODE = 1;
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == MSG_CODE){
+                start(CreateUserNameFragment.newInstance());
+            }
+        }
+    };
+
     public static CreateAccountSuccessFragment newInstance(){
         return new CreateAccountSuccessFragment();
     }
@@ -65,8 +77,15 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mHandler.sendEmptyMessageDelayed(MSG_CODE, 2000);
+    }
+
     @OnClick(R2.id.btn_next)
     public void onClickView(){
+        mHandler.removeMessages(MSG_CODE);
         start(CreateUserNameFragment.newInstance());
     }
 
@@ -124,5 +143,8 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        if(mHandler != null){
+            mHandler.removeMessages(MSG_CODE);
+        }
     }
 }

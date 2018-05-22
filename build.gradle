@@ -3,7 +3,7 @@
 buildscript {
     apply from: 'versions.gradle'
     repositories {
-        google()
+       // google()
         jcenter()
         maven {
             url uri('repo')

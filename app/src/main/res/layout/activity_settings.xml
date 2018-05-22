@@ -8,7 +8,31 @@
               android:focusableInTouchMode="true"
               android:orientation="vertical">
 
+    <Button
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_50"
+        android:onClick="night1"
+        android:text="中文"
+        />
 
+    <Button
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_50"
+        android:onClick="night2"
+        android:text="繁体"
+        />
+
+    <Button
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_50"
+        android:onClick="night3"
+        android:text="日文"/>
+    <Button
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_50"
+        android:text="默认"
+        android:onClick="restore"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

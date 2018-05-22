@@ -10,6 +10,7 @@ import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.R;
 
 
+
 public class SettingsFragment extends PreferenceFragment {
     public static final String BUILD_IN_NIGHT_MODE_KEY = "BuildInNightMode";
     public static final String ASSETS_NIGHT_MODE_KEY = "AssetsNightMode";

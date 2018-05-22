@@ -53,4 +53,6 @@ public interface Constant1E {
 
     public static final String REMOTE_SHOW_TIP="remote_show_tip";
 
+
+    public static final String CURRENT_APP_LANGUAGE="current_app_language";
 }

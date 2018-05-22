@@ -9,8 +9,8 @@ import com.ubt.en.alpha1e.R;
 
 /**
  * @author ubt
- *
- * 设置多语言
+ *         <p>
+ *         设置多语言
  */
 public class SettingsActivity extends Activity {
 
@@ -18,7 +18,7 @@ public class SettingsActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        configFragment();
+        //configFragment();
     }
 
     private void configFragment() {
@@ -28,4 +28,21 @@ public class SettingsActivity extends Activity {
     }
 
 
+//    public void night1(View view) {
+//        SkinManager.getInstance().loadSkin("zh_cn",null);
+//
+//    }
+//
+//    public void night2(View view) {
+//        SkinManager.getInstance().loadSkin("zh_tw");
+//    }
+//
+//    public void restore(View view) {
+//        SkinManager.getInstance().restoreDefaultTheme();
+//    }
+//
+//    public void night3(View view) {
+//        SkinManager.getInstance().loadSkin("ja");
+//
+//    }
 }
