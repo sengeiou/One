@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.ubt.baselib.globalConst.Constant1E;
 import com.vise.log.ViseLog;
 
 import java.io.BufferedInputStream;
@@ -18,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -293,7 +295,7 @@ public class FileUtils {
                 inStream.close();
             }
         } catch (Exception e) {
-            ViseLog.e( "复制单个文件操作出错");
+            ViseLog.e("复制单个文件操作出错");
             e.printStackTrace();
 
         }
@@ -332,6 +334,7 @@ public class FileUtils {
         }
         zos.close();
     }
+
     /**
      * 递归获得该文件下所有文件名(不包括目录名)
      *
@@ -371,5 +374,53 @@ public class FileUtils {
         }
     }
 
+    //判断文件是否存在
+
+    public static boolean isFileExists(String path) {
+        return !TextUtils.isEmpty(path) && new File(path).exists();
+    }
+
+    /**
+     * 复制Assets下的文件到SD卡
+     *
+     * @param context
+     * @param name
+     * @return
+     */
+    public static String copySkinFromAssets(Context context, String name) {
+        String skinPath = new File(getSkinDir(context), name).getAbsolutePath();//解压文件路径
+
+        ViseLog.d("skinPath===" + skinPath);
+        try {
+            InputStream is = context.getAssets().open(
+                    Constant1E.LANUGAGE_PATH + File.separator + name);
+            OutputStream os = new FileOutputStream(skinPath);
+            int byteCount;
+            byte[] bytes = new byte[1024];
+            while ((byteCount = is.read(bytes)) != -1) {
+                os.write(bytes, 0, byteCount);
+            }
+            os.close();
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            skinPath = "";
+        }
+        return skinPath;
+    }
+
+    /**
+     * 复制语言包到SD卡的文件目录
+     *
+     * @param context
+     * @return
+     */
+    public static String getSkinDir(Context context) {
+        File skinDir = new File(FileUtils.getCacheDirectory(context, "") + Constant1E.LANUGAGE_PATH);
+        if (!skinDir.exists()) {
+            skinDir.mkdirs();
+        }
+        return skinDir.getAbsolutePath();
+    }
 
 }

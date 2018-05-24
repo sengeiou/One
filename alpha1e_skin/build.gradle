@@ -2,35 +2,54 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-
-
-
     defaultConfig {
         applicationId "com.ubt.en.alpha1e.night"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file('./ReleaseKey/alphaebot_en.jks')
+            storePassword 'alpha1s_2015_4_10_ubtrobot'
+            keyAlias 'ebot_en'
+            keyPassword 'alpha1s_2015_4_10_ubtrobot'
+        }
 
+        debug {
+            storeFile file('./ReleaseKey/alphaebot_en.jks')
+            storePassword 'alpha1s_2015_4_10_ubtrobot'
+            keyAlias 'ebot_en'
+            keyPassword 'alpha1s_2015_4_10_ubtrobot'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
         }
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+//    implementation 'com.android.support:appcompat-v7:26.1.0'
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'com.android.support.test:runner:0.5'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
 }

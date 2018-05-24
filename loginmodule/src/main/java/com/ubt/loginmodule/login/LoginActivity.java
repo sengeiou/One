@@ -205,6 +205,11 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
         };
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ViseLog.d("执行时间");
+    }
 
     private void initView() {
        edtAccount.addTextChangedListener(new TextWatcherUtil(edtAccount, new TextWatcherUtil.TextWatcherListener() {

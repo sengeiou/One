@@ -62,7 +62,7 @@ public class ConfigureBaseLib {
     public void init(Application appContext, boolean isIssue) {
         this.isIssue = isIssue;
         BaseHttpEntity.init(this.isIssue);
-
+        LitePal.initialize(appContext);
         SkinManager.getInstance().init(appContext);
         ContextUtils.init(appContext);
         initLog();
@@ -73,7 +73,6 @@ public class ConfigureBaseLib {
         BlueClientUtil.getInstance().setBlueListener(new BlueToothListenerImpl());
         BTHeartBeatManager.getInstance().init(appContext, new BTCmdHeartBeat().toByteArray(), 5000);
         initSmartRefresh();
-        LitePal.initialize(appContext);
         appContext.registerActivityLifecycleCallbacks(new MyLifecycleCallback());
     }
 

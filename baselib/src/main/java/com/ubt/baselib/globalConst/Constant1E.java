@@ -51,8 +51,30 @@ public interface Constant1E {
     public static final String EMPTY_BIRTHDAY = "empty_birthDay";
 
 
-    public static final String REMOTE_SHOW_TIP="remote_show_tip";
+    public static final String REMOTE_SHOW_TIP = "remote_show_tip";
 
 
-    public static final String CURRENT_APP_LANGUAGE="current_app_language";
+    /**
+     * 当前语言版本
+     */
+    public static final String CURRENT_APP_LANGUAGE_VERSION = "current_app_language_version";
+
+    /**
+     * 语言包地址
+     */
+    public static final String LANUGAGE_PATH = "skins";
+
+    /**
+     * 语言包下载
+     */
+    public static final String LANUGAGE_DOWN_PATh = "download";
+
+    /**
+     * 语言包名称
+     */
+    public static final String LANGUAGE_NAME="language.skin";
+    /**
+     * 语言压缩包名称
+     */
+    public static final String LANGUAGE_ZIP_NAME="language.zip";
 }

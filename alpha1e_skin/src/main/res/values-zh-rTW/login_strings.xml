@@ -1,0 +1,74 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="facebook_app_id" tools:ignore="ResourceName">882664668572429_TW</string>
+    <string name="fb_login_protocol_scheme" tools:ignore="ResourceName">fb882664668572429_TW</string>
+
+    <string name="login_app_name">LoginModule_TW</string>
+
+    <!-- login email string -->
+    <string name="login_title">Please login with your email_TW</string>
+    <string name="login_sign_up">Sign Up_TW</string>
+    <string name="login_enter_email_address">Email_TW</string>
+    <string name="login_enter_password">Password_TW</string>
+    <string name="login_log_in">Log in_TW</string>
+    <string name="login_forget_password">Forget Password_TW</string>
+    <string name="login_wrong_password">Account or password error._TW</string>
+
+    <!-- sign up string -->
+
+    <string name="login_create_account_title">Create Account_TW</string>
+    <string name="login_signup_enter_email_address">Email_TW</string>
+    <string name="login_input_wrong_email_warning">Please enter a valid email address._TW</string>
+    <string name="login_signup_enter_password">Password_TW</string>
+    <string name="login_input_security_code">Input security code_TW</string>
+    <string name="login_send_security_code">Send security code_TW</string>
+    <string name="login_resend_security_code">Resend_TW</string>
+    <string name="login_click_indicate_agree">By signing up you indicate that you have read and agree to the _TW</string>
+    <string name="login_service_privacy">Terms of Service and Privacy Policy._TW</string>
+    <string name="login_signup_succeed_title">Sign up Complete_TW</string>
+    <string name="login_signup_error_prompt">Sign up error!_TW</string>
+    <string name="login_select_privacy">Please read and confirm the terms below. _TW</string>
+    <string name="login_next">Next_TW</string>
+    <string name="login_finish">Finish_TW</string>
+    <string name="login_skip">Skip_TW</string>
+    <string name="login_password_tip">密码长度最少6位(need translation)_TW</string>
+
+    <!-- fill in profile string -->
+
+    <string name="login_input_name">What\'s your name?_TW</string>
+    <string name="login_input_name_reason">Using your name makes it easy for you to communicate in our community._TW</string>
+    <string name="login_first_name">First Name_TW</string>
+    <string name="login_last_name">Last Name_TW</string>
+    <string name="login_input_no_name_warning">Please enter your first name and last name._TW</string>
+    <string name="login_input_gender">What\'s your gender?_TW</string>
+    <string name="login_gender_male">Male_TW</string>
+    <string name="login_gender_female">Female_TW</string>
+    <string name="login_gender_robot">Robot_TW</string>
+    <string name="login_input_birthday">What\'s your birthday?_TW</string>
+
+    <!--  forget password string -->
+
+    <string name="login_forget_password_title">Forget Password?_TW</string>
+    <string name="login_forget_password_reason">We will send you a security code for you to reset your password._TW</string>
+    <string name="login_forget_password_enter_email">Email_TW</string>
+    <string name="login_forget_password_input_code">Input security code_TW</string>
+    <string name="login_forget_password_send_code">Send security code_TW</string>
+    <string name="login_sent_code_prompt">Security code has been sent!_TW</string>
+    <string name="login_sent_code_fail_prompt">Security code sent failed, please try again!_TW</string>
+    <string name="login_code_not_correct">Security code is not correct!_TW</string>
+    <string name="login_reset_password_title">Reset Password_TW</string>
+    <string name="login_input_new_password_reason">Please enter and confirm your new password below._TW</string>
+    <string name="login_input_new_password">New password_TW</string>
+    <string name="login_input_new_password_again">Confirm password_TW</string>
+    <string name="login_password_confirm_not_match">Your new password and confirmation password do not match._TW</string>
+    <string name="login_confirm">Confirm_TW</string>
+
+    <string name="login_login_failed">login failed !_TW</string>
+    <string name="login_login_success">login success !_TW</string>
+    <string name="login_no_account">plz input email !_TW</string>
+    <string name="login_no_password">plz input password !_TW</string>
+    <string name="login_error_email">plz input right email !_TW</string>
+
+
+
+</resources>

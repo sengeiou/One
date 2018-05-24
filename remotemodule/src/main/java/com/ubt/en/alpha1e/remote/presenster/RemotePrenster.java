@@ -15,7 +15,6 @@ import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.remote.R;
 import com.ubt.en.alpha1e.remote.contract.RemoteContact;
 import com.ubt.en.alpha1e.remote.model.RemoteItem;
-import com.ubt.en.alpha1e.remote.util.DBManager;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
@@ -50,14 +49,14 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
 
     private static String Robot_path = "action/controller/";
 
-    DBManager dbManager = null;
+   // DBManager dbManager = null;
 
     @Override
     public void init(Context context, int remoteType) {
         mBlueClientUtil = BlueClientUtil.getInstance();
         initData();
         EventBus.getDefault().register(this);
-        dbManager = new DBManager(context);
+        //dbManager = new DBManager(context);
         mRemoteItems = getRemoteItems(context, remoteType);
 //        mRemoteItems = dbManager.getRemoteInfoByModel(DBManager.ModelType.FOOTBALL_PLAYER, false, String.valueOf(remoteType));
 //

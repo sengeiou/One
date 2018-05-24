@@ -45,7 +45,7 @@ public class SettingsFragment extends PreferenceFragment {
                 mBuildInNightModePreference.setChecked(false);
                 mSDCardNightModePreference.setChecked(false);
                 boolean boolValue = (boolean) newValue;
-                SkinManager.getInstance().setSkinConfig(boolValue);
+             //   SkinManager.getInstance().setSkinConfig(boolValue);
 //                if (boolValue) {
 //                    SkinCompatManager.getInstance().loadSkin("night.skin", null, SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
 //                } else {

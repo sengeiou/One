@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Alpha Ebot_JA</string>
+
+    <string name="start_ble_scan">开启蓝牙扫描_JA</string>
+    <string name="connect_ble">连接蓝牙_JA</string>
+    <string name="setting">设置_JA</string>
+
+
+</resources>

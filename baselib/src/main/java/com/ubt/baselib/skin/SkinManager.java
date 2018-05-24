@@ -4,6 +4,10 @@ import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.ubt.baselib.R;
+import com.ubt.baselib.globalConst.Constant1E;
+import com.ubt.baselib.model1E.LanguageModel;
+
+import org.litepal.crud.DataSupport;
 
 import skin.support.SkinCompatManager;
 import skin.support.content.res.SkinCompatResources;
@@ -45,6 +49,7 @@ public class SkinManager {
     public void initSkin(Application application) {
         SkinCompatManager.withoutActivity(application)
                 .addStrategy(new CustomSDCardLoader())          // 自定义加载策略，指定SDCard路径
+                .setLaguage(getCurrentLanguageType())
                 //.addInflater(new MyTextViewLayoutInflater())
 //                .setSkinStatusBarColorEnable(false)             // 关闭状态栏换肤
 //                .setSkinWindowBackgroundEnable(false)           // 关闭windowBackground换肤
@@ -54,18 +59,14 @@ public class SkinManager {
         SkinCompatResources.getString(application, R.string.app_name);
     }
 
-    /**
-     * 加载皮肤包
-     *
-     * @param boolValue
-     */
-    public void setSkinConfig(boolean boolValue) {
-        if (boolValue) {
-            SkinCompatManager.getInstance().loadSkin("night.skin", null, SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
-        } else {
-            SkinCompatManager.getInstance().restoreDefaultTheme();
-        }
+
+    public String getCurrentLanguageType() {
+
+        LanguageModel model = DataSupport.findFirst(LanguageModel.class);
+        return model != null ? model.getLanguageType() : "";
     }
+
+
 
     /**
      * 根据不同语言加载
@@ -73,7 +74,7 @@ public class SkinManager {
      * @param language
      */
     public void loadSkin(String language, final SkinListener listener) {
-        SkinCompatManager.getInstance().setLaguage(language).loadSkin("night.skin", new SkinCompatManager.SkinLoaderListener() {
+        SkinCompatManager.getInstance().setLaguage(language).loadSkin(Constant1E.LANGUAGE_NAME, new SkinCompatManager.SkinLoaderListener() {
             @Override
             public void onStart() {
                 listener.onStart();

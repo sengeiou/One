@@ -19,6 +19,14 @@ public class SkinFileUtils {
         return skinDir.getAbsolutePath();
     }
 
+    public static String getSkinDownloadDir(Context context) {
+        File skinDir = new File(getCacheDir(context), SkinConstants.SKIN_DOWNLOAD_PATH);
+        if (!skinDir.exists()) {
+            skinDir.mkdirs();
+        }
+        return skinDir.getAbsolutePath();
+    }
+
     private static String getCacheDir(Context context) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File cacheDir = context.getExternalCacheDir();
