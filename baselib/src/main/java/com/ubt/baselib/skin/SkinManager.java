@@ -1,13 +1,16 @@
 package com.ubt.baselib.skin;
 
 import android.app.Application;
+import android.os.Build;
+import android.os.LocaleList;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.ubt.baselib.R;
 import com.ubt.baselib.globalConst.Constant1E;
-import com.ubt.baselib.model1E.LanguageModel;
+import com.ubt.baselib.utils.SPUtils;
+import com.vise.log.ViseLog;
 
-import org.litepal.crud.DataSupport;
+import java.util.Locale;
 
 import skin.support.SkinCompatManager;
 import skin.support.content.res.SkinCompatResources;
@@ -49,7 +52,7 @@ public class SkinManager {
     public void initSkin(Application application) {
         SkinCompatManager.withoutActivity(application)
                 .addStrategy(new CustomSDCardLoader())          // 自定义加载策略，指定SDCard路径
-                .setLaguage(getCurrentLanguageType())
+                .setLaguage(SPUtils.getInstance().getString(Constant1E.CURRENT_APP_LANGUAGE))
                 //.addInflater(new MyTextViewLayoutInflater())
 //                .setSkinStatusBarColorEnable(false)             // 关闭状态栏换肤
 //                .setSkinWindowBackgroundEnable(false)           // 关闭windowBackground换肤
@@ -59,13 +62,45 @@ public class SkinManager {
         SkinCompatResources.getString(application, R.string.app_name);
     }
 
+    /**
+     * 获取手机系统语言
+     *
+     * @return
+     */
+    private String getLocalLanguage() {
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = LocaleList.getDefault().get(0);
+        } else {
+            locale = Locale.getDefault();
+        }
+        ViseLog.d("当前手机语言===" + locale.getLanguage());
 
-    public String getCurrentLanguageType() {
-
-        LanguageModel model = DataSupport.findFirst(LanguageModel.class);
-        return model != null ? model.getLanguageType() : "";
+        return locale.getLanguage() + "_" + locale.getCountry();
     }
 
+
+    /**
+     * 根据手机系统语言再从语言包中选择一种语言
+     *
+     * @param id 语言包的id
+     * @return
+     */
+    public String getLanguageByLocal(int id) {
+        String loaclLanguage = getLocalLanguage();
+        String[] languagesUp = getSkinArrayResource(id);
+        String Language = "en";
+        ViseLog.d("loaclLanguage" + loaclLanguage);
+        for (int i = 0; i < languagesUp.length; i++) {
+            ViseLog.d("up====" + languagesUp[i]);
+            if (loaclLanguage.toLowerCase().contains(languagesUp[i])
+                    || loaclLanguage.toLowerCase().equals(languagesUp[i].toLowerCase())) {
+                Language = languagesUp[i];
+                break;
+            }
+        }
+        return Language;
+    }
 
 
     /**
@@ -94,6 +129,9 @@ public class SkinManager {
     }
 
 
+    /**
+     * 默认英文语言
+     */
     public void restoreDefaultTheme() {
         SkinCompatManager.getInstance().restoreDefaultTheme();
     }

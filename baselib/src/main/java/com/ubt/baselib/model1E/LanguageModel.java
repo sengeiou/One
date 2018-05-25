@@ -1,7 +1,5 @@
 package com.ubt.baselib.model1E;
 
-import org.litepal.crud.DataSupport;
-
 /**
  * @author：liuhai
  * @date：2018/5/22 16:05
@@ -11,15 +9,13 @@ import org.litepal.crud.DataSupport;
  * version
  */
 
-public class LanguageModel extends DataSupport {
+public class LanguageModel {
     private String languageTitle;
 
     private String languageContent;
 
     private String languageType;
 
-    public LanguageModel() {
-    }
 
     public LanguageModel(String languageTitle, String languageContent, String languageType) {
         this.languageTitle = languageTitle;

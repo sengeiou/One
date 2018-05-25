@@ -62,9 +62,9 @@ public class ConfigureBaseLib {
     public void init(Application appContext, boolean isIssue) {
         this.isIssue = isIssue;
         BaseHttpEntity.init(this.isIssue);
+        ContextUtils.init(appContext);
         LitePal.initialize(appContext);
         SkinManager.getInstance().init(appContext);
-        ContextUtils.init(appContext);
         initLog();
         initNet(appContext);
         LoaderManager.getLoader().init(appContext);

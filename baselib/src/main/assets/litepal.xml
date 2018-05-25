@@ -35,8 +35,7 @@
         <mapping class="com.ubt.baselib.BlueTooth.BleDevice"/>
         <mapping class="com.ubt.baselib.model1E.LocalActionRecord"/>
         <mapping class="com.ubt.baselib.model1E.BlocklyProjectMode"/>
-        <mapping class="com.ubt.baselib.model1E.CourseData" />
-        <mapping class="com.ubt.baselib.model1E.LanguageModel" />
+        <mapping class="com.ubt.baselib.model1E.CourseData"/>
     </list>
 
 

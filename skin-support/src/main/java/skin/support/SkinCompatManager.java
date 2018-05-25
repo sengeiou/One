@@ -8,10 +8,13 @@ import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.LocaleList;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.lang.reflect.Method;
@@ -425,9 +428,9 @@ public class SkinCompatManager extends SkinObservable {
             Resources superRes = mAppContext.getResources();
             Configuration congiConfiguration = superRes.getConfiguration();
             DisplayMetrics displayMetrics = superRes.getDisplayMetrics();
-            if (!TextUtils.isEmpty(language)) {
+           // if (!TextUtils.isEmpty(language)) {
                 congiConfiguration.locale = getLocale(language);
-            }
+           // }
 
             return new Resources(assetManager, displayMetrics, congiConfiguration);
         } catch (Exception e) {
@@ -463,7 +466,9 @@ public class SkinCompatManager extends SkinObservable {
 
 
     public Locale getLocale(String language) {
-
+        if (TextUtils.isEmpty(language)) {
+            return new Locale(getLocalLanguage());
+        }
         if (language.equalsIgnoreCase("zh_cn")) {
             return Locale.SIMPLIFIED_CHINESE;
         } else if (language.equalsIgnoreCase("zh_tw")) {
@@ -473,5 +478,21 @@ public class SkinCompatManager extends SkinObservable {
         } else {
             return new Locale(language);
         }
+    }
+
+    /**
+     * 获取手机系统语言
+     *
+     * @return
+     */
+    public String getLocalLanguage() {
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = LocaleList.getDefault().get(0);
+        } else {
+            locale = Locale.getDefault();
+        }
+        Log.d("localLanguage", "Language===" + locale.getLanguage());
+        return locale.getLanguage();
     }
 }

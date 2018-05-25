@@ -114,7 +114,6 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
      * 初始化数据
      */
     private void initView() {
-        mPresenter.initLanugage(this);
         try {
             gifDrawable = new GifDrawable(getResources(), R.drawable.gif_welcome);
             gifDrawable.addAnimationListener(new AnimationListener() {
@@ -127,6 +126,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mPresenter.initLanugage(this);
     }
 
     @Override
