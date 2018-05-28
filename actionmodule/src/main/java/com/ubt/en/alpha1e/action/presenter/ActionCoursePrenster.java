@@ -59,7 +59,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.clear();
         ActionCourseModel courseModel1 = new ActionCourseModel();
         courseModel1.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list) + " " + 1);
-        courseModel1.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_1_content));
+        courseModel1.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_1));
         courseModel1.setActionLockType(1);
         courseModel1.setDrawableId(R.drawable.ic_action_level1);
         courseModel1.setSize(3);
@@ -68,7 +68,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
 
         ActionCourseModel courseModel2 = new ActionCourseModel();
         courseModel2.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 2);
-        courseModel2.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_2_content));
+        courseModel2.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_2));
         courseModel2.setDrawableId(R.drawable.ic_action_level2);
         courseModel2.setActionLockType(0);
         courseModel2.setSize(3);
@@ -76,7 +76,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
 
         ActionCourseModel courseModel3 = new ActionCourseModel();
         courseModel3.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 3);
-        courseModel3.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_3_content));
+        courseModel3.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_3));
         courseModel3.setDrawableId(R.drawable.ic_action_level3);
         courseModel3.setActionLockType(0);
         courseModel3.setSize(2);
@@ -84,7 +84,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
 
         ActionCourseModel courseModel4 = new ActionCourseModel();
         courseModel4.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 4);
-        courseModel4.setTitle(SkinManager.getInstance().getTextById(R.string.action_level_4_content));
+        courseModel4.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_4));
         courseModel4.setDrawableId(R.drawable.ic_action_level4);
         courseModel4.setActionLockType(0);
         courseModel4.setSize(3);

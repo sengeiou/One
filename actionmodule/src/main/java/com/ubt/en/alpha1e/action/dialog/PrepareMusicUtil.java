@@ -73,7 +73,7 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_aciton_select, null);
         ViewHolder viewHolder = new ViewHolder(contentView);
         TextView tvTitle = contentView.findViewById(R.id.title_actions);
-        tvTitle.setText(SkinManager.getInstance().getTextById(R.string.ui_create_music));
+        tvTitle.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_audios_title));
         ivDelete = contentView.findViewById(R.id.iv_delete);
         ivDelete.setVisibility(View.VISIBLE);
         tvCancle = contentView.findViewById(R.id.tv_cancel);

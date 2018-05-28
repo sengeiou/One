@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ubt.baselib.model1E.LocalActionRecord;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.ActionCourseTwoUtil;
@@ -187,7 +188,7 @@ public class CourseFourActionLayout  extends BaseActionEditLayout implements Act
 
         mRlInstruction = (RelativeLayout) findViewById(R.id.rl_instruction);
         mTextView = (TextView) findViewById(R.id.tv_all_introduc);
-        mTextView.setText("现在，让我们完整地添加一个有音乐的舞蹈动作吧！");
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_add));
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);
 

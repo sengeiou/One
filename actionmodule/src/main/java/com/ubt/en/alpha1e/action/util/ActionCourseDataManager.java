@@ -42,7 +42,7 @@ public class ActionCourseDataManager {
         List<CourseOne1Content> one1ContentList = new ArrayList<>();
         CourseOne1Content one1Content1 = new CourseOne1Content();
         one1Content1.setIndex(0);
-        one1Content1.setContent(SkinManager.getInstance().getTextById(R.string.action_course_card1_1_1));
+        one1Content1.setContent(SkinManager.getInstance().getTextById(R.string.actions_lesson_action_axis));
         one1Content1.setId(R.id.ll_frame);
         one1Content1.setVoiceName("{\"filename\":\"id_elephant.wav\",\"playcount\":1}");
         one1Content1.setActionPath(COURSE_ACTION_PATH + "AE_action editor2.hts");
@@ -56,7 +56,7 @@ public class ActionCourseDataManager {
 
         CourseOne1Content one1Content3 = new CourseOne1Content();
         one1Content3.setIndex(2);
-        one1Content3.setContent(SkinManager.getInstance().getTextById(R.string.action_course_card1_1_3));
+        one1Content3.setContent(SkinManager.getInstance().getTextById(R.string.actions_lesson_music_axis));
         one1Content3.setId(R.id.rl_musicz_zpne);
         one1Content3.setActionPath(COURSE_ACTION_PATH + "AE_action editor3.hts");
         one1Content3.setTitle("音乐轴");
@@ -69,7 +69,7 @@ public class ActionCourseDataManager {
 
         CourseOne1Content one1Content4 = new CourseOne1Content();
         one1Content4.setIndex(3);
-        one1Content4.setContent(SkinManager.getInstance().getTextById(R.string.action_course_card1_1_4));
+        one1Content4.setContent(SkinManager.getInstance().getTextById(R.string.actions_lesson_action_frame));
         one1Content4.setId(R.id.iv_reset_index);
         one1Content4.setVoiceName("{\"filename\":\"id_elephant.wav\",\"playcount\":1}");
         one1Content4.setActionPath(COURSE_ACTION_PATH + "AE_action editor4.hts");
@@ -83,7 +83,7 @@ public class ActionCourseDataManager {
 
         CourseOne1Content one1Content5 = new CourseOne1Content();
         one1Content5.setIndex(4);
-        one1Content5.setContent(SkinManager.getInstance().getTextById(R.string.action_course_card1_1_5));
+        one1Content5.setContent(SkinManager.getInstance().getTextById(R.string.actions_lesson_1_add_action));
         one1Content5.setId(R.id.iv_add_frame);
         one1Content5.setVoiceName("{\"filename\":\"id_elephant.wav\",\"playcount\":1}");
         one1Content5.setActionPath(COURSE_ACTION_PATH + "AE_action editor5.hts");
@@ -124,14 +124,14 @@ public class ActionCourseDataManager {
             list.add(model2);
             list.add(model3);
         } else if (card == 3) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_3_content_1), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_3_content_2), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_item), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_item_1), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 4) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_4_content_1), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_4_content_2), 0);
-            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_4_content_3), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item_1), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item_2), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);

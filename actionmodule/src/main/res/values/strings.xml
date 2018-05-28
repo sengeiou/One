@@ -29,8 +29,8 @@
     <string name="actions_download_details_delete">Are you sure you want to delete the item？</string>
     <!--动作编辑-->
     <string name="actions_courses">How to make?</string>
-    <string name="actions_recording">Recording…</string>
-     <string name="actions_preview">Preview</string>
+    <string name="actions_recording">Recording</string>
+    <string name="actions_preview">Preview</string>
     <string name="actions_modify">Modify</string>
     <string name="actions_copy">Copy</string>
     <string name="actions_cut">Cut</string>
@@ -51,26 +51,84 @@
     <string name="actions_lesson_more">Coming soon</string>
 
 
+    <!--动作编辑第一课-->
+    <string name="action_level_1_content_1">1.Introduction to Action Axis</string>
+    <string name="action_level_1_content_2">1.Introduction to Action Axis</string>
+    <string name="action_level_1_content_3">1.Introduction to Action Axis</string>
 
 
-    <string name="action_next">Next</string>
-    <string name="action_level_1">Lesson 1</string>
-    <string name="action_level_2">Lesson 2</string>
-    <string name="action_level_3">Lesson 3</string>
-    <string name="action_level_4">Lesson 4</string>
-    <string name="action_level_5">Lesson 5</string>
-    <string name="action_level_6">Lesson 6</string>
-    <string name="action_level_7">Lesson 7</string>
-    <string name="action_level_8">Lesson 8</string>
-    <string name="action_level_9">Lesson 9</string>
-    <string name="action_level_10">Lesson 10</string>
+    <string name="actions_lesson_1">Lesson 1  Introduction to Action Editor</string>
+    <string name="actions_lesson_1_items">Introduction to Action Axis  Introduction to Add button  Introduction to Play button </string>
+     
+    <string name="actions_lesson_start">Start</string>
+    <string name="actions_lesson_got_it">Got it.</string>
+    <string name="actions_lesson_1_guide">Alpha\'s action is cool, huh? How are these actions created? Let\'s start with the Action Editor.</string>
+    <string name="actions_lesson_action_axis">Action Axis </string>
+    <string name="actions_lesson_music_axis">Music Axis</string>
+    <string name="actions_lesson_action_frame">Action Frame</string>
+    <string name="actions_lesson_zoom">Zoom in and out.</string>
+    <string name="actions_lesson_next_part">Next</string>
+    <string name="actions_lesson_1_add_action">Add an action</string>
+    <string name="actions_lesson_1_play">Play all actions</string>
+    <string name="actions_lesson_pass">Well done!</string>
+    <string name="actions_lesson_fail">Failed to pass.</string>
+    <string name="actions_lesson_quit">You almost finish the lesson, are you sure you want to quit?</string>
+    <string name="actions_lesson_quit_confirm">Quit</string>
+    <string name="actions_lesson_not_quit">Continue</string>
 
 
-    <string name="action_level_1_content">第一关 了解动作编辑器</string>
-    <string name="action_level_2_content">第二关 学习动作库</string>
-    <string name="action_level_3_content">第三关 学习音乐库</string>
-    <string name="action_level_4_content">第四关 添加动作+音频</string>
-    <string name="action_level_5_content">第五关 创建动作</string>
+    <!--动作编辑第二关-->
+    <string name="action_level_2_content_1">1.Introduction to Action Library</string>
+    <string name="action_level_2_content_2">2.Simple Actions Library</string>
+    <string name="action_level_2_content_3">3.Advanced Action Library</string>
+
+    <string name="actions_lesson_2">Lesson 2  Introduction to Action Library</string>
+    <string name="actions_lesson_2_items">Introduction to Action Library   Simple Actions Library   Advanced Action Library</string>
+    <string name="actions_lesson_2_guide">There are 2 Action Libraries including Simple Action Library and Advanced Action Library.  You can select actions from the libraries and add them to the Action Axis. </string>
+    <string name="actions_lesson_2_simple_actions">Simple Actions </string>
+    <string name="actions_lesson_2_advanced_actions">Advanced Actions </string>
+    <!---==============================初级动作========================-->
+    <string name="actions_lesson_2_attack">Attack</string>
+    <string name="actions_lesson_2_back_bend">Back bend</string>
+    <string name="actions_lesson_2_squat">Squat</string>
+    <string name="actions_lesson_2_left_hand_up">Left hand up</string>
+    <string name="actions_lesson_2_right_hand_up">	Right hand up</string>
+    <string name="actions_lesson_2_poppin1">Poppin 1</string>
+    <string name="actions_lesson_2_poppin2">Poppin 2</string>
+    <string name="actions_lesson_2_hug">Hug</string>
+    <string name="actions_lesson_2_happy">Happy</string>
+    <string name="actions_lesson_2_salute">Salute</string>
+    <!--=================高级动作=================-->
+    <string name="actions_lesson_2_walk">Walk</string>
+    <string name="actions_lesson_2_wiggle">Wiggle</string>
+    <string name="actions_lesson_2_jumping_jack">Jumping jack</string>
+    <string name="actions_lesson_2_side_bend">Side bend</string>
+    <string name="actions_lesson_2_arm_stretch">Arm stretch</string>
+    <string name="actions_lesson_2_dance_1">Dance 1</string>
+    <string name="actions_lesson_2_dance_2">Dance 2</string>
+    <string name="actions_lesson_2_curtain_call">Curtain call</string>
+    <string name="actions_lesson_2_handshake">Handshake</string>
+    <string name="actions_lesson_2_goodbye">Goodbye</string>
+
+    <!--动作编辑第三关-->
+    <string name="actions_lesson_3">Lesson 3  Introduction to Audio Library</string>
+    <string name="actions_lesson_3_item">1.Introduction to Audio Library</string>
+    <string name="actions_lesson_3_item_1">2.Add an audio</string>
+    <string name="actions_lesson_3_intro">This is the music library where you can find some awesome music. You can add music from here to the music axis and allow Alpha to perform actions to music for a cooler experience.</string>
+    <string name="actions_lesson_3_audio_library">Audio Library</string>
+     <string name="actions_lesson_3_audios_title">Audios</string>
+    <!--动作编辑第四关-->
+    <string name="actions_lesson_4">Lesson 4  Add Actions and An Audio  </string>
+    <string name="actions_lesson_4_item">1.Add the action Dance 1</string>
+    <string name="actions_lesson_4_item_1">2.Add the audio London</string>
+    <string name="actions_lesson_4_item_2">Preview</string>
+    <string name="actions_lesson_4_add">Now, let\'s add a complete dance action with music!</string>
+
+
+
+
+
+     <string name="action_level_5_content">第五关 创建动作</string>
     <string name="action_level_6_content">第六关 创建音频</string>
     <string name="action_level_7_content">第七关 修改动作</string>
     <string name="action_level_8_content">第八关 连续动作</string>
@@ -78,18 +136,17 @@
     <string name="action_level_10_content">第十关 自定义动作</string>
 
 
-     <string name="ui_readback_play" tools:ignore="ResourceName">播放</string>
+    <string name="ui_readback_play" tools:ignore="ResourceName">播放</string>
     <string name="ui_readback_stop" tools:ignore="ResourceName">停止</string>
-     <string name="ui_readback_preview_tip" tools:ignore="ResourceName">预览时，机器人动作幅度较大，请将机器人放在开阔平整处，以免摔坏。</string>
-     <string name="ui_readback_copy_tip" tools:ignore="ResourceName">动作#已复制</string>
-     <string name="ui_readback_paste_tip" tools:ignore="ResourceName">此动作将粘贴在动作#之后</string>
+    <string name="ui_readback_preview_tip" tools:ignore="ResourceName">预览时，机器人动作幅度较大，请将机器人放在开阔平整处，以免摔坏。</string>
+    <string name="ui_readback_copy_tip" tools:ignore="ResourceName">动作#已复制</string>
+    <string name="ui_readback_paste_tip" tools:ignore="ResourceName">此动作将粘贴在动作#之后</string>
     <string name="ui_readback_action_total_time" tools:ignore="ResourceName">时长#</string>
     <string name="ui_readback_max_time" tools:ignore="ResourceName">最大：</string>
     <string name="ui_readback_min_time" tools:ignore="ResourceName">最小：</string>
 
 
-
-     <string name="ui_create_menu_copy_tips" tools:ignore="ResourceName">动作#已复制</string>
+    <string name="ui_create_menu_copy_tips" tools:ignore="ResourceName">动作#已复制</string>
     <string name="ui_create_menu_cut_tips" tools:ignore="ResourceName">动作X已剪切</string>
     <string name="ui_create_menu_delete_tips" tools:ignore="ResourceName">动作X已删除</string>
     <string name="ui_create_delete_music" tools:ignore="ResourceName">删除音频</string>
@@ -99,39 +156,15 @@
     <string name="ui_create_auto_record_tips" tools:ignore="ResourceName">开启自动模式后，机器人的运行轨迹将记录到创作中（每隔200ms），点击“开始”后可以自由调节机器人动作</string>
     <string name="ui_create_guide_add" tools:ignore="ResourceName">调节好动作后，点击这里停止记录</string>
     <string name="ui_create_start" tools:ignore="ResourceName">Start</string>
-    <string name="ui_create_basic_action" tools:ignore="ResourceName">基础动作</string>
+
     <string name="ui_create_add" tools:ignore="ResourceName">添加</string>
-    <string name="ui_create_music" tools:ignore="ResourceName">音频</string>
+
     <string name="ui_create_record" tools:ignore="ResourceName">录音</string>
     <string name="ui_create_cover_music" tools:ignore="ResourceName">创作中已存在音频，确认替换为当前音频么？</string>
     <string name="ui_create_cover_music_tips" tools:ignore="ResourceName">Tips：替换后，音频标记需要重新添加哦~</string>
     <string name="ui_create_save_tips" tools:ignore="ResourceName">动作还未保存，是否退出？</string>
 
-    <!---==============================初级动作========================-->
-    <string name="ui_basic_action_warrior" tools:ignore="ResourceName">出招</string>
-    <string name="ui_basic_action_stoop" tools:ignore="ResourceName">下腰</string>
-    <string name="ui_basic_action_squat" tools:ignore="ResourceName">蹲下</string>
-    <string name="ui_basic_action_left_hand" tools:ignore="ResourceName">左抬手</string>
-    <string name="ui_basic_action_right_hand" tools:ignore="ResourceName">右抬手</string>
-    <string name="ui_basic_action_mech_dance1" tools:ignore="ResourceName">机械舞1</string>
-    <string name="ui_basic_action_mech_dance2" tools:ignore="ResourceName">机械舞2</string>
-    <string name="ui_basic_action_hug" tools:ignore="ResourceName">抱抱</string>
-    <string name="ui_basic_action_happy" tools:ignore="ResourceName">开心</string>
-    <string name="ui_basic_action_salute" tools:ignore="ResourceName">敬礼</string>
 
-    <!--=================高级动作=================-->
-    <string name="ui_advance_action_walk" tools:ignore="ResourceName">行走</string>
-    <string name="ui_advance_action_twist" tools:ignore="ResourceName">扭腰</string>
-    <string name="ui_advance_action_steppin" tools:ignore="ResourceName">垫脚</string>
-    <string name="ui_advance_action_bent" tools:ignore="ResourceName">侧弯腰</string>
-    <string name="ui_advance_action_arm" tools:ignore="ResourceName">手臂伸展</string>
-    <string name="ui_advance_action_woshou" tools:ignore="ResourceName">握手</string>
-    <string name="ui_advance_action_dance1" tools:ignore="ResourceName">舞蹈动作1</string>
-    <string name="ui_advance_action_dance2" tools:ignore="ResourceName">舞蹈动作2</string>
-    <string name="ui_advance_action_curtain" tools:ignore="ResourceName">谢幕</string>
-    <string name="ui_advance_action_bye" tools:ignore="ResourceName">再见</string>
-
-    <string name="ui_create_advance_action" tools:ignore="ResourceName">高级动作</string>
     <string name="ui_create_record_placeholder" tools:ignore="ResourceName">请输入录音名称</string>
     <string name="ui_create_record_empty_name" tools:ignore="ResourceName">录音名称不能为空</string>
     <string name="ui_create_record_save_failed" tools:ignore="ResourceName">保存失败</string>
@@ -179,7 +212,7 @@
     <string name="ui_action_name_error" tools:ignore="ResourceName">名称不能包含特殊字符</string>
 
     <string name="ui_resave_tip" tools:ignore="ResourceName">当前名称文件已存在，确定覆盖当前文件吗?</string>
-    <string name="ui_recording_txt" tools:ignore="ResourceName">动作记录中...</string>
+
 
     <string name="ui_readback_save_title" tools:ignore="ResourceName">保存动作</string>
     <string name="ui_readback_save_action_type" tools:ignore="ResourceName">动作类型：</string>
@@ -220,60 +253,20 @@
     <string name="ui_action_name_spaces" tools:ignore="ResourceName">名称不可包含空格</string>
     <string name="ui_remote_synchoronize_unknown_error" tools:ignore="ResourceName">未知错误</string>
     <string name="ui_about_feedback_input_too_long" tools:ignore="ResourceName">输入过长</string>
-    <!--动作编辑课程 -->
-    <string name="action_course_card1_1">1.了解时间轴</string>
-    <string name="action_course_card1_2">2.了解添加键</string>
-    <string name="action_course_card1_3">3.了解播放键</string>
-    <string name="action_course_card1_1_all">阿尔法的动作是怎样创建出来的呢？让我们先来了解一下动作编辑器吧。</string>
 
-    <string name="action_continue_course">继续闯关</string>
-    <string name="action_cancel_course">放弃闯关</string>
-    <string name="action_course_card1_1_1"> 时间轴: 这是时间轴，它就像一个奇妙的盒子，上面装着音乐，下面装着动作，添加的动作会按先后顺序显示在轴上。右侧的“+ 、-”图标：点击这里，可以让时间轴变大变小，这样才能看清上面的动作，更好地编辑它们。</string>
-    <string name="action_course_card1_1_2">点击这里，可以让时间轴变大变小，这样才能看清上面的动作，更好地编辑它们。</string>
-    <string name="action_course_card1_1_3">音乐轴: 在这里，可以给阿尔法的动作配上音乐，让它随着音乐节拍跳舞、做动作。仔细听清音乐节拍，使用标记工具，可以帮你将动作安放在恰当的节拍上。</string>
-    <string name="action_course_card1_1_4">动作帧: 给机器人添加的动作会显示在这里，不同动作按先后顺序，一个接一个地排整齐。也可以设定每一个动作时间的长短。</string>
-    <string name="action_course_card1_1_5">添加按钮: 当我们掰动好机器人的动作后，点击添加按钮，机器人的动作就可以记录下来了。</string>
-    <string name="action_course_card1_1_6">播放按钮: 当我们添加好动作和音乐后，很好奇它们在机器人身上是怎样表现的，点击这个按钮，就可以看到了哦。</string>
-    <string name="action_course_card1_2_1">点击机器人的关节部分机器人掉电，掰动机器人的关节至理想的动作点击时间轴的添加按钮 完成动作添加</string>
-    <string name="action_course_card1_3_1">这是音乐库，里面有很多好听又欢快的音乐，进入这里，可以把这些音乐添加到时间轴上，让阿尔法的动作有音乐相伴，更生动有趣啦。</string>
-
-
-    <string name="action_course_card2_1">1.了解动作库</string>
-    <string name="action_course_card2_2">2.初级动作库</string>
-    <string name="action_course_card2_3">3.高级动作库</string>
-
-    <string name="action_course_card2_1_all">阿尔法有自己的动作库，这可是一个大宝库哟。分为基础动作和高级动作，用来添加到时间轴上。</string>
-    <string name="action_course_card2_2_1">这里是基础动作库，里面的动作简单又快速，还可以将这些动作添加到时间轴上</string>
-    <string name="action_course_card2_2_2">这里是高级动作库，里面的动作酷炫又好玩，还可以将这些动作添加到时间轴上。</string>
 
     <string name="action_course_card2_3_1">3.添加指定动作出招</string>
     <string name="action_course_card2_3_1_1">学习完动作库的知识，现在让我们来完成一个小任务吧，你会把基础动作“出招”添加到时间轴上吗？</string>
     <string name="action_course_card2_3_1_2">点击基础动作模版  点击预览出招动作 点击添加</string>
 
 
-    <string name="action_course_card3_1_all">这是音乐库,里面有很多好听的音乐。进入这里,可以把这些音乐添加到时间轴上,让阿尔法的动作有音乐相伴,更生动有趣。</string>
     <string name="action_ui_course_principle_exit_tip">课程未完成，是否退出？</string>
 
 
     <string name="action_retry_get"><b>点击重试</b></string>
 
 
-    <string name="action_level_1_content_1">1.认识时间轴</string>
-    <string name="action_level_1_content_2">2.了解添加键</string>
-    <string name="action_level_1_content_3">3.了解播放键</string>
 
-    <string name="action_level_2_content_1">1.了解动作库</string>
-    <string name="action_level_2_content_2">2.初级动作库</string>
-    <string name="action_level_2_content_3">3.高级动作库</string>
-
-
-    <string name="action_level_3_content_1">1.了解音乐库</string>
-    <string name="action_level_3_content_2">2.添加音频</string>
-
-
-    <string name="action_level_4_content_1">1.添加舞蹈动作</string>
-    <string name="action_level_4_content_2">2.添加london音频</string>
-    <string name="action_level_4_content_3">3.预览执行</string>
 
     <string name="action_level_5_content_1">1.模板讲解</string>
     <string name="action_level_5_content_2">2.创建指定动作—踢腿</string>

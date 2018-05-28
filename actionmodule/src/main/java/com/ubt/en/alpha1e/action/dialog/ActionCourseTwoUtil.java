@@ -68,10 +68,10 @@ public class ActionCourseTwoUtil implements BaseQuickAdapter.OnItemClickListener
         this.mType = type;
         String title = "";
         if (type == 1) {
-            title = SkinManager.getInstance().getTextById(R.string.ui_create_basic_action);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_2_simple_actions);
             list = ActionConstant.getBasicActionList(mContext);
         } else if (type == 2) {
-            title =  SkinManager.getInstance().getTextById(R.string.ui_create_advance_action);
+            title =  SkinManager.getInstance().getTextById(R.string.actions_lesson_2_advanced_actions);
             list = ActionConstant.getHighActionList(mContext);
         }
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_aciton_course_select, null);

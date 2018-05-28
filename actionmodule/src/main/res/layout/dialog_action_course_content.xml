@@ -50,7 +50,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_blue"
         android:gravity="center"
-        android:text="@string/action_next"
+        android:text="@string/actions_lesson_next_part"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp"/>

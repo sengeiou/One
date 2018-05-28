@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_60"
-            android:text="闯关成功"
+            android:text="@string/actions_lesson_pass"
             android:textColor="@color/tv_user_edit_color"
             android:textSize="20sp"
             />
@@ -30,7 +30,6 @@
             android:layout_below="@+id/tv_result"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="第二关 创建指定动作"
             android:textColor="@color/tv_user_edit_color"
             android:textSize="16sp"
             />
@@ -79,7 +78,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_alert_bg"
                 android:gravity="center"
-                android:text="下一关"
+                android:text="@string/actions_lesson_next_part"
                 android:textColor="@color/tv_user_edit_color"
                 android:textSize="16sp"
                 android:visibility="gone"/>

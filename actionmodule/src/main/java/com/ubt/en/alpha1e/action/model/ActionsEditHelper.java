@@ -500,7 +500,7 @@ public class ActionsEditHelper implements IProtolPackListener {
         tvContent.setText(getCourseDialogTitle(course));
 
         Button button = contentView.findViewById(R.id.btn_pos);
-        button.setText(SkinManager.getInstance().getTextById(R.string.action_next));
+        button.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_next_part));
 
         RecyclerView mrecyle = contentView.findViewById(R.id.recyleview_content);
         mrecyle.setLayoutManager(new LinearLayoutManager(context));
@@ -548,13 +548,13 @@ public class ActionsEditHelper implements IProtolPackListener {
     public static String getCourseDialogTitle(int course) {
         String title = "";
         if (course == 1) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_1_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_1);
         } else if (course == 2) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_2_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_2);
         } else if (course == 3) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_3_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_3);
         } else if (course == 4) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_4_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_4);
         } else if (course == 5) {
             title = SkinManager.getInstance().getTextById(R.string.action_level_5_content);
         } else if (course == 6) {

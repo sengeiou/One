@@ -83,7 +83,7 @@ public class CourseMusicDialogUtil implements BaseQuickAdapter.OnItemClickListen
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_aciton_course_select, null);
         ViewHolder viewHolder = new ViewHolder(contentView);
         TextView tvTitle = contentView.findViewById(R.id.title_actions);
-        tvTitle.setText(SkinManager.getInstance().getTextById(R.string.ui_create_music));
+        tvTitle.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_audios_title));
         ImageView imageView = contentView.findViewById(R.id.iv_delete);
         imageView.setVisibility(View.VISIBLE);
         tvCancle = contentView.findViewById(R.id.tv_cancel);

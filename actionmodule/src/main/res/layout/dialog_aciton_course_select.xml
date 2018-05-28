@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="@string/ui_create_basic_action"
+            android:text="@string/actions_lesson_2_simple_actions"
             android:textColor="@color/tv_user_edit_color"
             android:textSize="16sp"
             />
