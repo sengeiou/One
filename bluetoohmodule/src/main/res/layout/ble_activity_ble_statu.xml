@@ -179,7 +179,7 @@
                     />
 
                 <CheckBox
-                    android:id="@+id/ble_checkbox"
+                    android:id="@+id/ckb_auto_upgrade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -268,6 +268,36 @@
                     <TextView
                         android:id="@+id/tv_robot_ip"
                         style="@style/ble_tv_robot_right"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_0_5"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:background="@color/base_line"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_robot_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_below="@+id/rl_robot_ip"
+                    >
+
+                    <TextView
+                        style="@style/ble_tv_robot_left"
+                        android:text="@string/ble_about_robot_language"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_robot_language"
+                        style="@style/ble_tv_robot_right"
+                        android:drawablePadding="@dimen/dp_10"
+                        android:drawableRight="@drawable/more"
+                        android:text="@string/ble_choose_a_wifi"
                         />
 
 

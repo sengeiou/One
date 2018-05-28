@@ -46,6 +46,7 @@
     <string name="ble_about_robot_disconnect">Disconnect robot</string>
     <string name="ble_about_robot_disconnect_dialogue">Are you sure to disconnect with Robot %1$s?</string>
     <string name="ble_disconnect">Disconnect</string>
+    <string name="ble_about_robot_language">Robot Language</string>
     
 
 </resources>

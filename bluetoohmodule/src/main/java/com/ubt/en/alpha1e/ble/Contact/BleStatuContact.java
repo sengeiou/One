@@ -32,6 +32,8 @@ public class BleStatuContact {
         void setRobotSN(String SN);
 
         void goBleSraechActivity();
+
+        void setAutoUpgradeStatus(int status);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -46,5 +48,9 @@ public class BleStatuContact {
 
         void checkBlestatu();
 
+        /** 改变 1E 自动升级状态
+         * @param is0pen false 为未开启， true为已开启
+         */
+        void doChangeAutoUpgrade(boolean is0pen);
     }
 }

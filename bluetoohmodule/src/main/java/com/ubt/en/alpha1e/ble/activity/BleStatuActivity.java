@@ -2,6 +2,8 @@ package com.ubt.en.alpha1e.ble.activity;
 
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.MVPBaseActivity;
@@ -37,6 +40,7 @@ import butterknife.Unbinder;
 @Route(path = ModuleUtils.Bluetooh_BleStatuActivity)
 public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleStatuPrenster> implements BleStatuContact.View {
 
+    private static final int UPDATE_AUTO_UPGRADE = 1; //更新自动升级状态
 
     @BindView(R2.id.bleImageview3)
     ImageView mBleImageview3;
@@ -64,8 +68,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     TextView mTvWifiSelect;
     @BindView(R2.id.rl_robot_wifi)
     RelativeLayout mRlRobotWifi;
-    @BindView(R2.id.ble_checkbox)
-    CheckBox mBleSwitch;
+    @BindView(R2.id.ckb_auto_upgrade)
+    CheckBox ckbAutoUpgrade;
     @BindView(R2.id.rl_robot_update)
     RelativeLayout mRlRobotUpdate;
     @BindView(R2.id.tv_robot_version)
@@ -92,10 +96,33 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     Unbinder mUnbinder;
     @BindView(R2.id.iv_notconnect_wifi)
     ImageView mIvNotconnectWifi;
+    @BindView(R.id.tv_robot_language)
+    TextView tvRobotLanguage;
 
     private int fromeType;
 
     private String wifiName;
+
+    private boolean mCurrentAutoUpgrade = false;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case UPDATE_AUTO_UPGRADE:
+                    ViseLog.d("mCurrentAutoUpgrade = " + mCurrentAutoUpgrade);
+                    if (mCurrentAutoUpgrade) { //打开
+                        ckbAutoUpgrade.setChecked(true);
+                    } else {//关闭
+                        ckbAutoUpgrade.setChecked(false);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public int getContentViewId() {
@@ -113,10 +140,11 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     @Override
     protected void onResume() {
         super.onResume();
+        ViseLog.d("-onResume-");
         mPresenter.getRobotBleConnect();
     }
 
-    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect})
+    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect, R.id.tv_robot_language,R.id.ckb_auto_upgrade})
     public void clickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_back_disconnect) {
@@ -128,8 +156,24 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         } else if (i == R.id.tv_wifi_select) {
             BleSearchWifiActivity.launch(this, false, wifiName);
 
+        } else if (i == R.id.tv_robot_language) {
+            ViseLog.d("tv_robot_language");
+
+
+        }else if (i == R.id.ckb_auto_upgrade) {
+            ViseLog.d("ckb_auto_upgrade");
+            BaseLoadingDialog.dismiss(this);
+            BaseLoadingDialog.show(this);
+
+            if(mCurrentAutoUpgrade){
+                mCurrentAutoUpgrade = false;
+            }else {
+                mCurrentAutoUpgrade = true;
+            }
+            mPresenter.doChangeAutoUpgrade(mCurrentAutoUpgrade);
+
         } else if (i == R.id.ble_tv_connect) {
-            String s = String.format(getResources().getString(R.string.ble_about_robot_disconnect_dialogue), mTvBleName.getText());
+            String s = String.format(SkinManager.getInstance().getTextById(R.string.ble_about_robot_disconnect_dialogue), mTvBleName.getText());
 
             new BaseDialog.Builder(this)
                     .setMessage(s)
@@ -210,6 +254,21 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     }
 
     @Override
+    public void setAutoUpgradeStatus(int status) {
+        ViseLog.d("setAutoUpgradeStatus = " + status);
+
+        if (status == 0) {//关闭
+            mCurrentAutoUpgrade = false;
+            mHandler.sendEmptyMessage(UPDATE_AUTO_UPGRADE);
+        } else if (status == 1) {
+            mCurrentAutoUpgrade = true;
+            mHandler.sendEmptyMessage(UPDATE_AUTO_UPGRADE);
+        } else {
+            //2 设置中... 不做处理
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.unRegister();
@@ -242,4 +301,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         finish();
     }
 
+    @OnClick(R.id.rl_robot_language)
+    public void onViewClicked() {
+
+    }
 }
