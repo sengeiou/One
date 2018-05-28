@@ -88,6 +88,12 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.startOrStopRun((byte) 0x05);
+    }
+
     private void initView() {
 
         mViewList.clear();

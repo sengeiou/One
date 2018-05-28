@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.TimeTools;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.model.DynamicActionModel;
@@ -70,7 +71,7 @@ public class DynamicActionAdapter extends BaseQuickAdapter<DynamicActionModel, B
             } else {
                 tvDownProgress.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
-                tvDownProgress.setText("等待中");
+                tvDownProgress.setText(SkinManager.getInstance().getTextById(R.string.actions_download_details_loading));
             }
             ViseLog.d("DownloadAction", "convert  progress======" + item.getDownloadProgress());
         }

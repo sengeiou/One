@@ -12,18 +12,23 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
+import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.TimeTools;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.action.contact.DynamicActionContract;
 import com.ubt.en.alpha1e.action.model.DownloadProgressInfo;
 import com.ubt.en.alpha1e.action.model.DynamicActionModel;
 import com.ubt.en.alpha1e.action.presenter.DynamicActionPrenster;
 import com.ubt.en.alpha1e.action.util.DownLoadActionManager;
 import com.ubt.en.alpha1e.action.util.GlideRoundTransform;
-import com.ubt.globaldialog.customDialog.ConfirmDialog;
 import com.ubt.globaldialog.customDialog.loading.LoadingDialog;
 import com.vise.log.ViseLog;
 
@@ -101,6 +106,7 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
     protected void onResume() {
         super.onResume();
         DownLoadActionManager.getInstance(this).addDownLoadActionListener(this);
+        AppStatusUtils.setBtBussiness(true);
     }
 
     /**
@@ -109,7 +115,7 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
 
     protected void initUI() {
         mTvActionName.setText(mDynamicActionModel.getActionName());
-        mTvActionCreateTime.setText(TimeTools.format(mDynamicActionModel.getActionDate()) + "创建");
+        mTvActionCreateTime.setText(SkinManager.getInstance().getTextById(R.string.actions_my_works_details_time) + " " + TimeTools.format(mDynamicActionModel.getActionDate()));
         mTvActionTime.setText(TimeTools.getMMTime(mDynamicActionModel.getActionTime() * 1000));
         mTvContent.setText(mDynamicActionModel.getActionDesciber());
         Glide.with(this).load(mDynamicActionModel.getActionHeadUrl()).diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -172,7 +178,10 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
      * 播放按钮
      */
     private void playAction() {
-
+        if (!mPresenter.isBlueConnected()) {
+            showBluetoothConnectDialog();
+            return;
+        }
         int actionStatu = mDynamicActionModel.getActionStatu();
         if (actionStatu == 0) {
             if (mDynamicActionModel.isDownload()) {//已经下载
@@ -201,13 +210,13 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
         if (type == 1) {
             mProgressDownload.setVisibility(View.GONE);
             mTvPlay.setVisibility(View.VISIBLE);
-            mTvPlay.setText("播放");
+            mTvPlay.setText(SkinManager.getInstance().getTextById(R.string.actions_my_works_details_play));
             Drawable drawable = getResources().getDrawable(R.drawable.ic_btn_play2);
             mTvPlay.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         } else if (type == 2) {
             mProgressDownload.setVisibility(View.GONE);
             mTvPlay.setVisibility(View.VISIBLE);
-            mTvPlay.setText("暂停");
+            mTvPlay.setText(SkinManager.getInstance().getTextById(R.string.actions_download_details_stop));
             Drawable drawable = getResources().getDrawable(R.drawable.ic_btn_stop2);
             mTvPlay.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         } else if (type == 3) {
@@ -215,7 +224,7 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
             mTvPlay.setVisibility(View.GONE);
             if ((int) mDynamicActionModel.getDownloadProgress() == 0) {
                 mTvPlay.setVisibility(View.VISIBLE);
-                mTvPlay.setText("等待中");
+                mTvPlay.setText(SkinManager.getInstance().getTextById(R.string.actions_my_works_details_loading));
                 mTvPlay.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             } else {
                 mTvPlay.setVisibility(View.GONE);
@@ -271,11 +280,11 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
                 DownLoadActionManager.getInstance(this).playAction(true, mDynamicActionModel);
                 setPlaBtnAction(2);
             } else if (downloadProgressInfo.status == 3) {//机器人未联网
-                ToastUtils.showShort("机器人未联网");
+                //ToastUtils.showShort("机器人未联网");
                 mDynamicActionModel.setActionStatu(0);
                 setPlaBtnAction(1);
             } else {//下载失败
-                ToastUtils.showShort("下载失败");
+               // ToastUtils.showShort("下载失败");
                 mDynamicActionModel.setActionStatu(0);
                 setPlaBtnAction(1);
             }
@@ -292,7 +301,7 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
 
     @Override
     public void onBlutheDisconnected() {
-
+        showBluetoothConnectDialog();
     }
 
     @Override
@@ -316,28 +325,48 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
         super.onDestroy();
         mUnbinder.unbind();
         DownLoadActionManager.getInstance(this).removeDownLoadActionListener(this);
+        AppStatusUtils.setBtBussiness(true);
     }
 
 
     //显示蓝牙连接对话框
     private void showDeleteDialog() {
-        new ConfirmDialog(this).builder()
-                .setMsg("确定要删除这个内容吗？")
-                .setCancelable(true)
-                .setPositiveButton("确定", new View.OnClickListener() {
+        new BaseDialog.Builder(this)
+                .setMessage(SkinManager.getInstance().getTextById(R.string.actions_download_details_delete))
+                .setConfirmButtonId(R.string.base_cancel)
+                .setConfirmButtonColor(R.color.black)
+                .setCancleButtonID(R.string.base_delete)
+                .setCancleButtonColor(R.color.base_color_red)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        mPresenter.deleteActionById(mDynamicActionModel.getActionId());
-                        LoadingDialog.show(ActionDetailDynamicActivity.this);
-                    }
-                })
-                .setNegativeButton("取消", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            dialog.dismiss();
+                        } else if (view.getId() == R.id.button_cancle) {
+                            mPresenter.deleteActionById(mDynamicActionModel.getActionId());
+                            LoadingDialog.show(ActionDetailDynamicActivity.this);
+                            dialog.dismiss();
+                        }
 
                     }
-                }).show();
+                }).create().show();
+
     }
 
+    //显示蓝牙连接对话框
+    private void showBluetoothConnectDialog() {
+        BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+            @Override
+            public void onConnect() {
+                ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                BaseBTDisconnectDialog.getInstance().dismiss();
+            }
+
+            @Override
+            public void onCancel() {
+                BaseBTDisconnectDialog.getInstance().dismiss();
+            }
+        });
+    }
 
 }

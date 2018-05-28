@@ -26,7 +26,7 @@
     <string name="base_close">Close</string>
     <string name="base_network_error">Network error. Tap to load again.</string>
     <string name="base_connect">Connect</string>
-
+    <string name="base_delete">Delete</string>
     <string name="base_lowpower">Robot Low Battery</string>
     <string name="base_lowpower_20">20% battery remainning</string>
     <string name="base_lowpower_5">5% battery remainning</string>

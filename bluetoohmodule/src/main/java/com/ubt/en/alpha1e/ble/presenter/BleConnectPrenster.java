@@ -16,6 +16,7 @@ import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.PermissionUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -173,6 +174,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 if (mView != null) {
                     mView.connectSuccess();
                 }
+                BaseBTDisconnectDialog.getInstance().dismiss();
                 //boolean isExist = DataSupport.isExist(BleDevice.class, "mac=?", mCurrentBleDevice.getMac());
                 if (mCurrentBleDevice != null) {
                     DataSupport.deleteAll(BleDevice.class);

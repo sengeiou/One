@@ -15,12 +15,16 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.ViewHolder;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.contact.CourseContract;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
@@ -91,6 +95,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         ((ActionsEditHelper) mHelper).doEnterCourse((byte) 1);
         mActionEdit.setData(this);
         mActionEdit.setOnSaveSucessListener(this);
+        AppStatusUtils.setBtBussiness(true);
     }
 
     @Override
@@ -109,6 +114,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
             mActionEdit.doReset();
         }
         mHelper.unRegister();
+        AppStatusUtils.setBtBussiness(false);
     }
 
 
@@ -188,7 +194,22 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     @Override
     public void onDisconnect() {
+        if (!BaseBTDisconnectDialog.getInstance().isShowing()) {
+            BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+                @Override
+                public void onConnect() {
+                    ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                    finish();
+                }
 
+                @Override
+                public void onCancel() {
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                    finish();
+                }
+            });
+        }
     }
 
     @Override

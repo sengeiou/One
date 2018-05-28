@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.R;
@@ -44,6 +46,13 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
         mPresenter.init(this);
         BaseLoadingDialog.show(this, "Loading...");
         initView();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppStatusUtils.setBtBussiness(true);
     }
 
     private void initView() {
@@ -84,7 +93,18 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
         if (BlueClientUtil.getInstance().getConnectionState() == BluetoothState.STATE_CONNECTED) {
             ActionLevelCourseActivity.launchActivity(this, position + 1);
         } else {
-            ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+            BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+                @Override
+                public void onConnect() {
+                    ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                }
+
+                @Override
+                public void onCancel() {
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                }
+            });
         }
     }
 
@@ -116,5 +136,11 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppStatusUtils.setBtBussiness(false);
     }
 }

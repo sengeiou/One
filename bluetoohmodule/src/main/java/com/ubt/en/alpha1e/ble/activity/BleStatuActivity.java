@@ -21,6 +21,7 @@ import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -108,11 +109,13 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         mUnbinder = ButterKnife.bind(this);
         mPresenter.init(this);
         fromeType = getIntent().getIntExtra(Constant1E.ENTER_BLESTATU_ACTIVITY, 0);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        AppStatusUtils.setBtBussiness(true);
         mPresenter.getRobotBleConnect();
     }
 
@@ -214,6 +217,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         super.onDestroy();
         mPresenter.unRegister();
         mUnbinder.unbind();
+        AppStatusUtils.setBtBussiness(false);
     }
 
     @Override

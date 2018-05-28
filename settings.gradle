@@ -1,8 +1,8 @@
 include  ':baselib', ':app',  ':loginmodule',':remotemodule'
 include  ':bluetoohmodule', ':blocklymodule', ':actionmodule', ':skin-support'
 
-//include ":mainmodule"
-//project(':mainmodule').projectDir = new File(settingsDir, '../EbotEnMainModule/mainmodule')
+include ":mainmodule"
+project(':mainmodule').projectDir = new File(settingsDir, '../EbotEnMainModule/mainmodule')
 
 //include ":baselibextra"
 //project(':baselibextra').projectDir = new File(settingsDir, '../EbotEnBaseLibExtra/baselibextra')

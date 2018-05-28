@@ -46,6 +46,8 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
     private OnDialogListener mDialogListener;
     private PrepareDataModel selectDataModel;
 
+    private static DialogPlus mDialogPlus;
+
     public PrepareActionUtil(Context context) {
         this.mContext = context;
     }
@@ -83,14 +85,15 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
         WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         int width = (int) ((display.getWidth()) * 0.8); //设置宽度
-        DialogPlus.newDialog(mContext)
+        mDialogPlus = DialogPlus.newDialog(mContext)
                 .setContentHolder(viewHolder)
                 .setContentBackgroundResource(R.drawable.action_dialog_filter_rect)
                 .setGravity(Gravity.CENTER)
                 .setContentWidth(width)
                 .setOnClickListener(this)
                 .setCancelable(true)
-                .create().show();
+                .create();
+        mDialogPlus.show();
         selectDataModel = null;
     }
 
@@ -108,7 +111,7 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
         tvConfirm.setEnabled(true);
         actionAdapter.notifyDataSetChanged();
         if (mType == 1 || mType == 2) {
-            if (null != mDialogListener) {
+            if (null != mDialogListener && selectDataModel != null) {
                 mDialogListener.playAction(selectDataModel);
             }
         }
@@ -134,6 +137,13 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
         }
 
 
+    }
+
+    public static void dismiss() {
+        if (mDialogPlus != null) {
+            mDialogPlus.dismiss();
+            mDialogPlus = null;
+        }
     }
 
 

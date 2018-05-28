@@ -17,6 +17,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
@@ -190,6 +191,7 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     @Override
     public void dissConnectRobot() {
         mBlueClientUtil.disconnect();
+        AppStatusUtils.setIsForceDisBT(true);
     }
 
     @Override

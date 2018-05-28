@@ -22,7 +22,7 @@
         android:layout_height="@dimen/dp_50"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="@string/actions_my_works"
+        android:text="@string/actions_my_works_title"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"
         />

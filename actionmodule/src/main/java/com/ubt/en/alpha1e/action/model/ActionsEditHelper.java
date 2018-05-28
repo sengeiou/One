@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.BlueTooth.BTReadData;
@@ -33,12 +34,15 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdPowerOff;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAllEngine;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSoundStopPlay;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSwitchEditStatus;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.ByteHexHelper;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.adapter.CourseItemAdapter;
+import com.ubt.en.alpha1e.action.dialog.PrepareActionUtil;
 import com.ubt.en.alpha1e.action.util.ActionCourseDataManager;
 import com.ubt.htslib.base.NewActionInfo;
 import com.vise.log.ViseLog;
@@ -125,6 +129,8 @@ public class ActionsEditHelper implements IProtolPackListener {
     public void doReadAllEng() {
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdReadAllEngine().toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
     }
 
@@ -134,6 +140,9 @@ public class ActionsEditHelper implements IProtolPackListener {
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdCtrlAllEngine(datas).toByteArray());
         }
+//        else {
+//            showBlutoohDisconnectDialog();
+//        }
     }
 
 
@@ -148,6 +157,10 @@ public class ActionsEditHelper implements IProtolPackListener {
 //        params[0] = status;
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdEnterCource(status).toByteArray());
+        } else {
+            if (status == (byte) 1) {
+                showBlutoohDisconnectDialog();
+            }
         }
     }
 
@@ -162,6 +175,10 @@ public class ActionsEditHelper implements IProtolPackListener {
         ViseLog.d("ActionsEditHelper", "doEnterOrExitActionEdit status:" + status);
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdSwitchEditStatus(status).toByteArray());
+        } else {
+            if (status == (byte) 0x03) {
+                showBlutoohDisconnectDialog();
+            }
         }
 
     }
@@ -279,6 +296,8 @@ public class ActionsEditHelper implements IProtolPackListener {
     public void doLostPower() {
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdPowerOff().toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
     }
 
@@ -287,6 +306,8 @@ public class ActionsEditHelper implements IProtolPackListener {
         params[0] = ByteHexHelper.intToHexByte(id);
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdCtrlOneEngineLostPower(id).toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
     }
 
@@ -298,6 +319,8 @@ public class ActionsEditHelper implements IProtolPackListener {
     public void playCourse(String str) {
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdPlaySound(str).toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
     }
 
@@ -311,6 +334,8 @@ public class ActionsEditHelper implements IProtolPackListener {
         byte[] actions = BluetoothParamUtil.stringToBytes(actionName);
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdPlayAction(actionName).toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
     }
 
@@ -320,6 +345,8 @@ public class ActionsEditHelper implements IProtolPackListener {
     public void stopAction() {
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdActionStopPlay().toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
 
     }
@@ -334,6 +361,8 @@ public class ActionsEditHelper implements IProtolPackListener {
         ViseLog.d("playSoundAudio", "params = " + params);
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdPlaySound(params).toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
     }
 
@@ -344,6 +373,8 @@ public class ActionsEditHelper implements IProtolPackListener {
     public void stopSoundAudio() {
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdSoundStopPlay().toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
     }
 
@@ -388,6 +419,8 @@ public class ActionsEditHelper implements IProtolPackListener {
     public void doActionCommand(Command_type comm_type, NewActionInfo action) {
 
         if (mBlueClientUtil.getConnectionState() != 3) {
+            PrepareActionUtil.dismiss();
+            showBlutoohDisconnectDialog();
             return;
         }
 
@@ -421,6 +454,8 @@ public class ActionsEditHelper implements IProtolPackListener {
         param[0] = 0;
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdActionDoDefault(param).toByteArray());
+        } else {
+            showBlutoohDisconnectDialog();
         }
     }
 
@@ -428,7 +463,34 @@ public class ActionsEditHelper implements IProtolPackListener {
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 显示蓝牙掉线对话框
+     */
+    public void showBlutoohDisconnectDialog() {
+        if (!BaseBTDisconnectDialog.getInstance().isShowing()) {
+            BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+                @Override
+                public void onConnect() {
+                    ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                }
 
+                @Override
+                public void onCancel() {
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                }
+            });
+        }
+    }
+
+    /**
+     * 显示下一课对话框
+     *
+     * @param context
+     * @param course
+     * @param level
+     * @param clickListener
+     */
     public void showNextDialog(Context context, int course, int level, final ClickListener clickListener) {
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_action_course_content, null);
         TextView title = contentView.findViewById(R.id.tv_card_name);
@@ -477,6 +539,12 @@ public class ActionsEditHelper implements IProtolPackListener {
         void confirm();
     }
 
+    /**
+     * 课程列表关卡名称
+     *
+     * @param course
+     * @return
+     */
     public static String getCourseDialogTitle(int course) {
         String title = "";
         if (course == 1) {
@@ -503,29 +571,35 @@ public class ActionsEditHelper implements IProtolPackListener {
         return title;
     }
 
+    /**
+     * 课程列表
+     *
+     * @param course
+     * @return
+     */
     public static String getCourseDialogTitleLevel(int course) {
         String title = "";
-        if (course == 1) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_1);
-        } else if (course == 2) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_2);
-        } else if (course == 3) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_3);
-        } else if (course == 4) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_4);
-        } else if (course == 5) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_5);
-        } else if (course == 6) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_6);
-        } else if (course == 7) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_7);
-        } else if (course == 8) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_8);
-        } else if (course == 9) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_9);
-        } else if (course == 10) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_10);
-        }
-        return title;
+//        if (course == 1) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_1);
+//        } else if (course == 2) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_2);
+//        } else if (course == 3) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_3);
+//        } else if (course == 4) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_4);
+//        } else if (course == 5) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_5);
+//        } else if (course == 6) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_6);
+//        } else if (course == 7) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_7);
+//        } else if (course == 8) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_8);
+//        } else if (course == 9) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_9);
+//        } else if (course == 10) {
+//            title = SkinManager.getInstance().getTextById(R.string.action_level_10);
+//        }
+        return SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+" "+course;
     }
 }

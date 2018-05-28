@@ -22,6 +22,7 @@ import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.BitmapUtil;
 import com.ubt.baselib.utils.FileUtils;
 import com.ubt.baselib.utils.LQRPhotoSelectUtils;
@@ -115,6 +116,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         musicDir = getIntent().getStringExtra(MUSIC_DIR);
         initView();
         ViseLog.d(mCurrentAction.toString());
+        AppStatusUtils.setBtBussiness(true);
     }
 
 
@@ -150,6 +152,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        AppStatusUtils.setBtBussiness(false);
     }
 
     /**

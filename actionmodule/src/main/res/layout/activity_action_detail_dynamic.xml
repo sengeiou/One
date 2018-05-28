@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_bg"
-    >
+    tools:ignore="ResourceName">
 
     <ImageView
         android:id="@+id/iv_back"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
-        android:text="详情"
+        android:text="@string/actions_my_works_details_title"
         android:textColor="@color/tv_user_edit_color"
         android:textSize="20sp"
         />
@@ -149,7 +149,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/iv_cover"
-            android:text="描述:"
+            android:text="@string/actions_my_works_details_des"
             android:textColor="@color/base_tv_large_black"
             android:textSize="@dimen/sp_13"
             />
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/btn_blue"
-                android:text="发布到社区"
+                android:text="@string/actions_my_works_details_share"
                 android:textColor="@color/white"/>
 
             <RelativeLayout
@@ -220,7 +220,7 @@
                     android:drawableLeft="@drawable/ic_btn_play2"
                     android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:text="播放"
+                    android:text="@string/actions_my_works_details_play"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     />

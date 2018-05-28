@@ -3,6 +3,7 @@ package com.ubt.en.alpha1e.remote.presenster;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BTCmdHelper;
@@ -10,7 +11,10 @@ import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSwitchEditStatus;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.mvp.BasePresenterImpl;
+import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.remote.R;
 import com.ubt.en.alpha1e.remote.contract.RemoteContact;
@@ -49,30 +53,18 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
 
     private static String Robot_path = "action/controller/";
 
-   // DBManager dbManager = null;
+    // DBManager dbManager = null;
 
     @Override
     public void init(Context context, int remoteType) {
         mBlueClientUtil = BlueClientUtil.getInstance();
-        initData();
         EventBus.getDefault().register(this);
         //dbManager = new DBManager(context);
         mRemoteItems = getRemoteItems(context, remoteType);
-//        mRemoteItems = dbManager.getRemoteInfoByModel(DBManager.ModelType.FOOTBALL_PLAYER, false, String.valueOf(remoteType));
-//
-//        if (mRemoteItems != null && mRemoteItems.size() > 0) {
-//            for (int i = 0; i < mRemoteItems.size(); i++) {
-//                mRemoteItems.get(i).setDrawableId(remoteType == 1 ? footballdrawableId[i] : fighterdrawableId[i]);
-//            }
-//        }
+        if (!isBlutoohConnected()) {
+            checkBlutoohStatu();
+        }
         ViseLog.d(mRemoteItems.toString());
-        startOrStopRun((byte) 0x05);
-    }
-
-
-    private void initData() {
-        mRemoteItems.clear();
-
     }
 
 
@@ -116,6 +108,11 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
         return mRemoteItems;
     }
 
+    @Override
+    public boolean isBlutoohConnected() {
+        return mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED;
+    }
+
 
     public void startOrStopRun(byte cmd) {
         ViseLog.d("startOrStopRun==" + cmd);
@@ -132,7 +129,10 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
     public void playAction(int index) {
         //action/controller/Left slide tackle.hts
         // mBlueClientUtil.sendData(new BTCmdActionStopPlay().toByteArray());
-
+        if (!isBlutoohConnected()) {
+            checkBlutoohStatu();
+            return;
+        }
         String actionName = "";
         if (index == -1) {
             actionName = Robot_path + "Default foot.hts";
@@ -143,6 +143,26 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
         mBlueClientUtil.sendData(new BTCmdPlayAction(actionName).toByteArray());
     }
 
+    /**
+     * 检测蓝牙状态
+     */
+    private void checkBlutoohStatu() {
+
+        BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+            @Override
+            public void onConnect() {
+                ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                BaseBTDisconnectDialog.getInstance().dismiss();
+            }
+
+            @Override
+            public void onCancel() {
+                BaseBTDisconnectDialog.getInstance().dismiss();
+            }
+        });
+
+    }
+
 
     @Override
     public void unRegister() {
@@ -150,13 +170,21 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 获取遥控器动作列表
+     *
+     * @param context
+     * @param modeType
+     * @return
+     */
     private List<RemoteItem> getRemoteItems(Context context, int modeType) {
+        mRemoteItems.clear();
         List<RemoteItem> remoteItemList = new ArrayList<>();
         Resources resources = context.getResources();
         String[] array = null;
         if (modeType == 1) {
             array = resources.getStringArray(R.array.remote_footerball);
-        }else if (modeType==2){
+        } else if (modeType == 2) {
             array = resources.getStringArray(R.array.remote_fighter);
         }
         for (int i = 0; i < array.length; i++) {

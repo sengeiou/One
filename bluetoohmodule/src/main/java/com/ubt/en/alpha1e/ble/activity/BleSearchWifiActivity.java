@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.en.alpha1e.ble.Contact.WifiConnectContact;
 import com.ubt.en.alpha1e.ble.R;
@@ -86,14 +87,15 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
         mBleWifiList.setAdapter(mWifiListAdapter);
         mWifiListAdapter.setSelectedWifiName(wifiName);
         mWifiListAdapter.setOnItemClickListener(this);
-
         ViseLog.d("isFirstEnter==" + isFirstEnter);
+        mPresenter.init(this);
+        AppStatusUtils.setBtBussiness(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.init(this);
+        AppStatusUtils.setBtBussiness(true);
     }
 
     @Override
@@ -110,6 +112,14 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
             mScanResults.addAll(scanResultList);
             mWifiListAdapter.notifyDataSetChanged();
         }
+    }
+
+    /**
+     * 蓝牙断开
+     */
+    @Override
+    public void blutoohDisconnect() {
+        finishActivity();
     }
 
     @OnClick({R2.id.iv_back, R2.id.ble_input})
@@ -129,6 +139,7 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
         super.onDestroy();
         mUnbinder.unbind();
         mPresenter.unRegister();
+        AppStatusUtils.setBtBussiness(false);
     }
 
     @Override

@@ -13,13 +13,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.orhanobut.dialogplus.DialogPlus;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
+import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.action.adapter.DynamicActionAdapter;
 import com.ubt.en.alpha1e.action.contact.DynamicActionContract;
 import com.ubt.en.alpha1e.action.model.DownloadProgressInfo;
@@ -91,6 +97,11 @@ public class DynamicActionActivity extends MVPBaseActivity<DynamicActionContract
         initUI();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppStatusUtils.setBtBussiness(true);
+    }
 
     protected void initUI() {
         mDynamicActionAdapter = new DynamicActionAdapter(R.layout.action_dynamic_item, mDynamicActionModels);
@@ -212,7 +223,7 @@ public class DynamicActionActivity extends MVPBaseActivity<DynamicActionContract
         if (status == 1) {
             tvEmpty.setVisibility(View.VISIBLE);
             llError.setVisibility(View.GONE);
-            tvEmpty.setText(SkinManager.getInstance().getTextById(R.string.action_empty_no_dynamiaction));
+            tvEmpty.setText(SkinManager.getInstance().getTextById(R.string.actions_my_works_no_actions));
             ivStatu.setImageResource(R.drawable.ic_setting_action_deafult);
         } else if (status == 2) {
             tvRetry.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
@@ -420,6 +431,7 @@ public class DynamicActionActivity extends MVPBaseActivity<DynamicActionContract
     @Override
     public void onBlutheDisconnected() {//机器人掉线
         ViseLog.d(TAG, "机器人掉线");
+        showBluetoothConnectDialog();
         for (int i = 0; i < mDynamicActionModels.size(); i++) {
             mDynamicActionModels.get(i).setActionStatu(0);
         }
@@ -486,42 +498,47 @@ public class DynamicActionActivity extends MVPBaseActivity<DynamicActionContract
         unbinder.unbind();
         ViseLog.d(TAG, "--------------onDestory-----------");
         DownLoadActionManager.getInstance(this).removeDownLoadActionListener(this);
+        AppStatusUtils.setBtBussiness(false);
+
     }
 
     //显示蓝牙连接对话框
     private void showBluetoothConnectDialog() {
-        new ConfirmDialog(this).builder()
-                .setTitle("提示")
-                .setMsg("请先连接蓝牙和Wi-Fi")
-                .setCancelable(true)
-                .setPositiveButton("去连接", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ViseLog.d(TAG, "去连接蓝牙 ");
-//                        Intent intent = new Intent();
-//                        intent.putExtra(com.ubt.alpha1e.base.Constant.BLUETOOTH_REQUEST, true);
-//                        intent.setClass(this, BluetoothconnectActivity.class);
-//                        startActivityForResult(intent, REQUEST_CODE);
-                    }
-                }).show();
+        BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+            @Override
+            public void onConnect() {
+                ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                BaseBTDisconnectDialog.getInstance().dismiss();
+            }
+
+            @Override
+            public void onCancel() {
+                BaseBTDisconnectDialog.getInstance().dismiss();
+            }
+        });
     }
 
 
     //显示网络连接对话框
     private void showNetWorkConnectDialog() {
-        new ConfirmDialog(this).builder()
-                .setTitle("提示")
-                .setMsg("请先连接机器人Wi-Fi")
-                .setCancelable(true)
-                .setPositiveButton("去连接", new View.OnClickListener() {
+
+        new BaseDialog.Builder(this)
+                .setMessage("请先连接机器人Wi-Fi")
+
+                .setCancleButtonID(R.string.base_delete)
+                .setCancleButtonColor(R.color.base_color_red)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        ViseLog.d(TAG, "去连接Wifi ");
-//                        Intent intent = new Intent();
-//                        intent.setClass(this, NetconnectActivity.class);
-//                        startActivity(intent);
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            dialog.dismiss();
+                        } else if (view.getId() == R.id.button_cancle) {
+
+                            dialog.dismiss();
+                        }
+
                     }
-                }).show();
+                }).create().show();
     }
 
 }

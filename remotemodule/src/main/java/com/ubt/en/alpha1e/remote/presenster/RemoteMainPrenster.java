@@ -5,6 +5,7 @@ import android.content.Context;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdActionDoDefault;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.remote.R;
 import com.ubt.en.alpha1e.remote.contract.RemoteMainContact;
@@ -68,6 +69,5 @@ public class RemoteMainPrenster extends BasePresenterImpl<RemoteMainContact.View
         byte[] param = new byte[1];
         param[0] = 0;
         mBlueClientUtil.sendData(new BTCmdActionDoDefault(param).toByteArray());//退出遥控器
-
     }
 }

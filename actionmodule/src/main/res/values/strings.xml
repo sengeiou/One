@@ -2,11 +2,57 @@
     <string name="action_app_name">ActionModule</string>
 
     <string name="actions_title">Actions</string>
-
-    <string name="actions_make_up">Make up actions</string>
+    <string name="actions_create">Create actions</string>
     <string name="actions_my_works">My works</string>
     <string name="actions_download">Download</string>
+    <!--<string name="actions_make_up">Make up actions</string>-->
+
+    <!--原创页面-->
+    <string name="actions_my_works_title">My works</string>
+    <string name="actions_my_works_no_actions">You haven\'t created any actions.</string>
+    <string name="actions_my_works_details_title">Details</string>
+    <string name="actions_my_works_details_time">Create on</string>
+    <string name="actions_my_works_details_des">Description</string>
+    <string name="actions_my_works_details_share">Share to the Community</string>
+    <string name="actions_my_works_details_play">play</string>
+    <string name="actions_my_works_details_loading">Loading...</string>
+    <!--下载动作-->
+    <string name="actions_download_title">Download</string>
+    <string name="actions_download_no_actions">You haven\'t download any actions.</string>
+    <string name="actions_download_details_title">Details</string>
+    <string name="actions_download_details_time">Downloaded </string>
+    <string name="actions_download_details_des">Description</string>
+    <string name="actions_download_details_post">View the related post</string>
+    <string name="actions_download_details_play">Play</string>
+    <string name="actions_download_details_loading">Loading...</string>
+    <string name="actions_download_details_stop">Stop</string>
+    <string name="actions_download_details_delete">Are you sure you want to delete the item？</string>
+    <!--动作编辑-->
     <string name="actions_courses">How to make?</string>
+    <string name="actions_recording">Recording…</string>
+     <string name="actions_preview">Preview</string>
+    <string name="actions_modify">Modify</string>
+    <string name="actions_copy">Copy</string>
+    <string name="actions_cut">Cut</string>
+    <string name="actions_paste">Paste</string>
+    <string name="actions_delete">Delete</string>
+    <string name="actions_save_name">Action name</string>
+    <string name="actions_save_type">Select action type</string>
+    <string name="actions_save_dance">Dance</string>
+    <string name="actions_save_sport">Sport</string>
+    <string name="actions_save_story">Story</string>
+    <string name="actions_save_science">Science</string>
+    <string name="actions_save_child">Child</string>
+    <string name="actions_save_des">Description</string>
+    <string name="actions_saved">Saved</string> 
+    <string name="actions_saved_tips">You can view it in My works.</string>
+    <string name="actions_saved_share">Share to the Community</string>
+    <string name="actions_lesson_list">Lesson </string>
+    <string name="actions_lesson_more">Coming soon</string>
+
+
+
+
     <string name="action_next">Next</string>
     <string name="action_level_1">Lesson 1</string>
     <string name="action_level_2">Lesson 2</string>
@@ -32,28 +78,18 @@
     <string name="action_level_10_content">第十关 自定义动作</string>
 
 
-    <string name="action_ui_recording_txt">动作记录中...</string>
-    <string name="ui_readback_play" tools:ignore="ResourceName">播放</string>
+     <string name="ui_readback_play" tools:ignore="ResourceName">播放</string>
     <string name="ui_readback_stop" tools:ignore="ResourceName">停止</string>
-    <string name="ui_readback_preview" tools:ignore="ResourceName">预览</string>
-    <string name="ui_readback_preview_tip" tools:ignore="ResourceName">预览时，机器人动作幅度较大，请将机器人放在开阔平整处，以免摔坏。</string>
-    <string name="ui_readback_alter" tools:ignore="ResourceName">修改</string>
-    <string name="ui_readback_copy" tools:ignore="ResourceName">复制</string>
-    <string name="ui_readback_copy_tip" tools:ignore="ResourceName">动作#已复制</string>
-    <string name="ui_readback_paste" tools:ignore="ResourceName">粘贴</string>
-    <string name="ui_readback_paste_tip" tools:ignore="ResourceName">此动作将粘贴在动作#之后</string>
+     <string name="ui_readback_preview_tip" tools:ignore="ResourceName">预览时，机器人动作幅度较大，请将机器人放在开阔平整处，以免摔坏。</string>
+     <string name="ui_readback_copy_tip" tools:ignore="ResourceName">动作#已复制</string>
+     <string name="ui_readback_paste_tip" tools:ignore="ResourceName">此动作将粘贴在动作#之后</string>
     <string name="ui_readback_action_total_time" tools:ignore="ResourceName">时长#</string>
     <string name="ui_readback_max_time" tools:ignore="ResourceName">最大：</string>
     <string name="ui_readback_min_time" tools:ignore="ResourceName">最小：</string>
 
 
-    <string name="ui_create_menu_preview" tools:ignore="ResourceName">预览</string>
-    <string name="ui_create_menu_modify" tools:ignore="ResourceName">修改</string>
-    <string name="ui_create_menu_copy" tools:ignore="ResourceName">复制</string>
-    <string name="ui_create_menu_cut" tools:ignore="ResourceName">剪切</string>
-    <string name="ui_create_menu_paste" tools:ignore="ResourceName">粘贴</string>
-    <string name="ui_create_menu_delete" tools:ignore="ResourceName">删除</string>
-    <string name="ui_create_menu_copy_tips" tools:ignore="ResourceName">动作#已复制</string>
+
+     <string name="ui_create_menu_copy_tips" tools:ignore="ResourceName">动作#已复制</string>
     <string name="ui_create_menu_cut_tips" tools:ignore="ResourceName">动作X已剪切</string>
     <string name="ui_create_menu_delete_tips" tools:ignore="ResourceName">动作X已删除</string>
     <string name="ui_create_delete_music" tools:ignore="ResourceName">删除音频</string>
@@ -63,7 +99,6 @@
     <string name="ui_create_auto_record_tips" tools:ignore="ResourceName">开启自动模式后，机器人的运行轨迹将记录到创作中（每隔200ms），点击“开始”后可以自由调节机器人动作</string>
     <string name="ui_create_guide_add" tools:ignore="ResourceName">调节好动作后，点击这里停止记录</string>
     <string name="ui_create_start" tools:ignore="ResourceName">Start</string>
-    <string name="ui_create_preview_action" tools:ignore="ResourceName">Preview</string>
     <string name="ui_create_basic_action" tools:ignore="ResourceName">基础动作</string>
     <string name="ui_create_add" tools:ignore="ResourceName">添加</string>
     <string name="ui_create_music" tools:ignore="ResourceName">音频</string>
@@ -219,7 +254,7 @@
     <string name="action_course_card3_1_all">这是音乐库,里面有很多好听的音乐。进入这里,可以把这些音乐添加到时间轴上,让阿尔法的动作有音乐相伴,更生动有趣。</string>
     <string name="action_ui_course_principle_exit_tip">课程未完成，是否退出？</string>
 
-    <string name="action_empty_no_dynamiaction">你目前没有任何原创动作</string>
+
     <string name="action_retry_get"><b>点击重试</b></string>
 
 
