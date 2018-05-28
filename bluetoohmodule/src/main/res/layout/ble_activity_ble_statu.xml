@@ -174,8 +174,38 @@
                 >
 
                 <TextView
+                    android:id="@+id/tv_robot_update"
                     style="@style/ble_tv_robot_left"
                     android:text="@string/ble_about_robot_auto_update"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/pb_progress"
+                    style="@style/StyleProgressBarMini"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_robot_update"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape_progressbar_bg"
+                    android:max="100"
+                    android:progress="36" />
+
+                <TextView
+                    android:id="@+id/tv_robot_update_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/base_tv_ble_gray"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_1"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/pb_progress"
+                    android:layout_toLeftOf="@+id/ckb_auto_upgrade"
+                    android:gravity="left|center_vertical"
+                    android:ellipsize="end"
+                    android:text="@string/about_robot_auto_update_download"
                     />
 
                 <CheckBox
@@ -289,7 +319,7 @@
 
                     <TextView
                         style="@style/ble_tv_robot_left"
-                        android:text="@string/ble_about_robot_language"
+                        android:text="@string/about_robot_language"
                         />
 
                     <TextView

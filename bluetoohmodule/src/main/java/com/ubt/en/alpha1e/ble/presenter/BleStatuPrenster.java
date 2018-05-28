@@ -2,6 +2,7 @@ package com.ubt.en.alpha1e.ble.presenter;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.os.Message;
 
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
@@ -19,10 +20,12 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
+import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
+import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
@@ -149,6 +152,20 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 if(mView != null){
                     mView.setAutoUpgradeStatus(packet.getmParam()[0]);
                 }
+            case BTCmd.DV_SET_AUTO_UPGRADE:
+                ViseLog.d("机器人 DV_SET_AUTO_UPGRADE：" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
+                if(mView != null){
+                    mView.setAutoUpgradeStatus(packet.getmParam()[0]);
+                }
+                break;
+            case BTCmd.DV_DO_UPGRADE_PROGRESS:
+                String upgradeProgressJson= BluetoothParamUtil.bytesToString(packet.getmParam());
+                ViseLog.d("upgradeProgressJson = " + upgradeProgressJson);
+                UpgradeProgressInfo upgradeProgressInfo = GsonImpl.get().toObject(upgradeProgressJson,UpgradeProgressInfo.class);
+                if(mView != null){
+                    mView.updateUpgradeProgress(upgradeProgressInfo);
+                }
+                break;
             default:
                 break;
         }
