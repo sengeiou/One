@@ -5,7 +5,7 @@
     <string name="ui_common_complete">完成</string>
     <string name="ui_common_edit">编辑</string>
     <string name="ui_common_save">保存</string>
-     <string name="ui_common_search">搜索</string>
+    <string name="ui_common_search">搜索</string>
     <string name="ui_common_check">查看</string>
     <string name="ui_common_close">关闭</string>
     <string name="ui_common_submit">提交</string>
@@ -22,6 +22,15 @@
     <string name="base_setting">Setting</string>
     <string name="base_cancel">Cancel</string>
     <string name="base_save">Save</string>
+    <string name="base_ok">OK</string>
+    <string name="base_close">Close</string>
     <string name="base_network_error">Network error. Tap to load again.</string>
-    <string name="base_ok">Ok</string>
+    <string name="base_connect">Connect</string>
+
+    <string name="base_lowpower">Robot Low Battery</string>
+    <string name="base_lowpower_20">20% battery remainning</string>
+    <string name="base_lowpower_5">5% battery remainning</string>
+    <string name="base_lowpower_5_action">5% battery remaining.\nClick close to go to the homepage or click\nsave to save your action script.</string>
+
+    <string name="base_ble_broken_tip">Your bluetooth has disconnected\nwith robot, please reconnect it.</string>
 </resources>

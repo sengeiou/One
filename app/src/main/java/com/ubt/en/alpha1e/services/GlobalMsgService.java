@@ -5,18 +5,37 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.tencent.android.tpush.XGPushShowedResult;
+import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
+import com.ubt.baselib.btCmd1E.BTCmd;
+import com.ubt.baselib.btCmd1E.BTCmdHelper;
+import com.ubt.baselib.btCmd1E.IProtolPackListener;
+import com.ubt.baselib.btCmd1E.ProtocolPacket;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadBattery;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
+import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
+import com.ubt.en.alpha1e.R;
 import com.ubt.en.alpha1e.xinge.XGConstact;
 import com.vise.log.ViseLog;
+import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @作者：bin.zhang@ubtrobot.com
@@ -25,6 +44,11 @@ import org.json.JSONObject;
  */
 
 public class GlobalMsgService extends Service {
+
+    private IProtolPackListener mBTCmdListener;
+    private boolean isNeed20Toast = true; //是否需要显示电量低于20%的Toast
+    private boolean isNeed5Dialog = true; //是否需要显示电量低于5%的Dialog
+    private Timer batteryTimer = null; //电量查询定时器
 
     @Nullable
     @Override
@@ -37,7 +61,7 @@ public class GlobalMsgService extends Service {
         super.onCreate();
         EventBus.getDefault().register(this);
         ViseLog.i("onCreate");
-
+        initBTListener();
     }
 
     @Override
@@ -57,25 +81,38 @@ public class GlobalMsgService extends Service {
         ViseLog.i("getState:" + serviceStateChanged.toString());
         switch (serviceStateChanged.getState()) {
             case BluetoothState.STATE_CONNECTED://蓝牙配对成功
-
+                queryBattery(true);
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
-                ViseLog.e("正在连接");
+                ViseLog.d("正在连接");
                 break;
             case BluetoothState.STATE_DISCONNECTED:
-                ViseLog.e("蓝牙连接断开");
+                queryBattery(false);
+                ViseLog.d("蓝牙连接断开 isForceDisBT:"+AppStatusUtils.isForceDisBT()
+                        +"   isBtBussiness:"+AppStatusUtils.isBtBussiness());
+                isNeed20Toast = true;
+                isNeed5Dialog = true;
+                if(!AppStatusUtils.isForceDisBT()){
+                    if(AppStatusUtils.isBtBussiness()){
+                        ViseLog.e("特殊处理状态，不弹窗");
+                        return;
+                    }
+                    BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+                        @Override
+                        public void onConnect() {
+                            ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                            BaseBTDisconnectDialog.getInstance().dismiss();
+                        }
 
-//                new GlobalDialog.Builder(this).setMsg("蓝牙掉线").setNegativeButton("cancel", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                    }
-//                }).setPositiveButton("connect", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
-//                    }
-//                }).build().show();
+                        @Override
+                        public void onCancel() {
+                            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+                            BaseBTDisconnectDialog.getInstance().dismiss();
+                        }
+                    });
+                }else{ //强制退出，不处理
+                    AppStatusUtils.setIsForceDisBT(false);
+                }
                 break;
             default:
 
@@ -104,4 +141,77 @@ public class GlobalMsgService extends Service {
         }
     }
 
+
+    @Subscribe
+    public void onBTRead(BTReadData data){
+        BTCmdHelper.parseBTCmd(data.getDatas(), mBTCmdListener);
+    }
+
+    private void initBTListener(){
+        mBTCmdListener = new IProtolPackListener() {
+            @Override
+            public void onProtocolPacket(ProtocolPacket packet) {
+                switch (packet.getmCmd()){
+                    case BTCmd.DV_READ_BATTERY: //更新电量
+                        ViseLog.i("电量data:"+ HexUtil.encodeHexStr(packet.getmParam()));
+                        ViseLog.i("电量 isNeed20Toast:"+isNeed20Toast+"  isNeed5Dialog:"+isNeed5Dialog+
+                               "   isBussiness:"+AppStatusUtils.isBussiness());
+                        int power = packet.getmParam()[3];
+                        AppStatusUtils.setCurrentPower(power);
+                        AppStatusUtils.setChargingStatus(packet.getmParam()[2]);
+                        if(0x00 == packet.getmParam()[2]){
+                            if(power >5 && power <= 20){
+                                if(isNeed20Toast) {
+                                    isNeed20Toast = false;
+                                    ToastUtils.showCustomShortWithGravity(R.layout.base_toast_lowpower_20, Gravity.CENTER, 0, 0);
+                                }
+                                isNeed5Dialog = true;
+                            }else if(power <= 5){
+                                if(isNeed5Dialog) {
+                                    isNeed5Dialog = false;
+                                    if (!AppStatusUtils.isBussiness()) { //非特殊处理模块集中弹低电提示
+                                        BaseLowBattaryDialog.getInstance().showLow5Dialog();
+                                    }
+                                }
+                            }else{
+                                isNeed20Toast = true;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+    }
+
+    public boolean isRobotConnected() {
+        return BlueClientUtil.getInstance().getConnectionState() == BTServiceStateChanged.STATE_CONNECTED;
+    }
+
+    public void queryBattery(boolean isStart) {
+        if(!isRobotConnected()){
+            ViseLog.e("robot not connected");
+            return;
+        }
+        if(isStart){
+            if(batteryTimer != null){
+                batteryTimer.cancel();
+            }
+            batteryTimer = new Timer();
+            batteryTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(isRobotConnected() ) {
+                        BlueClientUtil.getInstance().sendData(new BTCmdReadBattery().toByteArray());
+                    }
+                }
+            },200, 60000);//每1分钟执行一次
+        }else{
+            if(batteryTimer != null){
+                batteryTimer.cancel();
+                batteryTimer = null;
+            }
+        }
+    }
 }
