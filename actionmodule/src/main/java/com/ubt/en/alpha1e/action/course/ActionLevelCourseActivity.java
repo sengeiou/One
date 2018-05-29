@@ -225,6 +225,11 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         });
     }
 
+    @Override
+    public void lowerPower() {
+
+    }
+
     private boolean isHowHeadDialog;
 
     private void showTapHeadDialog() {

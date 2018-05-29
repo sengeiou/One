@@ -42,6 +42,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
         mActionEdit.setUp(mHelper);
         mActionEdit.setOnSaveSucessListener(this);
         AppStatusUtils.setBtBussiness(true);
+        AppStatusUtils.setBussiness(true);
     }
 
     @Override
@@ -54,6 +55,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
         mInstance = null;
         mHelper.unRegister();
         AppStatusUtils.setBtBussiness(false);
+        AppStatusUtils.setBussiness(false);
     }
 
     @Override
@@ -141,6 +143,13 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
 
     @Override
     public void tapHead() {
+
+    }
+
+    @Override
+    public void lowerPower() {
+        mActionEdit.showLowerPowerDialog();
+
 
     }
 

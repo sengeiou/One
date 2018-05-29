@@ -3,7 +3,6 @@ package com.ubt.en.alpha1e.action.presenter;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.LocalActionRecord;
 import com.ubt.baselib.mvp.BasePresenterImpl;
@@ -76,7 +75,7 @@ public class CoursePrenster extends BasePresenterImpl<CourseContract.View> imple
         proQequest.setCourseTwo(progressOne);
         proQequest.setProgressTwo(courseTwo);
         proQequest.setType(2);
-        proQequest.setUserId(BaseHttpEntity.getUserId());
+        proQequest.setUserId(String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)));
         proQequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         ViseHttp.POST(ActionHttpEntity.SAVE_COURSE_PROGRESS)
                 .setJson(GsonImpl.get().toJson(proQequest))

@@ -117,6 +117,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         initView();
         ViseLog.d(mCurrentAction.toString());
         AppStatusUtils.setBtBussiness(true);
+        AppStatusUtils.setBussiness(true);
     }
 
 
@@ -153,6 +154,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         super.onDestroy();
         mUnbinder.unbind();
         AppStatusUtils.setBtBussiness(false);
+        AppStatusUtils.setBussiness(false);
     }
 
     /**

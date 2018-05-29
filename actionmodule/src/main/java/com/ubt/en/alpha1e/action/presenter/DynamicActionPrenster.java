@@ -1,9 +1,13 @@
 package com.ubt.en.alpha1e.action.presenter;
 
 import android.content.Context;
+import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.reflect.TypeToken;
-import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
@@ -12,6 +16,7 @@ import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
+import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.contact.DynamicActionContract;
 import com.ubt.en.alpha1e.action.model.DownloadProgressInfo;
 import com.ubt.en.alpha1e.action.model.DynamicActionModel;
@@ -60,7 +65,7 @@ public class DynamicActionPrenster extends BasePresenterImpl<DynamicActionContra
         GetMessageListRequest messageListRequest = new GetMessageListRequest();
         messageListRequest.setOffset(page);
         messageListRequest.setLimit(offset);
-        messageListRequest.setUserId(BaseHttpEntity.getUserId());
+        messageListRequest.setUserId(String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)));
         messageListRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         ViseHttp.POST(ActionHttpEntity.ACTION_DYNAMIC_LIST)
                 .setJson(GsonImpl.get().toJson(messageListRequest))
@@ -105,7 +110,7 @@ public class DynamicActionPrenster extends BasePresenterImpl<DynamicActionContra
     public void deleteActionById(int actionId) {
         DeleteActionRequest deleteActionRequest = new DeleteActionRequest();
         deleteActionRequest.setActionId(actionId);
-        deleteActionRequest.setUserId(BaseHttpEntity.getUserId());
+        deleteActionRequest.setUserId(String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)));
         deleteActionRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         ViseHttp.POST(ActionHttpEntity.ACTION_DYNAMIC_DELETE)
                 .setJson(GsonImpl.get().toJson(deleteActionRequest))
@@ -292,7 +297,7 @@ public class DynamicActionPrenster extends BasePresenterImpl<DynamicActionContra
             ToastUtils.showShort("机器人未联网");
             mDynamicActionModels.get(position).setActionStatu(0);
         } else {//下载失败
-            ToastUtils.showShort("下载失败");
+           // ToastUtils.showShort("下载失败");
             mDynamicActionModels.get(position).setActionStatu(0);
         }
     }
@@ -335,5 +340,22 @@ public class DynamicActionPrenster extends BasePresenterImpl<DynamicActionContra
     public boolean isBlueConnected(){
         return BlueClientUtil.getInstance().getConnectionState()== BluetoothState.STATE_CONNECTED;
     }
+    //显示网络连接对话框
+    public void showNetWorkConnectDialog(Context context) {
 
+        new BaseDialog.Builder(context)
+                .setMessage("请先连接机器人Wi-Fi")
+                .setConfirmButtonId(R.string.base_confirm)
+                .setConfirmButtonColor(R.color.black)
+                .setCancleable(true)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                            dialog.dismiss();
+                        }
+                    }
+                }).create().show();
+    }
 }

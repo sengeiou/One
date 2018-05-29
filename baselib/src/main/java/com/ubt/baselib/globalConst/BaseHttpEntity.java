@@ -1,7 +1,5 @@
 package com.ubt.baselib.globalConst;
 
-import com.ubt.baselib.model1E.UserInfoModel;
-import com.ubt.baselib.utils.SPUtils;
 import com.vise.log.ViseLog;
 
 /**
@@ -30,16 +28,5 @@ public class BaseHttpEntity {
         }
     }
 
-    /**
-     * 获取用户ID
-     * @return
-     */
-    public static String getUserId(){
-        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
-        String userId ="";
-        if (userInfoModel!=null){
-            userId= userInfoModel.getUserId();
-        }
-        return userId;
-    }
+
 }

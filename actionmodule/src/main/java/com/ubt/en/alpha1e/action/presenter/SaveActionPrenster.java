@@ -8,9 +8,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.FileUtils;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.TimeTools;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.action.R;
@@ -320,7 +322,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
         SaveActionRequest request = new SaveActionRequest();
         request.setActionoriginalid(newActionInfo.actionOriginalId + "");
-        request.setActionuserid(BaseHttpEntity.getUserId());
+        request.setActionuserid(String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)));
         request.setActiondesciber(typeModel.getActionDescrion());
         request.setServiceversion("V1.0.0.1");
         request.setActionname("test");
@@ -332,7 +334,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
         Map<String, String> params = getBasicParamsMap(mContext);
 
         params.put("actionOriginalId", newActionInfo.actionOriginalId + "");
-        params.put("actionUserId", BaseHttpEntity.getUserId() + "");
+        params.put("actionUserId", String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)) + "");
         params.put("actionName", newActionInfo.actionName);
         params.put("actionDesciber", typeModel.getActionDescrion());
         params.put("actionType", newActionInfo.actionType + "");

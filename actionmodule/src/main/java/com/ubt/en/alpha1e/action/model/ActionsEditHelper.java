@@ -46,6 +46,7 @@ import com.ubt.en.alpha1e.action.dialog.PrepareActionUtil;
 import com.ubt.en.alpha1e.action.util.ActionCourseDataManager;
 import com.ubt.htslib.base.NewActionInfo;
 import com.vise.log.ViseLog;
+import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -238,7 +239,15 @@ public class ActionsEditHelper implements IProtolPackListener {
             }
         } else if (cmd == BTCmd.DV_INTO_EDIT) {
             if (param != null) {
-                ViseLog.d("", "进入或退出动作编辑param:" + ByteHexHelper.bytesToHexString(param));
+                ViseLog.d( "进入或退出动作编辑param:" + ByteHexHelper.bytesToHexString(param));
+            }
+        } else if (cmd == BTCmd.DV_READ_BATTERY) {
+            ViseLog.i("电量data:" + HexUtil.encodeHexStr(packet.getmParam()));
+            int power = packet.getmParam()[3];
+            if (power > 5) {
+                if (mListener != null) {
+                    mListener.lowerPower();
+                }
             }
         }
 
@@ -288,6 +297,8 @@ public class ActionsEditHelper implements IProtolPackListener {
         void onDisconnect();
 
         void tapHead();
+
+        void lowerPower();
     }
 
     /**
@@ -600,6 +611,6 @@ public class ActionsEditHelper implements IProtolPackListener {
 //        } else if (course == 10) {
 //            title = SkinManager.getInstance().getTextById(R.string.action_level_10);
 //        }
-        return SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+" "+course;
+        return SkinManager.getInstance().getTextById(R.string.actions_lesson_list) + " " + course;
     }
 }

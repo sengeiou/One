@@ -15,14 +15,12 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.orhanobut.dialogplus.DialogPlus;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
-import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
@@ -487,7 +485,7 @@ public class DynamicActionActivity extends MVPBaseActivity<DynamicActionContract
                     mDynamicActionModels.get(i).setActionStatu(0);
                 }
             }
-            showNetWorkConnectDialog();
+            mPresenter.showNetWorkConnectDialog(this);
         }
     }
 
@@ -519,26 +517,6 @@ public class DynamicActionActivity extends MVPBaseActivity<DynamicActionContract
     }
 
 
-    //显示网络连接对话框
-    private void showNetWorkConnectDialog() {
 
-        new BaseDialog.Builder(this)
-                .setMessage("请先连接机器人Wi-Fi")
-
-                .setCancleButtonID(R.string.base_delete)
-                .setCancleButtonColor(R.color.base_color_red)
-                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                    @Override
-                    public void onClick(DialogPlus dialog, View view) {
-                        if (view.getId() == R.id.button_confirm) {
-                            dialog.dismiss();
-                        } else if (view.getId() == R.id.button_cancle) {
-
-                            dialog.dismiss();
-                        }
-
-                    }
-                }).create().show();
-    }
 
 }

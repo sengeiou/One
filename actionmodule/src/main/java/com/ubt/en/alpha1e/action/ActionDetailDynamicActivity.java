@@ -189,6 +189,7 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
                 DownLoadActionManager.getInstance(this).playAction(true, mDynamicActionModel);
                 mDynamicActionModel.setActionStatu(1);
             } else {//没有下载，需要下载
+                DownLoadActionManager.getInstance(this).readNetworkStatus();
                 DownLoadActionManager.getInstance(this).downRobotAction(mDynamicActionModel);
             }
         } else if (actionStatu == 1) {//正在播放
@@ -317,7 +318,11 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
 
     @Override
     public void isAlpha1EConnectNet(boolean statu) {
-
+        if (!statu) {
+            mDynamicActionModel.setActionStatu(0);
+            setPlaBtnAction(1);
+            mPresenter.showNetWorkConnectDialog(this);
+        }
     }
 
     @Override
