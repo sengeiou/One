@@ -17,6 +17,7 @@ import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
+import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.PermissionUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -180,7 +181,9 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                     DataSupport.deleteAll(BleDevice.class);
                     mCurrentBleDevice.save();
                 }
-
+                ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_DISCONNECT);
+                manualEvent.setManual(false);
+                EventBus.getDefault().post(manualEvent);
                 if (DataSupport.findFirst(BleDevice.class) != null) {
                     ViseLog.e("-----------握手成功----------" + DataSupport.findFirst(BleDevice.class).toString());
                 }

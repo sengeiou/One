@@ -32,4 +32,5 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">@dimen/dp_30</item>
     </style>
+
 </resources>

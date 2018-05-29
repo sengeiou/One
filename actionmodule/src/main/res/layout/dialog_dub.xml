@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/iv_save"
                     android:gravity="center"
-                    android:text="@string/ui_remote_finished"
+                    android:text="@string/common_btn_done"
                     />
 
                 <ImageView
@@ -249,7 +249,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/action_btn_alert_bg"
                 android:gravity="center"
-                android:text="@string/ui_common_cancel"
+                android:text="@string/base_cancel"
                 android:textColor="@color/tv_user_edit_color"
                 android:textSize="16sp"
                 />
@@ -268,7 +268,7 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/action_btn_alert_bg"
                     android:gravity="center"
-                    android:text="@string/action_ui_readback_place_add"
+                    android:text="@string/ui_common_add"
                     android:textColor="@color/tv_user_edit_color"
                     android:textSize="16sp"
                     />

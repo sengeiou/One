@@ -174,45 +174,29 @@
     <string name="actions_lesson_10_tips_2">Please hold your robot in case of falling over.</string>
 
 
-
+    <string name="ui_common_add" tools:ignore="ResourceName">add</string>
+    <string name="action_retry_get"><b>Try_again</b></string>
+    <string name="ui_create_start" tools:ignore="ResourceName">Start</string>
 
 
     <string name="ui_create_delete_music" tools:ignore="ResourceName">删除音频</string>
     <string name="ui_create_delete_music_tips" tools:ignore="ResourceName">音频已清除</string>
-    <string name="ui_create_start" tools:ignore="ResourceName">Start</string>
-
-
     <string name="ui_create_cover_music" tools:ignore="ResourceName">创作中已存在音频，确认替换为当前音频么？</string>
      <string name="ui_create_save_tips" tools:ignore="ResourceName">动作还未保存，是否退出？</string>
-
-
+    <string name="ui_create_cover_music_tips" tools:ignore="ResourceName">Tips：替换后，音频标记需要重新添加哦~</string>
     <string name="ui_create_record_placeholder" tools:ignore="ResourceName">请输入录音名称</string>
     <string name="ui_create_record_empty_name" tools:ignore="ResourceName">录音名称不能为空</string>
     <string name="ui_create_record_save_failed" tools:ignore="ResourceName">保存失败</string>
     <string name="ui_create_click_to_cutoff" tools:ignore="ResourceName">请先点击机器人身体部位掉电</string>
-
     <string name="action_ui_common_back">返回</string>
-    <string name="action_ui_common_cancel">取消</string>
-    <string name="action_ui_common_complete">完成</string>
-    <string name="action_ui_common_edit">编辑</string>
-    <string name="action_ui_common_save">保存</string>
-    <string name="action_ui_common_confirm">确定</string>
-    <string name="ui_common_add" tools:ignore="ResourceName">add</string>
+     <string name="action_ui_common_edit">编辑</string>
     <string name="action_ui_bluetooth_hint">提示</string>
     <string name="action_ui_readback_not_null">动作序列不可为空</string>
     <string name="action_ui_readback_quit_tip">当前动作未保存，是否退出？</string>
     <string name="action_ui_readback_quit_continue">继续编辑</string>
-    <string name="action_ui_readback_quit_confirm">退出</string>
     <string name="action_ui_readback_save_success">保存动作成功</string>
-
-
-    <string name="ui_remote_finished" tools:ignore="ResourceName">完成</string>
-    <string name="action_ui_readback_place_add">添加</string>
     <string name="ui_action_name_error" tools:ignore="ResourceName">名称不能包含特殊字符</string>
-
     <string name="ui_resave_tip" tools:ignore="ResourceName">当前名称文件已存在，确定覆盖当前文件吗?</string>
-
-
     <string name="ui_readback_save_title" tools:ignore="ResourceName">保存动作</string>
     <string name="ui_readback_save_action_type" tools:ignore="ResourceName">动作类型：</string>
     <string name="ui_readback_save_name_placeholder" tools:ignore="ResourceName">动作名称（不超过16个字符）</string>
@@ -224,7 +208,6 @@
     <string name="ui_save_action_choose_type" tools:ignore="ResourceName">选择动作类型</string>
     <string name="ui_save_action_giveup_save" tools:ignore="ResourceName">是否放弃保存动作？</string>
     <string name="ui_save_action_save_failed" tools:ignore="ResourceName">保存动作失败，请稍后重试</string>
-
     <string name="ui_perfect_capture" tools:ignore="ResourceName">拍照</string>
     <string name="ui_perfect_local_album" tools:ignore="ResourceName">从相册选择</string>
     <string name="ui_perfect_prompt_empty_nickname" tools:ignore="ResourceName">昵称不能为空</string>
@@ -232,26 +215,20 @@
     <string name="ui_perfect_set_head" tools:ignore="ResourceName">请设置您头像</string>
     <string name="ui_perfect_change_head" tools:ignore="ResourceName">点击修改头像</string>
     <string name="ui_perfect_prompt_unsupport_emoji" tools:ignore="ResourceName">不支持输入表情</string>
-
     <string name="ui_distribute_desc_dance" tools:ignore="ResourceName">举起你的双手，和alpha一起嗨翻全场~</string>
     <string name="ui_distribute_desc_story" tools:ignore="ResourceName">排排坐，快来听alpha讲故事啦~</string>
     <string name="ui_distribute_desc_sport" tools:ignore="ResourceName">左三圈，右三圈，快和alpha一起来做运动~</string>
     <string name="ui_distribute_desc_education" tools:ignore="ResourceName">alpha小课堂开始上课啦~</string>
     <string name="ui_distribute_desc_song" tools:ignore="ResourceName">啦啦啦，啦啦啦，alpha唱儿歌给你听~</string>
-
-
     <string name="ui_action_name_exist" tools:ignore="ResourceName">名称已存在</string>
     <string name="ui_action_name_empty" tools:ignore="ResourceName">名称不能为空</string>
     <string name="ui_action_name_too_long" tools:ignore="ResourceName">名称过长</string>
     <string name="ui_action_name_spaces" tools:ignore="ResourceName">名称不可包含空格</string>
     <string name="ui_remote_synchoronize_unknown_error" tools:ignore="ResourceName">未知错误</string>
     <string name="ui_about_feedback_input_too_long" tools:ignore="ResourceName">输入过长</string>
-
-
     <string name="action_ui_course_principle_exit_tip">课程未完成，是否退出？</string>
-
     <string name="action_empty_no_dynamiaction">你目前没有任何原创动作</string>
-    <string name="action_retry_get"><b>点击重试</b></string>
+
 
 
 </resources>

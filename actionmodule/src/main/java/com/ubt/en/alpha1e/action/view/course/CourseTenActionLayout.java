@@ -165,8 +165,8 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
                 if (list_frames.size() < 1) {
                     new BaseDialog.Builder(mContext)
                             .setMessage(R.string.action_ui_readback_not_null).
-                            setConfirmButtonId(R.string.action_ui_common_confirm)
-                            .setCancleButtonID(R.string.action_ui_common_cancel)
+                            setConfirmButtonId(R.string.base_confirm)
+                            .setCancleButtonID(R.string.base_cancel)
                             .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                                 @Override
                                 public void onClick(DialogPlus dialog, View view) {
@@ -185,7 +185,7 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
                     new BaseDialog.Builder(mContext)
                             .setMessage(R.string.action_ui_readback_not_null).
                             setConfirmButtonId(R.string.action_ui_common_confirm)
-                            .setCancleButtonID(R.string.action_ui_common_cancel)
+                            .setCancleButtonID(R.string.base_cancel)
                             .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                                 @Override
                                 public void onClick(DialogPlus dialog, View view) {

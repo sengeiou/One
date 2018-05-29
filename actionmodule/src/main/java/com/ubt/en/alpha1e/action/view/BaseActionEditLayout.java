@@ -791,8 +791,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         new BaseDialog.Builder(mContext)
                 .setMessage(R.string.action_ui_readback_quit_tip).
-                setConfirmButtonId(R.string.action_ui_readback_quit_confirm)
-                .setCancleButtonID(R.string.action_ui_common_cancel)
+                setConfirmButtonId(R.string.actions_lesson_quit_confirm)
+                .setCancleButtonID(R.string.base_cancel)
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
@@ -827,7 +827,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
             if (list_frames.size() < 1) {
                 new BaseDialog.Builder(mContext)
                         .setMessage(R.string.action_ui_readback_not_null).
-                        setConfirmButtonId(R.string.action_ui_common_confirm)
+                        setConfirmButtonId(R.string.base_confirm)
                         .setCancleButtonID(R.string.action_ui_common_cancel)
                         .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                             @Override
