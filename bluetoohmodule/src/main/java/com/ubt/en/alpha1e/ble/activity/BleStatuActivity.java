@@ -213,7 +213,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
             }
 
         } else if (i == R.id.ble_tv_connect) {
-            String s = String.format(SkinManager.getInstance().getTextById(R.string.ble_about_robot_disconnect_dialogue), mTvBleName.getText());
+            String s = String.format(SkinManager.getInstance().getTextById(R.string.about_robot_disconnect_dialogue), mTvBleName.getText());
 
             new BaseDialog.Builder(this)
                     .setMessage(s)
@@ -267,7 +267,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
             mTvRobotIp.setText(bleNetWork.getIp());
             mIvNotconnectWifi.setVisibility(View.GONE);
         } else {
-            mTvWifiSelect.setText(SkinManager.getInstance().getTextById(R.string.ble_choose_a_wifi));
+            mTvWifiSelect.setText(SkinManager.getInstance().getTextById(R.string.about_robot_change_wifi));
             mTvRobotIp.setText("");
             mIvNotconnectWifi.setVisibility(View.VISIBLE);
         }

@@ -53,7 +53,7 @@
             android:layout_marginTop="@dimen/dp_25"
             android:background="@drawable/btn_blue"
             android:gravity="center"
-            android:text="@string/ble_about_robot_go_connect"
+            android:text="@string/about_robot_go_connect"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_15"
             />
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="16dp"
-                    android:text="@string/ble_about_robot_title"
+                    android:text="@string/about_robot_title"
                     android:textColor="@color/base_tv_large_black"
                     android:textSize="@dimen/sp_18"/>
             </RelativeLayout>
@@ -140,7 +140,7 @@
                 <TextView
                     android:id="@+id/tv_wifi_title"
                     style="@style/ble_tv_robot_left"
-                    android:text="@string/ble_about_wifi"
+                    android:text="@string/about_wifi"
                     />
 
                 <ImageView
@@ -158,7 +158,7 @@
                     style="@style/ble_tv_robot_right"
                     android:drawablePadding="@dimen/dp_10"
                     android:drawableRight="@drawable/more"
-                    android:text="@string/ble_choose_a_wifi"
+                    android:text="@string/about_robot_change_wifi"
 
                     />
 
@@ -176,7 +176,7 @@
                 <TextView
                     android:id="@+id/tv_robot_update"
                     style="@style/ble_tv_robot_left"
-                    android:text="@string/ble_about_robot_auto_update"
+                    android:text="@string/about_robot_auto_update"
                     />
 
                 <ProgressBar
@@ -240,7 +240,7 @@
 
                     <TextView
                         style="@style/ble_tv_robot_left"
-                        android:text="@string/ble_about_robot_version"
+                        android:text="@string/about_robot_version"
                         />
 
                     <TextView
@@ -266,7 +266,7 @@
 
                     <TextView
                         style="@style/ble_tv_robot_left"
-                        android:text="@string/ble_about_robot_serial_number"
+                        android:text="@string/about_robot_serial_number"
                         />
 
                     <TextView
@@ -292,7 +292,7 @@
 
                     <TextView
                         style="@style/ble_tv_robot_left"
-                        android:text="@string/ble_about_robot_ip"
+                        android:text="@string/about_robot_ip"
                         />
 
                     <TextView
@@ -327,7 +327,7 @@
                         style="@style/ble_tv_robot_right"
                         android:drawablePadding="@dimen/dp_10"
                         android:drawableRight="@drawable/more"
-                        android:text="@string/ble_choose_a_wifi"
+                        android:text="@string/about_robot_change_wifi"
                         />
 
 
@@ -349,7 +349,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="@string/ble_about_robot_disconnect"
+                    android:text="@string/about_robot_disconnect"
                     android:textColor="@color/base_color_red"
                     android:textSize="@dimen/sp_16"
                     />
