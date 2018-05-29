@@ -78,7 +78,7 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
         ivDelete.setVisibility(View.VISIBLE);
         tvCancle = contentView.findViewById(R.id.tv_cancel);
         tvConfirm = contentView.findViewById(R.id.tv_confirm);
-        tvConfirm.setText(mContext.getResources().getString(R.string.ui_common_add));
+        tvConfirm.setText(mContext.getResources().getString(R.string.actions_lesson_6_add));
         tvCancle.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = contentView.findViewById(R.id.rv_actions);
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 5);

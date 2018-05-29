@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ubt.baselib.model1E.LocalActionRecord;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.ActionCourseTwoUtil;
@@ -155,7 +156,7 @@ public class CourseSixActionLayout extends BaseActionEditLayout implements Actio
         ivLeftArrow1.setOnClickListener(this);
         mRlInstruction = findViewById(R.id.rl_instruction);
         mTextView = findViewById(R.id.tv_all_introduc);
-        mTextView.setText("现在给阿尔法的踢腿动作配一个声音吧！");
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_guide));
 
         ivMusiArrow = findViewById(R.id.iv_music_arrow);
 

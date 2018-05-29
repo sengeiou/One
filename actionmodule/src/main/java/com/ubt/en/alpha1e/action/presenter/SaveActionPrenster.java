@@ -58,11 +58,11 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
             R.string.ui_distribute_desc_song,
             R.string.ui_distribute_desc_education};
     final int[] imageNames = {
-            R.string.ui_square_dance,
-            R.string.ui_square_story,
-            R.string.ui_square_sport,
-            R.string.ui_square_childrensong,
-            R.string.ui_square_science};
+            R.string.actions_save_dance,
+            R.string.actions_save_story,
+            R.string.actions_save_sport,
+            R.string.actions_save_child,
+            R.string.actions_save_science};
 
     final int[] type1 = {R.drawable.action_dance_1b,
             R.drawable.action_dance_2b,

@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ubt.baselib.model1E.LocalActionRecord;
-import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.ActionCourseTwoUtil;
@@ -441,8 +440,8 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
 
         Map map = new HashMap<String, Object>();
         map.put(ActionsEditHelper.MAP_FRAME, info);
-        String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-        item_name = item_name.replace("#", 1 + "");
+       // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+      //  item_name = item_name.replace("#", 1 + "");
         //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
         map.put(ActionsEditHelper.MAP_FRAME_NAME, 1 + "");
         map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);

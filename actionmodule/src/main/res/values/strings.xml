@@ -5,7 +5,6 @@
     <string name="actions_create">Create actions</string>
     <string name="actions_my_works">My works</string>
     <string name="actions_download">Download</string>
-    <!--<string name="actions_make_up">Make up actions</string>-->
 
     <!--原创页面-->
     <string name="actions_my_works_title">My works</string>
@@ -53,8 +52,8 @@
 
     <!--动作编辑第一课-->
     <string name="action_level_1_content_1">1.Introduction to Action Axis</string>
-    <string name="action_level_1_content_2">1.Introduction to Action Axis</string>
-    <string name="action_level_1_content_3">1.Introduction to Action Axis</string>
+    <string name="action_level_1_content_2">2.Introduction to Add button</string>
+    <string name="action_level_1_content_3">3.Introduction to Play button</string>
 
 
     <string name="actions_lesson_1">Lesson 1  Introduction to Action Editor</string>
@@ -116,65 +115,81 @@
     <string name="actions_lesson_3_item_1">2.Add an audio</string>
     <string name="actions_lesson_3_intro">This is the music library where you can find some awesome music. You can add music from here to the music axis and allow Alpha to perform actions to music for a cooler experience.</string>
     <string name="actions_lesson_3_audio_library">Audio Library</string>
-     <string name="actions_lesson_3_audios_title">Audios</string>
+    <string name="actions_lesson_3_audios_title">Audios</string>
     <!--动作编辑第四关-->
     <string name="actions_lesson_4">Lesson 4  Add Actions and An Audio  </string>
     <string name="actions_lesson_4_item">1.Add the action Dance 1</string>
     <string name="actions_lesson_4_item_1">2.Add the audio London</string>
-    <string name="actions_lesson_4_item_2">Preview</string>
+    <string name="actions_lesson_4_item_2">3.Preview</string>
     <string name="actions_lesson_4_add">Now, let\'s add a complete dance action with music!</string>
 
+    <!--动作编辑第五关-->
+    <string name="actions_lesson_5">Lesson 5 Create An Action</string>
+    <string name="actions_lesson_5_item">1.Introduction to the creating method</string>
+    <string name="actions_lesson_5_item_1">2.Create a custom action named Kick</string> 
+    <string name="actions_lesson_5_item_2">3.Save the action</string>
+    <string name="actions_lesson_5_intro">Do you want to create a robot action by yourself? Tap my arms and legs and the corresponding body parts will be powered off. Now, pose the robot as you like and then tap the Add button on the right.</string>
+
+    <!--动作编辑第六关-->
+    <string name="actions_lesson_6">Lesson 6  Create An Audio</string>
+    <string name="actions_lesson_6_item"></string>
+    Introduction to the Audio Library      
+    <string name="actions_lesson_6_item_1">Create a custom audio</string>   
+    <string name="actions_lesson_6_item_2">Add a custom audio and an action</string>  
+    <string name="actions_lesson_6_item_3">Preview the action</string>  
+
+    <string name="actions_lesson_6_guide">Now let\'s add an audio to the action Kick.</string>
+    <string name="actions_lesson_6_create">Create</string>
+    <string name="actions_lesson_6_audios">Audios</string>
+    <string name="actions_lesson_6_add">Add</string>
+    <string name="actions_lesson_6_recording">Sound recording</string>
+    <string name="actions_lesson_6_rerecord">Rerecord</string>
+
+
+    <!--动作编辑第七关-->
+    <string name="actions_lesson_7">Lesson 7  Modify An Action</string>
+    <string name="actions_lesson_7_item">Introduction to the target action</string>
+    <string name="actions_lesson_7_item_1">Modify the target action</string>
+    <string name="actions_lesson_7_guide">If you are not satisfied with an action, you can modify it as you wish.</string>
+
+    <!--动作编辑第八关-->
+    <string name="actions_lesson_8">Lesson 8 Continuos Actions</string>
+    <string name="actions_lesson_8_item">Create a certain action</string>
+    <string name="actions_lesson_8_item_1">Preview the action</string>
+    <string name="actions_lesson_8_intro">I can show you Chinese Kungfu, now let\'s start with the action Kick.</string>
+
+    <!--动作编辑第九关-->
+    <string name="actions_lesson_9">Lesson 9 Auto-record consecutive actions</string>
+    <string name="actions_lesson_9_item">1.Create a certain action</string>
+    <string name="actions_lesson_9_item_1">2.Preview the action</string>
+    <string name="actions_lesson_9_intro">Tell you a secret, there is another easy way of creating actions.</string>
+    <string name="actions_lesson_9_auto_title">Auto-record actions</string>
+    <string name="actions_lesson_9_auto_intro">	When "Auto-record actions" mode is on, the robot\'s actions you design will be automatically added to the Action Axis. Click Start to have a try.</string>
+    <!--动作编辑第十关-->
+    <string name="actions_lesson_10">Lesson 10 Custom action</string>
+    <string name="actions_lesson_10_item">1.Design a custom action</string>
+    <string name="actions_lesson_10_intro">Now, design an action for Alpha all by yourself. Remember to tap the Save button or you cannot pass the lesson.</string>
+    <string name="actions_lesson_10_tips_1">Please twist or bend the part you just clicked.</string>
+    <string name="actions_lesson_10_OK">OK</string>
+    <string name="actions_lesson_10_tips_2">Please hold your robot in case of falling over.</string>
 
 
 
 
-     <string name="action_level_5_content">第五关 创建动作</string>
-    <string name="action_level_6_content">第六关 创建音频</string>
-    <string name="action_level_7_content">第七关 修改动作</string>
-    <string name="action_level_8_content">第八关 连续动作</string>
-    <string name="action_level_9_content">第九关 快速创建连续动作</string>
-    <string name="action_level_10_content">第十关 自定义动作</string>
 
-
-    <string name="ui_readback_play" tools:ignore="ResourceName">播放</string>
-    <string name="ui_readback_stop" tools:ignore="ResourceName">停止</string>
-    <string name="ui_readback_preview_tip" tools:ignore="ResourceName">预览时，机器人动作幅度较大，请将机器人放在开阔平整处，以免摔坏。</string>
-    <string name="ui_readback_copy_tip" tools:ignore="ResourceName">动作#已复制</string>
-    <string name="ui_readback_paste_tip" tools:ignore="ResourceName">此动作将粘贴在动作#之后</string>
-    <string name="ui_readback_action_total_time" tools:ignore="ResourceName">时长#</string>
-    <string name="ui_readback_max_time" tools:ignore="ResourceName">最大：</string>
-    <string name="ui_readback_min_time" tools:ignore="ResourceName">最小：</string>
-
-
-    <string name="ui_create_menu_copy_tips" tools:ignore="ResourceName">动作#已复制</string>
-    <string name="ui_create_menu_cut_tips" tools:ignore="ResourceName">动作X已剪切</string>
-    <string name="ui_create_menu_delete_tips" tools:ignore="ResourceName">动作X已删除</string>
     <string name="ui_create_delete_music" tools:ignore="ResourceName">删除音频</string>
     <string name="ui_create_delete_music_tips" tools:ignore="ResourceName">音频已清除</string>
-    <string name="ui_create_select_body" tools:ignore="ResourceName">请在手机上选择机器人要掉节动作的部位</string>
-    <string name="ui_create_auto_record" tools:ignore="ResourceName">自动记录动作</string>
-    <string name="ui_create_auto_record_tips" tools:ignore="ResourceName">开启自动模式后，机器人的运行轨迹将记录到创作中（每隔200ms），点击“开始”后可以自由调节机器人动作</string>
-    <string name="ui_create_guide_add" tools:ignore="ResourceName">调节好动作后，点击这里停止记录</string>
     <string name="ui_create_start" tools:ignore="ResourceName">Start</string>
 
-    <string name="ui_create_add" tools:ignore="ResourceName">添加</string>
 
-    <string name="ui_create_record" tools:ignore="ResourceName">录音</string>
     <string name="ui_create_cover_music" tools:ignore="ResourceName">创作中已存在音频，确认替换为当前音频么？</string>
-    <string name="ui_create_cover_music_tips" tools:ignore="ResourceName">Tips：替换后，音频标记需要重新添加哦~</string>
-    <string name="ui_create_save_tips" tools:ignore="ResourceName">动作还未保存，是否退出？</string>
+     <string name="ui_create_save_tips" tools:ignore="ResourceName">动作还未保存，是否退出？</string>
 
 
     <string name="ui_create_record_placeholder" tools:ignore="ResourceName">请输入录音名称</string>
     <string name="ui_create_record_empty_name" tools:ignore="ResourceName">录音名称不能为空</string>
     <string name="ui_create_record_save_failed" tools:ignore="ResourceName">保存失败</string>
     <string name="ui_create_click_to_cutoff" tools:ignore="ResourceName">请先点击机器人身体部位掉电</string>
-    <string name="ui_create_guide_auto" tools:ignore="ResourceName">点击这里自动记录机器人动作</string>
-    <string name="ui_create_holde_robot" tools:ignore="ResourceName">请扶好你的机器人，以免摔倒。</string>
-    <string name="ui_readback_index" tools:ignore="ResourceName">动作#</string>
-
-    <string name="action_ui_create_click_robot">请在机器人身上调节你点击的部位</string>
-    <string name="action_ui_create_guide_add1">调节好动作后，点击这里添加到创作中</string>
 
     <string name="action_ui_common_back">返回</string>
     <string name="action_ui_common_cancel">取消</string>
@@ -190,23 +205,7 @@
     <string name="action_ui_readback_quit_confirm">退出</string>
     <string name="action_ui_readback_save_success">保存动作成功</string>
 
-    <string name="ui_dub_for_actions" tools:ignore="ResourceName">为动作配音</string>
-    <string name="ui_dub_start" tools:ignore="ResourceName">开始配音</string>
-    <string name="ui_dub_stop" tools:ignore="ResourceName">停止配音</string>
-    <string name="ui_dub_restart" tools:ignore="ResourceName">重新配音</string>
-    <string name="ui_dub_complete" tools:ignore="ResourceName">配音完成</string>
-    <string name="ui_dub" tools:ignore="ResourceName">配音</string>
-    <string name="ui_dub_preview" tools:ignore="ResourceName">预览</string>
-    <string name="ui_dub_volume" tools:ignore="ResourceName">声音音量</string>
-    <string name="ui_dub_discard_message" tools:ignore="ResourceName">确定放弃这段配音么？</string>
-    <string name="ui_dub_download_tips" tools:ignore="ResourceName">下载成功，alpha可以为下载和创建的动作配音啦！</string>
-    <string name="ui_dub_try" tools:ignore="ResourceName">马上去试试</string>
-    <string name="ui_dub_guide" tools:ignore="ResourceName">配音功能在这里</string>
-    <string name="ui_dub_change_voice" tools:ignore="ResourceName">变声</string>
-    <string name="ui_distribute_start_recording" tools:ignore="ResourceName">开始录制</string>
-    <string name="ui_distribute_pause_recording" tools:ignore="ResourceName">暂停录制</string>
-    <string name="ui_distribute_resume_recording" tools:ignore="ResourceName">继续录制</string>
-    <string name="ui_distribute_record_again" tools:ignore="ResourceName">重新录制</string>
+
     <string name="ui_remote_finished" tools:ignore="ResourceName">完成</string>
     <string name="action_ui_readback_place_add">添加</string>
     <string name="ui_action_name_error" tools:ignore="ResourceName">名称不能包含特殊字符</string>
@@ -218,8 +217,7 @@
     <string name="ui_readback_save_action_type" tools:ignore="ResourceName">动作类型：</string>
     <string name="ui_readback_save_name_placeholder" tools:ignore="ResourceName">动作名称（不超过16个字符）</string>
     <string name="ui_readback_save_description_placeholder" tools:ignore="ResourceName">动作描述（不超过100个字符）</string>
-    <string name="ui_readback_save_tips" tools:ignore="ResourceName">提示：保存后你可以在动作表-我的新建中查看这个动作</string>
-    <string name="ui_readback_prompt_empty_name" tools:ignore="ResourceName">动作名不能为空</string>
+     <string name="ui_readback_prompt_empty_name" tools:ignore="ResourceName">动作名不能为空</string>
     <string name="ui_readback_prompt_empty_description" tools:ignore="ResourceName">动作描述不能为空</string>
     <string name="ui_readback_prompt_duplicate_name" tools:ignore="ResourceName">动作名已经存在</string>
     <string name="ui_readback_quit_tip" tools:ignore="ResourceName">当前动作未保存，是否退出？</string>
@@ -241,11 +239,6 @@
     <string name="ui_distribute_desc_education" tools:ignore="ResourceName">alpha小课堂开始上课啦~</string>
     <string name="ui_distribute_desc_song" tools:ignore="ResourceName">啦啦啦，啦啦啦，alpha唱儿歌给你听~</string>
 
-    <string name="ui_square_dance" tools:ignore="ResourceName">舞蹈</string>
-    <string name="ui_square_sport" tools:ignore="ResourceName">运动</string>
-    <string name="ui_square_story" tools:ignore="ResourceName">故事</string>
-    <string name="ui_square_science" tools:ignore="ResourceName">科普</string>
-    <string name="ui_square_childrensong" tools:ignore="ResourceName">儿歌</string>
 
     <string name="ui_action_name_exist" tools:ignore="ResourceName">名称已存在</string>
     <string name="ui_action_name_empty" tools:ignore="ResourceName">名称不能为空</string>
@@ -255,37 +248,10 @@
     <string name="ui_about_feedback_input_too_long" tools:ignore="ResourceName">输入过长</string>
 
 
-    <string name="action_course_card2_3_1">3.添加指定动作出招</string>
-    <string name="action_course_card2_3_1_1">学习完动作库的知识，现在让我们来完成一个小任务吧，你会把基础动作“出招”添加到时间轴上吗？</string>
-    <string name="action_course_card2_3_1_2">点击基础动作模版  点击预览出招动作 点击添加</string>
-
-
     <string name="action_ui_course_principle_exit_tip">课程未完成，是否退出？</string>
 
-
+    <string name="action_empty_no_dynamiaction">你目前没有任何原创动作</string>
     <string name="action_retry_get"><b>点击重试</b></string>
 
 
-
-
-    <string name="action_level_5_content_1">1.模板讲解</string>
-    <string name="action_level_5_content_2">2.创建指定动作—踢腿</string>
-    <string name="action_level_5_content_3">3.保存动作</string>
-
-
-    <string name="action_level_6_content_1">1.模板讲解</string>
-    <string name="action_level_6_content_2">2.创建指定音频</string>
-    <string name="action_level_6_content_3">3.添加创建音频</string>
-    <string name="action_level_6_content_4">4.预览执行动作</string>
-
-    <string name="action_level_7_content_1">1.了解目标动作</string>
-    <string name="action_level_7_content_2">2.修改指定动作</string>
-
-    <string name="action_level_8_content_1">1.创建指定动作</string>
-    <string name="action_level_8_content_2">2.预览执行动作</string>
-
-    <string name="action_level_9_content_1">1.创建指定动作</string>
-    <string name="action_level_9_content_2">2.预览执行动作</string>
-
-    <string name="action_level_10_content_1">1.设计动作</string>
 </resources>

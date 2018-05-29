@@ -166,7 +166,7 @@ public class CourseSevenActionLayout extends BaseActionEditLayout implements Act
         ivLeftArrow1.setOnClickListener(this);
         mRlInstruction = findViewById(R.id.rl_instruction);
         mTextView = findViewById(R.id.tv_all_introduc);
-        mTextView.setText("知道吗？对阿尔法的动作不满意，你还可以修改呢。");
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_7_guide));
 
         ivLeftHandArrow = findViewById(R.id.iv_left_arrow);
         ivLeftHandArrow.setOnClickListener(this);
@@ -305,8 +305,8 @@ public class CourseSevenActionLayout extends BaseActionEditLayout implements Act
 
         Map map = new HashMap<String, Object>();
         map.put(ActionsEditHelper.MAP_FRAME, info);
-        String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-        item_name = item_name.replace("#", 1 + "");
+        //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+       // item_name = item_name.replace("#", 1 + "");
         //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
         map.put(ActionsEditHelper.MAP_FRAME_NAME, 1 + "");
         map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);

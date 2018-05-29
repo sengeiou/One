@@ -556,17 +556,17 @@ public class ActionsEditHelper implements IProtolPackListener {
         } else if (course == 4) {
             title = SkinManager.getInstance().getTextById(R.string.actions_lesson_4);
         } else if (course == 5) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_5_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_5);
         } else if (course == 6) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_6_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_6);
         } else if (course == 7) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_7_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_7);
         } else if (course == 8) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_8_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_8);
         } else if (course == 9) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_9_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_9);
         } else if (course == 10) {
-            title = SkinManager.getInstance().getTextById(R.string.action_level_10_content);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_10);
         }
         return title;
     }

@@ -48,7 +48,7 @@ public class SelectGridAdapter extends BaseQuickAdapter<ActionTypeModel, BaseVie
         }
 
         ImageView ivArrow = helper.getView(R.id.iv_show_arrow);
-        if (isShow && item.getActionName().equals(SkinManager.getInstance().getTextById(R.string.ui_square_sport))) {
+        if (isShow && item.getActionName().equals(SkinManager.getInstance().getTextById(R.string.actions_save_sport))) {
             ivArrow.setVisibility(View.VISIBLE);
         } else {
             ivArrow.setVisibility(View.GONE);

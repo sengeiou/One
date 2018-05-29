@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ubt.baselib.model1E.LocalActionRecord;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.CourseMusicDialogUtil;
@@ -166,7 +167,7 @@ public class CourseEightActionLayout  extends BaseActionEditLayout implements Co
         resetArrow.setOnClickListener(this);
         mRlInstruction = (RelativeLayout) findViewById(R.id.rl_instruction);
         mTextView = (TextView) findViewById(R.id.tv_all_introduc);
-        mTextView.setText("我可是会标准的中国功夫哦，快来给我创建一个标准的踢腿动作吧。");
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_8_intro));
         ivRightLegArrow = findViewById(R.id.iv_right_leg_arrow);
         ivRightLegArrow.setOnClickListener(this);
         initRightLegArrow();

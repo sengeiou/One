@@ -74,7 +74,7 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
         tvTitle.setText(title);
         tvCancle = contentView.findViewById(R.id.tv_cancel);
         tvConfirm = contentView.findViewById(R.id.tv_confirm);
-        tvConfirm.setText(SkinManager.getInstance().getTextById(R.string.ui_common_add));
+        tvConfirm.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_add));
         tvCancle.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = contentView.findViewById(R.id.rv_actions);
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 5);

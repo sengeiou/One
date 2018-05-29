@@ -987,7 +987,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
                 return;
             }
             if (lostRightLeg == false) {
-                showLostDialog(1, SkinManager.getInstance().getTextById(R.string.ui_create_holde_robot));
+                showLostDialog(1, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_2));
             } else {
                 lostLeftLeg();
             }
@@ -997,7 +997,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
                 return;
             }
             if (lostLeftLeg == false) {
-                showLostDialog(2, SkinManager.getInstance().getTextById(R.string.ui_create_holde_robot));
+                showLostDialog(2, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_2));
             } else {
                 lostRightLeg();
             }
@@ -1523,7 +1523,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map addMap = new HashMap<String, Object>();
             addMap.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+           // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
             addMap.put(ActionsEditHelper.MAP_FRAME_NAME, (currentIndex) + "");
             addMap.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
 
@@ -1844,8 +1844,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map map = new HashMap<String, Object>();
             map.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+            //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+          //  item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
             map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
             map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -1887,8 +1887,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         Map map = new HashMap<String, Object>();
         map.put(ActionsEditHelper.MAP_FRAME, info);
-        String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-        item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+        //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+        //item_name = item_name.replace("#", (list_frames.size() + 1) + "");
         //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
         map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
         map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -1923,8 +1923,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map addMap = new HashMap<String, Object>();
             addMap.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+            //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+            //item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
             addMap.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
             addMap.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -1952,7 +1952,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         ids.add(3);
         updateAddViewEnable();
         if (!lostRightLeg && !lostLeftLeg && !lostRightHand) {
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.action_ui_create_click_robot));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_1));
         }
     }
 
@@ -1972,7 +1972,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         mHelper.doLostRightHandAndRead();
         if (!lostRightLeg && !lostLeftLeg && !lostLeftHand) {
 
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.action_ui_create_click_robot));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_1));
         }
     }
 
@@ -1989,7 +1989,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         ids.add(11);
         updateAddViewEnable();
         if (!lostRightLeg && !lostRightHand && !lostLeftHand) {
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.action_ui_create_click_robot));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_1));
 
         }
     }
@@ -2006,7 +2006,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         ids.add(16);
         updateAddViewEnable();
         if (!lostLeftLeg && !lostRightHand && !lostLeftHand) {
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.action_ui_create_click_robot));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_1));
         }
     }
 
@@ -2086,8 +2086,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         Map map = new HashMap<String, Object>();
         map.put(ActionsEditHelper.MAP_FRAME, info);
-        String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-        item_name = item_name.replace("#", 1 + "");
+       // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+       // item_name = item_name.replace("#", 1 + "");
         //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
         map.put(ActionsEditHelper.MAP_FRAME_NAME, 1 + "");
         map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -2259,8 +2259,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map map = new HashMap<String, Object>();
             map.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+            //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+           // item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             map.put(ActionsEditHelper.MAP_FRAME_NAME, currentIndex + "");
 
             map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -2415,8 +2415,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map map = new HashMap<String, Object>();
             map.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+           // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+           // item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
             map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
             map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -2665,8 +2665,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
                     Map map = new HashMap<String, Object>();
                     map.put(ActionsEditHelper.MAP_FRAME, info);
-                    String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-                    item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+                   // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+                  //  item_name = item_name.replace("#", (list_frames.size() + 1) + "");
                     //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
                     map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
                     map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -2728,8 +2728,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map map = new HashMap<String, Object>();
             map.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+           // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+           // item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
             map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
             map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);

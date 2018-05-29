@@ -30,7 +30,6 @@ import skin.support.widget.SkinCompatCheckedTextView;
 import skin.support.widget.SkinCompatEditText;
 import skin.support.widget.SkinCompatFrameLayout;
 import skin.support.widget.SkinCompatImageButton;
-import skin.support.widget.SkinCompatImageView;
 import skin.support.widget.SkinCompatLinearLayout;
 import skin.support.widget.SkinCompatMultiAutoCompleteTextView;
 import skin.support.widget.SkinCompatProgressBar;
@@ -147,9 +146,9 @@ public class SkinCompatViewInflater {
             case "TextView":
                 view = new SkinCompatTextView(context, attrs);
                 break;
-            case "ImageView":
-                view = new SkinCompatImageView(context, attrs);
-                break;
+//            case "ImageView":
+//                view = new SkinCompatImageView(context, attrs);
+//                break;
             case "Button":
                 view = new SkinCompatButton(context, attrs);
                 break;
