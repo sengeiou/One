@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -90,6 +91,16 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if (AppStatusUtils.isLowPower()) {
+            BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+                @Override
+                public void onOK() {
+
+                }
+            });
+            return;
+        }
+
         if (BlueClientUtil.getInstance().getConnectionState() == BluetoothState.STATE_CONNECTED) {
             ActionLevelCourseActivity.launchActivity(this, position + 1);
         } else {

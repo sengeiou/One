@@ -21,6 +21,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
@@ -262,6 +263,16 @@ public class DynamicActionActivity extends MVPBaseActivity<DynamicActionContract
     private void playAction(int position) {
         if (!mPresenter.isBlueConnected()) {
             showBluetoothConnectDialog();
+            return;
+        }
+
+        if (AppStatusUtils.isLowPower()) {
+            BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+                @Override
+                public void onOK() {
+
+                }
+            });
             return;
         }
 

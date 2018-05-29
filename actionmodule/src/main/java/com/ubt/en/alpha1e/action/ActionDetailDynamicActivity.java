@@ -19,6 +19,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseDialog;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
@@ -180,6 +181,16 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
     private void playAction() {
         if (!mPresenter.isBlueConnected()) {
             showBluetoothConnectDialog();
+            return;
+        }
+
+        if (AppStatusUtils.isLowPower()) {
+            BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+                @Override
+                public void onOK() {
+
+                }
+            });
             return;
         }
         int actionStatu = mDynamicActionModel.getActionStatu();

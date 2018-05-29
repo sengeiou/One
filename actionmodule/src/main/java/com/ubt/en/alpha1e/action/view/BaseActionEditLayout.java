@@ -23,8 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.baoyz.pg.PG;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.skin.SkinManager;
@@ -890,12 +892,25 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     }
 
 
+    /**
+     * 低电量处理对话框
+     */
     public void showLowerPowerDialog() {
 
         if (list_frames.size() < 1) {
-            BaseLowBattaryDialog.getInstance().showLow5Dialog();
+            BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+                @Override
+                public void onOK() {
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+                }
+            });
         } else {
-            BaseLowBattaryDialog.getInstance().showLow5ActionDialog(new BaseLowBattaryDialog.IDialogClickSave() {
+            BaseLowBattaryDialog.getInstance().showLow5ActionDialog(new BaseLowBattaryDialog.IDialog5ActionClick() {
+                @Override
+                public void onCancel() {
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+                }
+
                 @Override
                 public void onSave() {
                     Intent inte = new Intent();
