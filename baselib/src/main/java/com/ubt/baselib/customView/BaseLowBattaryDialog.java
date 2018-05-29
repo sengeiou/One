@@ -41,7 +41,7 @@ public class BaseLowBattaryDialog {
     /**
      * 显示电量低于5%的对话框
      */
-    public void showLow5Dialog() {
+    public void showLow5Dialog(final IDialog5Click okListener) {
         if (low5Dialog != null) {
             low5Dialog.dismiss();
         }
@@ -53,8 +53,9 @@ public class BaseLowBattaryDialog {
         btnLowpowerOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(low5Dialog != null){
-                    low5Dialog.dismiss();
+                dissLow5Dialog();
+                if(okListener != null){
+                    okListener.onOK();
                 }
             }
         });
@@ -71,7 +72,7 @@ public class BaseLowBattaryDialog {
     /**
      * 显示电量低于5%但界面在编程页面时的对话框
      */
-    public void showLow5ActionDialog(final IDialogClickSave saveListener) {
+    public void showLow5ActionDialog(final IDialog5ActionClick saveListener) {
         if (low5ActionDialog != null) {
             low5ActionDialog.dismiss();
         }
@@ -83,14 +84,16 @@ public class BaseLowBattaryDialog {
         viewTwoBtn.findViewById(R.id.btn_lowpower_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(low5ActionDialog != null){
-                    low5ActionDialog.dismiss();
+                dissLow5ActionDialog();
+                if(saveListener != null){
+                    saveListener.onCancel();
                 }
             }
         });
         viewTwoBtn.findViewById(R.id.btn_lowpower_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dissLow5ActionDialog();
                 if(saveListener != null){
                     saveListener.onSave();
                 }
@@ -108,7 +111,12 @@ public class BaseLowBattaryDialog {
 
 
 
-    public interface IDialogClickSave{
+    public interface IDialog5ActionClick{
+        void onCancel();
         void onSave();
+    }
+
+    public interface IDialog5Click{
+        void onOK();
     }
 }

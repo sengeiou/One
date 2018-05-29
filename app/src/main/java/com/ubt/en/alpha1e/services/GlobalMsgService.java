@@ -170,7 +170,7 @@ public class GlobalMsgService extends Service {
                                 if(isNeed5Dialog) {
                                     isNeed5Dialog = false;
                                     if (!AppStatusUtils.isBussiness()) { //非特殊处理模块集中弹低电提示
-                                        BaseLowBattaryDialog.getInstance().showLow5Dialog();
+                                        BaseLowBattaryDialog.getInstance().showLow5Dialog(null);
                                     }
                                 }
                             }else{
