@@ -1,6 +1,4 @@
-include  ':baselib', ':app',  ':loginmodule',':remotemodule', ':playmodule', ':playmodule'
-include  ':bluetoohmodule', ':blocklymodule', ':actionmodule'
-include  ':baselib', ':app',  ':loginmodule',':remotemodule'
+include  ':baselib', ':app',  ':loginmodule',':remotemodule', ':playmodule'
 include  ':bluetoohmodule', ':blocklymodule', ':actionmodule', ':skin-support'
 
 //include ":mainmodule"
