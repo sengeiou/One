@@ -3,4 +3,5 @@
     <color name="text_playlist_title">#1D3740</color>
     <color name="text_blue_color">#3AABFE</color>
     <color name="bg_rect_grey">#E2E2E2</color>
+    <color name="bg_action_item">#AA000000</color>
 </resources>

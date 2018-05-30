@@ -14,6 +14,7 @@ public class ActionData {
     private String actionName;
     private String actionTime;
     private int actionIcon;
+    private boolean select;
 
     public String getActionName() {
         return actionName;
@@ -39,12 +40,21 @@ public class ActionData {
         this.actionIcon = actionIcon;
     }
 
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
     @Override
     public String toString() {
         return "ActionData{" +
                 "actionName='" + actionName + '\'' +
                 ", actionTime='" + actionTime + '\'' +
                 ", actionIcon=" + actionIcon +
+                ", select=" + select +
                 '}';
     }
 }

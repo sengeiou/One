@@ -1,7 +1,5 @@
 package com.ubt.playaction.play;
 
-import android.content.Context;
-
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
@@ -9,7 +7,10 @@ import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
-import com.ubt.baselib.mvp.BasePresenterImpl;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdActionStopPlay;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdGetActionList;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdPause;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.playaction.R;
@@ -17,6 +18,7 @@ import com.ubt.playaction.model.ActionData;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -32,76 +34,80 @@ import java.util.List;
  */
 
 
-public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.View> implements PlayActionContract.Presenter, IProtolPackListener, PlayActionManger.IPlayActionMangerListener {
+public class PlayActionManger implements IProtolPackListener {
 
+    private static PlayActionManger instance;
+    private BlueClientUtil mBlueClient;
+    private int mConnectState ;
     public static final int STOP = 0;
     public static final int PLAYING = 1;
     public static final int PAUSE = 2;
     private int playState = STOP;
-
-    private Context context;
-    private BlueClientUtil mBlueClient;
-    private int mConnectState ;
+    private String currentPlayActionName= "";
     private List<ActionData> actionDataList = new ArrayList<ActionData>();
+    private IPlayActionMangerListener listener;
 
-    private PlayActionManger playActionManger;
+    private List<ActionData> actionCycleList = new ArrayList<ActionData>();
+    private boolean cycle = false;
+    private int currentCyclePos = 0;
 
-    public int getPlayState() {
-        return playState;
+    public static PlayActionManger getInstance() {
+        if (instance == null) {
+            synchronized (PlayActionManger.class) {
+                if (instance == null) {
+                    instance = new PlayActionManger();
+                }
+            }
+        }
+        return  instance;
     }
 
-    @Override
+    public void init(IPlayActionMangerListener listener) {
+        this.listener = listener;
+        mBlueClient = BlueClientUtil.getInstance();
+        if(!EventBus.getDefault().isRegistered(this)){//加上判断
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    public void unRegister() {
+        if(EventBus.getDefault().isRegistered(this)){//加上判断
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
     public void getActionList() {
-   /*     if(mBlueClient.getConnectionState() == 3){
+        if(mBlueClient.getConnectionState() == 3){
             ViseLog.d("getActionList");
             actionDataList.clear();
             mBlueClient.sendData(new BTCmdGetActionList("action").toByteArray());
-        }*/
-        playActionManger.getActionList();
+        }
     }
 
-    @Override
-    public void register(Context context) {
-        this.context = context;
-   /*     mBlueClient = BlueClientUtil.getInstance();
-        EventBus.getDefault().register(this);*/
-        playActionManger = PlayActionManger.getInstance();
-        playActionManger.init(this);
-    }
-
-    @Override
-    public void unRegister() {
-        playActionManger.unRegister();
-//        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     public void playAction(String actionName) {
-    /*    if(mBlueClient.getConnectionState() == 3){
+        if(mBlueClient.getConnectionState() == 3){
             mBlueClient.sendData(new BTCmdPlayAction(actionName).toByteArray());
             playState = PLAYING;
-            if(mView != null){
-                mView.notePlayStart(actionName);
+            currentPlayActionName =actionName;
+            if(listener != null){
+                listener.notePlayStart(actionName);
             }
-        }*/
-
-        playActionManger.playAction(actionName);
+        }
     }
 
-    @Override
+
     public void stopAction() {
-    /*    if(mBlueClient.getConnectionState() == 3){
+        if(mBlueClient.getConnectionState() == 3){
             mBlueClient.sendData(new BTCmdActionStopPlay().toByteArray());
-            if(mView != null) {
-                mView.notePlayStop();
+            currentPlayActionName= "";
+            if(listener != null) {
+                listener.notePlayStop();
             }
-        }*/
-        playActionManger.stopAction();
+        }
     }
 
-    @Override
     public void playPauseAction() {
-    /*    if(mBlueClient.getConnectionState() == 3){
+        if(mBlueClient.getConnectionState() == 3){
             if(playState == PLAYING){
                 ViseLog.d("playPauseAction PAUSE");
                 mBlueClient.sendData(new BTCmdPause(BTCmdPause.PAUSE).toByteArray());
@@ -112,9 +118,7 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
                 playState = PLAYING;
             }
 
-        }*/
-
-        playActionManger.playPauseAction();
+        }
     }
 
 
@@ -129,11 +133,6 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
         BTCmdHelper.parseBTCmd(readData.getDatas(), this);
     }
 
-    /**
-     * 蓝牙数据解析回调
-     *
-     * @param packet
-     */
     @Override
     public void onProtocolPacket(ProtocolPacket packet) {
         ViseLog.d("onProtocolPacket:" + packet.getmCmd() + "---getmParam:" +  new String(packet.getmParam()));
@@ -145,28 +144,39 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
                 break;
             case BTCmd.UV_STOPACTIONFILE:
                 ViseLog.d("UV_STOPACTIONFILE" );
-                if(mView != null) {
-                    mView.getActionList(actionDataList);
+                if(listener != null) {
+                    listener.setActionList(actionDataList);
                 }
                 break;
             case BTCmd.DV_ACTION_FINISH:
                 String name = BluetoothParamUtil.bytesToString(packet.getmParam());
                 playState = STOP;
-                if(mView != null) {
-                    mView.notePlayFinish(name);
+                currentPlayActionName="";
+                if(listener != null) {
+                    listener.notePlayFinish(name);
                 }
+
+                ViseLog.d("DV_ACTION_FINISH:" + cycle + "--actionCycleList:" + actionCycleList.size());
+
+                if(cycle){
+                    currentCyclePos++;
+                    playAction(actionCycleList.get(currentCyclePos).getActionName());
+                }
+
+
                 break;
             case BTCmd.DV_STOPPLAY:  //停止播放
                 ViseLog.d("DV_STOPPLAY");
                 playState = STOP;
-                if(mView != null) {
-                    mView.notePlayOrPause();
+                currentPlayActionName = "";
+                if(listener != null) {
+                    listener.notePlayStop();
                 }
                 break;
             case BTCmd.DV_PAUSE: //暂停或者继续
                 ViseLog.d("DV_PAUSE:" + packet.getmParam()[0]);
-                if(mView != null) {
-                    mView.notePlayOrPause();
+                if(listener != null) {
+                    listener.notePlayOrPause();
                 }
                 break;
             case BTCmd.DV_PLAYACTION:
@@ -184,6 +194,7 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
         actionData.setActionTime("03:25");
         actionDataList.add(actionData);
     }
+
 
     /**
      * 蓝牙连接断开状态
@@ -216,46 +227,57 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
         return mConnectState;
     }
 
-
-    @Override
-    public void setActionList(List<ActionData> actionDataList) {
-        if(mView != null) {
-            mView.getActionList(actionDataList);
-        }
+    public String getCurrentPlayActionName(){
+        return currentPlayActionName;
     }
 
-    @Override
-    public void notePlayStart(String actionName) {
-        if(mView != null){
-            mView.notePlayStart(actionName);
-        }
+    public int getPlayState() {
+        return playState;
     }
 
-    @Override
-    public void notePlayStop() {
-        if(mView != null) {
-            mView.notePlayStop();
-        }
+    public boolean isCycle() {
+        return cycle;
     }
 
- /*   @Override
-    public void refreshPlayState() {
-        if(mView != null) {
-            mView.notePlayOrPause();
-        }
-    }*/
-
-    @Override
-    public void notePlayFinish(String name) {
-        if(mView != null) {
-            mView.notePlayFinish(name);
-        }
+    public void setCycle(boolean cycle) {
+        this.cycle = cycle;
     }
 
-    @Override
-    public void notePlayOrPause() {
-        if(mView != null) {
-            mView.notePlayOrPause();
-        }
+    public List<ActionData> getActionCycleList() {
+        return actionCycleList;
     }
+
+    public void setActionCycleList(List<ActionData> actionCycleList) {
+        this.actionCycleList.clear();
+        this.actionCycleList.addAll(actionCycleList);
+//        this.actionCycleList = actionCycleList;
+    }
+
+    public int getCurrentCyclePos() {
+        return currentCyclePos;
+    }
+
+    public void setCurrentCyclePos(int currentCyclePos) {
+        this.currentCyclePos = currentCyclePos;
+    }
+
+    public List<ActionData> getActionDataList() {
+        return actionDataList;
+    }
+
+    public void setActionDataList(List<ActionData> actionDataList) {
+        this.actionDataList = actionDataList;
+    }
+
+    public interface IPlayActionMangerListener{
+        void setActionList( List<ActionData> actionDataList);
+        void notePlayStart(String actionName);
+        void notePlayStop();
+//        void refreshPlayState();
+        void notePlayFinish(String name);
+        void notePlayOrPause();
+    }
+
+
+
 }

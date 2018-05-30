@@ -33,10 +33,37 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/play_title"
+            android:text="@string/playlist_title"
             android:textColor="@color/text_playlist_title"
             android:textSize="@dimen/sp_18"
             />
+
+
+        <ImageView
+            android:id="@+id/iv_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_row_select"
+            android:layout_toLeftOf="@+id/tv_select_all"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:visibility="invisible"
+            />
+
+        <TextView
+            android:id="@+id/tv_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/tv_select"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="@string/playlist_select_all"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/text_blue_color"
+            android:gravity="center"
+            android:visibility="invisible"
+            />
+
 
         <TextView
             android:id="@+id/tv_select"
@@ -44,11 +71,13 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dp_20"
-            android:text="@string/select_list"
+            android:text="@string/playlist_select"
             android:textSize="@dimen/sp_15"
             android:textColor="@color/text_blue_color"
             android:gravity="center"
             />
+
+
 
     </RelativeLayout>
 
@@ -73,6 +102,45 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/playstate_rect"
         >
+
+        <RelativeLayout
+            android:id="@+id/rl_play_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/play_button"
+            android:visibility="invisible"
+            >
+
+            <ImageView
+                android:id="@+id/iv_play_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_play_selector"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_28"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iv_play_btn"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_15"
+                android:text="@string/playlist_play"
+                />
+
+          </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_play_ctrl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            >
 
         <RelativeLayout
             android:layout_width="@dimen/dp_275"
@@ -123,6 +191,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_20"
+            android:scaleType="fitXY"
             />
         
         <View
@@ -143,15 +212,17 @@
             android:layout_toLeftOf="@+id/view_div"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_20"
+            android:scaleType="fitXY"
             />
 
         <ImageView
             android:id="@+id/iv_play_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
             android:src="@drawable/ic_play"
             android:layout_toLeftOf="@+id/iv_reset"
             android:layout_centerVertical="true"
+            android:scaleType="fitXY"
             android:layout_marginRight="@dimen/dp_20"
             />
 
@@ -163,14 +234,82 @@
             android:layout_toLeftOf="@+id/iv_play_pause"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_20"
+            android:scaleType="fitXY"
             />
 
-
-
+        </RelativeLayout>
 
     </RelativeLayout>
 
 
+    <RelativeLayout
+        android:id="@+id/rl_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/play_list_rect"
+        android:visibility="gone"
+        >
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/dp_86"
+            android:id="@+id/rl_list_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_55">
+
+            <ImageView
+                android:id="@+id/iv_close_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                />
+
+            <ImageView
+                android:id="@+id/iv_delete_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_empty"
+                android:scaleType="fitXY"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_20"
+                />
+
+            <ImageView
+                android:id="@+id/iv_list_cycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_circle_list"
+                android:scaleType="fitXY"
+                android:layout_toLeftOf="@+id/iv_delete_list"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_20"
+                />
+
+        </RelativeLayout>
+        <View
+            android:id="@+id/view_playlist_div"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/bg_rect_grey"
+            android:layout_below="@+id/rl_list_header"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleview_playlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_playlist_div"
+            android:layout_marginTop="5dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:visibility="visible"
+            />
+
+
+    </RelativeLayout>
 
 
 
