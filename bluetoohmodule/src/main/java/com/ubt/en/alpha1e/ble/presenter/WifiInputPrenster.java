@@ -87,7 +87,8 @@ public class WifiInputPrenster extends BasePresenterImpl<WifiInputContact.View> 
             case BluetoothState.STATE_DISCONNECTED:
                  mHandler.removeMessages(MESSAGE_WHAT);
                 if (mView != null) {
-                    mView.connectWifiResult(3);
+                   // mView.connectWifiResult(3);
+                    mView.blutoohDisconnect();
                 }
                 break;
             default:

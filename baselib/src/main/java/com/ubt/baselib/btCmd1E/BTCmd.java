@@ -105,6 +105,9 @@ public interface BTCmd {
     byte DV_FILE_UPLOAD_CANCEL = 0x17;
     /**
      * 读电量
+     * 参数1：2B    电压（mV），高字节先发，低字节后发
+     * 参数2：1B    是否充电    00/否 01/是 02/没有电池  03/已充满电, 适配器接入
+     * 参数3：1B    电量百分比(0~100)
      **/
     byte DV_READ_BATTERY = 0x18;
     /**

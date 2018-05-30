@@ -8,9 +8,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.FileUtils;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.TimeTools;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.action.R;
@@ -58,11 +60,11 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
             R.string.ui_distribute_desc_song,
             R.string.ui_distribute_desc_education};
     final int[] imageNames = {
-            R.string.ui_square_dance,
-            R.string.ui_square_story,
-            R.string.ui_square_sport,
-            R.string.ui_square_childrensong,
-            R.string.ui_square_science};
+            R.string.actions_save_dance,
+            R.string.actions_save_story,
+            R.string.actions_save_sport,
+            R.string.actions_save_child,
+            R.string.actions_save_science};
 
     final int[] type1 = {R.drawable.action_dance_1b,
             R.drawable.action_dance_2b,
@@ -320,7 +322,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
 
         SaveActionRequest request = new SaveActionRequest();
         request.setActionoriginalid(newActionInfo.actionOriginalId + "");
-        request.setActionuserid(BaseHttpEntity.getUserId());
+        request.setActionuserid(String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)));
         request.setActiondesciber(typeModel.getActionDescrion());
         request.setServiceversion("V1.0.0.1");
         request.setActionname("test");
@@ -332,7 +334,7 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
         Map<String, String> params = getBasicParamsMap(mContext);
 
         params.put("actionOriginalId", newActionInfo.actionOriginalId + "");
-        params.put("actionUserId", BaseHttpEntity.getUserId() + "");
+        params.put("actionUserId", String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)) + "");
         params.put("actionName", newActionInfo.actionName);
         params.put("actionDesciber", typeModel.getActionDescrion());
         params.put("actionType", newActionInfo.actionType + "");

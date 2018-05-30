@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_preview"
                 android:layout_centerHorizontal="true"
-                android:text="@string/ui_readback_preview"
+                android:text="@string/actions_preview"
                 android:textColor="@color/btn_get_code_color"
                 android:textSize="16dp"/>
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_change"
                 android:layout_centerHorizontal="true"
-                android:text="@string/ui_readback_alter"
+                android:text="@string/actions_modify"
                 android:textColor="@color/btn_get_code_color"
                 android:textSize="16dp"/>
 
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_copy"
                 android:layout_centerHorizontal="true"
-                android:text="@string/ui_readback_copy"
+                android:text="@string/actions_copy"
                 android:textColor="@color/btn_get_code_color"
                 android:textSize="16dp"/>
 
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_cut"
                 android:layout_centerHorizontal="true"
-                android:text="@string/ui_create_menu_cut"
+                android:text="@string/actions_cut"
                 android:textColor="@color/btn_get_code_color"
                 android:textSize="16dp"/>
 
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_paste"
                 android:layout_centerHorizontal="true"
-                android:text="@string/ui_readback_paste"
+                android:text="@string/actions_paste"
                 android:textColor="@color/btn_get_code_color"
                 android:textSize="16dp"/>
 
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_delete"
                 android:layout_centerHorizontal="true"
-                android:text="@string/ui_common_delete"
+                android:text="@string/actions_delete"
                 android:textColor="@color/btn_get_code_color"
                 android:textSize="16dp"/>
 

@@ -170,7 +170,7 @@ public class CourseThreeActionLayout extends BaseActionEditLayout implements Cou
 
         mRlInstruction = (RelativeLayout) findViewById(R.id.rl_instruction);
         mTextView = (TextView) findViewById(R.id.tv_all_introduc);
-        mTextView.setText(SkinManager.getInstance().getTextById(R.string.action_course_card3_1_all));
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_intro));
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);
     }
@@ -349,7 +349,7 @@ public class CourseThreeActionLayout extends BaseActionEditLayout implements Cou
                             int layoutId = viewPosInfo.layoutId;
                             View tipView = hightLightView.findViewById(layoutId);
                             tv = tipView.findViewById(R.id.tv_content);
-                            tv.setText("音乐库");
+                            tv.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_audio_library));
                             tvKnow = tipView.findViewById(R.id.tv_know);
                             isClicked = false;
                             mHandler.postDelayed(new Runnable() {

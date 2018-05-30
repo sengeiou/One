@@ -181,7 +181,7 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
 
         mRlInstruction = (RelativeLayout) findViewById(R.id.rl_instruction);
         mTextView = (TextView) findViewById(R.id.tv_all_introduc);
-        mTextView.setText(SkinManager.getInstance().getTextById(R.string.action_course_card1_1_all));
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_1_guide));
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);
     }

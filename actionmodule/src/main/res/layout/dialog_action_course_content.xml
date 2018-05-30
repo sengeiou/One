@@ -13,7 +13,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:textColor="@color/tv_user_edit_color"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_card_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_card_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_2"
         android:textColor="@color/tv_user_edit_color"
         android:textSize="20sp"
         />
@@ -22,7 +33,7 @@
         android:id="@+id/recyleview_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_card_name"
+        android:layout_below="@+id/tv_card_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:overScrollMode="never"
@@ -37,10 +48,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/action_btn_alert_bg"
+        android:background="@drawable/btn_blue"
         android:gravity="center"
-        android:text="开始闯关"
-        android:textColor="@color/tv_user_edit_color"
+        android:text="@string/actions_lesson_next_part"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         android:textSize="16sp"/>
 
 </RelativeLayout>

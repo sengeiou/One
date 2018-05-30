@@ -1,25 +1,27 @@
 <resources>
     <string name="app_name">BaseLib</string>
-    <string name="ui_common_back">返回</string>
-    <string name="ui_common_cancel">取消</string>
-    <string name="ui_common_complete">完成</string>
-    <string name="ui_common_edit">编辑</string>
-    <string name="ui_common_save">保存</string>
-     <string name="ui_common_search">搜索</string>
-    <string name="ui_common_check">查看</string>
-    <string name="ui_common_close">关闭</string>
-    <string name="ui_common_submit">提交</string>
-    <string name="ui_common_delete">删除</string>
-    <string name="ui_common_network_request_failed">网络连接失败，请检查网络设置</string>
-    <string name="ui_common_ignore">忽略</string>
-    <string name="ui_common_no_more">没有更多数据</string>
-    <string name="ui_common_loading">加载中</string>
-    <string name="ui_common_operate_fail">操作失败</string>
-    <string name="ui_common_skip">跳过</string>
-    <string name="ui_common_select">请选择</string>
 
+    <string name="common_btn_done">Done</string>
+    <string name="common_btn_search">Search</string>
+
+    <string name="common_btn_delete">Delete</string>
+
+    <string name="common_btn_try_again">Try again </string>
+    <string name="common_btn_kip">Skip</string>
+    <string name="common_btn_next">Next</string>
     <string name="base_confirm">Confirm</string>
     <string name="base_setting">Setting</string>
     <string name="base_cancel">Cancel</string>
     <string name="base_save">Save</string>
+    <string name="base_ok">OK</string>
+    <string name="base_close">Close</string>
+    <string name="base_network_error">Network error. Tap to load again.</string>
+    <string name="base_connect">Connect</string>
+    <string name="base_delete">Delete</string>
+    <string name="base_lowpower">Robot Low Battery</string>
+    <string name="base_lowpower_20">20% battery remainning</string>
+    <string name="base_lowpower_5">5% battery remainning</string>
+    <string name="base_lowpower_5_action">5% battery remaining.\nClick close to go to the homepage or click\nsave to save your action script.</string>
+
+    <string name="base_ble_broken_tip">Your bluetooth has disconnected\nwith robot, please reconnect it.</string>
 </resources>

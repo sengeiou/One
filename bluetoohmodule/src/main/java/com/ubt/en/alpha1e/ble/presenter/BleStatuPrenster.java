@@ -12,15 +12,20 @@ import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
+import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
+import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
-import com.ubt.en.alpha1e.ble.model.BleNetWork;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
+import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
@@ -135,8 +140,30 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
 
             case BTCmd.READ_SN_CODE:
                 ViseLog.d("机器人序列号：" + new String(packet.getmParam()));
+                ViseLog.d("机器人序列号：" + new String(packet.getmParam()) + "   packet =  " + packet.getmParam());
                 if (mView != null) {
                     mView.setRobotSN(new String(packet.getmParam()));
+                }
+                mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
+                break;
+
+            case BTCmd.DV_READ_AUTO_UPGRADE_STATE:
+                ViseLog.d("机器人 AUTO_UPGRADE_STATE：" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
+                if(mView != null){
+                    mView.setAutoUpgradeStatus(packet.getmParam()[0]);
+                }
+            case BTCmd.DV_SET_AUTO_UPGRADE:
+                ViseLog.d("机器人 DV_SET_AUTO_UPGRADE：" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
+                if(mView != null){
+                    mView.setAutoUpgradeStatus(packet.getmParam()[0]);
+                }
+                break;
+            case BTCmd.DV_DO_UPGRADE_PROGRESS:
+                String upgradeProgressJson= BluetoothParamUtil.bytesToString(packet.getmParam());
+                ViseLog.d("upgradeProgressJson = " + upgradeProgressJson);
+                UpgradeProgressInfo upgradeProgressInfo = GsonImpl.get().toObject(upgradeProgressJson,UpgradeProgressInfo.class);
+                if(mView != null){
+                    mView.updateUpgradeProgress(upgradeProgressInfo);
                 }
                 break;
             default:
@@ -190,6 +217,10 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     @Override
     public void dissConnectRobot() {
         mBlueClientUtil.disconnect();
+        AppStatusUtils.setIsForceDisBT(true);
+        ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_DISCONNECT);
+        manualEvent.setManual(true);
+        EventBus.getDefault().post(manualEvent);
     }
 
     @Override
@@ -201,6 +232,18 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
         } else {
             mBlueClientUtil.openBluetooth();
         }
+    }
+
+    @Override
+   public void doChangeAutoUpgrade(boolean is0pen) {
+        byte[] params = new byte[1];
+        if(is0pen){
+            params[0] = BTCmdSetAutoUpgrade.ON;
+        }else {
+            params[0] = BTCmdSetAutoUpgrade.OFF;
+        }
+
+        mBlueClientUtil.sendData(new BTCmdSetAutoUpgrade(params[0]).toByteArray());
     }
 
 

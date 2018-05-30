@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.ubt.en.alpha1e.action">
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application>
         <activity
             android:name=".ActionCreateActivity"
@@ -37,16 +38,30 @@
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".course.ActionLevelCourseActivity"
+        <activity
+            android:name=".course.ActionLevelCourseActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".course.ActionSaveCourseActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".DynamicActionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ActionDetailDynamicActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:screenOrientation="landscape"
                   android:theme="@style/NoTitleThemeFullScreen"
                   android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".course.ActionSaveCourseActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:screenOrientation="landscape"
-                  android:theme="@style/NoTitleThemeFullScreen"
-                  android:windowSoftInputMode="adjustPan"/>
+
     </application>
 
 </manifest>

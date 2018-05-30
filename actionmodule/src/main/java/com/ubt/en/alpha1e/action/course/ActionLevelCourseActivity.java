@@ -15,12 +15,17 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.ViewHolder;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.contact.CourseContract;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
@@ -91,6 +96,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         ((ActionsEditHelper) mHelper).doEnterCourse((byte) 1);
         mActionEdit.setData(this);
         mActionEdit.setOnSaveSucessListener(this);
+        AppStatusUtils.setBtBussiness(true);
     }
 
     @Override
@@ -109,6 +115,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
             mActionEdit.doReset();
         }
         mHelper.unRegister();
+        AppStatusUtils.setBtBussiness(false);
     }
 
 
@@ -125,7 +132,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     private void showExitDialog() {
         new BaseDialog.Builder(this)
-                .setMessage("成功就在眼前，放弃闯关吗？")
+                .setMessage(SkinManager.getInstance().getTextById(R.string.actions_lesson_quit))
                 .setConfirmButtonId(R.string.base_cancel)
                 .setConfirmButtonColor(R.color.base_blue)
                 .setCancleButtonID(R.string.base_confirm)
@@ -188,7 +195,22 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     @Override
     public void onDisconnect() {
+        if (!BaseBTDisconnectDialog.getInstance().isShowing()) {
+            BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+                @Override
+                public void onConnect() {
+                    ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                    finish();
+                }
 
+                @Override
+                public void onCancel() {
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                    finish();
+                }
+            });
+        }
     }
 
     @Override
@@ -203,6 +225,11 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         });
     }
 
+    @Override
+    public void lowerPower() {
+
+    }
+
     private boolean isHowHeadDialog;
 
     private void showTapHeadDialog() {
@@ -210,9 +237,9 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
         new BaseDialog.Builder(this)
                 .setMessage(R.string.action_ui_course_principle_exit_tip)
-                .setConfirmButtonId(R.string.action_continue_course)
+                .setConfirmButtonId(R.string.actions_lesson_not_quit)
                 .setConfirmButtonColor(R.color.base_blue)
-                .setCancleButtonID(R.string.action_cancel_course)
+                .setCancleButtonID(R.string.actions_lesson_quit_confirm)
                 .setCancleButtonColor(R.color.black)
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
@@ -272,7 +299,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
         View contentView = LayoutInflater.from(this).inflate(R.layout.action_dialog_course_result, null);
         TextView tvResult = contentView.findViewById(R.id.tv_result);
-        tvResult.setText("闯关成功");
+        tvResult.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_pass));
         TextView title = contentView.findViewById(R.id.tv_card_name);
         title.setText(ActionsEditHelper.getCourseDialogTitle(level));
         ((ImageView) contentView.findViewById(R.id.iv_result)).setImageResource(R.drawable.action_img_level_success);

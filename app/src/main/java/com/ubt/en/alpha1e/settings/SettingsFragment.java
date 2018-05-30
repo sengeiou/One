@@ -10,6 +10,7 @@ import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.R;
 
 
+
 public class SettingsFragment extends PreferenceFragment {
     public static final String BUILD_IN_NIGHT_MODE_KEY = "BuildInNightMode";
     public static final String ASSETS_NIGHT_MODE_KEY = "AssetsNightMode";
@@ -44,7 +45,7 @@ public class SettingsFragment extends PreferenceFragment {
                 mBuildInNightModePreference.setChecked(false);
                 mSDCardNightModePreference.setChecked(false);
                 boolean boolValue = (boolean) newValue;
-                SkinManager.getInstance().setSkinConfig(boolValue);
+             //   SkinManager.getInstance().setSkinConfig(boolValue);
 //                if (boolValue) {
 //                    SkinCompatManager.getInstance().loadSkin("night.skin", null, SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
 //                } else {

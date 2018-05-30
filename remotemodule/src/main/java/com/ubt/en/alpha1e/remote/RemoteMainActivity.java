@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.en.alpha1e.remote.contract.RemoteMainContact;
 import com.ubt.en.alpha1e.remote.model.RemoteMainAdapter;
@@ -47,6 +48,12 @@ public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, 
         mPresenter.init(this);
         initView();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppStatusUtils.setBtBussiness(true);
     }
 
     private void initView() {
@@ -99,13 +106,15 @@ public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, 
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.unRegister();
+        AppStatusUtils.setBtBussiness(false);
+
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (mPresenter.getRoleInfos().get(position).getBz() == 0) {
             //startActivity(new Intent(this,RemoteActivity.class));
-            RemoteActivity.launch(this,position+1);
+            RemoteActivity.launch(this, position + 1);
         }
     }
 }

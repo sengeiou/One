@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.action.contact.ActionMainContact;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.ubt.en.alpha1e.action.model.IEditActionUI;
@@ -34,12 +35,14 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mInstance =this;
+        mInstance = this;
         mHelper = new ActionsEditHelper(this, this);
         ((ActionsEditHelper) mHelper).setListener(this);
         mActionEdit = (ActionEditsStandard) findViewById(R.id.action_edit);
         mActionEdit.setUp(mHelper);
         mActionEdit.setOnSaveSucessListener(this);
+        AppStatusUtils.setBtBussiness(true);
+        AppStatusUtils.setBussiness(true);
     }
 
     @Override
@@ -51,6 +54,8 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
         }
         mInstance = null;
         mHelper.unRegister();
+        AppStatusUtils.setBtBussiness(false);
+        AppStatusUtils.setBussiness(false);
     }
 
     @Override
@@ -116,7 +121,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
 
     }
 
-    public static void finishSelf(){
+    public static void finishSelf() {
         if (mInstance != null && !mInstance.isFinishing()) {
             mInstance.finish();
         }
@@ -130,11 +135,21 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
 
     @Override
     public void onDisconnect() {
+        if (mHelper!=null){
+            mHelper.showBlutoohDisconnectDialog();
+        }
 
     }
 
     @Override
     public void tapHead() {
+
+    }
+
+    @Override
+    public void lowerPower() {
+        mActionEdit.showLowerPowerDialog();
+
 
     }
 

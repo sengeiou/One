@@ -23,9 +23,12 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.baoyz.pg.PG;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.PermissionUtils;
 import com.ubt.baselib.utils.TimeUtils;
@@ -791,8 +794,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         new BaseDialog.Builder(mContext)
                 .setMessage(R.string.action_ui_readback_quit_tip).
-                setConfirmButtonId(R.string.action_ui_readback_quit_confirm)
-                .setCancleButtonID(R.string.action_ui_common_cancel)
+                setConfirmButtonId(R.string.actions_lesson_quit_confirm)
+                .setCancleButtonID(R.string.base_cancel)
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
@@ -822,13 +825,18 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         return true;
     }
 
+    /**
+     * 保存动作
+     *
+     * @param type 1保存动作页面 2课程保存动作页面
+     */
     public void saveNewAction(int type) {
         if (musicTimes == 0) {
             if (list_frames.size() < 1) {
                 new BaseDialog.Builder(mContext)
                         .setMessage(R.string.action_ui_readback_not_null).
-                        setConfirmButtonId(R.string.action_ui_common_confirm)
-                        .setCancleButtonID(R.string.action_ui_common_cancel)
+                        setConfirmButtonId(R.string.base_confirm)
+                        .setCancleButtonID(R.string.base_cancel)
                         .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                             @Override
                             public void onClick(DialogPlus dialog, View view) {
@@ -846,8 +854,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
             if (list_frames.size() < 2) {
                 new BaseDialog.Builder(mContext)
                         .setMessage(R.string.action_ui_readback_not_null).
-                        setConfirmButtonId(R.string.action_ui_common_confirm)
-                        .setCancleButtonID(R.string.action_ui_common_cancel)
+                        setConfirmButtonId(R.string.base_confirm)
+                        .setCancleButtonID(R.string.base_cancel)
                         .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                             @Override
                             public void onClick(DialogPlus dialog, View view) {
@@ -867,7 +875,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         if (type == 1) {
             inte.setClass(mContext, ActionSaveActivity.class);
         } else {
-              inte.setClass(mContext, ActionSaveCourseActivity.class);
+            inte.setClass(mContext, ActionSaveCourseActivity.class);
         }
         inte.putExtra(ActionsEditHelper.New_ActionInfo, PG.convertParcelable(getEditingActions()));
         inte.putExtra(SCHEME_ID, mSchemeId);
@@ -880,6 +888,50 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         if (listener != null) {
             listener.startSave(inte);
         }
+
+    }
+
+
+    /**
+     * 低电量处理对话框
+     */
+    public void showLowerPowerDialog() {
+
+        if (list_frames.size() < 1) {
+            BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+                @Override
+                public void onOK() {
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+                }
+            });
+        } else {
+            BaseLowBattaryDialog.getInstance().showLow5ActionDialog(new BaseLowBattaryDialog.IDialog5ActionClick() {
+                @Override
+                public void onCancel() {
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+                }
+
+                @Override
+                public void onSave() {
+                    Intent inte = new Intent();
+                    inte.setClass(mContext, ActionSaveActivity.class);
+                    inte.putExtra(ActionsEditHelper.New_ActionInfo, PG.convertParcelable(getEditingActions()));
+                    inte.putExtra(SCHEME_ID, mSchemeId);
+                    inte.putExtra(SCHEME_NAME, mSchemeName);
+                    inte.putExtra(FROM_TYPE, 1);
+                    if (mDir != "") {
+                        inte.putExtra(ActionSaveActivity.MUSIC_DIR, mDir);
+                    }
+
+                    if (listener != null) {
+                        listener.startSave(inte);
+                    }
+                    BaseLowBattaryDialog.getInstance().dissLow5ActionDialog();
+                }
+
+            });
+        }
+
 
     }
 
@@ -987,7 +1039,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
                 return;
             }
             if (lostRightLeg == false) {
-                showLostDialog(1, SkinManager.getInstance().getTextById(R.string.ui_create_holde_robot));
+                showLostDialog(1, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_2));
             } else {
                 lostLeftLeg();
             }
@@ -997,7 +1049,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
                 return;
             }
             if (lostLeftLeg == false) {
-                showLostDialog(2, SkinManager.getInstance().getTextById(R.string.ui_create_holde_robot));
+                showLostDialog(2, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_2));
             } else {
                 lostRightLeg();
             }
@@ -1523,7 +1575,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map addMap = new HashMap<String, Object>();
             addMap.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+            // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
             addMap.put(ActionsEditHelper.MAP_FRAME_NAME, (currentIndex) + "");
             addMap.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
 
@@ -1844,8 +1896,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map map = new HashMap<String, Object>();
             map.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+            //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+            //  item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
             map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
             map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -1887,8 +1939,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         Map map = new HashMap<String, Object>();
         map.put(ActionsEditHelper.MAP_FRAME, info);
-        String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-        item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+        //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+        //item_name = item_name.replace("#", (list_frames.size() + 1) + "");
         //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
         map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
         map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -1923,8 +1975,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map addMap = new HashMap<String, Object>();
             addMap.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+            //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+            //item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
             addMap.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
             addMap.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -1952,7 +2004,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         ids.add(3);
         updateAddViewEnable();
         if (!lostRightLeg && !lostLeftLeg && !lostRightHand) {
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.action_ui_create_click_robot));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_1));
         }
     }
 
@@ -1972,7 +2024,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         mHelper.doLostRightHandAndRead();
         if (!lostRightLeg && !lostLeftLeg && !lostLeftHand) {
 
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.action_ui_create_click_robot));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_1));
         }
     }
 
@@ -1989,7 +2041,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         ids.add(11);
         updateAddViewEnable();
         if (!lostRightLeg && !lostRightHand && !lostLeftHand) {
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.action_ui_create_click_robot));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_1));
 
         }
     }
@@ -2006,7 +2058,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         ids.add(16);
         updateAddViewEnable();
         if (!lostLeftLeg && !lostRightHand && !lostLeftHand) {
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.action_ui_create_click_robot));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_lesson_10_tips_1));
         }
     }
 
@@ -2086,8 +2138,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         Map map = new HashMap<String, Object>();
         map.put(ActionsEditHelper.MAP_FRAME, info);
-        String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-        item_name = item_name.replace("#", 1 + "");
+        // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+        // item_name = item_name.replace("#", 1 + "");
         //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
         map.put(ActionsEditHelper.MAP_FRAME_NAME, 1 + "");
         map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -2130,7 +2182,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         ivLegLeft.setSelected(false);
         ivLegRight.setSelected(false);
         ivAddFrame.setEnabled(false);
-        ivAddFrame.setImageResource(R.drawable.ic_addaction_enable);
+        ivAddFrame.setImageResource(R.drawable.ic_addaction_disable);
         ids.clear();
     }
 
@@ -2259,8 +2311,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map map = new HashMap<String, Object>();
             map.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+            //String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+            // item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             map.put(ActionsEditHelper.MAP_FRAME_NAME, currentIndex + "");
 
             map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -2415,8 +2467,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map map = new HashMap<String, Object>();
             map.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+            // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+            // item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
             map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
             map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -2665,8 +2717,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
                     Map map = new HashMap<String, Object>();
                     map.put(ActionsEditHelper.MAP_FRAME, info);
-                    String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-                    item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+                    // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+                    //  item_name = item_name.replace("#", (list_frames.size() + 1) + "");
                     //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
                     map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
                     map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);
@@ -2728,8 +2780,8 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
             Map map = new HashMap<String, Object>();
             map.put(ActionsEditHelper.MAP_FRAME, info);
-            String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
-            item_name = item_name.replace("#", (list_frames.size() + 1) + "");
+            // String item_name = SkinManager.getInstance().getTextById(R.string.ui_readback_index);
+            // item_name = item_name.replace("#", (list_frames.size() + 1) + "");
             //map.put(ActionsEditHelper.MAP_FRAME_NAME, item_name);
             map.put(ActionsEditHelper.MAP_FRAME_NAME, (list_frames.size() + 1) + "");
             map.put(ActionsEditHelper.MAP_FRAME_TIME, info.totle_time);

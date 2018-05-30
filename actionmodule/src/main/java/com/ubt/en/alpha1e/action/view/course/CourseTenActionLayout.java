@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.customView.BaseDialog;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
@@ -108,7 +109,7 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
 
         mRlInstruction = (RelativeLayout) findViewById(R.id.rl_instruction);
         mTextView = (TextView) findViewById(R.id.tv_all_introduc);
-        mTextView.setText("现在，你来独立设计一个动作给阿尔法吧。记得按保存才算通关哦。");
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_10_intro));
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);
 
@@ -164,8 +165,8 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
                 if (list_frames.size() < 1) {
                     new BaseDialog.Builder(mContext)
                             .setMessage(R.string.action_ui_readback_not_null).
-                            setConfirmButtonId(R.string.action_ui_common_confirm)
-                            .setCancleButtonID(R.string.action_ui_common_cancel)
+                            setConfirmButtonId(R.string.base_confirm)
+                            .setCancleButtonID(R.string.base_cancel)
                             .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                                 @Override
                                 public void onClick(DialogPlus dialog, View view) {
@@ -183,8 +184,8 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
                 if (list_frames.size() < 2) {
                     new BaseDialog.Builder(mContext)
                             .setMessage(R.string.action_ui_readback_not_null).
-                            setConfirmButtonId(R.string.action_ui_common_confirm)
-                            .setCancleButtonID(R.string.action_ui_common_cancel)
+                            setConfirmButtonId(R.string.base_confirm)
+                            .setCancleButtonID(R.string.base_cancel)
                             .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                                 @Override
                                 public void onClick(DialogPlus dialog, View view) {

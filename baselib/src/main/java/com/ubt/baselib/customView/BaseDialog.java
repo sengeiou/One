@@ -103,7 +103,7 @@ public class BaseDialog {
                 .setContentBackgroundResource(R.drawable.base_rect_background)
                 .setContentWidth(width)
                 .setContentHeight(height)
-                .setCancelable(false)
+                .setCancelable(mParams.isCancleable())
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
@@ -209,6 +209,11 @@ public class BaseDialog {
             return this;
         }
 
+        public Builder setCancleable(boolean cancleable){
+            mParams.setCancleable(cancleable);
+            return this;
+        }
+
         public DialogPlus create() {
             BaseDialog baseDialog = new BaseDialog(mParams);
             return baseDialog.getDialogPlus();
@@ -233,7 +238,7 @@ public class BaseDialog {
 
         private int rightButtonColor;
         private String message;
-
+        private boolean cancleable;//点击外部是否可以取消
         private ButtonOnClickListener mButtonOnClickListener;
 
         public Context getContext() {
@@ -298,6 +303,14 @@ public class BaseDialog {
 
         public void setRightButtonColor(int rightButtonColor) {
             this.rightButtonColor = rightButtonColor;
+        }
+
+        public boolean isCancleable() {
+            return cancleable;
+        }
+
+        public void setCancleable(boolean cancleable) {
+            this.cancleable = cancleable;
         }
 
         public ButtonOnClickListener getButtonOnClickListener() {

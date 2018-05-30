@@ -1,0 +1,51 @@
+<resources>
+    <string name="ble_app_name">BluetoohModule_JA</string>
+    <string name="ble_hello_cristinal">Hello_JA</string>
+    <string name="ble_greet">Alpha Ebot welcome you to connect with it_JA</string>
+    <string name="ble_welcome_button">Let\'s start_JA</string>
+
+    <string name="ble_start_tip">Press On/Off on  robot\'s back for 3 seconds to turn it on._JA</string>
+    <string name="ble_sure_start">My robot has stood Up._JA</string>
+    <string name="ble_next">Next_JA</string>
+    <string name="ble_connect_title">Choose a robot to connect._JA</string>
+    <string name="ble_connect_tip">Turn on the bluetooth of your device and put it close to robot\'s back._JA</string>
+    <string name="ble_connect">Connect_JA</string>
+    <string name="ble_connecting">Connecting with robot_JA</string>
+    <string name="ble_no_robot">No robot found_JA</string>
+    <string name="ble_broken_tip">Your bluetooth has disconnected with robot, please reconnect it._JA</string>
+    <string name="ble_cellphone_off_tip">Your bluetooth is off, please turn it on in the settings._JA</string>
+    <string name="ble_location_permission_dialogue">Alpha Ebot will need your location when it is connected to Wi-Fi.  Once you are connected, you can turn it off in your settings._JA</string>
+    <string name="ble_connnect_timeout">Connection is overtime_JA</string>
+    <string name="ble_connect_success">Connection Successed_JA</string>
+
+    <string name="ble_try_again">Tray again_JA</string>
+    <string name="ble_ok">ok_JA</string>
+    <string name="ble_cancel">Cancel_JA</string>
+
+    <string name="ble_wifi_5G_tip">(Not support 5G Wi-Fi)_JA</string>
+    <string name="ble_wifi_enter_password_title">Enter Wi-Fi Password_JA</string>
+    <string name="ble_wifi_choose_wifi">Choose Wi-fi_JA</string>
+    <string name="ble_wifi_change">Choose another network_JA</string>
+    <string name="ble_no_wifi_found">No Wi-Fi found_JA</string>
+    <string name="ble_no_wifi_tip">You can try to input Wi-Fi name_JA</string>
+    <string name="ble_btn_input_wifi">Input Wi-Fi name_JA</string>
+    <string name="ble_wifi_connect_without_password">Are you sure to connect without a password?_JA</string>
+    <string name="ble_wifi_connecting">Connecting...._JA</string>
+    <string name="ble_wifi_connect_succeed">Connection succeed._JA</string>
+    <string name="ble_wifi_connect_fail">Connection failed._JA</string>
+
+
+    <string name="ble_about_robot_title">About Robot_JA</string>
+    <string name="ble_about_wifi">Wi-Fi_JA</string>
+    <string name="ble_about_robot_auto_update">Auto update_JA</string>
+    <string name="ble_about_robot_version">Robot Version_JA</string>
+    <string name="ble_about_robot_serial_number">Robot serial number_JA</string>
+    <string name="ble_about_robot_ip">Robot IP_JA</string>
+    <string name="ble_about_robot_go_connect">Go to connect_JA</string>
+    <string name="ble_choose_a_wifi">Choose a Wi-Fi_JA</string>
+    <string name="ble_about_robot_disconnect">Disconnect robot_JA</string>
+    <string name="ble_about_robot_disconnect_dialogue">Are you sure to disconnect with Robot %1$s?_JA</string>
+    <string name="ble_disconnect">Disconnect_JA</string>
+    
+
+</resources>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="15dp"
+              android:orientation="horizontal">
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_125"
+        android:layout_height="@dimen/dp_90">
+
+        <ImageView
+            android:id="@+id/iv_action_background"
+            android:layout_width="@dimen/dp_125"
+            android:layout_height="@dimen/dp_90"
+            android:background="@drawable/action_dynamic_iv_background"
+            android:scaleType="fitXY"
+            android:src="@drawable/action_sport_1b"
+            />
+
+        <TextView
+            android:id="@+id/tv_action_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:alpha="0.6"
+            android:background="@drawable/action_dynamic_time_background"
+            android:paddingBottom="@dimen/dp_2"
+            android:paddingLeft="@dimen/dp_6"
+            android:paddingRight="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_2"
+            android:text="03:22"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_12"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_dynamic_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/tab_action"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="@color/base_tv_large_black"
+            android:textSize="16sp"
+            />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_play_action"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_play"
+            >
+
+            <ImageView
+                android:id="@+id/iv_play_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_btn_play"/>
+
+            <TextView
+                android:id="@+id/tv_play_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="等待中"
+                android:textColor="@color/base_blue"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+            <ProgressBar
+                android:id="@+id/progress_download"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:progressDrawable="@drawable/action_circle_progress_bar"
+                tools:max="100"
+                tools:progress="0"/>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

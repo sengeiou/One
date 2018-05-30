@@ -73,12 +73,12 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_aciton_select, null);
         ViewHolder viewHolder = new ViewHolder(contentView);
         TextView tvTitle = contentView.findViewById(R.id.title_actions);
-        tvTitle.setText(SkinManager.getInstance().getTextById(R.string.ui_create_music));
+        tvTitle.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_audios_title));
         ivDelete = contentView.findViewById(R.id.iv_delete);
         ivDelete.setVisibility(View.VISIBLE);
         tvCancle = contentView.findViewById(R.id.tv_cancel);
         tvConfirm = contentView.findViewById(R.id.tv_confirm);
-        tvConfirm.setText(mContext.getResources().getString(R.string.ui_common_add));
+        tvConfirm.setText(mContext.getResources().getString(R.string.actions_lesson_6_add));
         tvCancle.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = contentView.findViewById(R.id.rv_actions);
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 5);
@@ -161,7 +161,7 @@ public class PrepareMusicUtil implements BaseQuickAdapter.OnItemClickListener, O
                     list.get(i).setPlaying(false);
                 }
             }
-            tvConfirm.setTextColor(mContext.getResources().getColor(R.color.tv_user_edit_color));
+            tvConfirm.setTextColor(mContext.getResources().getColor(R.color.base_blue));
             tvConfirm.setEnabled(true);
             actionAdapter.notifyDataSetChanged();
         }

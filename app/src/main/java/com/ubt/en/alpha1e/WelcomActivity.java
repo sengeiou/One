@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,8 +16,11 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.UserInfoModel;
+import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.en.alpha1e.presenter.WelcomContact;
+import com.ubt.en.alpha1e.presenter.WelcomPrenster;
 import com.vise.log.ViseLog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -42,13 +44,28 @@ import pl.droidsonroids.gif.GifDrawable;
  * @描述:
  */
 
-public class WelcomActivity extends AppCompatActivity {
+public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPrenster> implements WelcomContact.View {
     private static final int REQUEST_CODE_PERMISSION_MULTI = 1111;
 
     @BindView(R.id.gif_start_welcome)
     ImageView gifWelcome;
     GifDrawable gifDrawable;
     private NavigationCallback navigationCallback;
+
+    /**
+     * 下载语言包是否结束
+     */
+    private boolean isDownLanguageCompleted;
+    /**
+     * 下载动画是否结束
+     */
+    private boolean isPermissionCompleted;
+
+    @Override
+    public int getContentViewId() {
+        return 0;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +74,10 @@ public class WelcomActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //隐藏状态栏
         //定义全屏参数
-        int flag= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         //设置当前窗体为全屏显示
         window.setFlags(flag, flag);
-        setContentView(R.layout.activity_welcome);
+         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
         initView();
         gifDrawable.start();
@@ -82,7 +99,7 @@ public class WelcomActivity extends AppCompatActivity {
 
             @Override
             public void onArrival(Postcard postcard) {
-                ViseLog.i("postcard="+postcard.toString());
+                ViseLog.i("postcard=" + postcard.toString());
                 WelcomActivity.this.finish();
             }
 
@@ -93,6 +110,9 @@ public class WelcomActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * 初始化数据
+     */
     private void initView() {
         try {
             gifDrawable = new GifDrawable(getResources(), R.drawable.gif_welcome);
@@ -106,6 +126,7 @@ public class WelcomActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mPresenter.initLanugage(this);
     }
 
     @Override
@@ -114,12 +135,12 @@ public class WelcomActivity extends AppCompatActivity {
 
     }
 
-    private void applyPermission(){
+    private void applyPermission() {
         ViseLog.d("申请权限");
         // 申请多个权限。
         AndPermission.with(this)
                 .requestCode(REQUEST_CODE_PERMISSION_MULTI)
-                .permission(Permission.LOCATION, Permission.STORAGE,Permission.MICROPHONE)
+                .permission(Permission.LOCATION, Permission.STORAGE, Permission.MICROPHONE)
                 .callback(permissionListener)
                 // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
                 // 这样避免用户勾选不再提示，导致以后无法申请权限。
@@ -142,9 +163,11 @@ public class WelcomActivity extends AppCompatActivity {
             switch (requestCode) {
 
                 case REQUEST_CODE_PERMISSION_MULTI:
-                    ViseLog.d("申请权限 onSucceed requestCode="+requestCode+
-                                                    "grantPermissions:"+grantPermissions);
-                    startMainActivity();
+                    ViseLog.d("申请权限 onSucceed requestCode=" + requestCode +
+                            "grantPermissions:" + grantPermissions);
+                    ViseLog.d("完成权限申请");
+                    isPermissionCompleted = true;
+                    compareLanguageAndPermissResult();
                     break;
                 default:
                     break;
@@ -155,10 +178,9 @@ public class WelcomActivity extends AppCompatActivity {
         @Override
         public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
             switch (requestCode) {
-
                 case REQUEST_CODE_PERMISSION_MULTI:
-                    ViseLog.d("申请权限 onFailed requestCode="+requestCode+
-                            "deniedPermissions="+deniedPermissions.toString());
+                    ViseLog.d("申请权限 onFailed requestCode=" + requestCode +
+                            "deniedPermissions=" + deniedPermissions.toString());
                     ToastUtils.showShort("申请权限失败");
                     WelcomActivity.this.finish();
                     break;
@@ -174,28 +196,28 @@ public class WelcomActivity extends AppCompatActivity {
     /**
      * 跳转到其它模块
      */
-    private void startMainActivity(){
+    private void startMainActivity() {
         final String startModule = ModuleUtils.Login_Module;
         final UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         ViseLog.d("userInfoModel:" + userInfoModel);
-        if(null == userInfoModel){
+        if (null == userInfoModel) {
             ARouter.getInstance().build(startModule).navigation(WelcomActivity.this, navigationCallback);
-        }else{
-            if(userInfoModel.getNickName() == null){
+        } else {
+            if (userInfoModel.getNickName() == null) {
                 ARouter.getInstance().build(ModuleUtils.Login_Register)
-                        .withBoolean(Constant1E.EMPTY_NICK_NAME,true)
-                        .navigation(WelcomActivity.this,navigationCallback);
-            }else if(userInfoModel.getSex() == null){
+                        .withBoolean(Constant1E.EMPTY_NICK_NAME, true)
+                        .navigation(WelcomActivity.this, navigationCallback);
+            } else if (userInfoModel.getSex() == null) {
                 ARouter.getInstance().build(ModuleUtils.Login_Register)
-                        .withBoolean(Constant1E.EMPTY_SEX,true)
-                        .navigation(WelcomActivity.this,navigationCallback);
-            }else if(userInfoModel.getBirthDate() == null){
+                        .withBoolean(Constant1E.EMPTY_SEX, true)
+                        .navigation(WelcomActivity.this, navigationCallback);
+            } else if (userInfoModel.getBirthDate() == null) {
                 ARouter.getInstance().build(ModuleUtils.Login_Register)
-                        .withBoolean(Constant1E.EMPTY_BIRTHDAY,true)
-                        .navigation(WelcomActivity.this,navigationCallback);
-            }else{
+                        .withBoolean(Constant1E.EMPTY_BIRTHDAY, true)
+                        .navigation(WelcomActivity.this, navigationCallback);
+            } else {
                 ARouter.getInstance().build(ModuleUtils.Main_MainActivity)
-                        .navigation(WelcomActivity.this,navigationCallback);
+                        .navigation(WelcomActivity.this, navigationCallback);
             }
 
         }
@@ -205,7 +227,7 @@ public class WelcomActivity extends AppCompatActivity {
     private void getSHA() {
         try {
             int i = 0;
-            PackageInfo info = getPackageManager().getPackageInfo( getPackageName(),  PackageManager.GET_SIGNATURES);
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 i++;
                 MessageDigest md = MessageDigest.getInstance("SHA");
@@ -214,12 +236,45 @@ public class WelcomActivity extends AppCompatActivity {
                 //KeyHash 就是你要的，不用改任何代码  复制粘贴 ;
                 ViseLog.e("KeyHash:" + KeyHash);
             }
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
 
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
 
         }
     }
+
+
+    /**
+     * 完成语言包更新
+     */
+    @Override
+    public void updateLanguageCompleted() {
+        isDownLanguageCompleted = true;
+        compareLanguageAndPermissResult();
+    }
+
+    /**
+     * 获取用户信息完成
+     */
+    @Override
+    public void getUserInfoCompleted() {
+        startMainActivity();
+    }
+
+
+    /**
+     * 比较动画及权限结束和更新语言包结束
+     */
+    private void compareLanguageAndPermissResult() {
+        ViseLog.d("完成语言包更新");
+        if (isDownLanguageCompleted && isPermissionCompleted) {
+            if (SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO) != null) {
+                mPresenter.getUserInfo();  //同步用户信息参数
+            } else {
+                startMainActivity();
+            }
+        }
+    }
+
+
 }

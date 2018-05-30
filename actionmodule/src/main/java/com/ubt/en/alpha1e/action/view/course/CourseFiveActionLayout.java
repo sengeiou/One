@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ubt.baselib.model1E.LocalActionRecord;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.CourseMusicDialogUtil;
@@ -173,7 +174,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
         resetArrow.setOnClickListener(this);
         mRlInstruction = (RelativeLayout) findViewById(R.id.rl_instruction);
         mTextView = (TextView) findViewById(R.id.tv_all_introduc);
-        mTextView.setText("想不想自己创建一个机器人动作呢？点击手臂和腿，我身体对应的部位就会掉电。这时候掰动机器人，摆出你想要的动作，再点击时间轴的添加按钮就可以了。");
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_5));
 
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);

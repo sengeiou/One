@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_toRightOf="@+id/iv_recording_state"
-                android:text="@string/action_ui_recording_txt"
+                android:text="@string/actions_recording"
                 android:textColor="#2C3E50"
                 android:textSize="@dimen/sp_16"
                 />

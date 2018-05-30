@@ -3,10 +3,11 @@ package com.ubt.en.alpha1e.ble.Contact;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
+import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
-import com.ubt.en.alpha1e.ble.model.BleNetWork;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
+import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 
 /**
  * @author：liuhai
@@ -32,6 +33,10 @@ public class BleStatuContact {
         void setRobotSN(String SN);
 
         void goBleSraechActivity();
+
+        void setAutoUpgradeStatus(int status);
+
+        void updateUpgradeProgress(UpgradeProgressInfo progressInfo);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -46,5 +51,9 @@ public class BleStatuContact {
 
         void checkBlestatu();
 
+        /** 改变 1E 自动升级状态
+         * @param is0pen false 为未开启， true为已开启
+         */
+        void doChangeAutoUpgrade(boolean is0pen);
     }
 }

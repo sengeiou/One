@@ -19,8 +19,9 @@ import java.util.List;
 
 public class WifiConnectContact {
     public interface View extends BaseView {
-       void getWifiList(List<ScanResult> list);
+        void getWifiList(List<ScanResult> list);
 
+        void blutoohDisconnect();
     }
 
     public interface Presenter extends BasePresenter<WifiConnectContact.View> {
@@ -29,6 +30,8 @@ public class WifiConnectContact {
         void startScanWifi();
 
         void unRegister();
+
+        boolean isBlutoohConnected();
 
     }
 }

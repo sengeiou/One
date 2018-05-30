@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="ble_app_name">BluetoohModule</string>
     <string name="ble_hello_cristinal">Hello</string>
     <string name="ble_greet">Alpha Ebot welcome you to connect with it</string>
@@ -46,6 +46,13 @@
     <string name="ble_about_robot_disconnect">Disconnect robot</string>
     <string name="ble_about_robot_disconnect_dialogue">Are you sure to disconnect with Robot %1$s?</string>
     <string name="ble_disconnect">Disconnect</string>
-    
+
+    <string name="about_robot_language" tools:ignore="ResourceName">Robot Language</string>
+    <string name="about_robot_auto_update_off" tools:ignore="ResourceName">Turn it off, the robot can not update to the newest version automatically. And you will receive a prompt of new version.</string>
+    <string name="common_btn_switch_off" tools:ignore="ResourceName">Turn off</string>
+    <string name="about_robot_new_version" tools:ignore="ResourceName">A new robot version is available, will you update it right now?</string>
+    <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates...</string>
+    <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates.</string>
+
 
 </resources>

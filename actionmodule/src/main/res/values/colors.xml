@@ -24,4 +24,6 @@
     <color name="action_main_hite">#cc1b1b1b</color>
 
     <color name="action_background_gray">#AA000000</color>
+    <color name="action__no_data_color">#85B4C9</color>
+
 </resources>

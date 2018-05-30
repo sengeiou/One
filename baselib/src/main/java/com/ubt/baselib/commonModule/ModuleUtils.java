@@ -47,6 +47,13 @@ public interface ModuleUtils {
     String VolumeCmd_module = "/volumecommond/VolumeCmd";  //语音指令模块
 
 
+    String BaseWebview_module = "/baseWebview/WebViewActivity";  //基础webview模块
+    String BaseWebview_KEY_URL = "url";  //传递的url参数
+    String BaseWebview_KEY_TITLE = "title";  //传递的title参数
+
+
+
+
     /**
      * wifi密码输入页面
      */

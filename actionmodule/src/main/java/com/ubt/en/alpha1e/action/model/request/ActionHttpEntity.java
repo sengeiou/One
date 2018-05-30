@@ -34,4 +34,14 @@ public class ActionHttpEntity extends BaseHttpEntity {
      * 保存关卡分数
      */
     public static final String COURSE_SAVE_STATU = "alpha1e/course/addCourseStatus";
+
+    /**
+     * 获取原创列表
+     */
+    public static final String ACTION_DYNAMIC_LIST = "alpha1e/original/listByPage";
+
+    /**
+     * 删除动作ByID
+     */
+    public static final String ACTION_DYNAMIC_DELETE = "alpha1e/original/deleteByActionId";
 }

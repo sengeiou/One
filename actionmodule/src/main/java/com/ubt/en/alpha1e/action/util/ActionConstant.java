@@ -837,16 +837,16 @@ public class ActionConstant {
      * @return
      */
     private static String[] getBasicName(Context context) {
-        String[] basicAction = new String[]{SkinManager.getInstance().getTextById(R.string.ui_basic_action_warrior),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_stoop),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_squat),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_left_hand),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_right_hand),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_mech_dance1),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_mech_dance2),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_hug),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_happy),
-                SkinManager.getInstance().getTextById(R.string.ui_basic_action_salute)};
+        String[] basicAction = new String[]{SkinManager.getInstance().getTextById(R.string.actions_lesson_2_attack),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_back_bend),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_squat),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_left_hand_up),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_right_hand_up),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_poppin1),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_poppin2),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_hug),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_happy),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_salute)};
         return basicAction;
     }
 
@@ -857,16 +857,16 @@ public class ActionConstant {
      * @return
      */
     private static String[] getHighActionName(Context context) {
-        String[] highActionName = new String[]{SkinManager.getInstance().getTextById(R.string.ui_advance_action_walk),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_twist),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_steppin),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_bent),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_arm),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_woshou),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_dance1),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_dance2),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_curtain),
-                SkinManager.getInstance().getTextById(R.string.ui_advance_action_bye)};
+        String[] highActionName = new String[]{SkinManager.getInstance().getTextById(R.string.actions_lesson_2_walk),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_wiggle),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_jumping_jack),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_side_bend),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_arm_stretch),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_handshake),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_dance_1),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_dance_2),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_curtain_call),
+                SkinManager.getInstance().getTextById(R.string.actions_lesson_2_goodbye)};
         return highActionName;
     }
 

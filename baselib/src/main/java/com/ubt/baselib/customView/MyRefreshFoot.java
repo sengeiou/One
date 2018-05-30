@@ -42,11 +42,11 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
 
-    public static String REFRESH_FOOTER_PULLUP = "上拉加载更多";
-    public static String REFRESH_FOOTER_RELEASE = "释放立即加载";
-    public static String REFRESH_FOOTER_LOADING = "正在加载";
-    public static String REFRESH_FOOTER_REFRESHING = "正在刷新...";
-    public static String REFRESH_FOOTER_FINISH = "加载完成";
+    public static String REFRESH_FOOTER_PULLUP = "";
+    public static String REFRESH_FOOTER_RELEASE = "";
+    public static String REFRESH_FOOTER_LOADING = "";
+    public static String REFRESH_FOOTER_REFRESHING = "...";
+    public static String REFRESH_FOOTER_FINISH = "";
     public static String REFRESH_FOOTER_FAILED = "加载失败";
     public static String REFRESH_FOOTER_ALLLOADED = "全部加载完成";
 
@@ -97,7 +97,7 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
         mArrowView = new ImageView(context);
         addView(mArrowView, lpArrow);
 
-        LayoutParams lpProgress = new LayoutParams((ViewGroup.LayoutParams)lpArrow);
+        LayoutParams lpProgress = new LayoutParams((ViewGroup.LayoutParams) lpArrow);
         lpProgress.addRule(CENTER_VERTICAL);
         lpProgress.addRule(LEFT_OF, android.R.id.widget_frame);
         mProgressView = new ImageView(context);
@@ -130,23 +130,23 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
 
         if (ta.hasValue(R.styleable.ClassicsFooter_srlDrawableArrow)) {
             mArrowView.setImageResource(R.drawable.img_refresh_normal);
-           // mArrowView.setImageDrawable(ta.getDrawable(R.styleable.ClassicsFooter_srlDrawableArrow));
+            // mArrowView.setImageDrawable(ta.getDrawable(R.styleable.ClassicsFooter_srlDrawableArrow));
         } else {
             mArrowDrawable = new PathsDrawable();
             mArrowDrawable.parserColors(0xff666666);
             mArrowDrawable.parserPaths("M20,12l-1.41,-1.41L13,16.17V4h-2v12.17l-5.58,-5.59L4,12l8,8 8,-8z");
-           // mArrowView.setImageDrawable(mArrowDrawable);
+            // mArrowView.setImageDrawable(mArrowDrawable);
             mArrowView.setImageResource(R.drawable.img_refresh_normal);
         }
 
         if (ta.hasValue(R.styleable.ClassicsFooter_srlDrawableProgress)) {
             mProgressView.setImageDrawable(ta.getDrawable(R.styleable.ClassicsFooter_srlDrawableProgress));
         } else {
-            mProgressDrawable = new ProgressDrawable();
-            mProgressDrawable.setColor(context.getResources().getColor(R.color.tv_notice_title));
-            mProgressView.setImageDrawable(mProgressDrawable);
+//            mProgressDrawable = new ProgressDrawable();
+//            mProgressDrawable.setColor(context.getResources().getColor(R.color.tv_notice_title));
+//            mProgressView.setImageDrawable(mProgressDrawable);
         }
-
+        mProgressView.setImageResource(R.drawable.img_refresh_normal);
         if (ta.hasValue(R.styleable.ClassicsFooter_srlTextSizeTitle)) {
             mTitleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, ta.getDimensionPixelSize(R.styleable.ClassicsFooter_srlTextSizeTitle, DensityUtil.dp2px(16)));
         } else {
@@ -257,8 +257,9 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
     /**
      * ClassicsFooter 在(SpinnerStyle.FixedBehind)时才有主题色
      */
-    @Override@Deprecated
-    public void setPrimaryColors(@ColorInt int ... colors) {
+    @Override
+    @Deprecated
+    public void setPrimaryColors(@ColorInt int... colors) {
         if (mSpinnerStyle == SpinnerStyle.FixedBehind) {
             if (colors.length > 0) {
                 if (!(getBackground() instanceof BitmapDrawable)) {
@@ -297,6 +298,7 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
         return true;
     }
 
+    @Override
     @NonNull
     public View getView() {
         return this;
@@ -367,35 +369,42 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
         mProgressView.setImageBitmap(bitmap);
         return this;
     }
+
     public MyRefreshFoot setProgressDrawable(Drawable drawable) {
         mProgressDrawable = null;
         mProgressView.setImageDrawable(drawable);
         return this;
     }
+
     public MyRefreshFoot setProgressResource(@DrawableRes int resId) {
         mProgressDrawable = null;
         mProgressView.setImageResource(resId);
         return this;
     }
+
     public MyRefreshFoot setArrowBitmap(Bitmap bitmap) {
         mArrowDrawable = null;
         mArrowView.setImageBitmap(bitmap);
         return this;
     }
+
     public MyRefreshFoot setArrowDrawable(Drawable drawable) {
         mArrowDrawable = null;
         mArrowView.setImageDrawable(drawable);
         return this;
     }
+
     public MyRefreshFoot setArrowResource(@DrawableRes int resId) {
         mArrowDrawable = null;
         mArrowView.setImageResource(resId);
         return this;
     }
+
     public MyRefreshFoot setSpinnerStyle(SpinnerStyle style) {
         this.mSpinnerStyle = style;
         return this;
     }
+
     public MyRefreshFoot setAccentColor(@ColorInt int accentColor) {
         mTitleText.setTextColor(accentColor);
         if (mProgressDrawable != null) {
@@ -406,6 +415,7 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
         }
         return this;
     }
+
     public MyRefreshFoot setPrimaryColor(@ColorInt int primaryColor) {
         setBackgroundColor(mBackgroundColor = primaryColor);
         if (mRefreshKernel != null) {
@@ -450,8 +460,8 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
     }
 
     public MyRefreshFoot setDrawableMarginRightPx(int px) {
-        MarginLayoutParams lpArrow = (MarginLayoutParams)mArrowView.getLayoutParams();
-        MarginLayoutParams lpProgress = (MarginLayoutParams)mProgressView.getLayoutParams();
+        MarginLayoutParams lpArrow = (MarginLayoutParams) mArrowView.getLayoutParams();
+        MarginLayoutParams lpProgress = (MarginLayoutParams) mProgressView.getLayoutParams();
         lpArrow.rightMargin = lpProgress.rightMargin = px;
         mArrowView.setLayoutParams(lpArrow);
         mProgressView.setLayoutParams(lpProgress);

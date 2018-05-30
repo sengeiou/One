@@ -30,5 +30,7 @@ public class RemoteContact {
         void unRegister();
         List<RemoteItem> getRemoteItems();
 
+        boolean isBlutoohConnected();
+
     }
 }

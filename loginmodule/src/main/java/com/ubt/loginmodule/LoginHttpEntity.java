@@ -36,8 +36,10 @@ public class LoginHttpEntity extends BaseHttpEntity{
     public static final String GET_CODE = "user-service-rest/v2/htmlEmail/ebotcaptcha";
     public static final String USER_UPDATE = "alpha1e/overseas/user/update";
     public static final String USER_GET_INFO = "alpha1e/overseas/user/get";
-
-
+    /**
+     * 请求语言包
+     */
+    public static final String GET_LANGUAGE_TYPE="alpha1e/version/checkAppLanguage";
 
 }
 

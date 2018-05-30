@@ -46,6 +46,8 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
     private OnDialogListener mDialogListener;
     private PrepareDataModel selectDataModel;
 
+    private static DialogPlus mDialogPlus;
+
     public PrepareActionUtil(Context context) {
         this.mContext = context;
     }
@@ -58,12 +60,12 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
     public void showActionDialog(int type, OnDialogListener mDialogListener) {
         this.mDialogListener = mDialogListener;
         this.mType = type;
-        String title="";
+        String title = "";
         if (type == 1) {
-            title = SkinManager.getInstance().getTextById(R.string.ui_create_basic_action);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_2_simple_actions);
             list = ActionConstant.getBasicActionList(mContext);
         } else if (type == 2) {
-            title = SkinManager.getInstance().getTextById(R.string.ui_create_advance_action);
+            title = SkinManager.getInstance().getTextById(R.string.actions_lesson_2_advanced_actions);
             list = ActionConstant.getHighActionList(mContext);
         }
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_aciton_select, null);
@@ -72,7 +74,7 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
         tvTitle.setText(title);
         tvCancle = contentView.findViewById(R.id.tv_cancel);
         tvConfirm = contentView.findViewById(R.id.tv_confirm);
-        tvConfirm.setText(SkinManager.getInstance().getTextById(R.string.ui_common_add));
+        tvConfirm.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_add));
         tvCancle.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = contentView.findViewById(R.id.rv_actions);
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 5);
@@ -83,14 +85,15 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
         WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         int width = (int) ((display.getWidth()) * 0.8); //设置宽度
-        DialogPlus.newDialog(mContext)
+        mDialogPlus = DialogPlus.newDialog(mContext)
                 .setContentHolder(viewHolder)
                 .setContentBackgroundResource(R.drawable.action_dialog_filter_rect)
                 .setGravity(Gravity.CENTER)
                 .setContentWidth(width)
                 .setOnClickListener(this)
                 .setCancelable(true)
-                .create().show();
+                .create();
+        mDialogPlus.show();
         selectDataModel = null;
     }
 
@@ -104,11 +107,11 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
                 list.get(i).setSelected(false);
             }
         }
-        tvConfirm.setTextColor(mContext.getResources().getColor(R.color.tv_user_edit_color));
+        tvConfirm.setTextColor(mContext.getResources().getColor(R.color.base_blue));
         tvConfirm.setEnabled(true);
         actionAdapter.notifyDataSetChanged();
         if (mType == 1 || mType == 2) {
-            if (null != mDialogListener) {
+            if (null != mDialogListener && selectDataModel != null) {
                 mDialogListener.playAction(selectDataModel);
             }
         }
@@ -134,6 +137,13 @@ public class PrepareActionUtil implements BaseQuickAdapter.OnItemClickListener, 
         }
 
 
+    }
+
+    public static void dismiss() {
+        if (mDialogPlus != null) {
+            mDialogPlus.dismiss();
+            mDialogPlus = null;
+        }
     }
 
 

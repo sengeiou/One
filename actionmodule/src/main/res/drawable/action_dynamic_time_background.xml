@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+    >
+    <!-- 设置填充颜色 -->
+    <solid android:color="@color/action_background_gray"/>
+
+    <!-- 设置几何图形四个角的弧度 -->
+    <corners
+        android:bottomLeftRadius="@dimen/dp_0"
+        android:bottomRightRadius="@dimen/dp_10"
+        android:topLeftRadius="@dimen/dp_10"
+        android:topRightRadius="@dimen/dp_0"/>
+
+
+</shape>

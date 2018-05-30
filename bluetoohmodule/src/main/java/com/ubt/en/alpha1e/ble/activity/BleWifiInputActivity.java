@@ -21,8 +21,11 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.en.alpha1e.ble.Contact.WifiInputContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -168,6 +171,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         }
         mBleEditName.addTextChangedListener(mTextWatcher);
         mPresenter.init(this);
+        AppStatusUtils.setBtBussiness(true);
     }
 
     @Override
@@ -178,6 +182,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         mHandler.removeMessages(MESSAGE_WHAT_DISSMISS_SUCCESS);
         mHandler.removeMessages(MESSAGE_WHAT_DISSMISS_FAILED);
         mPresenter.unRegister();
+        AppStatusUtils.setBtBussiness(false);
     }
 
     /**
@@ -201,6 +206,11 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
                     R.drawable.img_overtime);
             mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_DISSMISS_FAILED, MESSAGE_DISSMISSLOADING);
         }
+    }
+
+    @Override
+    public void blutoohDisconnect() {
+        finishActivity();
     }
 
     Handler mHandler = new Handler() {
@@ -258,5 +268,14 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
             ViseLog.d("afterTextChanged DISABLE");
             mBleConnectWifi.setEnabled(false);
         }
+    }
+
+    private void finishActivity() {
+        boolean isFirstSearchWifi = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_WIFI_LIST, false);
+        if (!isFirstSearchWifi) {
+            ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).withInt(Constant1E.ENTER_BLESTATU_ACTIVITY, 1).navigation();
+            SPUtils.getInstance().put(Constant1E.IS_FIRST_ENTER_WIFI_LIST, true);
+        }
+        finish();
     }
 }

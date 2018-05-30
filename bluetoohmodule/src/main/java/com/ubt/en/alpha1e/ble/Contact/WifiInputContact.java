@@ -18,6 +18,7 @@ public class WifiInputContact {
     public interface View extends BaseView {
         void connectWifiResult(int type );
 
+        void blutoohDisconnect();
     }
 
     public interface Presenter extends BasePresenter<WifiInputContact.View> {

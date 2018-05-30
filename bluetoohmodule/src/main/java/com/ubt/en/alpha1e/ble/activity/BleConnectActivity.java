@@ -26,6 +26,7 @@ import com.ubt.baselib.BlueTooth.BleDevice;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -86,7 +87,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
         isFromFirst = getIntent().getBooleanExtra("first_enter", false);
-
+        AppStatusUtils.setBtBussiness(true);
         initUi();
         ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_ENTER);
         manualEvent.setManual(true);
@@ -130,6 +131,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_ENTER);
         manualEvent.setManual(false);
         EventBus.getDefault().post(manualEvent);
+        AppStatusUtils.setBtBussiness(false);
     }
 
 
