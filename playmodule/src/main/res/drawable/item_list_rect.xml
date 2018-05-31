@@ -6,8 +6,8 @@
         android:width="2px"
         android:color="@android:color/white" />
     <!-- 内容 -->
-    <solid android:color="@android:color/white" />
+    <solid android:color="#80FFFFFF"/>
     <!-- 拐角 -->
-    <corners android:topRightRadius="8dp"   android:topLeftRadius="8dp"/>
+    <corners android:topRightRadius="0dp"   android:topLeftRadius="0dp"/>
 
 </shape>

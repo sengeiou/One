@@ -74,6 +74,15 @@ public class PlayActionManger implements IProtolPackListener {
         if(EventBus.getDefault().isRegistered(this)){//加上判断
             EventBus.getDefault().unregister(this);
         }
+
+        //蓝牙断开的时候恢复初始状态
+        playState = STOP;
+        cycle = false;
+        actionCycleList.clear();
+        currentCyclePos= 0;
+        currentPlayActionName="";
+
+
     }
 
     public void getActionList() {
@@ -160,7 +169,8 @@ public class PlayActionManger implements IProtolPackListener {
 
                 if(cycle){
                     currentCyclePos++;
-                    playAction(actionCycleList.get(currentCyclePos).getActionName());
+
+                    playAction(actionCycleList.get(currentCyclePos%(actionCycleList.size())).getActionName());
                 }
 
 
@@ -188,11 +198,21 @@ public class PlayActionManger implements IProtolPackListener {
     }
 
     private void handleData(String actionName) {
+        for(int i=0; i<actionDataList.size(); i++){
+            if(actionDataList.get(i).getActionName().equals(actionName)){
+                ViseLog.d("double:" + actionName);
+                return;
+            }
+        }
+
+        ViseLog.d("double 1:" + actionName);
         ActionData actionData = new ActionData();
         actionData.setActionName(actionName);
         actionData.setActionIcon(R.drawable.img_dance);
         actionData.setActionTime("03:25");
         actionDataList.add(actionData);
+
+
     }
 
 
@@ -250,7 +270,17 @@ public class PlayActionManger implements IProtolPackListener {
     public void setActionCycleList(List<ActionData> actionCycleList) {
         this.actionCycleList.clear();
         this.actionCycleList.addAll(actionCycleList);
-//        this.actionCycleList = actionCycleList;
+    }
+
+    public void addActionCycleList(ActionData actionData){
+        for(int i=0; i<actionCycleList.size(); i++){
+            if(actionDataList.get(i).getActionName().equals(actionData.getActionName())){
+                ViseLog.d("double:" + actionData.getActionName());
+                return;
+            }
+        }
+
+        actionCycleList.add(actionData);
     }
 
     public int getCurrentCyclePos() {

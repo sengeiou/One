@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_45"
-    android:background="@android:color/white"
+    android:background="@drawable/item_list_rect"
     >
 
     <pl.droidsonroids.gif.GifImageView
@@ -35,7 +35,8 @@
         android:src="@drawable/ic_delete"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_20"
+        android:paddingLeft="@dimen/dp_16"
         />
 
 
