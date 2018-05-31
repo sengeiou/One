@@ -41,5 +41,7 @@ public class LoginHttpEntity extends BaseHttpEntity{
      */
     public static final String GET_LANGUAGE_TYPE="alpha1e/version/checkAppLanguage";
 
+    public static final String REFRESH_TOKEN="user-service-rest/v2/user/token/refresh";//刷新用户TOKEN
+
 }
 

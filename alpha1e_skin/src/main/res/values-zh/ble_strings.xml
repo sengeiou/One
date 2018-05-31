@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="ble_app_name">BluetoohModule_ZH</string>
     <string name="ble_hello_cristinal">Hello_ZH</string>
     <string name="ble_greet">Alpha Ebot welcome you to connect with it_ZH</string>
@@ -18,34 +18,37 @@
     <string name="ble_connnect_timeout">Connection is overtime_ZH</string>
     <string name="ble_connect_success">Connection Successed_ZH</string>
 
-    <string name="ble_try_again">Tray again_ZH</string>
-    <string name="ble_ok">ok_ZH</string>
-    <string name="ble_cancel">Cancel_ZH</string>
-
-    <string name="ble_wifi_5G_tip">(Not support 5G Wi-Fi)_ZH</string>
-    <string name="ble_wifi_enter_password_title">Enter Wi-Fi Password_ZH</string>
-    <string name="ble_wifi_choose_wifi">Choose Wi-fi_ZH</string>
-    <string name="ble_wifi_change">Choose another network_ZH</string>
-    <string name="ble_no_wifi_found">No Wi-Fi found_ZH</string>
-    <string name="ble_no_wifi_tip">You can try to input Wi-Fi name_ZH</string>
+    <string name="wifi_choose" tools:ignore="ResourceName">Choose Wi-fi_ZH</string>
+    <string name="wifi_5G_tip" tools:ignore="ResourceName">(Not support 5G Wi-Fi)_ZH</string>
+    <string name="wifi_enter_password_title" tools:ignore="ResourceName">Enter Wi-Fi Password_ZH</string>
+    <string name="wifi_change" tools:ignore="ResourceName">Choose another network_ZH</string>
+    <string name="wifi_no_wifi" tools:ignore="ResourceName">No Wi-Fi found_ZH</string>
+    <string name="wifi_no_wifi_tip" tools:ignore="ResourceName">You can try to input Wi-Fi name_ZH</string>
+    <string name="wifi_connect_without_password" tools:ignore="ResourceName">Are you sure to connect without a password?_ZH</string>
     <string name="ble_btn_input_wifi">Input Wi-Fi name_ZH</string>
-    <string name="ble_wifi_connect_without_password">Are you sure to connect without a password?_ZH</string>
-    <string name="ble_wifi_connecting">Connecting...._ZH</string>
-    <string name="ble_wifi_connect_succeed">Connection succeed._ZH</string>
-    <string name="ble_wifi_connect_fail">Connection failed._ZH</string>
+    <string name="wifi_connecting" tools:ignore="ResourceName">Connecting...._ZH</string>
+    <string name="wifi_connect_succeed" tools:ignore="ResourceName">Connection succeed._ZH</string>
+    <string name="wifi_connect_fail" tools:ignore="ResourceName">Connection failed._ZH</string>
 
 
-    <string name="ble_about_robot_title">About Robot_ZH</string>
-    <string name="ble_about_wifi">Wi-Fi_ZH</string>
-    <string name="ble_about_robot_auto_update">Auto update_ZH</string>
-    <string name="ble_about_robot_version">Robot Version_ZH</string>
-    <string name="ble_about_robot_serial_number">Robot serial number_ZH</string>
-    <string name="ble_about_robot_ip">Robot IP_ZH</string>
-    <string name="ble_about_robot_go_connect">Go to connect_ZH</string>
-    <string name="ble_choose_a_wifi">Choose a Wi-Fi_ZH</string>
-    <string name="ble_about_robot_disconnect">Disconnect robot_ZH</string>
-    <string name="ble_about_robot_disconnect_dialogue">Are you sure to disconnect with Robot %1$s?_ZH</string>
+    <string name="about_robot_title" tools:ignore="ResourceName">About Robot_ZH</string>
+    <string name="about_robot_disconnect" tools:ignore="ResourceName">Disconnect robot_ZH</string>
+    <string name="about_robot_change_wifi" tools:ignore="ResourceName">Change another Wi-Fi_ZH</string>
+    <string name="about_robot_version" tools:ignore="ResourceName">Robot Version_ZH</string>
+    <string name="about_robot_auto_update" tools:ignore="ResourceName">Auto update_ZH</string>
+    <string name="about_wifi" tools:ignore="ResourceName">Wi-Fi_ZH</string>
+    <string name="about_robot_serial_number" tools:ignore="ResourceName">Robot serial number_ZH</string>
+    <string name="about_robot_ip" tools:ignore="ResourceName">Robot IP_ZH</string>
+    <string name="about_robot_go_connect" tools:ignore="ResourceName">Go to connect_ZH</string>
+    <string name="about_robot_disconnect_dialogue" tools:ignore="ResourceName">Are you sure to disconnect with Robot %1$s?_ZH</string>
     <string name="ble_disconnect">Disconnect_ZH</string>
-    
+
+    <string name="about_robot_language" tools:ignore="ResourceName">Robot Language_ZH</string>
+    <string name="about_robot_auto_update_off" tools:ignore="ResourceName">Turn it off, the robot can not update to the newest version automatically. And you will receive a prompt of new version._ZH</string>
+    <string name="common_btn_switch_off" tools:ignore="ResourceName">Turn off_ZH</string>
+    <string name="about_robot_new_version" tools:ignore="ResourceName">A new robot version is available, will you update it right now?_ZH</string>
+    <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates..._ZH</string>
+    <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates._ZH</string>
+
 
 </resources>

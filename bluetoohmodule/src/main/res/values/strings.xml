@@ -18,41 +18,43 @@
     <string name="ble_connnect_timeout">Connection is overtime</string>
     <string name="ble_connect_success">Connection Successed</string>
 
-    <string name="ble_try_again">Tray again</string>
-    <string name="ble_ok">ok</string>
-    <string name="ble_cancel">Cancel</string>
-
-    <string name="ble_wifi_5G_tip">(Not support 5G Wi-Fi)</string>
-    <string name="ble_wifi_enter_password_title">Enter Wi-Fi Password</string>
-    <string name="ble_wifi_choose_wifi">Choose Wi-fi</string>
-    <string name="ble_wifi_change">Choose another network</string>
-    <string name="ble_no_wifi_found">No Wi-Fi found</string>
-    <string name="ble_no_wifi_tip">You can try to input Wi-Fi name</string>
+    <string name="wifi_choose" tools:ignore="ResourceName">Choose Wi-fi</string>
+    <string name="wifi_5G_tip" tools:ignore="ResourceName">(Not support 5G Wi-Fi)</string>
+    <string name="wifi_enter_password_title" tools:ignore="ResourceName">Enter Wi-Fi Password</string>
+    <string name="wifi_change" tools:ignore="ResourceName">Choose another network</string>
+    <string name="wifi_no_wifi" tools:ignore="ResourceName">No Wi-Fi found</string>
+    <string name="wifi_no_wifi_tip" tools:ignore="ResourceName">You can try to input Wi-Fi name</string>
+    <string name="wifi_connect_without_password" tools:ignore="ResourceName">Are you sure to connect without a password?</string>
     <string name="ble_btn_input_wifi">Input Wi-Fi name</string>
-    <string name="ble_wifi_connect_without_password">Are you sure to connect without a password?</string>
-    <string name="ble_wifi_connecting">Connecting....</string>
-    <string name="ble_wifi_connect_succeed">Connection succeed.</string>
-    <string name="ble_wifi_connect_fail">Connection failed.</string>
+    <string name="wifi_connecting" tools:ignore="ResourceName">Connecting....</string>
+    <string name="wifi_connect_succeed" tools:ignore="ResourceName">Connection succeed.</string>
+    <string name="wifi_connect_fail" tools:ignore="ResourceName">Connection failed.</string>
 
 
-    <string name="ble_about_robot_title">About Robot</string>
-    <string name="ble_about_wifi">Wi-Fi</string>
-    <string name="ble_about_robot_auto_update">Auto update</string>
-    <string name="ble_about_robot_version">Robot Version</string>
-    <string name="ble_about_robot_serial_number">Robot serial number</string>
-    <string name="ble_about_robot_ip">Robot IP</string>
-    <string name="ble_about_robot_go_connect">Go to connect</string>
-    <string name="ble_choose_a_wifi">Choose a Wi-Fi</string>
-    <string name="ble_about_robot_disconnect">Disconnect robot</string>
-    <string name="ble_about_robot_disconnect_dialogue">Are you sure to disconnect with Robot %1$s?</string>
+    <string name="about_robot_title" tools:ignore="ResourceName">About Robot</string>
+    <string name="about_robot_disconnect" tools:ignore="ResourceName">Disconnect robot</string>
+    <string name="about_robot_change_wifi" tools:ignore="ResourceName">Change another Wi-Fi</string>
+    <string name="about_robot_version" tools:ignore="ResourceName">Robot Version</string>
+    <string name="about_robot_auto_update" tools:ignore="ResourceName">Auto update</string>
+    <string name="about_wifi" tools:ignore="ResourceName">Wi-Fi</string>
+    <string name="about_robot_serial_number" tools:ignore="ResourceName">Robot serial number</string>
+    <string name="about_robot_ip" tools:ignore="ResourceName">Robot IP</string>
+    <string name="about_robot_go_connect" tools:ignore="ResourceName">Go to connect</string>
+    <string name="about_robot_disconnect_dialogue" tools:ignore="ResourceName">Are you sure to disconnect with Robot %1$s?</string>
     <string name="ble_disconnect">Disconnect</string>
 
+    <string name="ble_robot_language_english" tools:ignore="ResourceName">English</string>
     <string name="about_robot_language" tools:ignore="ResourceName">Robot Language</string>
     <string name="about_robot_auto_update_off" tools:ignore="ResourceName">Turn it off, the robot can not update to the newest version automatically. And you will receive a prompt of new version.</string>
+    <string name="about_robot_auto_update_on" tools:ignore="ResourceName">Turn on Auto Update, the robot will update when new version is available.  If turn it off,  you can only receive a tip.</string>
     <string name="common_btn_switch_off" tools:ignore="ResourceName">Turn off</string>
+    <string name="common_btn_switch_on" tools:ignore="ResourceName">Turn on</string>
     <string name="about_robot_new_version" tools:ignore="ResourceName">A new robot version is available, will you update it right now?</string>
-    <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates...</string>
+    <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates (#%) ...</string>
     <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates.</string>
+    <string name="about_robot_language_done" tools:ignore="ResourceName">Done</string>
+    <string name="about_robot_language_dialogue" tools:ignore="ResourceName">Are you sure you want to change the robot language to #? This will take you 3 or 4 minutes of time.</string>
+    <string name="about_robot_language_changing" tools:ignore="ResourceName">Robot language is changing, please Do Not power off the robot.</string>
 
 
 </resources>

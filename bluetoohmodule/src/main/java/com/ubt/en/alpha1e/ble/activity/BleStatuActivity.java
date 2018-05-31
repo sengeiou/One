@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -102,10 +101,11 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     ImageView mIvNotconnectWifi;
     @BindView(R2.id.tv_robot_language)
     TextView tvRobotLanguage;
-    @BindView(R2.id.pb_progress)
-    ProgressBar pbProgress;
+
     @BindView(R2.id.tv_robot_update_tip)
     TextView tvRobotUpdateTip;
+    @BindView(R2.id.iv_download_fail_warning)
+    ImageView ivDownloadFailWarning;
 
     private int fromeType;
 
@@ -128,18 +128,29 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     BaseLoadingDialog.dismiss(BleStatuActivity.this);
                     break;
                 case UPDATE_UPGRADE_PROGRESS:
-                    UpgradeProgressInfo progressInfo = (UpgradeProgressInfo)msg.obj;
+                    UpgradeProgressInfo progressInfo = (UpgradeProgressInfo) msg.obj;
                     ViseLog.d("UpgradeProgressInfo = " + progressInfo);
-                    if(progressInfo != null){
-                        if(progressInfo.status == 0){//download fail
+                    if (progressInfo != null) {
+                        if (progressInfo.status == 0) {//download fail
+                            tvRobotUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
+                            tvRobotUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
 
-                        }else if(progressInfo.status == 1){//downloading
+                            tvRobotUpdateTip.setVisibility(View.VISIBLE);
+                            ivDownloadFailWarning.setVisibility(View.VISIBLE);
+                        } else if (progressInfo.status == 1) {//downloading
 
-                        }else if(progressInfo.status == 2){//download success
+                            tvRobotUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download).replace("#", progressInfo.progress));
+                            tvRobotUpdateTip.setTextColor(getResources().getColor(R.color.base_blue));
+
+                            tvRobotUpdateTip.setVisibility(View.VISIBLE);
+                            ivDownloadFailWarning.setVisibility(View.GONE);
+
+                        } else if (progressInfo.status == 2) {//download success
 
                         }
                     }
                     break;
+
                 default:
                     break;
             }
@@ -157,7 +168,6 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         mUnbinder = ButterKnife.bind(this);
         mPresenter.init(this);
         fromeType = getIntent().getIntExtra(Constant1E.ENTER_BLESTATU_ACTIVITY, 0);
-
     }
 
     @Override
@@ -166,6 +176,16 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         AppStatusUtils.setBtBussiness(true);
         ViseLog.d("-onResume-");
         mPresenter.getRobotBleConnect();
+
+        //=============test==========
+        UpgradeProgressInfo upgradeProgressInfo = new UpgradeProgressInfo();
+        upgradeProgressInfo.status = 0;
+        upgradeProgressInfo.progress = "50";
+
+        Message msg = new Message();
+        msg.what = UPDATE_UPGRADE_PROGRESS;
+        msg.obj = upgradeProgressInfo;
+        mHandler.sendMessage(msg);
     }
 
     @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect, R2.id.tv_robot_language, R2.id.ckb_auto_upgrade})
@@ -182,7 +202,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
         } else if (i == R.id.tv_robot_language) {
             ViseLog.d("tv_robot_language");
-
+            BleRobotLanguageActivity.launch(this, "English");
 
         } else if (i == R.id.ckb_auto_upgrade) {
             ViseLog.d("ckb_auto_upgrade");
@@ -207,13 +227,30 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                                 }
                             }
                         }).create().show();
-
             } else {
-                switchAutoUpgradeStatus();
+                new BaseDialog.Builder(this)
+                        .setMessage(R.string.about_robot_auto_update_on)
+                        .setConfirmButtonId(R.string.common_btn_switch_on)
+                        .setConfirmButtonColor(R.color.base_blue)
+                        .setCancleButtonID(R.string.base_cancel)
+                        .setCancleButtonColor(R.color.black)
+                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                            @Override
+                            public void onClick(DialogPlus dialog, View view) {
+                                if (view.getId() == R.id.button_confirm) {
+                                    dialog.dismiss();
+                                    switchAutoUpgradeStatus();
+                                } else if (view.getId() == R.id.button_cancle) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        }).create().show();
             }
 
+
+
         } else if (i == R.id.ble_tv_connect) {
-            String s = String.format(SkinManager.getInstance().getTextById(R.string.ble_about_robot_disconnect_dialogue), mTvBleName.getText());
+            String s = String.format(SkinManager.getInstance().getTextById(R.string.about_robot_disconnect_dialogue), mTvBleName.getText());
 
             new BaseDialog.Builder(this)
                     .setMessage(s)
@@ -267,7 +304,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
             mTvRobotIp.setText(bleNetWork.getIp());
             mIvNotconnectWifi.setVisibility(View.GONE);
         } else {
-            mTvWifiSelect.setText(SkinManager.getInstance().getTextById(R.string.ble_choose_a_wifi));
+            mTvWifiSelect.setText(SkinManager.getInstance().getTextById(R.string.about_robot_change_wifi));
             mTvRobotIp.setText("");
             mIvNotconnectWifi.setVisibility(View.VISIBLE);
         }

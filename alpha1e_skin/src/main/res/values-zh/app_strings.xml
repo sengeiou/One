@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Alpha Ebot_ZH</string>
+    <string name="app_name">Alpha Ebot</string>
 
     <string name="start_ble_scan">开启蓝牙扫描_ZH</string>
     <string name="connect_ble">连接蓝牙_ZH</string>

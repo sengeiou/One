@@ -46,7 +46,7 @@ public class ActionCourseDataManager {
         one1Content1.setId(R.id.ll_frame);
         one1Content1.setVoiceName("{\"filename\":\"id_elephant.wav\",\"playcount\":1}");
         one1Content1.setActionPath(COURSE_ACTION_PATH + "AE_action editor2.hts");
-        one1Content1.setTitle("时间轴");
+        one1Content1.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_action_frame));
         one1Content1.setDirection(0);
         one1Content1.setX(0);
         one1Content1.setY(-50);
@@ -59,7 +59,7 @@ public class ActionCourseDataManager {
         one1Content3.setContent(SkinManager.getInstance().getTextById(R.string.actions_lesson_music_axis));
         one1Content3.setId(R.id.rl_musicz_zpne);
         one1Content3.setActionPath(COURSE_ACTION_PATH + "AE_action editor3.hts");
-        one1Content3.setTitle("音乐轴");
+        one1Content3.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_music_axis));
         one1Content3.setX(0);
         one1Content3.setY(-50);
         one1Content3.setVertGravity(VerticalGravity.CENTER);
@@ -73,7 +73,7 @@ public class ActionCourseDataManager {
         one1Content4.setId(R.id.iv_reset_index);
         one1Content4.setVoiceName("{\"filename\":\"id_elephant.wav\",\"playcount\":1}");
         one1Content4.setActionPath(COURSE_ACTION_PATH + "AE_action editor4.hts");
-        one1Content4.setTitle("动作帧");
+        one1Content4.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_action_frame));
         one1Content4.setDirection(0);
         one1Content4.setX(80);
         one1Content4.setY(30);
@@ -87,7 +87,7 @@ public class ActionCourseDataManager {
         one1Content5.setId(R.id.iv_add_frame);
         one1Content5.setVoiceName("{\"filename\":\"id_elephant.wav\",\"playcount\":1}");
         one1Content5.setActionPath(COURSE_ACTION_PATH + "AE_action editor5.hts");
-        one1Content5.setTitle("缩放时间轴");
+        one1Content5.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_zoom));
         one1Content5.setDirection(1);
         one1Content5.setX(20);
         one1Content5.setY(0);
@@ -110,60 +110,60 @@ public class ActionCourseDataManager {
         CourseActionModel model3 = null;
         CourseActionModel model4 = null;
         if (card == 1) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_1_content_1), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_1_content_2), 0);
-            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_1_content_3), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_1_items1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_1_items2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_1_items3), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
         } else if (card == 2) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_2_content_1), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_2_content_2), 0);
-            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.action_level_2_content_3), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_2_items1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_2_items2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_2_items3), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
         } else if (card == 3) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_item), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_item_1), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_item1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_3_item2), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 4) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item_1), 0);
-            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item_2), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_4_item3), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
         } else if (card == 5) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_5_item), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_5_item_1), 0);
-            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_5_item_2), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_5_item1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_5_item2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_5_item3), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
         } else if (card == 6) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_item), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_item_1), 0);
-            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_item_2), 0);
-            model4 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_item_3), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_item1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_item2), 0);
+            model3 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_item3), 0);
+            model4 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_item4), 0);
             list.add(model1);
             list.add(model2);
             list.add(model3);
             list.add(model4);
         } else if (card == 7) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_7_item), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_7_item_1), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_7_item1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_7_item2), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 8) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_8_item), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_8_item_1), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_8_item1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_8_item2), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 9) {
-            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_9_item), 0);
-            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_9_item_1), 0);
+            model1 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_9_item1), 0);
+            model2 = new CourseActionModel(SkinManager.getInstance().getTextById(R.string.actions_lesson_9_item2), 0);
             list.add(model1);
             list.add(model2);
         } else if (card == 10) {

@@ -21,7 +21,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Joystick"
+        android:text="@string/joystick_title"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"
         />
@@ -43,7 +43,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="6dp"
             android:gravity="center"
-            android:text="@string/remote_joystick_tips"
+            android:text="@string/joystick_tips"
             android:textColor="@color/white"
             android:textSize="12sp"/>
 

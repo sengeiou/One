@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ubt.baselib.model1E.LocalActionRecord;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.course.CourseProgressListener;
 import com.ubt.en.alpha1e.action.dialog.ActionCourseTwoUtil;
@@ -150,7 +151,7 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
         setImageViewBg();
         mRlInstruction = findViewById(R.id.rl_instruction);
         mTextView = findViewById(R.id.tv_all_introduc);
-        mTextView.setText("你知道吗？还有一种超简单的编辑动作的好方法哦。");
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_9_intro));
 
         ivLeftHandArrow = findViewById(R.id.iv_left_arrow);
         ivLeftHandArrow.setOnClickListener(this);
@@ -333,7 +334,7 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
             ivAddFrame.setEnabled(true);
             ivAddFrame.setImageResource(R.drawable.ic_stop);
             rlCenterAnimal.setVisibility(View.GONE);
-            CourseArrowAminalUtil.startTwoLegViewAnimal(false, ivCenterAnimal, 1);
+            CourseArrowAminalUtil.startTwoLegViewAnimal(mContext,false, ivCenterAnimal, 1);
         }
     }
 
@@ -420,7 +421,7 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
                 ivAddFrame.setImageResource(R.drawable.ic_stop);
                 mHandler.sendEmptyMessage(MSG_AUTO_READ);
                 rlCenterAnimal.setVisibility(View.VISIBLE);
-                CourseArrowAminalUtil.startTwoLegViewAnimal(true, ivCenterAnimal, 1);
+                CourseArrowAminalUtil.startTwoLegViewAnimal(mContext,true, ivCenterAnimal, 1);
 
             }
         }, 1000);

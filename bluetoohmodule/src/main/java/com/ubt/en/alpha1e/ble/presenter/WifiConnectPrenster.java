@@ -10,24 +10,14 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 
-import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
-import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
-import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
-import com.ubt.baselib.btCmd1E.ProtocolPacket;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiList;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.WifiConnectContact;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -44,7 +34,7 @@ import java.util.Set;
  * version
  */
 
-public class WifiConnectPrenster extends BasePresenterImpl<WifiConnectContact.View> implements WifiConnectContact.Presenter, IProtolPackListener {
+public class WifiConnectPrenster extends BasePresenterImpl<WifiConnectContact.View> implements WifiConnectContact.Presenter {
 
     private Context mContext;
 
@@ -79,10 +69,6 @@ public class WifiConnectPrenster extends BasePresenterImpl<WifiConnectContact.Vi
             //打开wifi
             mWifiManager.setWifiEnabled(true);
         }
-        if (isBlutoohConnected()) {
-            mBlueClientUtil.sendData(new BTCmdGetWifiList().toByteArray());
-        }
-
 
     }
 
@@ -100,33 +86,6 @@ public class WifiConnectPrenster extends BasePresenterImpl<WifiConnectContact.Vi
     }
 
 
-    /**
-     * 读取蓝牙回调数据
-     *
-     * @param readData
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
-    }
-
-    /**
-     * 蓝牙数据解析回调
-     *
-     * @param packet
-     */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
-        switch (packet.getmCmd()) {
-            case BTCmd.DV_FIND_WIFI_LIST:
-                String wifiinfo = BluetoothParamUtil.bytesToString(packet.getmParam());
-                ViseLog.d("机器人wifi列表："+wifiinfo);
-                break;
-            default:
-                break;
-        }
-    }
 
     /**
      * 蓝牙连接断开状态

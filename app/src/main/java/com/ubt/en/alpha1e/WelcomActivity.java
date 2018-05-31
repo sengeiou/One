@@ -41,7 +41,7 @@ import pl.droidsonroids.gif.GifDrawable;
 /**
  * @作者：bin.zhang@ubtrobot.com
  * @日期: 2018/1/15 15:14
- * @描述:
+ * @描述: 开机流程：1，刷新TOKEN--》2，获取用户信息--》3，初始化语言包
  */
 
 public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPrenster> implements WelcomContact.View {
@@ -79,6 +79,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
         window.setFlags(flag, flag);
          setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
+        startParamInit(); //同步后台参数
         initView();
         gifDrawable.start();
         initNavigationListener();
@@ -126,7 +127,6 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mPresenter.initLanugage(this);
     }
 
     @Override
@@ -258,7 +258,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
      */
     @Override
     public void getUserInfoCompleted() {
-        startMainActivity();
+        mPresenter.initLanugage(this);
     }
 
 
@@ -266,15 +266,20 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
      * 比较动画及权限结束和更新语言包结束
      */
     private void compareLanguageAndPermissResult() {
-        ViseLog.d("完成语言包更新");
+        ViseLog.d("完成语言包更新 isDownLanguageCompleted:"+isDownLanguageCompleted+ "  isPermissionCompleted:"+isPermissionCompleted);
         if (isDownLanguageCompleted && isPermissionCompleted) {
-            if (SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO) != null) {
-                mPresenter.getUserInfo();  //同步用户信息参数
-            } else {
-                startMainActivity();
-            }
+            startMainActivity();
         }
     }
 
-
+    /**
+     * 开始后台参数同步
+     */
+    private void startParamInit(){
+        if (SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO) != null) {
+            mPresenter.refreshToken();  //同步用户信息参数
+        }else{
+            mPresenter.initLanugage(this);
+        }
+    }
 }

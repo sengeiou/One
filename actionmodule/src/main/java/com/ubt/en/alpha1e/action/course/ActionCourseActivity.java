@@ -91,19 +91,8 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if (AppStatusUtils.isLowPower()) {
-            BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
-                @Override
-                public void onOK() {
 
-                }
-            });
-            return;
-        }
-
-        if (BlueClientUtil.getInstance().getConnectionState() == BluetoothState.STATE_CONNECTED) {
-            ActionLevelCourseActivity.launchActivity(this, position + 1);
-        } else {
+        if (BlueClientUtil.getInstance().getConnectionState() != BluetoothState.STATE_CONNECTED) {
             BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
                 @Override
                 public void onConnect() {
@@ -116,7 +105,18 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
                     BaseBTDisconnectDialog.getInstance().dismiss();
                 }
             });
+            return;
         }
+        if (AppStatusUtils.isLowPower()) {
+            BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+                @Override
+                public void onOK() {
+
+                }
+            });
+            return;
+        }
+        ActionLevelCourseActivity.launchActivity(this, position + 1);
     }
 
     private static final int REQUESTCODE = 10000;

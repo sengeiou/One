@@ -255,8 +255,8 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
 
         TextView btn = contentView.findViewById(R.id.btn_confirm);
 
-        String btnMsg = isConnecting ? SkinManager.getInstance().getTextById(R.string.ble_cancel) :
-                SkinManager.getInstance().getTextById(R.string.ble_ok);
+        String btnMsg = isConnecting ? SkinManager.getInstance().getTextById(R.string.base_cancel) :
+                SkinManager.getInstance().getTextById(R.string.base_ok);
 
         btn.setText(btnMsg);
 

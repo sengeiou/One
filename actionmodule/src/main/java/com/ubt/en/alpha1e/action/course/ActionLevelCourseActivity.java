@@ -23,6 +23,7 @@ import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseDialog;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
@@ -227,7 +228,12 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     @Override
     public void lowerPower() {
-
+        BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+            @Override
+            public void onOK() {
+                finish();
+            }
+        });
     }
 
     private boolean isHowHeadDialog;
@@ -236,7 +242,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         isHowHeadDialog = true;
 
         new BaseDialog.Builder(this)
-                .setMessage(R.string.action_ui_course_principle_exit_tip)
+                .setMessage(R.string.actions_not_finish_course)
                 .setConfirmButtonId(R.string.actions_lesson_not_quit)
                 .setConfirmButtonColor(R.color.base_blue)
                 .setCancleButtonID(R.string.actions_lesson_quit_confirm)
@@ -245,12 +251,13 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
                         if (view.getId() == R.id.button_confirm) {
-                            ((ActionsEditHelper) mHelper).doEnterCourse((byte) 0);
-                            ActionLevelCourseActivity.this.finish();
                             isHowHeadDialog = false;
                             dialog.dismiss();
                         } else if (view.getId() == R.id.button_cancle) {
+                            ((ActionsEditHelper) mHelper).doEnterCourse((byte) 0);
+                            ActionLevelCourseActivity.this.finish();
                             isHowHeadDialog = false;
+
                             dialog.dismiss();
                         }
 

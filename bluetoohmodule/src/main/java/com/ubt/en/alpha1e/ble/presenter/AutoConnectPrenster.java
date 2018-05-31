@@ -256,25 +256,27 @@ public class AutoConnectPrenster implements IProtolPackListener {
     public void onProtocolPacket(ProtocolPacket packet) {
         switch (packet.getmCmd()) {
             case BTCmd.DV_HANDSHAKE:
-                // 校验握手时间接受多次数据-----------start
-                Date curDate = new Date(System.currentTimeMillis());
-                float time_difference = 1000;
-                if (lastTime_DV_HANDSHAKE != null) {
-                    time_difference = curDate.getTime()
-                            - lastTime_DV_HANDSHAKE.getTime();
-                }
-                lastTime_DV_HANDSHAKE = curDate;
+                if (!isManualConnectMode) {
+                    // 校验握手时间接受多次数据-----------start
+                    Date curDate = new Date(System.currentTimeMillis());
+                    float time_difference = 1000;
+                    if (lastTime_DV_HANDSHAKE != null) {
+                        time_difference = curDate.getTime()
+                                - lastTime_DV_HANDSHAKE.getTime();
+                    }
+                    lastTime_DV_HANDSHAKE = curDate;
 
-                if (time_difference < 1000) {
-                    ViseLog.d("1S 接收到多次握手成功次数");
-                    return;
+                    if (time_difference < 1000) {
+                        ViseLog.d("1S 接收到多次握手成功次数");
+                        return;
+                    }
+                    BaseBTDisconnectDialog.getInstance().dismiss();
+                    ViseLog.e("-----------握手成功----------与机器人正式连接");
+                    ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.CONNECT_ROBOT_SUCCESS);
+                    manualEvent.setManual(true);
+                    EventBus.getDefault().post(manualEvent);
+                    mHandler.removeMessages(MESSAG_HANDSHAKE_TIMEOUT);
                 }
-                BaseBTDisconnectDialog.getInstance().dismiss();
-                ViseLog.e("-----------握手成功----------与机器人正式连接");
-                ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.CONNECT_ROBOT_SUCCESS);
-                manualEvent.setManual(true);
-                EventBus.getDefault().post(manualEvent);
-                mHandler.removeMessages(MESSAG_HANDSHAKE_TIMEOUT);
                 break;
             default:
                 break;
@@ -294,22 +296,24 @@ public class AutoConnectPrenster implements IProtolPackListener {
         switch (serviceStateChanged.getState()) {
             case BluetoothState.STATE_CONNECTED://蓝牙配对成功
                 ViseLog.d("蓝牙配对成功");
-                // stopConnectBleTask();
-                mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
-                // 收到蓝牙连接状态命令时间相隔-----------start
-                Date curDate = new Date(System.currentTimeMillis());
-                float time_difference = 1000;
-                if (lastTime_onConnectState != null) {
-                    time_difference = curDate.getTime() - lastTime_onConnectState.getTime();
-                }
-                lastTime_onConnectState = curDate;
-                if (time_difference < 500) {
-                    return;
-                }
+                if (!isManualConnectMode) {
 
-                mBlueClient.sendData(new BTCmdHandshake().toByteArray());
-                mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT, TIME_OUT);
+                    // stopConnectBleTask();
+                    mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
+                    // 收到蓝牙连接状态命令时间相隔-----------start
+                    Date curDate = new Date(System.currentTimeMillis());
+                    float time_difference = 1000;
+                    if (lastTime_onConnectState != null) {
+                        time_difference = curDate.getTime() - lastTime_onConnectState.getTime();
+                    }
+                    lastTime_onConnectState = curDate;
+                    if (time_difference < 500) {
+                        return;
+                    }
 
+                    mBlueClient.sendData(new BTCmdHandshake().toByteArray());
+                    mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT, TIME_OUT);
+                }
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
                 ViseLog.e("正在连接");

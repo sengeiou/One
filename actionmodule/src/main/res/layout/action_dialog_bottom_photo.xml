@@ -24,7 +24,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_login_round_button"
             android:gravity="center"
-            android:text="@string/ui_perfect_capture"
+            android:text="@string/actions_take_photo"
             android:textColor="@color/T1"
             android:textSize="18sp"/>
 
@@ -37,7 +37,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_login_round_button"
             android:gravity="center"
-            android:text="@string/ui_perfect_local_album"
+            android:text="@string/actions_select_alnum"
             android:textColor="@color/T1"
             android:textSize="18sp"/>
 

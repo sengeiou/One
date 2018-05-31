@@ -57,7 +57,10 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
     private void initActionCourseData() {
         mActionCourseModels.clear();
         ActionCourseModel courseModel1 = new ActionCourseModel();
-        courseModel1.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list) + " " + 1);
+        String sAgeFormat = SkinManager.getInstance().getTextById(R.string.actions_lesson_list);
+
+
+        courseModel1.setActionCourcesName(String.format(sAgeFormat, 1));
         courseModel1.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_1));
         courseModel1.setActionLockType(1);
         courseModel1.setDrawableId(R.drawable.ic_action_level1);
@@ -66,7 +69,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel1);
 
         ActionCourseModel courseModel2 = new ActionCourseModel();
-        courseModel2.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 2);
+        courseModel2.setActionCourcesName(String.format(sAgeFormat, 2));
         courseModel2.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_2));
         courseModel2.setDrawableId(R.drawable.ic_action_level2);
         courseModel2.setActionLockType(0);
@@ -74,7 +77,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel2);
 
         ActionCourseModel courseModel3 = new ActionCourseModel();
-        courseModel3.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 3);
+        courseModel3.setActionCourcesName(String.format(sAgeFormat, 3));
         courseModel3.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_3));
         courseModel3.setDrawableId(R.drawable.ic_action_level3);
         courseModel3.setActionLockType(0);
@@ -82,7 +85,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel3);
 
         ActionCourseModel courseModel4 = new ActionCourseModel();
-        courseModel4.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 4);
+        courseModel4.setActionCourcesName(String.format(sAgeFormat, 4));
         courseModel4.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_4));
         courseModel4.setDrawableId(R.drawable.ic_action_level4);
         courseModel4.setActionLockType(0);
@@ -90,7 +93,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel4);
 
         ActionCourseModel courseModel5 = new ActionCourseModel();
-        courseModel5.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 5);
+        courseModel5.setActionCourcesName(String.format(sAgeFormat, 5));
         courseModel5.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_5));
         courseModel5.setDrawableId(R.drawable.ic_action_level5);
         courseModel5.setActionLockType(0);
@@ -98,7 +101,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel5);
 
         ActionCourseModel courseModel6 = new ActionCourseModel();
-        courseModel6.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 6);
+        courseModel6.setActionCourcesName(String.format(sAgeFormat, 6));
         courseModel6.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_6));
         courseModel6.setDrawableId(R.drawable.ic_action_level6);
         courseModel6.setActionLockType(0);
@@ -106,7 +109,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel6);
 
         ActionCourseModel courseModel7 = new ActionCourseModel();
-        courseModel7.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 7);
+        courseModel7.setActionCourcesName(String.format(sAgeFormat, 7));
         courseModel7.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_7));
         courseModel7.setDrawableId(R.drawable.ic_action_level7);
         courseModel7.setActionLockType(0);
@@ -114,7 +117,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel7);
 
         ActionCourseModel courseModel8 = new ActionCourseModel();
-        courseModel8.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 8);
+        courseModel8.setActionCourcesName(String.format(sAgeFormat, 8));
         courseModel8.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_8));
         courseModel8.setDrawableId(R.drawable.ic_action_level8);
         courseModel8.setActionLockType(0);
@@ -122,7 +125,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel8);
 
         ActionCourseModel courseModel9 = new ActionCourseModel();
-        courseModel9.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 9);
+        courseModel9.setActionCourcesName(String.format(sAgeFormat, 9));
         courseModel9.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_9));
         courseModel9.setDrawableId(R.drawable.ic_action_level9);
         courseModel9.setActionLockType(0);
@@ -130,7 +133,7 @@ public class ActionCoursePrenster extends BasePresenterImpl<ActionCourseContact.
         mActionCourseModels.add(courseModel9);
 
         ActionCourseModel courseModel10 = new ActionCourseModel();
-        courseModel10.setActionCourcesName(SkinManager.getInstance().getTextById(R.string.actions_lesson_list)+ " " + 10);
+        courseModel10.setActionCourcesName(String.format(sAgeFormat, 10));
         courseModel10.setTitle(SkinManager.getInstance().getTextById(R.string.actions_lesson_10));
         courseModel10.setDrawableId(R.drawable.ic_action_level10);
         courseModel10.setActionLockType(0);

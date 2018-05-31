@@ -125,7 +125,7 @@
             android:layout_marginTop="@dimen/dp_30"
             android:background="@drawable/ble_connect_btn_selector"
             android:gravity="center"
-            android:text="@string/ble_try_again"
+            android:text="@string/common_btn_try_again"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_15"
             />

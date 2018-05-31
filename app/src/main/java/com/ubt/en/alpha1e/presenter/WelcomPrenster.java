@@ -20,10 +20,14 @@ import com.ubt.en.alpha1e.model.GetLanguageRequest;
 import com.ubt.en.alpha1e.model.LanguageDownResponse;
 import com.ubt.loginmodule.LoginHttpEntity;
 import com.ubt.loginmodule.requestModel.GetUserInfoRequest;
+import com.ubt.mainmodule.MainHttpEntity;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.zhy.http.okhttp.callback.FileCallBack;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,7 +80,7 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
                     @Override
                     public void subscribe(ObservableEmitter<String> e) throws Exception {
                         e.onNext(FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
-                        ViseLog.d("rxjava subscribe===" + FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
+                       // ViseLog.d("rxjava subscribe===" + FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
                     }
                 }).subscribeOn(Schedulers.io())               //在IO线程进行网络请求
                         .observeOn(AndroidSchedulers.mainThread())
@@ -147,7 +151,7 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
         ViseLog.d(BaseHttpEntity.BASIC_UBX_SYS);
 
         ViseHttp.POST(LoginHttpEntity.GET_LANGUAGE_TYPE)
-                .baseUrl("http://10.10.1.14:8080/")
+                .baseUrl(BaseHttpEntity.BASIC_UBX_SYS)
                 .setJson(GsonImpl.get().toJson(request))
                 .request(new ACallback<String>() {
                     @Override
@@ -249,7 +253,7 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
     /**
      * 获取用户信息
      */
-    public void getUserInfo() {
+    private void getUserInfo() {
         GetUserInfoRequest getUserInfoRequest = new GetUserInfoRequest();
         getUserInfoRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         getUserInfoRequest.setUserId(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID));
@@ -287,6 +291,46 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
                 });
     }
 
+    @Override
+    public void refreshToken(){
+        ViseLog.i("token:"+SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN)+"  time:"+System.currentTimeMillis());
+        ViseHttp.PUT(LoginHttpEntity.REFRESH_TOKEN)
+                .baseUrl(MainHttpEntity.BASE_UBX_COMMON)
+                .addHeader("authorization",SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String msg) {
+                        ViseLog.d("refreshToken onSuccess:" + "  msg:" + msg);
+                        try {
+                            JSONObject JMsg = new JSONObject(msg);
+                            if(JMsg.has("token")){
+                                SPUtils.getInstance().put(Constant1E.SP_USER_TOKEN, JMsg.getString("token"));
+                                getUserInfo();
+                            }else{
+                                SPUtils.getInstance().remove(Constant1E.SP_USER_INFO); //更新TOKEN失败，清除用户信息
+                                if (mView != null) {
+                                    mView.getUserInfoCompleted();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            SPUtils.getInstance().remove(Constant1E.SP_USER_INFO); //更新TOKEN失败，清除用户信息
+                            if (mView != null) {
+                                mView.getUserInfoCompleted();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int code, String errmsg) {
+                        ViseLog.d("refreshToken onFail:" + code + "  errmsg:" + errmsg);
+                        SPUtils.getInstance().remove(Constant1E.SP_USER_INFO); //更新TOKEN失败，清除用户信息
+                        if (mView != null) {
+                            mView.getUserInfoCompleted();
+                        }
+                    }
+                });
+    }
 
     private void zip1(Context context) {
         String destPath = FileUtils.getCacheDirectory(context, "") + "skins/" + "language.skin";

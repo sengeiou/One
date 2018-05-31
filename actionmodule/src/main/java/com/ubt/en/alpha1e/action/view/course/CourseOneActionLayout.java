@@ -393,7 +393,7 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
                             tv = tipView.findViewById(R.id.tv_content);
                             tvKnow = tipView.findViewById(R.id.tv_know);
                             isClicked = false;
-                            tv.setText("添加按钮");
+                            tv.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_1_add_action));
                             ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor6.hts");
 
                             mHandler.postDelayed(new Runnable() {
@@ -439,7 +439,7 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
                             int layoutId = viewPosInfo.layoutId;
                             View tipView = hightLightView.findViewById(layoutId);
                             tv = tipView.findViewById(R.id.tv_content);
-                            tv.setText("播放按钮");
+                            tv.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_1_play));
                             tvKnow = tipView.findViewById(R.id.tv_know);
                             isClicked = false;
                             mHandler.postDelayed(new Runnable() {

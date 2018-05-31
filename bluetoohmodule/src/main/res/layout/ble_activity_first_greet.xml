@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="@+id/bleTextview3"
         app:layout_constraintStart_toStartOf="@+id/bleTextview3"
         app:layout_constraintTop_toBottomOf="@+id/bleTextview3"
-        app:srcCompat="@drawable/img_robot_welcome"/>
+        android:src="@drawable/img_robot_welcome"/>
 
     <Button
         android:id="@+id/ble_start"

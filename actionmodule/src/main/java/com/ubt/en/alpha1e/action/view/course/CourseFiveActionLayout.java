@@ -174,7 +174,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
         resetArrow.setOnClickListener(this);
         mRlInstruction = (RelativeLayout) findViewById(R.id.rl_instruction);
         mTextView = (TextView) findViewById(R.id.tv_all_introduc);
-        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_5));
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_5_intro));
 
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);

@@ -125,11 +125,11 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
             if (!TextUtils.isEmpty(wifiName)) {
                 if (!TextUtils.isEmpty(wifiPasswd)) {
                     mPresenter.sendPasswd(wifiName, wifiPasswd);
-                    BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connecting));
+                    BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.wifi_connecting));
                     mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
                 } else {
                     new BaseDialog.Builder(this)
-                            .setMessage(R.string.ble_wifi_connect_without_password)
+                            .setMessage(R.string.wifi_connect_without_password)
                             .setConfirmButtonId(R.string.base_confirm)
                             .setConfirmButtonColor(R.color.base_color_red)
                             .setCancleButtonID(R.string.base_cancel)
@@ -139,7 +139,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
                                 public void onClick(DialogPlus dialog, View view) {
                                     if (view.getId() == R.id.button_confirm) {
                                         mPresenter.sendPasswd(wifiName, wifiPasswd);
-                                        BaseLoadingDialog.show(BleWifiInputActivity.this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connecting));
+                                        BaseLoadingDialog.show(BleWifiInputActivity.this, SkinManager.getInstance().getTextById(R.string.wifi_connecting));
                                         mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
                                         dialog.dismiss();
                                     } else if (view.getId() == R.id.button_cancle) {
@@ -196,13 +196,13 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         if (type == 2) {
             mHandler.removeMessages(MESSAGE_WHAT_CONNECT);
             BaseLoadingDialog.dismiss(this);
-            BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connect_succeed),
+            BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.wifi_connect_succeed),
                     R.drawable.img_connect_wifi_succeed);
             mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_DISSMISS_SUCCESS, MESSAGE_DISSMISSLOADING);
         } else if (type == 3) {
             mHandler.removeMessages(MESSAGE_WHAT_CONNECT);
             BaseLoadingDialog.dismiss(this);
-            BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.ble_wifi_connect_fail),
+            BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.wifi_connect_fail),
                     R.drawable.img_overtime);
             mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_DISSMISS_FAILED, MESSAGE_DISSMISSLOADING);
         }

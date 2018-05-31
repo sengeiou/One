@@ -4,19 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.action.R;
@@ -79,7 +73,7 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
         this.currentCourse = 1;
         this.courseProgressListener = courseProgressListener;
         setLayoutByCurrentCourse();
-
+        isSaveAction = false;
     }
 
     /**
@@ -116,38 +110,10 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
     }
 
     private void showExitDialog() {
-        View contentView = LayoutInflater.from(mContext).inflate(R.layout.view_comfirmdialog, null);
-        TextView title = contentView.findViewById(R.id.txt_msg);
-        title.setText("成功就在眼前，放弃闯关吗？");
-        Button button = contentView.findViewById(R.id.btn_pos);
-        button.setText("放弃闯关");
-        Button button1 = contentView.findViewById(R.id.btn_neg);
-        button1.setText("继续闯关");
-        ViewHolder viewHolder = new ViewHolder(contentView);
-        WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        int width = (int) ((display.getWidth()) * 0.6); //设置宽度
-        DialogPlus.newDialog(mContext)
-                .setContentHolder(viewHolder)
-                .setGravity(Gravity.CENTER)
-                .setContentWidth(width)
-                // .setContentBackgroundResource(R.drawable.action_dialog_filter_rect)
-                .setOnClickListener(new com.orhanobut.dialogplus.OnClickListener() {
-                    @Override
-                    public void onClick(DialogPlus dialog, View view) {
-                        if (view.getId() == R.id.btn_pos) {
-                            ((ActionsEditHelper) mHelper).doEnterCourse((byte) 0);
-                            if (null != courseProgressListener) {
-                                courseProgressListener.finishActivity();
-                            }
-                        } else if (view.getId() == R.id.btn_pos) {
+        if (null != courseProgressListener) {
+            courseProgressListener.finishActivity();
+        }
 
-                        }
-                        dialog.dismiss();
-                    }
-                })
-                .setCancelable(false)
-                .create().show();
     }
 
 

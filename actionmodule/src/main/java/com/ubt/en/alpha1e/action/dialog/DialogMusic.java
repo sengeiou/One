@@ -85,7 +85,7 @@ public class DialogMusic extends Dialog {
             llTips.setVisibility(View.GONE);
             tvTitle.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_9_auto_title));
             tvContent.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_9_auto_intro));
-            tvConfirm.setText(SkinManager.getInstance().getTextById(R.string.ui_create_start));
+            tvConfirm.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_start));
         } else {
             llTips.setVisibility(View.VISIBLE);
         }

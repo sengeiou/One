@@ -80,7 +80,7 @@ public class ActionCourseTwoUtil implements BaseQuickAdapter.OnItemClickListener
         tvTitle.setText(title);
         tvCancle = contentView.findViewById(R.id.tv_cancel);
         tvConfirm = contentView.findViewById(R.id.tv_confirm);
-        tvConfirm.setText("添加");
+        tvConfirm.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_6_add));
         ivConfirmArrow = contentView.findViewById(R.id.iv_add_action_arrow);
         RecyclerView recyclerView = contentView.findViewById(R.id.rv_actions);
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 5);
