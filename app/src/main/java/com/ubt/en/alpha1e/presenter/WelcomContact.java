@@ -27,6 +27,7 @@ public class WelcomContact {
 
         void initLanugage(Context context);
 
+        void refreshToken();
 
 
     }

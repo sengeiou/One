@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_45"
+    android:background="@android:color/white"
+    >
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/iv_play_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/playing_motion_blue"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        android:layout_marginLeft="@dimen/dp_20"
+        />
+
+    <TextView
+        android:id="@+id/tv_action_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_play_state"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/text_playlist_title"
+        android:text="The deer and the lion"
+        />
+
+    <ImageView
+        android:id="@+id/iv_delete_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20"
+        />
+
+
+    <View
+        android:id="@+id/view_playlist_div"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/bg_rect_grey"
+        android:layout_alignParentBottom="true"
+        />
+
+
+
+
+</RelativeLayout>

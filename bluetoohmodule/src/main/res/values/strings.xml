@@ -43,12 +43,18 @@
     <string name="about_robot_disconnect_dialogue" tools:ignore="ResourceName">Are you sure to disconnect with Robot %1$s?</string>
     <string name="ble_disconnect">Disconnect</string>
 
+    <string name="ble_robot_language_english" tools:ignore="ResourceName">English</string>
     <string name="about_robot_language" tools:ignore="ResourceName">Robot Language</string>
     <string name="about_robot_auto_update_off" tools:ignore="ResourceName">Turn it off, the robot can not update to the newest version automatically. And you will receive a prompt of new version.</string>
+    <string name="about_robot_auto_update_on" tools:ignore="ResourceName">Turn on Auto Update, the robot will update when new version is available.  If turn it off,  you can only receive a tip.</string>
     <string name="common_btn_switch_off" tools:ignore="ResourceName">Turn off</string>
+    <string name="common_btn_switch_on" tools:ignore="ResourceName">Turn on</string>
     <string name="about_robot_new_version" tools:ignore="ResourceName">A new robot version is available, will you update it right now?</string>
-    <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates...</string>
+    <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates (#%) ...</string>
     <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates.</string>
+    <string name="about_robot_language_done" tools:ignore="ResourceName">Done</string>
+    <string name="about_robot_language_dialogue" tools:ignore="ResourceName">Are you sure you want to change the robot language to #? This will take you 3 or 4 minutes of time.</string>
+    <string name="about_robot_language_changing" tools:ignore="ResourceName">Robot language is changing, please Do Not power off the robot.</string>
 
 
 </resources>

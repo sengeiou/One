@@ -41,6 +41,16 @@
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
+
+        <activity
+            android:name=".activity.BleRobotLanguageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
         <activity
             android:name=".activity.BleWifiInputActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

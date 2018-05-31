@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">playmodule</string>
+    <string name="playlist_title">Playlist</string>
+    <string name="playlist_select">Select</string>
+    <string name="playlist_select_all">Select all</string>
+    <string name="playlist_play">Play</string>
+    <string name="select_cancel">Cancel</string>
+    <string name="playlist_play_dialogue">Are you sure you want to start a new playlist, if so the previous will be deleted.</string>
+    <string name="playlist_20_mins_tips">Alpha will stop within 20 minutes without user interaction to protect the servos(joints).</string>
+    <string name="playlist_stop_toast">Playlist is stop.</string>
+    <string name="playlist_standby">On standby</string>
+
+</resources>

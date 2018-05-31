@@ -87,17 +87,18 @@ dependencies {
     implementation deps.eventbus.eventbus
     compile(name: 'xingemodule-1.0.1.1', ext: 'aar')
     //    compile(name: 'loginmodule-1.0.1', ext: 'aar')
-    //compile(name: 'mainmodule-1.0.1.1', ext: 'aar')
+    compile(name: 'mainmodule-1.0.1.1', ext: 'aar')
     compile(name: 'baselibextra-1.0.0.1', ext: 'aar')
     //腾讯bugly
     compile 'com.tencent.bugly:crashreport:2.6.6.1'
     //业务模块
 //    implementation project(':settingsmodule')
     implementation project(':bluetoohmodule')
-        implementation project(':mainmodule')
+//        implementation project(':mainmodule')
 //        implementation project(':baselibextra')
     implementation project(':loginmodule')
     implementation project(':actionmodule')
     implementation project(':blocklymodule')
     implementation project(':remotemodule')
+    implementation project(':playmodule')
 }
