@@ -266,7 +266,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
      * 比较动画及权限结束和更新语言包结束
      */
     private void compareLanguageAndPermissResult() {
-        ViseLog.d("完成语言包更新");
+        ViseLog.d("完成语言包更新 isDownLanguageCompleted:"+isDownLanguageCompleted+ "  isPermissionCompleted:"+isPermissionCompleted);
         if (isDownLanguageCompleted && isPermissionCompleted) {
             startMainActivity();
         }

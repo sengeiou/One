@@ -294,8 +294,8 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
     @Override
     public void refreshToken(){
         ViseLog.i("token:"+SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN)+"  time:"+System.currentTimeMillis());
-        ViseHttp.PUT("user-service-rest/v2/user/token/refresh")
-                .baseUrl(MainHttpEntity.BASIC_UBX_SYS)
+        ViseHttp.PUT(LoginHttpEntity.REFRESH_TOKEN)
+                .baseUrl(MainHttpEntity.BASE_UBX_COMMON)
                 .addHeader("authorization",SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN))
                 .request(new ACallback<String>() {
                     @Override
