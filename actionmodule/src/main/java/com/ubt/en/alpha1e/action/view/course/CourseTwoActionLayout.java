@@ -165,7 +165,7 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
         playArrow.setOnClickListener(this);
         mRlInstruction = findViewById(R.id.rl_instruction);
         mTextView = findViewById(R.id.tv_all_introduc);
-        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_2_items));
+        mTextView.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_2_guide));
         ivBackInStruction = findViewById(R.id.iv_back_instruction);
         ivBackInStruction.setOnClickListener(this);
     }

@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+     <string name="block_title">Blockly_tr</string>
+    <string name="block_my_works">My Works_tr</string>
+    <string name="block_download">Download_tr</string>
+    <string name="block_make_up">Start To Program_tr</string>
+    <string name="block_courses">How to make?_tr</string>
+</resources>

@@ -315,7 +315,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
 
     private void saveAction() {
         if (mEdtName.getText().toString().equals("")) {
-            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_action_name_empty));
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_enter_name));
             return;
         }
 
@@ -326,7 +326,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         int length = mEdtDisc.getText().toString().length();
 
         if (length > 100) {
-            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_about_feedback_input_too_long));
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_description_long));
             return;
         }
 

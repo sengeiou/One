@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -149,6 +150,9 @@ public class SkinCompatViewInflater {
 //            case "ImageView":
 //                view = new SkinCompatImageView(context, attrs);
 //                break;
+            case "ImageView":
+                view = new ImageView(context, attrs);
+                break;
             case "Button":
                 view = new SkinCompatButton(context, attrs);
                 break;

@@ -133,26 +133,26 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
 
         int actionType = mDynamicActionModel.getActionType();
         if (actionType == 1) {//舞蹈
-            mTvActionType.setText("舞蹈");
+            mTvActionType.setText(SkinManager.getInstance().getTextById(R.string.actions_save_dance));
             mIvActionType1.setImageResource(R.drawable.ic_type_dance);
 
         } else if (actionType == 2) {//故事
-            mTvActionType.setText("故事");
+            mTvActionType.setText(SkinManager.getInstance().getTextById(R.string.actions_save_story));
             mIvActionType1.setImageResource(R.drawable.ic_type_story);
 
         } else if (actionType == 3) {//运动
-            mTvActionType.setText("运动");
+            mTvActionType.setText(SkinManager.getInstance().getTextById(R.string.actions_save_sport));
             mIvActionType1.setImageResource(R.drawable.ic_type_action);
 
         } else if (actionType == 4) {//儿歌
-            mTvActionType.setText("儿歌");
+            mTvActionType.setText(SkinManager.getInstance().getTextById(R.string.actions_save_child));
             mIvActionType1.setImageResource(R.drawable.ic_type_song);
 
         } else if (actionType == 5) {//科普
-            mTvActionType.setText("科普");
+            mTvActionType.setText(SkinManager.getInstance().getTextById(R.string.actions_save_science));
             mIvActionType1.setImageResource(R.drawable.ic_type_science);
         } else {
-            mTvActionType.setText("舞蹈");
+            mTvActionType.setText(SkinManager.getInstance().getTextById(R.string.actions_save_child));
             mIvActionType1.setImageResource(R.drawable.ic_type_song);
         }
 

@@ -3,7 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/action_dialog_filter_rect"
+              android:background="@drawable/base_rect_background"
               android:orientation="vertical"
               tools:ignore="ResourceName">
 
@@ -214,7 +214,7 @@
             android:layout_height="40dp"
             android:layout_centerInParent="true"
             android:background="@drawable/input"
-            android:hint="@string/ui_create_record_placeholder"
+            android:hint="@string/actions_enter_name_recording"
             android:imeOptions="flagNoExtractUi"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -226,64 +226,74 @@
 
     </RelativeLayout>
 
+    <View
+        android:id="@+id/bottom_line1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/base_line"
+        android:visibility="gone"
+        />
 
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:layout_height="@dimen/dp_50"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:onClick="false"
+            android:text="@string/base_cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/base_tv_large_black"
+            android:textSize="@dimen/sp_16"
+            android:visibility="visible"/>
+
+        <View
+            android:id="@+id/bottom_line"
+            android:layout_width="@dimen/dp_0_5"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_content"
+            android:background="@color/base_line"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
             >
 
+
             <TextView
-                android:id="@+id/tv_cancel"
+                android:id="@+id/tv_confirm"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:background="@drawable/action_btn_alert_bg"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:text="@string/base_cancel"
-                android:textColor="@color/tv_user_edit_color"
-                android:textSize="16sp"
+                android:onClick="false"
+                android:text="@string/base_confirm"
+                android:textAllCaps="false"
+                android:textColor="@color/base_tv_large_black"
+                android:textSize="@dimen/sp_16"
                 />
 
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="40dp"
-                >
-
-                <TextView
-                    android:id="@+id/tv_confirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/action_btn_alert_bg"
-                    android:gravity="center"
-                    android:text="@string/ui_common_add"
-                    android:textColor="@color/tv_user_edit_color"
-                    android:textSize="16sp"
-                    />
-
-                <ImageView
-                    android:id="@+id/iv_add_arrow"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="50dp"
-                    android:src="@drawable/zuojiantou_4"
-                    android:visibility="gone"
-                    />
-            </RelativeLayout>
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_add_arrow"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignBottom="@+id/tv_confirm"
+                android:layout_alignEnd="@+id/tv_confirm"
+                android:src="@drawable/zuojiantou_4"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
 
 
     </LinearLayout>

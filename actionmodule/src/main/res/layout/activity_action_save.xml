@@ -29,7 +29,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:text="@string/ui_readback_save_title"
+            android:text="@string/actions_save_actions"
             android:textColor="@color/tv_user_edit_color"
             android:textSize="18sp"
             />
@@ -161,7 +161,7 @@
                 android:layout_below="@+id/txt_action_type"
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/bg_text_rect"
-                android:hint="@string/ui_readback_save_name_placeholder"
+                android:hint="@string/actions_action_name"
                 android:imeOptions="flagNoExtractUi"
                 android:paddingLeft="5dp"
                 android:textColor="@color/action_save_text_color"
@@ -175,7 +175,7 @@
                 android:layout_below="@+id/edt_name"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="13dp"
-                android:text="@string/ui_save_action_choose_type"
+                android:text="@string/actions_action_type_select"
                 />
 
             <android.support.v7.widget.RecyclerView
@@ -199,7 +199,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_text_rect"
                 android:gravity="top|left"
-                android:hint="@string/ui_readback_save_description_placeholder"
+                android:hint="@string/actions_action_description"
                 android:padding="10dp"
                 android:textColor="@color/action_save_text_color"
                 android:textSize="14sp"></EditText>

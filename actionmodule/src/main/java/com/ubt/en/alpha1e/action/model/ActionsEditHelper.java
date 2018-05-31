@@ -239,12 +239,12 @@ public class ActionsEditHelper implements IProtolPackListener {
             }
         } else if (cmd == BTCmd.DV_INTO_EDIT) {
             if (param != null) {
-                ViseLog.d( "进入或退出动作编辑param:" + ByteHexHelper.bytesToHexString(param));
+                ViseLog.d("进入或退出动作编辑param:" + ByteHexHelper.bytesToHexString(param));
             }
         } else if (cmd == BTCmd.DV_READ_BATTERY) {
             ViseLog.i("电量data:" + HexUtil.encodeHexStr(packet.getmParam()));
             int power = packet.getmParam()[3];
-            if (power > 5) {
+            if (power <= 5) {
                 if (mListener != null) {
                     mListener.lowerPower();
                 }
@@ -449,8 +449,9 @@ public class ActionsEditHelper implements IProtolPackListener {
                 }
             }
         } else if (comm_type == Command_type.Do_Stop) {
-            if (mNewPlayer.getState() != NewActionPlayer.PlayerState.STOPING)
+            if (mNewPlayer.getState() != NewActionPlayer.PlayerState.STOPING) {
                 mNewPlayer.StopPlayer();
+            }
 
         }
 
@@ -505,8 +506,8 @@ public class ActionsEditHelper implements IProtolPackListener {
     public void showNextDialog(Context context, int course, int level, final ClickListener clickListener) {
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_action_course_content, null);
         TextView title = contentView.findViewById(R.id.tv_card_name);
-        title.setText(getCourseDialogTitleLevel(course));
-
+        //title.setText(getCourseDialogTitleLevel(course));
+        title.setVisibility(View.INVISIBLE);
         TextView tvContent = contentView.findViewById(R.id.tv_card_content);
         tvContent.setText(getCourseDialogTitle(course));
 
@@ -611,6 +612,7 @@ public class ActionsEditHelper implements IProtolPackListener {
 //        } else if (course == 10) {
 //            title = SkinManager.getInstance().getTextById(R.string.action_level_10);
 //        }
-        return SkinManager.getInstance().getTextById(R.string.actions_lesson_list) + " " + course;
+        String sAgeFormat = SkinManager.getInstance().getTextById(R.string.actions_lesson_list);
+        return String.format(sAgeFormat, course);
     }
 }

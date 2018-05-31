@@ -6,9 +6,15 @@
 
     <string name="common_btn_delete">Delete</string>
 
-    <string name="common_btn_try_again">Try again </string>
+    <string name="common_btn_try_again">Try again</string>
     <string name="common_btn_kip">Skip</string>
     <string name="common_btn_next">Next</string>
+    <string name="common_btn_finish">Finish</string>
+    <string name="common_btn_back">Back</string>
+    <string name="common_btn_edit">Edit</string>
+    <string name="common_btn_hint">Hint</string>
+    <string name="common_btn_unknown_error">Unknown error</string>
+    
     <string name="base_confirm">Confirm</string>
     <string name="base_setting">Setting</string>
     <string name="base_cancel">Cancel</string>

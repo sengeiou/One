@@ -76,7 +76,7 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
                     @Override
                     public void subscribe(ObservableEmitter<String> e) throws Exception {
                         e.onNext(FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
-                        ViseLog.d("rxjava subscribe===" + FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
+                       // ViseLog.d("rxjava subscribe===" + FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
                     }
                 }).subscribeOn(Schedulers.io())               //在IO线程进行网络请求
                         .observeOn(AndroidSchedulers.mainThread())

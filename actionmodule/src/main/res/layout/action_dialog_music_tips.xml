@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/action_ui_bluetooth_hint"
+        android:text="@string/common_btn_hint"
         android:textSize="16sp"
+        android:visibility="gone"
         />
 
     <View
@@ -29,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="@string/ui_create_cover_music"
+        android:text="@string/actions_replace_audio"
         />
 
     <LinearLayout
@@ -53,7 +54,7 @@
             android:id="@+id/tv_ps_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ui_create_cover_music_tips"
+            android:text="@string/actions_replace_audio_tip"
             />
 
     </LinearLayout>

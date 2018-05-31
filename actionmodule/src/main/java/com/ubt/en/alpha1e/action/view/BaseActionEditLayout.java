@@ -793,7 +793,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
         }
 
         new BaseDialog.Builder(mContext)
-                .setMessage(R.string.action_ui_readback_quit_tip).
+                .setMessage(R.string.actions_unsave_exit).
                 setConfirmButtonId(R.string.actions_lesson_quit_confirm)
                 .setCancleButtonID(R.string.base_cancel)
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
@@ -1007,7 +1007,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         } else if (i1 == R.id.iv_auto_read) {
             if (ids.size() <= 0) {
-                showLostDialog(0, SkinManager.getInstance().getTextById(R.string.ui_create_click_to_cutoff));
+                showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_body_part_poweroff));
             } else {
                 DialogMusic dialogMusic = new DialogMusic(mContext, this, 1);
                 dialogMusic.show();
@@ -1134,7 +1134,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     public void doChangeItem() {
         if (ids.size() <= 0) {
             goneEditFrameLayout();
-            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.ui_create_click_to_cutoff));
+            showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_body_part_poweroff));
             return;
         }
         change = true;
@@ -1249,7 +1249,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
             sbVoice.setVisibility(View.INVISIBLE);
             timeDatas.clear();
             timeAdapter.notifyDataSetChanged();
-            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_create_delete_music_tips));
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_delete_audio_done));
             rl_delete_music.setVisibility(View.GONE);
             tvMusicTime.setVisibility(View.INVISIBLE);
             if (list_frames.size() > 0) {
@@ -1653,7 +1653,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
             cut = false;
         } else {
             if (ids.size() <= 0) {
-                showLostDialog(0, SkinManager.getInstance().getTextById(R.string.ui_create_click_to_cutoff));
+                showLostDialog(0, SkinManager.getInstance().getTextById(R.string.actions_body_part_poweroff));
 
                 goneEditFrameLayout();
                 adapter.setDefSelect(-1);

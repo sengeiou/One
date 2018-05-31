@@ -3,8 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 android:orientation="horizontal"
-
+                android:orientation="horizontal"
                 tools:ignore="ResourceName">
 
     <ImageView
@@ -17,13 +16,12 @@
 
     <TextView
         android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_150"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/iv_arraw"
         android:background="@drawable/img_cloud_left"
         android:gravity="center"
-        android:text="时间轴"
         android:textColor="@color/white"
         android:textSize="18sp"
         />

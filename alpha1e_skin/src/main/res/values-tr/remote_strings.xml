@@ -1,0 +1,7 @@
+<resources>
+    <string name="remote_app_name">remotemodule_tr</string>
+    <string name="remote_joystick_tips">Enjoy different actions in different characters._tr</string>
+    <string name="remote_joystick_football">Football player_tr</string>
+    <string name="remote_joystick_fighter">Fighter_tr</string>
+    <string name="remote_joystick_dancer">Dancer_tr</string>
+</resources>

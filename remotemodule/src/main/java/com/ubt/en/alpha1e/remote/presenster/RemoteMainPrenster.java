@@ -5,7 +5,6 @@ import android.content.Context;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdActionDoDefault;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.skin.SkinManager;
-import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.remote.R;
 import com.ubt.en.alpha1e.remote.contract.RemoteMainContact;
@@ -41,11 +40,11 @@ public class RemoteMainPrenster extends BasePresenterImpl<RemoteMainContact.View
 
     private void initData() {
         mRoleInfos.clear();
-        RemoteRoleInfo info = new RemoteRoleInfo(1, SkinManager.getInstance().getTextById(R.string.remote_joystick_football),
+        RemoteRoleInfo info = new RemoteRoleInfo(1, SkinManager.getInstance().getTextById(R.string.joystick_football),
                 "", R.drawable.img_football_player, 0);
-        RemoteRoleInfo info2 = new RemoteRoleInfo(2, SkinManager.getInstance().getTextById(R.string.remote_joystick_fighter),
+        RemoteRoleInfo info2 = new RemoteRoleInfo(2, SkinManager.getInstance().getTextById(R.string.joystick_fighter),
                 "", R.drawable.img_fighter, 0);
-        RemoteRoleInfo info3 = new RemoteRoleInfo(3, SkinManager.getInstance().getTextById(R.string.remote_joystick_dancer),
+        RemoteRoleInfo info3 = new RemoteRoleInfo(3, SkinManager.getInstance().getTextById(R.string.joystick_dancer),
                 "", R.drawable.img_dancer, 1);
         mRoleInfos.add(info);
         mRoleInfos.add(info2);

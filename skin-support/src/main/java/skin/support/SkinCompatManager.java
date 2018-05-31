@@ -474,7 +474,7 @@ public class SkinCompatManager extends SkinObservable {
         } else if (language.equalsIgnoreCase("zh_tw")) {
             return Locale.TRADITIONAL_CHINESE;
         } else if (language.equalsIgnoreCase("ko")) {
-            return Locale.KOREA;
+            return Locale.KOREAN;
         } else {
             return new Locale(language);
         }

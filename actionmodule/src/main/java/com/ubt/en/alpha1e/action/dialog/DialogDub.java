@@ -65,6 +65,7 @@ public class DialogDub extends Dialog {
     private RelativeLayout llOperation;
     private TextView tvRecordTime;
     private LinearLayout llRetry, llBottom, llMid;
+    private View viewLine;
     private RelativeLayout llSave;
     private DaoCountDown daoCountDown;
     MP3Recorder mRecorder;
@@ -208,6 +209,7 @@ public class DialogDub extends Dialog {
                 llMid.setVisibility(View.GONE);
                 rlEditName.setVisibility(View.VISIBLE);
                 llBottom.setVisibility(View.VISIBLE);
+                viewLine.setVisibility(View.VISIBLE);
                 if (type == 1) {
                     CourseArrowAminalUtil.startViewAnimal(false, ivSaveArrow, 2);
                     if (null != mOnMusicDialogListener) {
@@ -252,7 +254,7 @@ public class DialogDub extends Dialog {
                 }
             }
         });
-
+        viewLine = findViewById(R.id.bottom_line1);
         llBottom = (LinearLayout) findViewById(R.id.ll_bottom);
         rlEditName = (RelativeLayout) findViewById(R.id.rl_edit_name);
 
@@ -279,14 +281,14 @@ public class DialogDub extends Dialog {
                 String str = stringFilter(input);
                 ViseLog.d(TAG, "input:" + input + "---str:" + str);
                 if (!input.equals(str)) {
-                    ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_action_name_error));
+                    ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_name_special_character));
                     return;
                 }
 
                 if (name.length() > 0) {
                     saveRecord(name);
                 } else {
-                    ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_create_record_empty_name));
+                    ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_audio_name_empty));
                 }
 
             }
@@ -349,7 +351,7 @@ public class DialogDub extends Dialog {
             }
 
             new BaseDialog.Builder(context)
-                    .setMessage(R.string.ui_resave_tip).
+                    .setMessage(R.string.actions_same_name_tip).
                     setConfirmButtonId(com.ubt.baselib.R.string.base_confirm)
                      .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                         @Override
@@ -359,7 +361,7 @@ public class DialogDub extends Dialog {
                                 if (success) {
                                     dismiss();
                                 } else {
-                                    Toast.makeText(context, context.getString(R.string.ui_create_record_save_failed), Toast.LENGTH_SHORT);
+                                    Toast.makeText(context, context.getString(R.string.actions_recording_save_failed), Toast.LENGTH_SHORT);
                                 }
                                 dialog.dismiss();
                             }
@@ -374,7 +376,7 @@ public class DialogDub extends Dialog {
                 }
                 dismiss();
             } else {
-                Toast.makeText(context, context.getString(R.string.ui_create_record_save_failed), Toast.LENGTH_SHORT);
+                Toast.makeText(context, context.getString(R.string.actions_recording_save_failed), Toast.LENGTH_SHORT);
             }
         }
 

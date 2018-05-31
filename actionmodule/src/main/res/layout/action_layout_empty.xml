@@ -54,7 +54,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="3dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/action_retry_get"
+                android:text="@string/common_btn_try_again"
                 android:textColor="@color/base_blue"
                 android:textSize="20sp"
                 />

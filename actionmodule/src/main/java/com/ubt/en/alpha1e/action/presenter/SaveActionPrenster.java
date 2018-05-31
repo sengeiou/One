@@ -54,11 +54,11 @@ import okhttp3.Call;
 public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View> implements SaveActionContact.Presenter {
     private int[] imageIds = {R.drawable.img_actiontype_dance, R.drawable.img_actiontype_story, R.drawable.img_actiontype_action,
             R.drawable.img_actiontype_song, R.drawable.img_actiontype_science};
-    private int[] desHintKeys = {R.string.ui_distribute_desc_dance,
-            R.string.ui_distribute_desc_story,
-            R.string.ui_distribute_desc_sport,
-            R.string.ui_distribute_desc_song,
-            R.string.ui_distribute_desc_education};
+    private int[] desHintKeys = {R.string.actions_dance,
+            R.string.actions_tell_story,
+            R.string.actions_do_sports,
+            R.string.actions_sing,
+            R.string.actions_begin_class};
     final int[] imageNames = {
             R.string.actions_save_dance,
             R.string.actions_save_story,
@@ -158,14 +158,14 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
                                String formate) {
 
         if (!isSpc && name.contains(" ")) {
-            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_action_name_spaces));
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_no_space));
             return false;
         }
 
         // "[0-9A-Za-z_]*"
 
         if (!formate.equals("") && !name.matches(formate)) {
-            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_action_name_error));
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_name_special_character));
             return false;
         }
 
@@ -173,12 +173,12 @@ public class SaveActionPrenster extends BasePresenterImpl<SaveActionContact.View
         try {
             lenth = name.getBytes("GBK").length;
         } catch (UnsupportedEncodingException e) {
-            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_remote_synchoronize_unknown_error));
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.common_btn_unknown_error));
             return false;
         }
 
         if (maxLenth > 0 && lenth > maxLenth) {
-            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.ui_action_name_too_long));
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_name_long));
             return false;
         }
 

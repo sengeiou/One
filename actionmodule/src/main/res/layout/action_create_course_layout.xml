@@ -316,7 +316,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_del_music"
             android:gravity="center"
-            android:text="@string/ui_create_delete_music"
+            android:text="@string/actions_delete_audio"
             android:textColor="#fff"
             />
 
