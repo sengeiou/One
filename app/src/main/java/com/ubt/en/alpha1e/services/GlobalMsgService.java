@@ -156,6 +156,10 @@ public class GlobalMsgService extends Service {
                         ViseLog.i("电量data:"+ HexUtil.encodeHexStr(packet.getmParam()));
                         ViseLog.i("电量 isNeed20Toast:"+isNeed20Toast+"  isNeed5Dialog:"+isNeed5Dialog+
                                "   isBussiness:"+AppStatusUtils.isBussiness());
+                        if(packet.getmParamLen() < 4){
+                            ViseLog.e("错误参数，丢弃!!!");
+                            return;
+                        }
                         int power = packet.getmParam()[3];
                         AppStatusUtils.setCurrentPower(power);
                         AppStatusUtils.setChargingStatus(packet.getmParam()[2]);
