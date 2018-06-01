@@ -4,4 +4,6 @@
     <color name="text_blue_color">#3AABFE</color>
     <color name="bg_rect_grey">#E2E2E2</color>
     <color name="bg_action_item">#AA000000</color>
+    <color name="text_red_color">#FE484D</color>
+    <color name="bg_red_color">#50FE484D</color>
 </resources>

@@ -8,19 +8,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.playaction.R;
 import com.ubt.playaction.R2;
@@ -87,6 +91,10 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     RelativeLayout rlPlayCtrl;
     @BindView(R2.id.recycleview_playlist)
     RecyclerView rvCycleList;
+    @BindView(R2.id.rl_20_tip)
+    RelativeLayout rl20Tip;
+    @BindView(R2.id.iv_20_tip)
+    ImageView iv20Tip;
     Unbinder unbinder;
 
     CyclePlayActionAdapter cyclePlayActionAdapter;
@@ -114,6 +122,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     private void init() {
         actionAdapter = new PlayActionAdapter(R.layout.item_play_action, actionDataList,this);
         actionAdapter.setOnItemClickListener(this);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         rvActionList.setLayoutManager(gridLayoutManager);
         rvActionList.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -150,13 +159,37 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
     }
 
+    private void addHeader() {
+        View headerView=getLayoutInflater().inflate(R.layout.item_header_view, null);
+
+        headerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        actionAdapter.addHeaderView(headerView);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         notePlayOrPause();
+        if(BlueClientUtil.getInstance().getConnectionState() != BluetoothState.STATE_CONNECTED){
+            if (!BaseBTDisconnectDialog.getInstance().isShowing()) {
+                BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
+                    @Override
+                    public void onConnect() {
+                        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).navigation();
+                        BaseBTDisconnectDialog.getInstance().dismiss();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        BaseBTDisconnectDialog.getInstance().dismiss();
+                    }
+                });
+            }
+        }
     }
 
-    @OnClick({R2.id.play_iv_back,R2.id.tv_select,R2.id.iv_playlist, R2.id.iv_reset, R2.id.iv_play_pause,R2.id.iv_close_list,R2.id.iv_delete_list,R2.id.iv_select_all,R2.id.rl_play_btn})
+    @OnClick({R2.id.play_iv_back,R2.id.tv_select,R2.id.iv_playlist, R2.id.iv_reset, R2.id.iv_play_pause,R2.id.iv_close_list,R2.id.iv_delete_list,R2.id.iv_select_all,R2.id.rl_play_btn, R2.id.iv_20_tip})
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.play_iv_back){
@@ -201,6 +234,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             mPresenter.stopAction();
             PlayActionManger.getInstance().setCycle(false);
             ivCycleState.setImageResource(R.drawable.ic_circle_list);
+            rl20Tip.setVisibility(View.INVISIBLE);
         }else if(id == R.id.iv_play_pause){
             mPresenter.playPauseAction();
         }else if(id == R.id.iv_close_list){
@@ -210,8 +244,9 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             cycleDataList.clear();
             cyclePlayActionAdapter.notifyDataSetChanged();
         }else if(id == R.id.rl_play_btn){
-
             showDialog();
+        }else if(id == R.id.iv_20_tip){
+            rl20Tip.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -240,6 +275,8 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
                                 }else{
                                     ivCycleState.setImageResource(R.drawable.ic_circle_single);
                                 }
+                                rl20Tip.setVisibility(View.VISIBLE);
+//                                addHeader();
                             }
                             dialog.dismiss();
                         } else if (view.getId() == com.ubt.baselib.R.id.button_cancle) {

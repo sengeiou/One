@@ -48,8 +48,10 @@ public class CyclePlayActionAdapter extends BaseQuickAdapter<ActionData, BaseVie
 
         if(PlayActionManger.getInstance().getCurrentPlayActionName().equals(item.getActionName())  && PlayActionManger.getInstance().getPlayState() == PlayActionManger.PLAYING){
             gifPlaying.setVisibility(View.VISIBLE);
+            tvActionName.setTextColor(context.getResources().getColor(R.color.text_blue_color));
         }else{
             gifPlaying.setVisibility(View.INVISIBLE);
+            tvActionName.setTextColor(context.getResources().getColor(R.color.text_playlist_title));
         }
 
         tvActionName.setText(item.getActionName());

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_45"
-    android:background="@drawable/item_list_rect"
+
     >
 
     <pl.droidsonroids.gif.GifImageView
@@ -32,7 +32,7 @@
         android:id="@+id/iv_delete_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/ic_delete_action"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:paddingRight="@dimen/dp_20"
