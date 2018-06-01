@@ -464,5 +464,6 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
         }
         actionAdapter.notifyDataSetChanged();
+        rl20Tip.setVisibility(View.GONE);
     }
 }
