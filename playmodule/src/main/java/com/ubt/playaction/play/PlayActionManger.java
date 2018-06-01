@@ -1,5 +1,7 @@
 package com.ubt.playaction.play;
 
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 
 import com.ubt.baselib.BlueTooth.BTReadData;
@@ -54,6 +56,19 @@ public class PlayActionManger implements IProtolPackListener {
     private boolean cycle = false;
     private int currentCyclePos = 0;
 
+    private int MSG_STOP = 0;
+    private long DELAY_TIME = 1000*60*20;
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == MSG_STOP){
+                stopAction();
+                cycle = false;
+            }
+        }
+    };
+
     public static PlayActionManger getInstance() {
         if (instance == null) {
             synchronized (PlayActionManger.class) {
@@ -84,6 +99,10 @@ public class PlayActionManger implements IProtolPackListener {
         actionCycleList.clear();
         currentCyclePos= 0;
         currentPlayActionName="";
+        if(mHandler!=null){
+            mHandler.removeMessages(MSG_STOP);
+        }
+
 
 
     }
@@ -200,6 +219,9 @@ public class PlayActionManger implements IProtolPackListener {
                 playState = STOP;
                 currentPlayActionName = "";
                 cycle = false;
+                if(mHandler != null){
+                    mHandler.removeMessages(MSG_STOP);
+                }
                 if(listener != null) {
                     listener.notePlayStop();
                 }
@@ -294,6 +316,16 @@ public class PlayActionManger implements IProtolPackListener {
 
     public void setCycle(boolean cycle) {
         this.cycle = cycle;
+        if(cycle){
+            if(mHandler != null){
+                mHandler.sendEmptyMessageDelayed(MSG_STOP, DELAY_TIME);
+            }
+        }else{
+            if(mHandler != null){
+                mHandler.removeMessages(MSG_STOP);
+            }
+
+        }
     }
 
     public List<ActionData> getActionCycleList() {
@@ -336,7 +368,6 @@ public class PlayActionManger implements IProtolPackListener {
         void setActionList( List<ActionData> actionDataList);
         void notePlayStart(String actionName);
         void notePlayStop();
-//        void refreshPlayState();
         void notePlayFinish(String name);
         void notePlayOrPause();
     }
