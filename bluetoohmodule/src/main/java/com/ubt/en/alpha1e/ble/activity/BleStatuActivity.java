@@ -367,11 +367,16 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        AppStatusUtils.setBtBussiness(false);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.unRegister();
         mUnbinder.unbind();
-        AppStatusUtils.setBtBussiness(false);
     }
 
     @Override

@@ -1,7 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="remote_app_name">remotemodule</string>
-    <string name="remote_joystick_tips">Enjoy different actions in different characters.</string>
-    <string name="remote_joystick_football">Football player</string>
-    <string name="remote_joystick_fighter">Fighter</string>
-    <string name="remote_joystick_dancer">Dancer</string>
+    <string name="joystick_title" tools:ignore="ResourceName">joystick</string>
+    <string name="joystick_tips" tools:ignore="ResourceName">Enjoy different actions in different characters.</string>
+    <string name="joystick_football" tools:ignore="ResourceName">Football player</string>
+    <string name="joystick_fighter" tools:ignore="ResourceName">Fighter</string>
+    <string name="joystick_dancer" tools:ignore="ResourceName">Dancer</string>
 </resources>

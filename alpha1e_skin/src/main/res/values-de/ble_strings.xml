@@ -1,54 +1,67 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="ble_app_name">BluetoohModule_de</string>
-    <string name="ble_hello_cristinal">Hello_de</string>
-    <string name="ble_greet">Alpha Ebot welcome you to connect with it_de</string>
-    <string name="ble_welcome_button">Let\'s start_de</string>
+    <string name="ble_app_name">BluetoohModule_DE</string>
+    <string name="ble_hello_cristinal">Hello_DE</string>
+    <string name="ble_greet">Alpha Ebot welcome you to connect with it_DE</string>
+    <string name="ble_welcome_button">Let\'s start_DE</string>
 
-    <string name="ble_start_tip">Press On/Off on  robot\'s back for 3 seconds to turn it on._de</string>
-    <string name="ble_sure_start">My robot has stood Up._de</string>
-    <string name="ble_next">Next_de</string>
-    <string name="ble_connect_title">Choose a robot to connect._de</string>
-    <string name="ble_connect_tip">Turn on the bluetooth of your device and put it close to robot\'s back._de</string>
-    <string name="ble_connect">Connect_de</string>
-    <string name="ble_connecting">Connecting with robot_de</string>
-    <string name="ble_no_robot">No robot found_de</string>
-    <string name="ble_broken_tip">Your bluetooth has disconnected with robot, please reconnect it._de</string>
-    <string name="ble_cellphone_off_tip">Your bluetooth is off, please turn it on in the settings._de</string>
-    <string name="ble_location_permission_dialogue">Alpha Ebot will need your location when it is connected to Wi-Fi.  Once you are connected, you can turn it off in your settings._de</string>
-    <string name="ble_connnect_timeout">Connection is overtime_de</string>
-    <string name="ble_connect_success">Connection Successed_de</string>
+    <string name="ble_start_tip">Press On/Off on  robot\'s back for 3 seconds to turn it on._DE</string>
+    <string name="ble_sure_start">My robot has stood Up._DE</string>
+    <string name="ble_next">Next_DE</string>
+    <string name="ble_connect_title">Choose a robot to connect._DE</string>
+    <string name="ble_connect_tip">Turn on the bluetooth of your device and put it close to robot\'s back._DE</string>
+    <string name="ble_connect">Connect_DE</string>
+    <string name="ble_connecting">Connecting with robot_DE</string>
+    <string name="ble_no_robot">No robot found_DE</string>
+    <string name="ble_broken_tip">Your bluetooth has disconnected with robot, please reconnect it._DE</string>
+    <string name="ble_cellphone_off_tip">Your bluetooth is off, please turn it on in the settings._DE</string>
+    <string name="ble_location_permission_dialogue">Alpha Ebot will need your location when it is connected to Wi-Fi.  Once you are connected, you can turn it off in your settings._DE</string>
+    <string name="ble_connnect_timeout">Connection is overtime_DE</string>
+    <string name="ble_connect_success">Connection Successed_DE</string>
 
-    <string name="wifi_choose" tools:ignore="ResourceName">Choose Wi-fi_de</string>
-    <string name="wifi_5G_tip" tools:ignore="ResourceName">(Not support 5G Wi-Fi)_de</string>
-    <string name="wifi_enter_password_title" tools:ignore="ResourceName">Enter Wi-Fi Password_de</string>
-    <string name="wifi_change" tools:ignore="ResourceName">Choose another network_de</string>
-    <string name="wifi_no_wifi" tools:ignore="ResourceName">No Wi-Fi found_de</string>
-    <string name="wifi_no_wifi_tip" tools:ignore="ResourceName">You can try to input Wi-Fi name_de</string>
-    <string name="wifi_connect_without_password" tools:ignore="ResourceName">Are you sure to connect without a password?_de</string>
-    <string name="ble_btn_input_wifi">Input Wi-Fi name_de</string>
-    <string name="wifi_connecting" tools:ignore="ResourceName">Connecting...._de</string>
-    <string name="wifi_connect_succeed" tools:ignore="ResourceName">Connection succeed._de</string>
-    <string name="wifi_connect_fail" tools:ignore="ResourceName">Connection failed._de</string>
+    <string name="wifi_choose" tools:ignore="ResourceName">Choose Wi-fi_DE</string>
+    <string name="wifi_5G_tip" tools:ignore="ResourceName">(Not support 5G Wi-Fi)_DE</string>
+    <string name="wifi_enter_password_title" tools:ignore="ResourceName">Enter Wi-Fi Password_DE</string>
+    <string name="wifi_change" tools:ignore="ResourceName">Choose another network_DE</string>
+    <string name="wifi_no_wifi" tools:ignore="ResourceName">No Wi-Fi found_DE</string>
+    <string name="wifi_no_wifi_tip" tools:ignore="ResourceName">You can try to input Wi-Fi name_DE</string>
+    <string name="wifi_connect_without_password" tools:ignore="ResourceName">Are you sure to connect without a password?_DE</string>
+    <string name="ble_btn_input_wifi">Input Wi-Fi name_DE</string>
+    <string name="wifi_connecting" tools:ignore="ResourceName">Connecting...._DE</string>
+    <string name="wifi_connect_succeed" tools:ignore="ResourceName">Connection succeed._DE</string>
+    <string name="wifi_connect_fail" tools:ignore="ResourceName">Connection failed._DE</string>
 
 
-    <string name="about_robot_title" tools:ignore="ResourceName">About Robot_de</string>
-    <string name="about_robot_disconnect" tools:ignore="ResourceName">Disconnect robot_de</string>
-    <string name="about_robot_change_wifi" tools:ignore="ResourceName">Change another Wi-Fi_de</string>
-    <string name="about_robot_version" tools:ignore="ResourceName">Robot Version_de</string>
-    <string name="about_robot_auto_update" tools:ignore="ResourceName">Auto update_de</string>
-    <string name="about_wifi" tools:ignore="ResourceName">Wi-Fi_de</string>
-    <string name="about_robot_serial_number" tools:ignore="ResourceName">Robot serial number_de</string>
-    <string name="about_robot_ip" tools:ignore="ResourceName">Robot IP_de</string>
-    <string name="about_robot_go_connect" tools:ignore="ResourceName">Go to connect_de</string>
-    <string name="about_robot_disconnect_dialogue" tools:ignore="ResourceName">Are you sure to disconnect with Robot %1$s?_de</string>
-    <string name="ble_disconnect">Disconnect_de</string>
+    <string name="about_robot_title" tools:ignore="ResourceName">About Robot_DE</string>
+    <string name="about_robot_disconnect" tools:ignore="ResourceName">Disconnect robot_DE</string>
+    <string name="about_robot_change_wifi" tools:ignore="ResourceName">Change another Wi-Fi_DE</string>
+    <string name="about_robot_version" tools:ignore="ResourceName">Robot Version_DE</string>
+    <string name="about_robot_auto_update" tools:ignore="ResourceName">Auto update_DE</string>
+    <string name="about_wifi" tools:ignore="ResourceName">Wi-Fi_DE</string>
+    <string name="about_robot_serial_number" tools:ignore="ResourceName">Robot serial number_DE</string>
+    <string name="about_robot_ip" tools:ignore="ResourceName">Robot IP_DE</string>
+    <string name="about_robot_go_connect" tools:ignore="ResourceName">Go to connect_DE</string>
+    <string name="about_robot_disconnect_dialogue" tools:ignore="ResourceName">Are you sure to disconnect with Robot %1$s?_DE</string>
+    <string name="ble_disconnect">Disconnect_DE</string>
 
-    <string name="about_robot_language" tools:ignore="ResourceName">Robot Language_de</string>
-    <string name="about_robot_auto_update_off" tools:ignore="ResourceName">Turn it off, the robot can not update to the newest version automatically. And you will receive a prompt of new version._de</string>
-    <string name="common_btn_switch_off" tools:ignore="ResourceName">Turn off_de</string>
-    <string name="about_robot_new_version" tools:ignore="ResourceName">A new robot version is available, will you update it right now?_de</string>
-    <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates..._de</string>
-    <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates._de</string>
+    <string name="ble_robot_language_english" tools:ignore="ResourceName">English_DE</string>
+    <string name="about_robot_language" tools:ignore="ResourceName">Robot Language_DE</string>
+    <string name="about_robot_auto_update_off" tools:ignore="ResourceName">Turn it off, the robot can not update to the newest version automatically. And you will receive a prompt of new version._DE</string>
+    <string name="about_robot_auto_update_on" tools:ignore="ResourceName">Turn on Auto Update, the robot will update when new version is available.  If turn it off,  you can only receive a tip._DE</string>
+    <string name="common_btn_switch_off" tools:ignore="ResourceName">Turn off_DE</string>
+    <string name="common_btn_switch_on" tools:ignore="ResourceName">Turn on_DE</string>
+    <string name="about_robot_new_version" tools:ignore="ResourceName">A new robot version is available, will you update it right now?_DE</string>
+    <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates (#%) ..._DE</string>
+    <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates._DE</string>
+    <string name="about_robot_language_done" tools:ignore="ResourceName">Done_DE</string>
+    <string name="about_robot_language_dialogue" tools:ignore="ResourceName">Are you sure you want to change the robot language to #? This will take you 3 or 4 minutes of time._DE</string>
+    <string name="about_robot_language_changing" tools:ignore="ResourceName">Robot language is changing, please Do Not power off the robot._DE</string>
+    <string name="about_robot_language_changing_success" tools:ignore="ResourceName">Robot language is English now._DE</string>
+    <string name="about_robot_language_low_battery_tips_1" tools:ignore="ResourceName">Robot battery is low! _DE</string>
+    <string name="about_robot_language_low_battery_tips_2" tools:ignore="ResourceName">Robot language can not be changed, please charge the robot first._DE</string>
+    <string name="about_robot_language_changing_fail" tools:ignore="ResourceName">Failed to change the robot language._DE</string>
+    <string name="about_robot_language_package_downloading" tools:ignore="ResourceName">Downloading the package..._DE</string>
+    <string name="about_robot_language_package_download_fail" tools:ignore="ResourceName">Failed to download the package. Please check the network._DE</string>
+    <string name="about_robot_language_package_dialogue" tools:ignore="ResourceName">There is no # package in the robot system, please connect the robot to Wi-Fi and download the package first._DE</string>
 
 
 </resources>

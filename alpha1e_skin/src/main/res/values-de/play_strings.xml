@@ -1,0 +1,11 @@
+<resources>
+     <string name="playlist_title">Playlist_DE</string>
+    <string name="playlist_select">Select_DE</string>
+    <string name="playlist_select_all">Select all_DE</string>
+    <string name="playlist_play">Play_DE</string>
+    <string name="playlist_play_dialogue">Are you sure you want to start a new playlist, if so the previous will be deleted._DE</string>
+    <string name="playlist_20_mins_tips">Alpha will stop within 20 minutes without user interaction to protect the servos(joints)._DE</string>
+    <string name="playlist_stop_toast">Playlist is stop._DE</string>
+    <string name="playlist_standby">On standby_DE</string>
+
+</resources>

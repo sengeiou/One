@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,6 +25,7 @@ import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.ble.Contact.RobotLanguageContact;
 import com.ubt.en.alpha1e.ble.R;
@@ -166,7 +166,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         rvRobotLanguage.setLayoutManager(new LinearLayoutManager(this));
         rvRobotLanguage.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
-
+        AppStatusUtils.setBtBussiness(false);
     }
 
     @Override
@@ -241,45 +241,22 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @OnClick({R2.id.iv_back,R2.id.tv_title_right})
     public void onViewClicked(View view) {
-        switch (view.getId()){
-            case R.id.iv_back:
-                finishActivity();
-                break;
-            case R.id.tv_title_right:
+        int i = view.getId();
+        if (i == R.id.iv_back) {
+            finishActivity();
 
-                final RobotLanguage selectLanguage = getSelectLanguage();
-                if(selectLanguage == null){
-                    return;
-                }
+        } else if (i == R.id.tv_title_right) {
+            final RobotLanguage selectLanguage = getSelectLanguage();
+            if (selectLanguage == null) {
+                return;
+            }
 
-                if(!hasConnectWifi){
-                    new BaseDialog.Builder(this)
-                            .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#",selectLanguage.getLanguageName()) )
-                            .setConfirmButtonId(R.string.base_cancel)
-                            .setConfirmButtonColor(R.color.base_blue)
-                            .setCancleButtonID(R.string.base_connect)
-                            .setCancleButtonColor(R.color.base_blue)
-                            .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                                @Override
-                                public void onClick(DialogPlus dialog, View view) {
-                                    if (view.getId() == R.id.button_confirm) {
-                                        dialog.dismiss();
-
-                                    } else if (view.getId() == R.id.button_cancle) {
-                                        dialog.dismiss();
-
-                                        BleSearchWifiActivity.launch(BleRobotLanguageActivity.this, false, "");
-                                    }
-                                }
-                            }).create().show();
-                    return;
-                }
-
+            if (!hasConnectWifi) {
                 new BaseDialog.Builder(this)
-                        .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_dialogue).replace("#",selectLanguage.getLanguageName()) )
+                        .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#", selectLanguage.getLanguageName()))
                         .setConfirmButtonId(R.string.base_cancel)
                         .setConfirmButtonColor(R.color.base_blue)
-                        .setCancleButtonID(R.string.base_confirm)
+                        .setCancleButtonID(R.string.base_connect)
                         .setCancleButtonColor(R.color.base_blue)
                         .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                             @Override
@@ -288,17 +265,38 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                                     dialog.dismiss();
 
                                 } else if (view.getId() == R.id.button_cancle) {
-
                                     dialog.dismiss();
-                                    ViseLog.d("selectLanguage.getLanguageSingleName() = " + selectLanguage.getLanguageSingleName());
-                                    mPresenter.setRobotLanguage(selectLanguage.getLanguageSingleName());
+
+                                    BleSearchWifiActivity.launch(BleRobotLanguageActivity.this, false, "");
                                 }
                             }
                         }).create().show();
+                return;
+            }
 
-                break;
-            default:
-                break;
+            new BaseDialog.Builder(this)
+                    .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_dialogue).replace("#", selectLanguage.getLanguageName()))
+                    .setConfirmButtonId(R.string.base_cancel)
+                    .setConfirmButtonColor(R.color.base_blue)
+                    .setCancleButtonID(R.string.base_confirm)
+                    .setCancleButtonColor(R.color.base_blue)
+                    .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                        @Override
+                        public void onClick(DialogPlus dialog, View view) {
+                            if (view.getId() == R.id.button_confirm) {
+                                dialog.dismiss();
+
+                            } else if (view.getId() == R.id.button_cancle) {
+
+                                dialog.dismiss();
+                                ViseLog.d("selectLanguage.getLanguageSingleName() = " + selectLanguage.getLanguageSingleName());
+                                mPresenter.setRobotLanguage(selectLanguage.getLanguageSingleName());
+                            }
+                        }
+                    }).create().show();
+
+
+        } else {
         }
     }
 

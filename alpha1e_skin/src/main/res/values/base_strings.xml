@@ -1,0 +1,50 @@
+<resources>
+
+    <string name="common_btn_done">Done</string>
+    <string name="common_btn_search">Search</string>
+
+    <string name="common_btn_delete">Delete</string>
+
+    <string name="common_btn_try_again">Try again</string>
+    <string name="common_btn_kip">Skip</string>
+    <string name="common_btn_next">Next</string>
+    <string name="common_btn_finish">Finish</string>
+    <string name="common_btn_back">Back</string>
+    <string name="common_btn_edit">Edit</string>
+    <string name="common_btn_hint">Hint</string>
+    <string name="common_btn_unknown_error">Unknown error</string>
+
+    <string name="base_confirm">Confirm</string>
+    <string name="base_setting">Setting</string>
+    <string name="base_cancel">Cancel</string>
+    <string name="base_save">Save</string>
+    <string name="base_ok">OK</string>
+    <string name="base_close">Close</string>
+    <string name="base_network_error">Network error. Tap to load again.</string>
+    <string name="base_connect">Connect</string>
+    <string name="base_delete">Delete</string>
+    <string name="base_not_now">Not now</string>
+    <string name="base_update">Update</string>
+    <string name="base_lowpower">Robot Low Battery</string>
+    <string name="base_lowpower_20">20% battery remainning</string>
+    <string name="base_lowpower_5">5% battery remainning</string>
+    <string name="base_lowpower_5_action">5% battery remaining.\nClick close to go to the homepage or click\nsave to save your action script.</string>
+
+    <string name="base_ble_broken_tip">Your bluetooth has disconnected\nwith robot, please reconnect it.</string>
+    <string name="base_upgrade_tip">A new version is available,\nwill you update right now?</string>
+
+
+    <string name="base_ui_settings_language_france">法语</string>
+    <string name="base_ui_settings_language_korean">韩语</string>
+    <string name="base_ui_settings_language_italian">意大利语</string>
+    <string name="base_ui_settings_language_japanese">日语</string>
+    <string name="base_ui_settings_language_spanish">西班牙语</string>
+    <string name="base_ui_settings_language_germen">德语</string>
+    <string name="base_ui_settings_language_english">英语</string>
+    <string name="base_ui_setting_languages_s_chinese">简体中文</string>
+    <string name="base_ui_settings_language_t_chinese">繁体中文</string>
+    <string name="base_ui_settings_language_franch">法语</string>
+    <string name="base_ui_settings_language_russian">俄语</string>
+    <string name="base_ui_settings_language_hungarian">匈牙利语</string>
+    <string name="base_ui_settings_language_turkish">土耳其语</string>
+</resources>

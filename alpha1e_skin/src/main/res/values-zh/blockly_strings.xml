@@ -1,7 +1,0 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-     <string name="block_title">Blockly_ZH</string>
-    <string name="block_my_works">My Works_ZH</string>
-    <string name="block_download">Download_ZH</string>
-    <string name="block_make_up">Start To Program_ZH</string>
-    <string name="block_courses">How to make?_ZH</string>
-</resources>

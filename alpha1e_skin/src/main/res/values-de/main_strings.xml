@@ -1,113 +1,98 @@
 <resources>
-    <string name="main_blockly">Blockly_de</string>
-    <string name="main_joystick">Joystick_de</string>
-    <string name="main_actions">Actions_de</string>
-    <string name="main_community">Community_de</string>
+    <string name="main_blockly">Blockly_DE</string>
+    <string name="main_joystick">Joystick_DE</string>
+    <string name="main_actions">Actions_DE</string>
+    <string name="main_community">Community_DE</string>
 
     <!--控制中心字符-->
-    <string name="main_ctl_control_center_title">Control Center_de</string>
+    <string name="main_ctl_control_center_title">Control Center_DE</string>
     <string name="main_ctl_fall_down_protection">Turn this on so Alpha will protect itself when falling down.
-        Please don’t hold the robot in case of pinching your fingers._de</string>
-    <string name="main_ctl_ir_sensor">Turn this on so Alpha will say hello if it detects things within 50 cm in front of it._de</string>
-    <string name="main_ctl_volume">Volume_de</string>
-    <string name="main_ctl_fall_down">Fall-down Protection_de</string>
-    <string name="main_ctl_ir">IR Sensor_de</string>
-    <string name="main_ctl_min">MIN_de</string>
-    <string name="main_ctl_max">MAX_de</string>
+        Please don’t hold the robot in case of pinching your fingers._DE</string>
+    <string name="main_ctl_ir_sensor">Turn this on so Alpha will say hello if it detects things within 50 cm in front of it._DE</string>
+    <string name="main_ctl_volume">Volume_DE</string>
+    <string name="main_ctl_fall_down">Fall-down Protection_DE</string>
+    <string name="main_ctl_ir">IR Sensor_DE</string>
+    <string name="main_ctl_min">MIN_DE</string>
+    <string name="main_ctl_max">MAX_DE</string>
 
     <!--用户中心-->
-    <string name="main_save">Save_de</string>
-    <string name="main_profile_tab">Profile_de</string>
-    <string name="main_profile_photo_camera">Camera_de</string>
-    <string name="main_profile_photo_albums">Albums_de</string>
-    <string name="main_profile_birthday">Birthday_de</string>
-    <string name="main_profile_gender">Gender_de</string>
-    <string name="main_profile_gender_female">Female_de</string>
-    <string name="main_profile_gender_male">Male_de</string>
-    <string name="main_profile_gender_robot">Robot_de</string>
-    <string name="main_profile_country">Country_de</string>
-    <string name="main_profile_unfilled">Unfilled_de</string>
-    <string name="main_profile_saveFail">Save profile fail!_de</string>
-    <string name="main_profile_quit_edit">Your changes have not been saved, are you sure you want to quit?_de</string>
+    <string name="main_save">Save_DE</string>
+    <string name="main_profile_tab">Profile_DE</string>
+    <string name="main_profile_photo_camera">Camera_DE</string>
+    <string name="main_profile_photo_albums">Albums_DE</string>
+    <string name="main_profile_birthday">Birthday_DE</string>
+    <string name="main_profile_gender">Gender_DE</string>
+    <string name="main_profile_gender_female">Female_DE</string>
+    <string name="main_profile_gender_male">Male_DE</string>
+    <string name="main_profile_gender_robot">Robot_DE</string>
+    <string name="main_profile_country">Country_DE</string>
+    <string name="main_profile_unfilled">Unfilled_DE</string>
+    <string name="main_profile_saveFail">Save profile fail!_DE</string>
+    <string name="main_profile_quit_edit">Your changes have not been saved, are you sure you want to quit?_DE</string>
 
 
-    <string name="main_notifications_tab">Notifications_de</string>
-    <string name="main_notifications_nothing">No Notifications Yet_de</string>
+    <string name="main_notifications_tab">Notifications_DE</string>
+    <string name="main_notifications_nothing">No Notifications Yet_DE</string>
 
-    <string name="main_about_app_tab">About app_de</string>
-    <string name="main_about_app_version">Alpha Ebot V_de</string>
-    <string name="main_about_app_check">Check for Updates_de</string>
-    <string name="main_about_app_check_latest_version_toast">This is the latest version._de</string>
-    <string name="main_about_app_check_update_dialogue">Are you sure to update to the latest version?_de</string>
-    <string name="main_about_app_check_update_succeed">Update was successful._de</string>
-    <string name="main_about_app_check_updatet_fail_toast">Failed to update the App.  Please check the network.._de</string>
-    <string name="main_about_app_check_fail_toast">Failed to obtain version information. Please check the network._de</string>
-
-
-    <string name="main_contact_us_tab">Contact us_de</string>
-    <string name="main_contact_us_customer_service">Customer Service Number_de</string>
-    <string name="main_contact_us_telephone">86&#8211;400&#8211;6666&#8211;700_de</string>
-    <string name="main_contact_us_telephone_call">Call \n86&#8211;400&#8211;6666&#8211;700?_de</string>
-
-    <string name="main_contact_us_email">Email_de</string>
-    <string name="main_contact_us_email_address">ucare@ubtrobot.com_de</string>
-    <string name="main_contact_us_email_send">Send an email to \n ucare@ubtrobot.com?_de</string>
+    <string name="main_about_app_tab">About app_DE</string>
+    <string name="main_about_app_version">Alpha Ebot V_DE</string>
+    <string name="main_about_app_check">Check for Updates_DE</string>
+    <string name="main_about_app_check_latest_version_toast">This is the latest version._DE</string>
+    <string name="main_about_app_check_update_dialogue">Are you sure to update to the latest version?_DE</string>
+    <string name="main_about_app_check_update_succeed">Update was successful._DE</string>
+    <string name="main_about_app_check_updatet_fail_toast">Failed to update the App.  Please check the network.._DE</string>
+    <string name="main_about_app_check_fail_toast">Failed to obtain version information. Please check the network._DE</string>
 
 
-    <string name="main_contact_us_website_name">Official website_de</string>
-    <string name="main_contact_us_website_address">www.ubtrobot.com_de</string>
-    <string name="main_contact_us_website_go">Go to www.ubtrobot.com?_de</string>
+    <string name="main_contact_us_tab">Contact us_DE</string>
+    <string name="main_contact_us_customer_service">Customer Service Number_DE</string>
+    <string name="main_contact_us_telephone">86&#8211;400&#8211;6666&#8211;700_DE</string>
+    <string name="main_contact_us_telephone_call">Call \n86&#8211;400&#8211;6666&#8211;700?_DE</string>
 
-    <string name="main_help_feedback_tab">Help &#38; Feedback_de</string>
-    <string name="main_help_feedback_title">FAQ_de</string>
-    <string name="main_help_feedback_details">Details_de</string>
-    <string name="main_help_feedback_give_feedback">Give feedback_de</string>
-    <string name="main_help_feedback_give_feedback_helpful">Helpful_de</string>
-    <string name="main_help_feedback_give_feedback_helpless">Helpless_de</string>
-    <string name="main_help_network_error">Network error. Tap to load again._de</string>
+    <string name="main_contact_us_email">Email_DE</string>
+    <string name="main_contact_us_email_address">ucare@ubtrobot.com_DE</string>
+    <string name="main_contact_us_email_send">Send an email to \n ucare@ubtrobot.com?_DE</string>
 
 
-    <string name="main_language_tab">Language_de</string>
-    <string name="main_language_content">Current Language:  %s</string>
-    <string name="main_change_language">Change Language_de</string>
-    <string name="main_language_title">App Language_de</string>
-    <string name="main_language_done">Done_de</string>
-    <string name="main_log_out_tab">Log out_de</string>
-    <string name="main_log_out_button">Log out account_de</string>
-    <string name="main_log_out_dialogue">Are you sure to log out?_de</string>
+    <string name="main_contact_us_website_name">Official website_DE</string>
+    <string name="main_contact_us_website_address">www.ubtrobot.com_DE</string>
+    <string name="main_contact_us_website_go">Go to www.ubtrobot.com?_DE</string>
 
-    <string name="main_ui_settings_language_france">法语_de</string>
-    <string name="main_ui_settings_language_korean">韩语_de</string>
-    <string name="main_ui_settings_language_italian">意大利语_de</string>
-    <string name="main_ui_settings_language_japanese">日语_de</string>
-    <string name="main_ui_settings_language_spanish">西班牙语_de</string>
-    <string name="main_ui_settings_language_germen">德语_de</string>
-    <string name="main_ui_settings_language_english">英语_de</string>
-    <string name="main_ui_setting_languages_s_chinese">简体中文_de</string>
-    <string name="main_ui_settings_language_t_chinese">繁体中文_de</string>
-    <string name="main_ui_settings_language_franch">法语_de</string>
-    <string name="main_ui_settings_language_russian">俄语_de</string>
-    <string name="main_ui_settings_language_hungarian">匈牙利语_de</string>
-    <string name="main_ui_settings_language_turkish">土耳其语_de</string>
+    <string name="main_help_feedback_tab">Help &#38; Feedback_DE</string>
+    <string name="main_help_feedback_title">FAQ_DE</string>
+    <string name="main_help_feedback_details">Details_DE</string>
+    <string name="main_help_feedback_give_feedback">Give feedback_DE</string>
+    <string name="main_help_feedback_give_feedback_helpful">Helpful_DE</string>
+    <string name="main_help_feedback_give_feedback_helpless">Helpless_DE</string>
+    <string name="main_help_network_error">Network error. Tap to load again._DE</string>
 
 
-    <string name="main_guide_robotstatus">Click here to connect to the robot and its Wi-Fi.\n
-        More information is also available here._de</string>
-    <string name="main_guide_voicecmd">Click here to know how to talk with Alpha._de</string>
-    <string name="main_guide_playcenter">A playlist of the robot actions._de</string>
-    <string name="main_guide_actions">Make up actions for the robot.\nYou can also get a series of lessons here._de</string>
-    <string name="main_guide_blockly">Program for the robot. You can also get a series of lessons here._de</string>
-    <string name="main_guide_community">Share your works or communicate with \nother users through the community._de</string>
-    <string name="main_guide_joystick">A joystick to control the robot._de</string>
-
-    <string name="main_guide_got_it">Got it_de</string>
-    <string name="main_guide_skip">Skip_de</string>
+    <string name="main_language_tab">Language_DE</string>
+    <string name="main_language_content">Current Language: %s_DE</string>
+    <string name="main_change_language">Change Language_DE</string>
+    <string name="main_language_title">App Language_DE</string>
+    <string name="main_language_done">Done_DE</string>
+    <string name="main_log_out_tab">Log out_DE</string>
+    <string name="main_log_out_button">Log out account_DE</string>
+    <string name="main_log_out_dialogue">Are you sure to log out?_DE</string>
 
 
-    <string name="main_common_cancel">Cancel_de</string>
-    <string name="main_common_sure">Sure_de</string>
-    <string name="main_common_confirm">Confirm_de</string>
-    <string name="main_common_quit">Quit_de</string>
+    <string name="main_guide_robotstatus">Click here to connect to the robot and its Wi-Fi.\nMore information is also available here._DE</string>
+    <string name="main_guide_voicecmd">Click here to know how to talk with Alpha._DE</string>
+    <string name="main_guide_playcenter">A playlist of the robot actions._DE</string>
+    <string name="main_guide_actions">Make up actions for the robot.\nYou can also get a series of lessons here._DE</string>
+    <string name="main_guide_blockly">Program for the robot. You can also get a series of lessons here._DE</string>
+    <string name="main_guide_community">Share your works or communicate with \nother users through the community._DE</string>
+    <string name="main_guide_joystick">A joystick to control the robot._DE</string>
+
+    <string name="main_guide_got_it">Got it_DE</string>
+    <string name="main_guide_skip">Skip_DE</string>
+
+
+    <string name="main_common_cancel">Cancel_DE</string>
+    <string name="main_common_sure">Sure_DE</string>
+    <string name="main_common_confirm">Confirm_DE</string>
+    <string name="main_common_quit">Quit_DE</string>
 
 
     <string-array name="main_vol_labels">
