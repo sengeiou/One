@@ -243,6 +243,10 @@ public class ActionsEditHelper implements IProtolPackListener {
             }
         } else if (cmd == BTCmd.DV_READ_BATTERY) {
             ViseLog.i("电量data:" + HexUtil.encodeHexStr(packet.getmParam()));
+            if(packet.getmParamLen() < 4){
+                ViseLog.e("错误参数，丢弃!!!");
+                return;
+            }
             int power = packet.getmParam()[3];
             if (power <= 5) {
                 if (mListener != null) {
