@@ -4,6 +4,9 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -35,11 +38,17 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
 
         ViseLog.d("robotLanguage = " + robotLanguage.getLanguageName());
 
+        RelativeLayout rlDownloadTip = helper.getView(R.id.rl_download_tip);
+        rlDownloadTip.setVisibility(View.VISIBLE);
+
+        TextView downloadTip = helper.getView(R.id.tv_language_update_tip);
+        ProgressBar pbProgress = helper.getView(R.id.pb_progress);
+
         ImageView ivChoose = helper.getView(R.id.iv_choose);
         if(robotLanguage.isSelect()){
             ivChoose.setVisibility(View.VISIBLE);
         }else {
-            ivChoose.setVisibility(View.GONE);
+            ivChoose.setVisibility(View.INVISIBLE);
         }
 
     }

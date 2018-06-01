@@ -6,6 +6,7 @@ import android.content.Context;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
+import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 
@@ -37,6 +38,8 @@ public class BleStatuContact {
         void setAutoUpgradeStatus(int status);
 
         void updateUpgradeProgress(UpgradeProgressInfo progressInfo);
+
+        void setRobotLanguage(BleRobotLanguageInfo robotLanguage);
     }
 
     public interface Presenter extends BasePresenter<View> {

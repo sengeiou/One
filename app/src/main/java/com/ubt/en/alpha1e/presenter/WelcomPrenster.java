@@ -96,7 +96,7 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
                                     /**
                                      * 根据手机系统语言再从语言包中选择一种语言
                                      */
-                                    final String Language = SkinManager.getInstance().getLanguageByLocal(R.array.main_ui_lanuages_up);
+                                    final String Language = SkinManager.getInstance().getLanguageByLocal(R.array.base_ui_lanuages_up);
                                     ViseLog.d("当前语言包===" + Language);
                                     SkinManager.getInstance().loadSkin(Language, new SkinManager.SkinListener() {
                                         @Override
