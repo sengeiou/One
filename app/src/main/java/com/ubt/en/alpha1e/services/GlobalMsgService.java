@@ -19,6 +19,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdReadBattery;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
+import com.ubt.baselib.customView.BaseUpdateTipDialog;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -180,6 +181,11 @@ public class GlobalMsgService extends Service {
                             }else{
                                 isNeed20Toast = true;
                             }
+                        }
+                        break;
+                    case BTCmd.DV_DO_UPGRADE_SOFT:
+                        if(0x01 == packet.getmParam()[0]){
+                            BaseUpdateTipDialog.getInstance().show();
                         }
                         break;
                     default:
