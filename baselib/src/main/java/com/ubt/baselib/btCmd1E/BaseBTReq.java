@@ -7,6 +7,9 @@ package com.ubt.baselib.btCmd1E;
  */
 
 public class BaseBTReq {
+
+    private static int seq = 1;//随机数
+
     private UbtBTProtocol btcmd;
 
     protected void initReq(byte cmd, byte[] param){
@@ -19,5 +22,9 @@ public class BaseBTReq {
 
     public String toString(){
         return btcmd.toString();
+    }
+
+    public static int getSeq(){
+        return seq++;
     }
 }

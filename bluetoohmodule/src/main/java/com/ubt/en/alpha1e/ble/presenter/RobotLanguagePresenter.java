@@ -1,24 +1,52 @@
 package com.ubt.en.alpha1e.ble.presenter;
 
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
+import com.ubt.baselib.BlueTooth.BTReadData;
+import com.ubt.baselib.btCmd1E.BTCmd;
+import com.ubt.baselib.btCmd1E.BTCmdHelper;
+import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
+import com.ubt.baselib.btCmd1E.IProtolPackListener;
+import com.ubt.baselib.btCmd1E.ProtocolPacket;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguages;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdSetLanguage;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BaseResponseModel;
+import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
+import com.ubt.bluetoothlib.base.BluetoothState;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.BleHttpEntity;
 import com.ubt.en.alpha1e.ble.Contact.RobotLanguageContact;
 import com.ubt.en.alpha1e.ble.model.BaseModel;
+import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
+import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
+import com.ubt.en.alpha1e.ble.model.BleRobotLanguageList;
+import com.ubt.en.alpha1e.ble.model.BleSetRobotLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
+import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.requestModel.GetRobotLanguageRequest;
 import com.vise.log.ViseLog;
 import com.vise.utils.assist.JSONUtil;
+import com.vise.utils.convert.HexUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,11 +63,23 @@ import java.util.List;
  * version
  */
 
-public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageContact.View> implements RobotLanguageContact.Presenter {
+public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageContact.View> implements RobotLanguageContact.Presenter, IProtolPackListener {
 
+    private BlueClientUtil mBlueClientUtil;
 
     @Override
-    public void getRobotLanguageList() {
+    public void init(Context context) {
+        mBlueClientUtil = BlueClientUtil.getInstance();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void unRegister() {
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void getRobotLanguageListFromWeb() {
         GetRobotLanguageRequest robotLanguageRequest = new GetRobotLanguageRequest();
         robotLanguageRequest.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         robotLanguageRequest.setUserId(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID));
@@ -113,5 +153,109 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
             }
         }
         return languages;
+    }
+
+    private List<RobotLanguage> dealRobotLanguageExistData(String[] language){
+        List<RobotLanguage> languages = new ArrayList<>();
+
+        if(language != null){
+            ViseLog.d("robotLanguageList = " + language.length);
+            for(String val : language){
+                RobotLanguage robotLanguage = new RobotLanguage();
+                robotLanguage.setLanguageName(val);
+                robotLanguage.setLanguageSingleName(val);
+                robotLanguage.setSelect(false);
+                languages.add(robotLanguage);
+            }
+        }
+        return languages;
+    }
+
+
+    @Override
+    public void getRobotLanguageListFromRobot() {
+        mBlueClientUtil.sendData(new BTCmdGetLanguages().toByteArray());
+    }
+
+    @Override
+    public void setRobotLanguage(String language) {
+        mBlueClientUtil.sendData(new BTCmdSetLanguage(language).toByteArray());
+    }
+
+    @Override
+    public void getRobotWifiStatus() {
+        mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
+    }
+
+    @Override
+    public void onProtocolPacket(ProtocolPacket packet) {
+        switch (packet.getmCmd()) {
+            case BTCmd.DV_READ_NETWORK_STATUS:
+                String networkInfoJson = BluetoothParamUtil.bytesToString(packet.getmParam());
+                ViseLog.d(networkInfoJson);
+                BleNetWork bleNetWork = praseNetWork(networkInfoJson);
+                if (mView != null) {
+                    mView.setRobotNetWork(bleNetWork);
+                }
+                break;
+            case BTCmd.DV_COMMON_CMD:
+                ViseLog.d("DV_COMMON_CMD = " + BluetoothParamUtil.bytesToString(packet.getmParam()));
+
+                String commonCmdJson = BluetoothParamUtil.bytesToString(packet.getmParam());
+                BleBaseModelInfo bleBaseModel = GsonImpl.get().toObject(commonCmdJson, BleBaseModelInfo.class);
+
+                ViseLog.d("bleBaseModel.event = " + bleBaseModel.event);
+                if(bleBaseModel.event == 5){
+                    BleRobotLanguageList robotLanguageList = GsonImpl.get().toObject(commonCmdJson, BleRobotLanguageList.class);
+                    ViseLog.d("robotLanguageList = " + robotLanguageList.language);
+                    if(mView != null){
+
+                        mView.setRobotLanguageListExist(dealRobotLanguageExistData(robotLanguageList.language));
+                    }
+                }else if(bleBaseModel.event == 8){
+                    BleSetRobotLanguageRsp setRobotLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSetRobotLanguageRsp.class);
+                    ViseLog.d("robotLanguageList = " + setRobotLanguageRsp.rescode);
+                    if(mView != null){
+                        mView.setRobotLanguageResult(setRobotLanguageRsp.rescode);
+                    }
+                }else if(bleBaseModel.event == 7){
+                    BleDownloadLanguageRsp downloadLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleDownloadLanguageRsp.class);
+                    ViseLog.d("downloadLanguageRsp = " + downloadLanguageRsp);
+                    if(mView != null){
+                        mView.setDownloadLanguage(downloadLanguageRsp);
+                    }
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 读取蓝牙回调数据
+     *
+     * @param readData
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReadData(BTReadData readData) {
+        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+    }
+
+    public BleNetWork praseNetWork(String netWork) {
+
+        BleNetWork bleNetWork = null;
+
+        try {
+            JSONObject object = new JSONObject(netWork);
+            boolean statu = object.optBoolean("status");
+            String wifiName = object.optString("name");
+            String ip = object.optString("ip");
+            bleNetWork = new BleNetWork(statu, wifiName, ip);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return bleNetWork;
     }
 }

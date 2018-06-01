@@ -472,4 +472,11 @@ public interface BTCmd {
      * }
      */
     byte DV_CONTROL_HIBITS_PLAY = (byte) 0x99;
+
+
+    /**
+     * 获取行为language状态
+     * 回复：{"seq": "1", "event": "1" }
+     */
+    byte DV_COMMON_CMD = (byte) 0x6D;
 }

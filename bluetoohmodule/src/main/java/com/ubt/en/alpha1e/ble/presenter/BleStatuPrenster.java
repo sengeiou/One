@@ -8,9 +8,11 @@ import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BTCmdHelper;
+import com.ubt.baselib.btCmd1E.BaseBTReq;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
@@ -24,6 +26,9 @@ import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
+import com.ubt.en.alpha1e.ble.model.BleBaseModel;
+import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
+import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
@@ -145,6 +150,8 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                     mView.setRobotSN(new String(packet.getmParam()));
                 }
                 mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
+
+                mBlueClientUtil.sendData(new BTCmdGetLanguageStatus().toByteArray());
                 break;
 
             case BTCmd.DV_READ_AUTO_UPGRADE_STATE:
@@ -165,6 +172,22 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 if(mView != null){
                     mView.updateUpgradeProgress(upgradeProgressInfo);
                 }
+                break;
+
+            case BTCmd.DV_COMMON_CMD:
+                ViseLog.d("DV_COMMON_CMD = " + BluetoothParamUtil.bytesToString(packet.getmParam()));
+
+                String commonCmdJson = BluetoothParamUtil.bytesToString(packet.getmParam());
+                BleBaseModelInfo bleBaseModel = GsonImpl.get().toObject(commonCmdJson, BleBaseModelInfo.class);
+
+                ViseLog.d("bleBaseModel.event = " + bleBaseModel.event);
+                if(bleBaseModel.event == 1){
+                    BleRobotLanguageInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotLanguageInfo.class);
+                    if(mView != null){
+                        mView.setRobotLanguage(robotLanguageInfo);
+                    }
+                }
+
                 break;
             default:
                 break;

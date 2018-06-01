@@ -28,6 +28,7 @@ import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
+import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.BleStatuPrenster;
@@ -44,6 +45,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     private static final int UPDATE_AUTO_UPGRADE = 1; //更新自动升级状态
     private static final int UPDATE_UPGRADE_PROGRESS = 2; //更新升级进度
+    private static final int UPDATE_ROBOT_LANGUAGE = 3; //更新机器人语言
 
     @BindView(R2.id.bleImageview3)
     ImageView mBleImageview3;
@@ -150,7 +152,12 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                         }
                     }
                     break;
-
+                case UPDATE_ROBOT_LANGUAGE:
+                    BleRobotLanguageInfo robotLanguageInfo = (BleRobotLanguageInfo)msg.obj;
+                    if(robotLanguageInfo != null){
+                        tvRobotLanguage.setText(robotLanguageInfo.lang);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -202,8 +209,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
         } else if (i == R.id.tv_robot_language) {
             ViseLog.d("tv_robot_language");
-            BleRobotLanguageActivity.launch(this, "English");
-
+            String robotLanguage= tvRobotLanguage.getText().toString();
+            BleRobotLanguageActivity.launch(this, robotLanguage);
         } else if (i == R.id.ckb_auto_upgrade) {
             ViseLog.d("ckb_auto_upgrade");
             //成功之后才切换
@@ -354,6 +361,14 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     }
 
     @Override
+    public void setRobotLanguage(BleRobotLanguageInfo robotLanguage) {
+        Message msg = new Message();
+        msg.what = UPDATE_ROBOT_LANGUAGE;
+        msg.obj = robotLanguage;
+        mHandler.sendMessage(msg);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.unRegister();
@@ -406,4 +421,6 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     public void onViewClicked() {
 
     }
+
+
 }
