@@ -17,7 +17,7 @@ public class BleDownloadLanguageRsp extends BleBaseModel {
 
     public String name = "";
 
-    public String langauage = "";
+    public String language = "";
 
     public BleDownloadLanguageRsp thiz;
 
@@ -73,7 +73,7 @@ public class BleDownloadLanguageRsp extends BleBaseModel {
                 "result=" + result +
                 ",progess=" + progess +
                 ",name=" + name +
-                ",langauage=" + langauage +
+                ",langauage=" + language +
                 '}';
     }
 }

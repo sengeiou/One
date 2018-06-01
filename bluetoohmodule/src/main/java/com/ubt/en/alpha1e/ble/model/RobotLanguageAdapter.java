@@ -45,6 +45,7 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
         }else {
             rlDownloadTip.setVisibility(View.VISIBLE);
             TextView downloadTip = helper.getView(R.id.tv_language_update_tip);
+            TextView tvProgress = helper.getView(R.id.tv_progress);
             ProgressBar pbProgress = helper.getView(R.id.pb_progress);
 
             if(robotLanguage.getResult() == 0){
@@ -53,6 +54,7 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
             }else {
                 downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
                 pbProgress.setProgress(robotLanguage.getProgess());
+                tvProgress.setText(robotLanguage.getProgess() + "%");
             }
         }
 

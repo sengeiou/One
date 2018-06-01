@@ -127,7 +127,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                         ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
                     }else if(downloadLanguageRsp.result == 0){
                         for(RobotLanguage robotLanguage : mRobotLanguages){
-                            if(robotLanguage.getLanguageSingleName().equals(downloadLanguageRsp.langauage)){
+                            if(robotLanguage.getLanguageSingleName().equals(downloadLanguageRsp.language)){
                                 robotLanguage.setResult(downloadLanguageRsp.result);
                                 robotLanguage.setProgess(downloadLanguageRsp.progess);
                                 mAdapter.notifyDataSetChanged();
@@ -210,10 +210,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void setRobotLanguageResult(int status) {
-        Message msg = new Message();
-        msg.what = SHOW_SET_LANGUAGE_RESULT;
-        msg.arg1 = status;
-        mHandler.sendMessage(msg);
+
     }
 
     @Override
