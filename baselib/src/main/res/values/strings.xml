@@ -24,12 +24,15 @@
     <string name="base_network_error">Network error. Tap to load again.</string>
     <string name="base_connect">Connect</string>
     <string name="base_delete">Delete</string>
+    <string name="base_not_now">Not now</string>
+    <string name="base_update">Update</string>
     <string name="base_lowpower">Robot Low Battery</string>
     <string name="base_lowpower_20">20% battery remainning</string>
     <string name="base_lowpower_5">5% battery remainning</string>
     <string name="base_lowpower_5_action">5% battery remaining.\nClick close to go to the homepage or click\nsave to save your action script.</string>
 
     <string name="base_ble_broken_tip">Your bluetooth has disconnected\nwith robot, please reconnect it.</string>
+    <string name="base_upgrade_tip">A new version is available,\nwill you update right now?</string>
 
 
     <string name="base_ui_settings_language_france">法语</string>

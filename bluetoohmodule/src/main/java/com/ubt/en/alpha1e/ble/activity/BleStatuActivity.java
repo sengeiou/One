@@ -3,6 +3,7 @@ package com.ubt.en.alpha1e.ble.activity;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -117,7 +118,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     private BleRobotLanguageInfo currentRobotLanguageInfo = null;
 
-    private Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -142,11 +143,12 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                             tvRobotUpdateTip.setVisibility(View.VISIBLE);
                             ivDownloadFailWarning.setVisibility(View.VISIBLE);
                         } else if (progressInfo.status == 1) {//downloading
+                            if(!TextUtils.isEmpty(progressInfo.progress)) {
+                                tvRobotUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download).replace("#", progressInfo.progress));
+                                tvRobotUpdateTip.setTextColor(getResources().getColor(R.color.base_blue));
 
-                            tvRobotUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download).replace("#", progressInfo.progress));
-                            tvRobotUpdateTip.setTextColor(getResources().getColor(R.color.base_blue));
-
-                            tvRobotUpdateTip.setVisibility(View.VISIBLE);
+                                tvRobotUpdateTip.setVisibility(View.VISIBLE);
+                            }
                             ivDownloadFailWarning.setVisibility(View.GONE);
 
                         } else if (progressInfo.status == 2) {//download success
@@ -186,15 +188,6 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         ViseLog.d("-onResume-");
         mPresenter.getRobotBleConnect();
 
-        //=============test==========
-        UpgradeProgressInfo upgradeProgressInfo = new UpgradeProgressInfo();
-        upgradeProgressInfo.status = 0;
-        upgradeProgressInfo.progress = "50";
-
-        Message msg = new Message();
-        msg.what = UPDATE_UPGRADE_PROGRESS;
-        msg.obj = upgradeProgressInfo;
-        mHandler.sendMessage(msg);
     }
 
     @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect, R2.id.tv_robot_language, R2.id.ckb_auto_upgrade})

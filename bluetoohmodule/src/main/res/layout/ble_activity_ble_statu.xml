@@ -221,6 +221,7 @@
                         android:gravity="left|center_vertical"
                         android:ellipsize="end"
                         android:text="@string/about_robot_auto_update_download"
+                        android:visibility="invisible"
                         />
 
                 </RelativeLayout>
