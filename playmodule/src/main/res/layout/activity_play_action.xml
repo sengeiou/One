@@ -17,7 +17,7 @@
         <RelativeLayout
             android:id="@+id/play_top_title"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"
+            android:layout_height="@dimen/dp_40"
             >
 
             <ImageView
@@ -82,9 +82,41 @@
                 android:gravity="center"
                 />
 
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_20_tip"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_40"
+            android:background="@color/bg_red_color"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:id="@+id/tv_20_tip"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_30"
+                android:text="@string/playlist_20_mins_tips"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/text_red_color"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_22"
+                />
+
+            <ImageView
+                android:id="@+id/iv_20_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close_tips"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_15"
+                />
 
         </RelativeLayout>
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_action_list"
@@ -326,7 +358,6 @@
                 android:scrollbars="none"
                 android:visibility="visible"
                 />
-
 
         </RelativeLayout>
 

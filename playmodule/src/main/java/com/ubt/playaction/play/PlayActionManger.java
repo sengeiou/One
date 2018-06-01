@@ -1,5 +1,7 @@
 package com.ubt.playaction.play;
 
+import android.text.TextUtils;
+
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
@@ -15,6 +17,7 @@ import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.playaction.R;
 import com.ubt.playaction.model.ActionData;
+import com.ubt.playaction.model.ActionIconAndTime;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
 
@@ -192,6 +195,15 @@ public class PlayActionManger implements IProtolPackListener {
             case BTCmd.DV_PLAYACTION:
                 ViseLog.d("DV_PLAYACTION");
                 break;
+            case BTCmd.DV_TAP_HEAD:
+                ViseLog.d("DV_TAP_HEAD");
+                playState = STOP;
+                currentPlayActionName = "";
+                cycle = false;
+                if(listener != null) {
+                    listener.notePlayStop();
+                }
+                break;
             default:
                 break;
         }
@@ -208,8 +220,29 @@ public class PlayActionManger implements IProtolPackListener {
         ViseLog.d("double 1:" + actionName);
         ActionData actionData = new ActionData();
         actionData.setActionName(actionName);
-        actionData.setActionIcon(R.drawable.img_dance);
-        actionData.setActionTime("03:25");
+        if(!TextUtils.isEmpty(ActionIconAndTime.getImageIcon(actionName))){
+            if(ActionIconAndTime.getImageIcon(actionName).equals("action")){
+                actionData.setActionIcon(R.drawable.img_workout);
+            }else if(ActionIconAndTime.getImageIcon(actionName).equals("dance")){
+                actionData.setActionIcon(R.drawable.img_dance);
+            }else if(ActionIconAndTime.getImageIcon(actionName).equals("taiji")){
+                actionData.setActionIcon(R.drawable.img_taichi);
+            }else if(ActionIconAndTime.getImageIcon(actionName).equals("yoga")){
+                actionData.setActionIcon(R.drawable.img_yoga);
+            }else if(ActionIconAndTime.getImageIcon(actionName).equals("story")){
+                actionData.setActionIcon(R.drawable.img_story);
+            }else{
+                actionData.setActionIcon(R.drawable.img_dance);
+            }
+        }else{
+            actionData.setActionIcon(R.drawable.img_dance);
+        }
+
+        if(!TextUtils.isEmpty(ActionIconAndTime.getTime(actionName))){
+            actionData.setActionTime(ActionIconAndTime.getTime(actionName));
+        }else{
+            actionData.setActionTime("03:25");
+        }
         actionDataList.add(actionData);
 
 
