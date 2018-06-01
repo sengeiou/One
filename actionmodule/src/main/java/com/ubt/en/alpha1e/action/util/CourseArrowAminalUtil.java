@@ -94,6 +94,9 @@ public class CourseArrowAminalUtil {
             animation = new myAnimation(mImageView, images, durations, context);
         } else {
             mImageView.setVisibility(View.GONE);
+            if (animation!=null){
+                animation.recyle();
+            }
             animation = null;
         }
 //        AnimationDrawable animationDrawable = null;
@@ -122,6 +125,7 @@ public class CourseArrowAminalUtil {
         private int[] mImageRes;
         private int[] durations;
         private Context mContext;
+        Bitmap bitmap;
 
         public myAnimation(ImageView pImageView, int[] pImageRes,
                            int[] durations, Context context) {
@@ -138,7 +142,7 @@ public class CourseArrowAminalUtil {
             mImageView.postDelayed(new Runnable() {     //采用延迟启动子线程的方式
                 @Override
                 public void run() {
-                    Bitmap bitmap = BitmapUtil.compressImage(mContext.getResources(), mImageRes[pImageNo], 2);
+                    bitmap = BitmapUtil.compressImage(mContext.getResources(), mImageRes[pImageNo], 2);
                     mImageView.setImageBitmap(bitmap);
                     if (pImageNo == mImageRes.length - 1) {
                         play(0);
@@ -148,6 +152,12 @@ public class CourseArrowAminalUtil {
                 }
             }, durations[pImageNo]);
 
+        }
+
+        private void recyle() {
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
         }
     }
 }

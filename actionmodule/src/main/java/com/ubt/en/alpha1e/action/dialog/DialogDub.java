@@ -2,6 +2,7 @@ package com.ubt.en.alpha1e.action.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.BitmapUtil;
 import com.ubt.baselib.utils.NameLengthFilter;
 import com.ubt.baselib.utils.TimeUtils;
 import com.ubt.baselib.utils.ToastUtils;
@@ -316,7 +318,8 @@ public class DialogDub extends Dialog {
                 if (type == 1 && null != ivRecordArrow) {
                     CourseArrowAminalUtil.startViewAnimal(false, ivRecordArrow, 1);
                 }
-                ivDao.setImageResource(R.drawable.countdown);
+                Bitmap bitmap = BitmapUtil.compressImage(context.getResources(),R.drawable.countdown,2);
+                ivDao.setImageBitmap(bitmap);
                 tvNumber.setVisibility(View.VISIBLE);
                 daoCountDown.start();
                 ivDao.setEnabled(false);
