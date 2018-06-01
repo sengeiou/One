@@ -27,6 +27,7 @@
     <string name="login_service_privacy">Terms of Service and Privacy Policy.</string>
     <string name="login_signup_succeed_title">Sign up Complete</string>
     <string name="login_signup_error_prompt">Sign up error!</string>
+
     <string name="login_select_privacy">Please read and confirm the terms below. </string>
     <string name="login_next">Next</string>
     <string name="login_finish">Finish</string>

@@ -13,27 +13,66 @@
         android:background="@color/base_line"
         />
 
-    <ImageView
-        android:id="@+id/iv_choose"
-        android:layout_width="@dimen/dp_20"
-        android:layout_height="@dimen/dp_20"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dp_10"
-        android:layout_toRightOf="@+id/tv_wifi_name"
-        android:src="@drawable/img_choose"
-        android:visibility="gone"
-        />
-
     <TextView
         android:id="@+id/tv_robot_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="@dimen/dp_70"
         android:layout_marginTop="10dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:layout_centerVertical="true"
         android:textColor="@color/base_tv_large_black"
         android:textSize="@dimen/sp_16"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_download_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/tv_robot_language"
+        android:layout_toLeftOf="@+id/iv_choose"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/tv_language_update_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/base_blue"
+            android:textSize="@dimen/sp_12"
+            android:gravity="left|center_vertical"
+            android:ellipsize="end"
+            android:text="@string/about_robot_language_package_downloading"
+            />
+
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            style="@style/StyleProgressBarMini"
+            android:layout_below="@+id/tv_language_update_tip"
+            android:layout_marginTop="@dimen/dp_7"
+            android:layout_marginRight="@dimen/dp_40"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_progressbar_bg"
+            android:max="100"
+            android:progress="36"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_10"
+            android:textColor="#A7ABB3"
+            android:layout_below="@+id/tv_language_update_tip"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/sp_12"
+            android:gravity="center_vertical"
+            android:text="0%"
+            />
+
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_robot_language_sub"
@@ -45,5 +84,17 @@
         android:textColor="@color/base_tv_large_black"
         android:textSize="@dimen/sp_14"
         android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_choose"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_toRightOf="@+id/tv_wifi_name"
+        android:src="@drawable/img_choose"
+        android:visibility="invisible"
+        />
 
 </RelativeLayout>

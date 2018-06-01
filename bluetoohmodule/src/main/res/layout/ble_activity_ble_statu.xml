@@ -262,7 +262,6 @@
                     style="@style/ble_tv_robot_right"
                     android:drawablePadding="@dimen/dp_10"
                     android:drawableRight="@drawable/more"
-                    android:text="@string/ble_robot_language_english"
                     />
 
 

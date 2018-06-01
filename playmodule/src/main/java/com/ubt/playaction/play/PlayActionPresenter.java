@@ -52,19 +52,12 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
 
     @Override
     public void getActionList() {
-   /*     if(mBlueClient.getConnectionState() == 3){
-            ViseLog.d("getActionList");
-            actionDataList.clear();
-            mBlueClient.sendData(new BTCmdGetActionList("action").toByteArray());
-        }*/
         playActionManger.getActionList();
     }
 
     @Override
     public void register(Context context) {
         this.context = context;
-   /*     mBlueClient = BlueClientUtil.getInstance();
-        EventBus.getDefault().register(this);*/
         playActionManger = PlayActionManger.getInstance();
         playActionManger.init(this);
     }
@@ -72,47 +65,21 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
     @Override
     public void unRegister() {
         playActionManger.unRegister();
-//        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void playAction(String actionName) {
-    /*    if(mBlueClient.getConnectionState() == 3){
-            mBlueClient.sendData(new BTCmdPlayAction(actionName).toByteArray());
-            playState = PLAYING;
-            if(mView != null){
-                mView.notePlayStart(actionName);
-            }
-        }*/
 
         playActionManger.playAction(actionName);
     }
 
     @Override
     public void stopAction() {
-    /*    if(mBlueClient.getConnectionState() == 3){
-            mBlueClient.sendData(new BTCmdActionStopPlay().toByteArray());
-            if(mView != null) {
-                mView.notePlayStop();
-            }
-        }*/
         playActionManger.stopAction();
     }
 
     @Override
     public void playPauseAction() {
-    /*    if(mBlueClient.getConnectionState() == 3){
-            if(playState == PLAYING){
-                ViseLog.d("playPauseAction PAUSE");
-                mBlueClient.sendData(new BTCmdPause(BTCmdPause.PAUSE).toByteArray());
-                playState = PAUSE;
-            }else if(playState == PAUSE){
-                ViseLog.d("playPauseAction CONTINUE");
-                mBlueClient.sendData(new BTCmdPause(BTCmdPause.CONTINUE).toByteArray());
-                playState = PLAYING;
-            }
-
-        }*/
 
         playActionManger.playPauseAction();
     }
@@ -238,12 +205,7 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
         }
     }
 
- /*   @Override
-    public void refreshPlayState() {
-        if(mView != null) {
-            mView.notePlayOrPause();
-        }
-    }*/
+
 
     @Override
     public void notePlayFinish(String name) {

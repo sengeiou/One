@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
@@ -91,13 +93,11 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
     PlayActionAdapter actionAdapter;
     List<ActionData> actionDataList = new ArrayList<ActionData>();
-//    List<ActionData> actionSelectList = new ArrayList<ActionData>();
     List<ActionData> cycleDataList = new ArrayList<ActionData>();
     List<ActionData> tempDataList = new ArrayList<ActionData>();
     boolean select =false;
     boolean selectAll = false;
     boolean cyclePlay = false;
-    int currentPlayPos = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,14 +132,28 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         rvCycleList.setLayoutManager(linearLayoutManager);
         rvCycleList.setAdapter(cyclePlayActionAdapter);
 
+        cyclePlayActionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
+                view.findViewById(R.id.iv_delete_item).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PlayActionManger.getInstance().getActionCycleList().remove(cycleDataList.get(position));
+                        cycleDataList.remove(position);
+                        cyclePlayActionAdapter.notifyDataSetChanged();
+
+                    }
+                });
+            }
+        });
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         notePlayOrPause();
-
-
     }
 
     @OnClick({R2.id.play_iv_back,R2.id.tv_select,R2.id.iv_playlist, R2.id.iv_reset, R2.id.iv_play_pause,R2.id.iv_close_list,R2.id.iv_delete_list,R2.id.iv_select_all,R2.id.rl_play_btn})
@@ -152,23 +166,15 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
                 rlPlayCtrl.setVisibility(View.INVISIBLE);
                 rlPlaybtn.setVisibility(View.VISIBLE);
                 select = true;
-                tvSelect.setText(SkinManager.getInstance().getTextById(R.string.select_cancel));
+                tvSelect.setText(SkinManager.getInstance().getTextById(R.string.base_cancel));
                 tvSelect.setTextColor(getResources().getColor(R.color.text_playlist_title));
                 tvSelectAll.setVisibility(View.VISIBLE);
                 ivSelectAll.setVisibility(View.VISIBLE);
                 actionAdapter.setSelect(select);
             }else{
-/*                tempDataList.clear();
-                rlPlayCtrl.setVisibility(View.VISIBLE);
-                rlPlaybtn.setVisibility(View.INVISIBLE);
-                select = false;
-                tvSelect.setText(SkinManager.getInstance().getTextById(R.string.select_list));
-                tvSelect.setTextColor(getResources().getColor(R.color.text_blue_color));
-                tvSelectAll.setVisibility(View.INVISIBLE);
-                ivSelectAll.setVisibility(View.INVISIBLE);
-                actionAdapter.setSelect(select);*/
                 resetSelectAllState();
             }
+            notifyPlayBtnState();
             actionAdapter.notifyDataSetChanged();
 
         }else if(id == R.id.iv_select_all){
@@ -184,9 +190,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             }
             handSelectAllData(selectAll);
             notifyPlayBtnState();
-//            actionAdapter.setSelectAll(selectAll);
             actionAdapter.notifyDataSetChanged();
-            //TODO add actionList  to cycle playlist
         }else if(id == R.id.iv_playlist){
             rlPlaylist.setVisibility(View.VISIBLE);
             cycleDataList.clear();
@@ -196,6 +200,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         }else if(id == R.id.iv_reset) {
             mPresenter.stopAction();
             PlayActionManger.getInstance().setCycle(false);
+            ivCycleState.setImageResource(R.drawable.ic_circle_list);
         }else if(id == R.id.iv_play_pause){
             mPresenter.playPauseAction();
         }else if(id == R.id.iv_close_list){
@@ -205,21 +210,45 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             cycleDataList.clear();
             cyclePlayActionAdapter.notifyDataSetChanged();
         }else if(id == R.id.rl_play_btn){
-            ViseLog.d( "---temp:" + tempDataList.size());
-            if(tempDataList.size()>0){
-//                PlayActionManger.getInstance().getActionCycleList().clear();
-                PlayActionManger.getInstance().setActionCycleList(tempDataList);
-            }
-            ViseLog.d("cyclesize:" + PlayActionManger.getInstance().getActionCycleList().size());
-            if(PlayActionManger.getInstance().getActionCycleList().size()>0){
-                mPresenter.playAction(PlayActionManger.getInstance().getActionCycleList().get(PlayActionManger.getInstance().getCurrentCyclePos()).getActionName());
-//                cyclePlay = true;
-                PlayActionManger.getInstance().setCycle(true);
-                rlPlaybtn.setVisibility(View.INVISIBLE);
-                rlPlayCtrl.setVisibility(View.VISIBLE);
-                resetSelectAllState();
-            }
+
+            showDialog();
         }
+    }
+
+    private void showDialog() {
+        new BaseDialog.Builder(this)
+                .setMessage(R.string.playlist_play_dialogue).
+                setConfirmButtonId(R.string.base_confirm)
+                .setCancleButtonID(R.string.base_cancel)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == com.ubt.baselib.R.id.button_confirm){
+                            ViseLog.d( "---temp:" + tempDataList.size());
+                            if(tempDataList.size()>0){
+                                PlayActionManger.getInstance().setActionCycleList(tempDataList);
+                            }
+                            ViseLog.d("cyclesize:" + PlayActionManger.getInstance().getActionCycleList().size());
+                            if(PlayActionManger.getInstance().getActionCycleList().size()>0){
+                                mPresenter.playAction(PlayActionManger.getInstance().getActionCycleList().get(PlayActionManger.getInstance().getCurrentCyclePos()).getActionName());
+                                PlayActionManger.getInstance().setCycle(true);
+                                rlPlaybtn.setVisibility(View.INVISIBLE);
+                                rlPlayCtrl.setVisibility(View.VISIBLE);
+                                resetSelectAllState();
+                                if(PlayActionManger.getInstance().getActionCycleList().size()>1){
+                                    ivCycleState.setImageResource(R.drawable.ic_circle_listloop);
+                                }else{
+                                    ivCycleState.setImageResource(R.drawable.ic_circle_single);
+                                }
+                            }
+                            dialog.dismiss();
+                        } else if (view.getId() == com.ubt.baselib.R.id.button_cancle) {
+
+                            dialog.dismiss();
+                        }
+
+                    }
+                }).create().show();
     }
 
 
@@ -246,12 +275,13 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         ivSelectAll.setVisibility(View.INVISIBLE);
         actionAdapter.setSelect(select);
         selectAll = false;
+        ivSelectAll.setImageResource(R.drawable.ic_row_select);
         handSelectAllData(selectAll);
         actionAdapter.notifyDataSetChanged();
     }
 
     private void notifyPlayBtnState(){
-        if(/*PlayActionManger.getInstance().getActionCycleList().size()*/tempDataList.size() >0){
+        if(tempDataList.size() >0){
            rlPlaybtn.setEnabled(true);
            ivPlayBtn.setEnabled(true);
         }else{
@@ -284,8 +314,11 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             if(!TextUtils.isEmpty(actionName) && !PlayActionManger.getInstance().isCycle()){
                 ViseLog.d("onItemClick:" + actionName);
                 mPresenter.playAction(actionName);
+                PlayActionManger.getInstance().addActionCycleList(actionData);
             }
         }
+
+        notifyPlayBtnState();
 
 
     }
@@ -307,16 +340,14 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
     @Override
     public void notePlayFinish(String actionName) {
-        ViseLog.d("notePlayFinish:" + cyclePlay);
-        if(cyclePlay){
+        ViseLog.d("notePlayFinish:" + cyclePlay + actionName);
 
-        }else{
             if(!TextUtils.isEmpty(actionName) && tvPlayName != null){
-                tvPlayName.setText("");
+                tvPlayName.setText(SkinManager.getInstance().getTextById(R.string.playlist_standby));
                 gifPlaying.setVisibility(View.INVISIBLE);
                 ivPlay.setVisibility(View.VISIBLE);
             }
-        }
+
         notePlayOrPause();
         actionAdapter.setPlayActionName("");
         actionAdapter.notifyDataSetChanged();
@@ -327,6 +358,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     public void notePlayStart(String actionName) {
         if(!TextUtils.isEmpty(actionName) && tvPlayName != null){
             tvPlayName.setText(actionName);
+            tvPlayName.setTextColor(getResources().getColor(R.color.text_blue_color));
         }
         ivPlay.setVisibility(View.INVISIBLE);
         gifPlaying.setVisibility(View.VISIBLE);
@@ -349,8 +381,40 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             gifPlaying.setVisibility(View.VISIBLE);
             ivPlay.setVisibility(View.INVISIBLE);
         }
-        tvPlayName.setText( PlayActionManger.getInstance().getCurrentPlayActionName());
+
+        if(playstate == PlayActionManger.STOP){
+            tvPlayName.setText(SkinManager.getInstance().getTextById(R.string.playlist_standby));
+            tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
+        }else{
+            tvPlayName.setText( PlayActionManger.getInstance().getCurrentPlayActionName());
+            tvPlayName.setTextColor(getResources().getColor(R.color.text_blue_color));
+        }
+
         actionAdapter.notifyDataSetChanged();
+        updateCycleModeState(playstate);
+
+    }
+
+    private void updateCycleModeState(int playstate){
+        if(playstate == PlayActionManger.STOP){
+            ivCycleState.setImageResource(R.drawable.ic_circle_list);
+            ivPlayListCycle.setImageResource(R.drawable.ic_circle_list);
+        }else{
+            if(PlayActionManger.getInstance().isCycle()){
+                if(PlayActionManger.getInstance().getActionCycleList().size()>1){
+                    ivCycleState.setImageResource(R.drawable.ic_circle_listloop);
+                    ivPlayListCycle.setImageResource(R.drawable.ic_circle_listloop);
+                }else{
+                    ivCycleState.setImageResource(R.drawable.ic_circle_single);
+                    ivPlayListCycle.setImageResource(R.drawable.ic_circle_single);
+
+                }
+            }else{
+                ivCycleState.setImageResource(R.drawable.ic_circle_list);
+                ivPlayListCycle.setImageResource(R.drawable.ic_circle_list);
+            }
+
+        }
 
     }
 
@@ -360,7 +424,8 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         gifPlaying.setVisibility(View.INVISIBLE);
         ivPlay.setVisibility(View.VISIBLE);
         if(tvPlayName != null){
-            tvPlayName.setText("");
+            tvPlayName.setText(SkinManager.getInstance().getTextById(R.string.playlist_standby));
+            tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
         }
         actionAdapter.notifyDataSetChanged();
     }
