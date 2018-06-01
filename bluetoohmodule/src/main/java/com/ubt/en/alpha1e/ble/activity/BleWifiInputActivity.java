@@ -1,6 +1,6 @@
 package com.ubt.en.alpha1e.ble.activity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -86,11 +86,12 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
 
     private boolean isFirstEnter;
 
-    public static void launch(Context context, String wifiName, boolean isFromFirst) {
+    public static void launch(Activity context, String wifiName, boolean isFromFirst) {
         Intent intent = new Intent(context, BleWifiInputActivity.class);
         intent.putExtra("WIFI_NAME", wifiName);
         intent.putExtra("first_enter", isFromFirst);
-        context.startActivity(intent);
+        //context.startActivity(intent);
+        context.startActivityForResult(intent, 1001);
     }
 
     @Override
@@ -164,6 +165,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         mUnbinder = ButterKnife.bind(this);
         wifiName = getIntent().getStringExtra("WIFI_NAME");
         isFirstEnter = getIntent().getBooleanExtra("first_enter", false);
+        ViseLog.d("isFirseEnter==="+isFirstEnter);
         mBleEditName.setText(wifiName);
         mBleEditName.setSelection(wifiName.length());//将光标移至文字末尾
         if (!TextUtils.isEmpty(wifiName)) {
@@ -221,7 +223,11 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
                 connectWifiResult(3);
             } else if (msg.what == MESSAGE_WHAT_DISSMISS_SUCCESS) {//连接成功对话框消失
                 BaseLoadingDialog.dismiss(BleWifiInputActivity.this);
-                ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+                if (isFirstEnter) {
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+                } else {
+                    setResult(1);
+                }
                 finish();
             } else if (msg.what == MESSAGE_WHAT_DISSMISS_FAILED) {//连接失败对话框消失
                 BaseLoadingDialog.dismiss(BleWifiInputActivity.this);

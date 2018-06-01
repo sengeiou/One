@@ -17,16 +17,21 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.BlueTooth.BleDevice;
+import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -87,6 +92,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
         isFromFirst = getIntent().getBooleanExtra("first_enter", false);
+        ViseLog.d("isFirseEnter==="+isFromFirst);
         AppStatusUtils.setBtBussiness(true);
         initUi();
         ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_ENTER);
@@ -115,6 +121,12 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         if (i == R.id.iv_back) {
             finish();
         } else if (i == R.id.iv_help) {
+
+            ARouter.getInstance().build(ModuleUtils.BaseWebview_module)
+                    .withString(ModuleUtils.BaseWebview_KEY_URL,
+                            BaseHttpEntity.BASIC_UBX_SYS + "alpha1e/overseas/blueHelp.html?language=" + SPUtils.getInstance().getString(Constant1E.CURRENT_APP_LANGUAGE))
+                    .navigation();
+
         } else if (i == R.id.ble_tryagain) {
             mBleConnectLoading.setVisibility(View.VISIBLE);
             mRlSearchFailed.setVisibility(View.GONE);
@@ -188,7 +200,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
             @Override
             public void run() {
                 if (isFromFirst) {
-                    BleSearchWifiActivity.launch(BleConnectActivity.this, isFromFirst,"");
+                    BleSearchWifiActivity.launch(BleConnectActivity.this, isFromFirst, "");
                     finish();
                 } else {
                     finish();

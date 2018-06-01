@@ -81,6 +81,7 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
         isFirstEnter = getIntent().getBooleanExtra("first_enter", false);
+        ViseLog.d("isFirseEnter===" + isFirstEnter);
         wifiName = getIntent().getStringExtra("WI_FI_NAME");
         mWifiListAdapter = new WifiListAdapter(R.layout.ble_item_wifi_layout, mScanResults);
         mBleWifiList.setLayoutManager(new LinearLayoutManager(this));
@@ -165,5 +166,15 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
             SPUtils.getInstance().put(Constant1E.IS_FIRST_ENTER_WIFI_LIST, true);
         }
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1001) {
+            if (resultCode == 1) {
+                finish();
+            }
+        }
     }
 }

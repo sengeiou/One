@@ -29,8 +29,11 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
+import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.PermissionUtils;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.TimeUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.action.ActionSaveActivity;
@@ -1014,16 +1017,12 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
             }
 
         } else if (i1 == R.id.sb_voice) {
-        } else if (i1 == R.id.iv_help) {//                String language = ResourceManager.getInstance(mContext).getStandardLocale(ResourceManager.getInstance(mContext).getAppCurrentLanguage());
-////                String url = "https://services.ubtrobot.com/actionHelp/actionHelp.html?lang=" + language;  //暂时这样
-//                String url = "https://prodapi.ubtrobot.com/alpha1e/activeHelp.html";
-//                ViseLog.d( "url:" + url);
-//                Intent intent = new Intent();
-//                intent.putExtra(WebContentActivity.SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//                intent.putExtra(WebContentActivity.WEB_TITLE, "");
-//                intent.putExtra(WebContentActivity.WEB_URL, url);
-//                intent.setClass(mContext, HelpActivity.class);
-//                mContext.startActivity(intent);
+        } else if (i1 == R.id.iv_help) {
+
+            ARouter.getInstance().build(ModuleUtils.BaseWebview_module)
+                    .withString(ModuleUtils.BaseWebview_KEY_URL,
+                            BaseHttpEntity.BASIC_UBX_SYS + "alpha1e/overseas/activeHelp.html?language=" + SPUtils.getInstance().getString(Constant1E.CURRENT_APP_LANGUAGE))
+                    .navigation();
 
         } else if (i1 == R.id.iv_add_frame) {
             addFrameOnClick();
