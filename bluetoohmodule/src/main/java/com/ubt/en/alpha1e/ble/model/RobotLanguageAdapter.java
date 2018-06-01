@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.ble.R;
 import com.vise.log.ViseLog;
 
@@ -39,10 +40,21 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
         ViseLog.d("robotLanguage = " + robotLanguage.getLanguageName());
 
         RelativeLayout rlDownloadTip = helper.getView(R.id.rl_download_tip);
-        rlDownloadTip.setVisibility(View.VISIBLE);
+        if(robotLanguage.getResult() == -1){
+            rlDownloadTip.setVisibility(View.INVISIBLE);
+        }else {
+            rlDownloadTip.setVisibility(View.VISIBLE);
+            TextView downloadTip = helper.getView(R.id.tv_language_update_tip);
+            ProgressBar pbProgress = helper.getView(R.id.pb_progress);
 
-        TextView downloadTip = helper.getView(R.id.tv_language_update_tip);
-        ProgressBar pbProgress = helper.getView(R.id.pb_progress);
+            if(robotLanguage.getResult() == 0){
+                downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_downloading));
+                pbProgress.setProgress(robotLanguage.getProgess());
+            }else {
+                downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
+                pbProgress.setProgress(robotLanguage.getProgess());
+            }
+        }
 
         ImageView ivChoose = helper.getView(R.id.iv_choose);
         if(robotLanguage.isSelect()){

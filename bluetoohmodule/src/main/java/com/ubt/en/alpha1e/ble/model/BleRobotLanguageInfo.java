@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class BleRobotLanguageInfo extends BleBaseModel {
 
     public String lang = "";  //语言名
+    public String langlong = "";  //语言名
     public String version = ""; //芯片的语言包的版本号
     public String firmware_ver = ""; //芯片的固件的版本号
 
@@ -67,6 +68,7 @@ public class BleRobotLanguageInfo extends BleBaseModel {
     public String toString() {
         return "BleRobotLanguageInfo{" +
                 "lang=" + lang +
+                ", langlong=" + langlong +
                 ", version=" + version +
                 ", firmware_ver=" + firmware_ver +
                 ", seq=" + seq +
