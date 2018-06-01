@@ -23,7 +23,6 @@ import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
-import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.playaction.R;
@@ -234,7 +233,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             mPresenter.stopAction();
             PlayActionManger.getInstance().setCycle(false);
             ivCycleState.setImageResource(R.drawable.ic_circle_list);
-            rl20Tip.setVisibility(View.INVISIBLE);
+            rl20Tip.setVisibility(View.GONE);
         }else if(id == R.id.iv_play_pause){
             mPresenter.playPauseAction();
         }else if(id == R.id.iv_close_list){
@@ -246,7 +245,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         }else if(id == R.id.rl_play_btn){
             showDialog();
         }else if(id == R.id.iv_20_tip){
-            rl20Tip.setVisibility(View.INVISIBLE);
+            rl20Tip.setVisibility(View.GONE);
         }
     }
 
@@ -334,7 +333,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ToastUtils.showShort("item onItemClick");
+//        ToastUtils.showShort("item onItemClick");
         ActionData actionData = (ActionData) adapter.getItem(position);
         if(select){
             if(actionData.isSelect()){
