@@ -115,6 +115,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     private boolean mCurrentAutoUpgrade = false;
 
+    private BleRobotLanguageInfo currentRobotLanguageInfo = null;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -153,9 +155,9 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     }
                     break;
                 case UPDATE_ROBOT_LANGUAGE:
-                    BleRobotLanguageInfo robotLanguageInfo = (BleRobotLanguageInfo)msg.obj;
-                    if(robotLanguageInfo != null){
-                        tvRobotLanguage.setText(robotLanguageInfo.lang);
+                    currentRobotLanguageInfo = (BleRobotLanguageInfo)msg.obj;
+                    if(currentRobotLanguageInfo != null){
+                        tvRobotLanguage.setText(currentRobotLanguageInfo.langlong);
                     }
                     break;
                 default:
@@ -209,7 +211,10 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
         } else if (i == R.id.tv_robot_language) {
             ViseLog.d("tv_robot_language");
-            String robotLanguage= tvRobotLanguage.getText().toString();
+            String robotLanguage= "";
+            if(currentRobotLanguageInfo != null){
+                robotLanguage= currentRobotLanguageInfo.lang;
+            }
             BleRobotLanguageActivity.launch(this, robotLanguage);
         } else if (i == R.id.ckb_auto_upgrade) {
             ViseLog.d("ckb_auto_upgrade");

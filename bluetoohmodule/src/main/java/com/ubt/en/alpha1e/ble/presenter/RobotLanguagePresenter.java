@@ -35,6 +35,7 @@ import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageList;
 import com.ubt.en.alpha1e.ble.model.BleSetRobotLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.requestModel.GetRobotLanguageRequest;
@@ -214,7 +215,7 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
                     }
                 }else if(bleBaseModel.event == 8){
                     BleSetRobotLanguageRsp setRobotLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSetRobotLanguageRsp.class);
-                    ViseLog.d("robotLanguageList = " + setRobotLanguageRsp.rescode);
+                    ViseLog.d("setRobotLanguageRsp = " + setRobotLanguageRsp.rescode);
                     if(mView != null){
                         mView.setRobotLanguageResult(setRobotLanguageRsp.rescode);
                     }
@@ -223,6 +224,12 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
                     ViseLog.d("downloadLanguageRsp = " + downloadLanguageRsp);
                     if(mView != null){
                         mView.setDownloadLanguage(downloadLanguageRsp);
+                    }
+                }else if(bleBaseModel.event == 9){
+                    BleSwitchLanguageRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSwitchLanguageRsp.class);
+                    ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
+                    if(mView != null){
+                        mView.setSwitchLanguageResult(switchLanguageRsp);
                     }
                 }
 
@@ -239,6 +246,7 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
+        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
         BTCmdHelper.parseBTCmd(readData.getDatas(), this);
     }
 

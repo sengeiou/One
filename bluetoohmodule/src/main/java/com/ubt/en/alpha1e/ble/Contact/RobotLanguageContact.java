@@ -6,6 +6,7 @@ import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public class RobotLanguageContact {
         void setRobotLanguageResult(int status);
 
         void setDownloadLanguage(BleDownloadLanguageRsp downloadLanguageRsp);
+
+        void setSwitchLanguageResult(BleSwitchLanguageRsp switchLanguageRsp);
 
         void setRobotNetWork(BleNetWork bleNetWork);
     }

@@ -10,11 +10,14 @@ package com.ubt.en.alpha1e.ble.model;
  */
 
 public class RobotLanguage {
-    
+
     private String languageId;
     private String languageName;
     private String languageSingleName;
     private boolean isSelect;
+
+    private int result = -1;
+    private int progess = 0;
 
     public String getLanguageId() {
         return languageId;
@@ -46,5 +49,21 @@ public class RobotLanguage {
 
     public void setSelect(boolean select) {
         isSelect = select;
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
+    public int getProgess() {
+        return progess;
+    }
+
+    public void setProgess(int progess) {
+        this.progess = progess;
     }
 }

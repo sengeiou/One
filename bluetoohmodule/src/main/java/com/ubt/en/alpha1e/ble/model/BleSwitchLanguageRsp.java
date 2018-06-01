@@ -9,19 +9,25 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 @Parcelable
-public class BleSetRobotLanguageRsp extends BleBaseModel {
+public class BleSwitchLanguageRsp extends BleBaseModel {
 
-    public int rescode = 0;  //0 ( 成功)，１：不支持的语言　 2：电量低不能切换
+    public int result = 0;  //0 ( 成功) 1 (失败) 2 (被意外终止，或者被取消)
 
-    public String info = "";
+    public int progess = 0;
 
-    public BleSetRobotLanguageRsp thiz;
+    public String name = "";
+
+    private String langauage;
+
+
+
+    public BleSwitchLanguageRsp thiz;
 
     @Override
-    public BleSetRobotLanguageRsp getThiz(String json) {
+    public BleSwitchLanguageRsp getThiz(String json) {
 
         try {
-            thiz = mMapper.readValue(json, BleSetRobotLanguageRsp.class);
+            thiz = mMapper.readValue(json, BleSwitchLanguageRsp.class);
             return thiz;
         } catch (Exception e) {
             thiz = null;
@@ -29,12 +35,12 @@ public class BleSetRobotLanguageRsp extends BleBaseModel {
         }
     }
 
-    public static ArrayList<BleSetRobotLanguageRsp> getModelList(String json) {
-        ArrayList<BleSetRobotLanguageRsp> result = new ArrayList<BleSetRobotLanguageRsp>();
+    public static ArrayList<BleSwitchLanguageRsp> getModelList(String json) {
+        ArrayList<BleSwitchLanguageRsp> result = new ArrayList<BleSwitchLanguageRsp>();
         try {
             JSONArray j_list = new JSONArray(json);
             for (int i = 0; i < j_list.length(); i++) {
-                result.add(new BleSetRobotLanguageRsp().getThiz(j_list.get(i).toString()));
+                result.add(new BleSwitchLanguageRsp().getThiz(j_list.get(i).toString()));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -42,7 +48,7 @@ public class BleSetRobotLanguageRsp extends BleBaseModel {
         return result;
     }
 
-    public static String getModeslStr(ArrayList<BleSetRobotLanguageRsp> infos) {
+    public static String getModeslStr(ArrayList<BleSwitchLanguageRsp> infos) {
 
         try {
             return mMapper.writeValueAsString(infos);
@@ -52,7 +58,7 @@ public class BleSetRobotLanguageRsp extends BleBaseModel {
         }
     }
 
-    public static String getString(BleSetRobotLanguageRsp info)
+    public static String getString(BleSwitchLanguageRsp info)
     {
         try {
             return  GsonImpl.get().toJson(info);
@@ -65,9 +71,11 @@ public class BleSetRobotLanguageRsp extends BleBaseModel {
 
     @Override
     public String toString() {
-        return "BleSetRobotLanguageRsp{" +
-                "rescode=" + rescode +
-                ",info=" + info +
+        return "BleSwitchLanguageRsp{" +
+                "result=" + result +
+                ",progess=" + progess +
+                ",name=" + name +
+                ",langauage=" + langauage +
                 '}';
     }
 }

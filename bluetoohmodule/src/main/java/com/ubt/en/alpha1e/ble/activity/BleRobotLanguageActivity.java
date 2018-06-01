@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,6 +32,7 @@ import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
 import com.ubt.en.alpha1e.ble.dialog.SwitchIngLanguageDialog;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
 import com.ubt.en.alpha1e.ble.model.RobotLanguageAdapter;
 import com.ubt.en.alpha1e.ble.presenter.RobotLanguagePresenter;
@@ -69,8 +71,6 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     private SwitchIngLanguageDialog switchProgressDialog = null;
 
-    private int progress = 0;
-
     private boolean hasConnectWifi = true;
 
     private Handler mHandler = new Handler(){
@@ -83,6 +83,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     break;
                 case SHOW_SET_LANGUAGE_RESULT:
                     int status = msg.arg1;
+                    ViseLog.d("SHOW_SET_LANGUAGE_RESULT = " + status);
                     if(status == 0){
                         showSetLanguageDialog(true);
                     }else if(status == 1){
@@ -93,18 +94,29 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     break;
                 case SHOW_SET_LANGUAGE_PROGRESS:
 
-                    if(progress > 100 && switchProgressDialog != null){
-                        progress = 0;
+                    BleSwitchLanguageRsp switchLanguageRsp = (BleSwitchLanguageRsp)msg.obj;
+                    ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
+                    if(switchLanguageRsp.result == 0 ){
+
+                        if(switchLanguageRsp.progess == 100 && switchProgressDialog != null){
+                            switchProgressDialog.dismiss();
+
+                            Message msg1 = new Message();
+                            msg1.what = SHOW_SET_LANGUAGE_RESULT;
+                            msg1.arg1 = 0;
+                            mHandler.sendMessage(msg1);
+                        }else{
+                            showSwitchLanguageDialog(switchLanguageRsp.progess);
+                        }
+
+                    }else if(switchLanguageRsp.result == 1 || switchLanguageRsp.result == 2 ){
+
                         switchProgressDialog.dismiss();
 
                         Message msg1 = new Message();
                         msg1.what = SHOW_SET_LANGUAGE_RESULT;
-                        msg1.arg1 = 0;
+                        msg1.arg1 = 1;
                         mHandler.sendMessage(msg1);
-
-                    }else {
-                        showSwitchLanguageDialog(progress++);
-                        mHandler.sendEmptyMessageDelayed(SHOW_SET_LANGUAGE_PROGRESS,300);
                     }
                     break;
                 case UPDATE_DOWNLOAD_LANGUAGE:
@@ -113,6 +125,15 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
                     if(downloadLanguageRsp.result == 1){
                         ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
+                    }else if(downloadLanguageRsp.result == 0){
+                        for(RobotLanguage robotLanguage : mRobotLanguages){
+                            if(robotLanguage.getLanguageSingleName().equals(downloadLanguageRsp.language)){
+                                robotLanguage.setResult(downloadLanguageRsp.result);
+                                robotLanguage.setProgess(downloadLanguageRsp.progess);
+                                mAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
                     }
 
                     break;
@@ -141,8 +162,6 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
         mCurrentRobotLanguage = getIntent().getStringExtra("CURRENT_ROBOT_LANGUAGE");
 
-        mCurrentRobotLanguage = "English";
-
         mAdapter = new RobotLanguageAdapter(R.layout.ble_robot_language_item, mRobotLanguages);
         rvRobotLanguage.setLayoutManager(new LinearLayoutManager(this));
         rvRobotLanguage.setAdapter(mAdapter);
@@ -169,7 +188,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
             mRobotLanguages.addAll(list);
 
             for(RobotLanguage robotLanguage : mRobotLanguages){
-                if(robotLanguage.getLanguageName().equals(mCurrentRobotLanguage)){
+                if(robotLanguage.getLanguageSingleName().equals(mCurrentRobotLanguage)){
                     robotLanguage.setSelect(true);
                     break;
                 }
@@ -191,10 +210,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void setRobotLanguageResult(int status) {
-        Message msg = new Message();
-        msg.what = SHOW_SET_LANGUAGE_RESULT;
-        msg.arg1 = status;
-        mHandler.sendMessage(msg);
+
     }
 
     @Override
@@ -202,6 +218,14 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         Message msg = new Message();
         msg.what = UPDATE_DOWNLOAD_LANGUAGE;
         msg.obj = downloadLanguageRsp;
+        mHandler.sendMessage(msg);
+    }
+
+    @Override
+    public void setSwitchLanguageResult(BleSwitchLanguageRsp switchLanguageRsp) {
+        Message msg = new Message();
+        msg.what = SHOW_SET_LANGUAGE_PROGRESS;
+        msg.obj = switchLanguageRsp;
         mHandler.sendMessage(msg);
     }
 
@@ -217,23 +241,45 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @OnClick({R2.id.iv_back,R2.id.tv_title_right})
     public void onViewClicked(View view) {
-        int i = view.getId();
-        if (i == R.id.iv_back) {
-            finishActivity();
+        switch (view.getId()){
+            case R.id.iv_back:
+                finishActivity();
+                break;
+            case R.id.tv_title_right:
 
+                final RobotLanguage selectLanguage = getSelectLanguage();
+                if(selectLanguage == null){
+                    return;
+                }
 
-        } else if (i == R.id.tv_title_right) {
-            final RobotLanguage selectLanguage = getSelectLanguage();
-            if (selectLanguage == null) {
-                return;
-            }
+                if(!hasConnectWifi){
+                    new BaseDialog.Builder(this)
+                            .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#",selectLanguage.getLanguageName()) )
+                            .setConfirmButtonId(R.string.base_cancel)
+                            .setConfirmButtonColor(R.color.base_blue)
+                            .setCancleButtonID(R.string.base_connect)
+                            .setCancleButtonColor(R.color.base_blue)
+                            .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                                @Override
+                                public void onClick(DialogPlus dialog, View view) {
+                                    if (view.getId() == R.id.button_confirm) {
+                                        dialog.dismiss();
 
-            if (!hasConnectWifi || true) {
+                                    } else if (view.getId() == R.id.button_cancle) {
+                                        dialog.dismiss();
+
+                                        BleSearchWifiActivity.launch(BleRobotLanguageActivity.this, false, "");
+                                    }
+                                }
+                            }).create().show();
+                    return;
+                }
+
                 new BaseDialog.Builder(this)
-                        .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#", selectLanguage.getLanguageName()))
+                        .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_dialogue).replace("#",selectLanguage.getLanguageName()) )
                         .setConfirmButtonId(R.string.base_cancel)
                         .setConfirmButtonColor(R.color.base_blue)
-                        .setCancleButtonID(R.string.base_connect)
+                        .setCancleButtonID(R.string.base_confirm)
                         .setCancleButtonColor(R.color.base_blue)
                         .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                             @Override
@@ -242,39 +288,17 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                                     dialog.dismiss();
 
                                 } else if (view.getId() == R.id.button_cancle) {
-                                    dialog.dismiss();
 
-                                    BleSearchWifiActivity.launch(BleRobotLanguageActivity.this, false, "");
+                                    dialog.dismiss();
+                                    ViseLog.d("selectLanguage.getLanguageSingleName() = " + selectLanguage.getLanguageSingleName());
+                                    mPresenter.setRobotLanguage(selectLanguage.getLanguageSingleName());
                                 }
                             }
                         }).create().show();
-                return;
-            }
 
-            new BaseDialog.Builder(this)
-                    .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_dialogue).replace("#", selectLanguage.getLanguageName()))
-                    .setConfirmButtonId(R.string.base_cancel)
-                    .setConfirmButtonColor(R.color.base_blue)
-                    .setCancleButtonID(R.string.base_confirm)
-                    .setCancleButtonColor(R.color.base_blue)
-                    .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                        @Override
-                        public void onClick(DialogPlus dialog, View view) {
-                            if (view.getId() == R.id.button_confirm) {
-                                dialog.dismiss();
-
-                            } else if (view.getId() == R.id.button_cancle) {
-
-                                dialog.dismiss();
-                                mPresenter.setRobotLanguage(selectLanguage.getLanguageSingleName());
-
-                                mHandler.sendEmptyMessage(SHOW_SET_LANGUAGE_PROGRESS);
-                            }
-                        }
-                    }).create().show();
-
-
-        } else {
+                break;
+            default:
+                break;
         }
     }
 
