@@ -17,10 +17,10 @@
             android:id="@+id/img_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
+             android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
             android:paddingRight="10dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             android:src="@drawable/ic_back"
             />
 
@@ -32,6 +32,7 @@
             android:text="保存并发布"
             android:textColor="@color/T1"
             android:textSize="18sp"
+            android:visibility="gone"
             />
 
 
@@ -61,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="保存成功"
+            android:text="@string/actions_save_successful"
             android:textSize="18sp"
             />
 
@@ -76,21 +77,21 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
-        android:text="你可以在个人中心-原创 中查看动作"
+        android:text="@string/actions_saved_tips"
         android:textColor="@color/T2"
         android:textSize="14sp"
         />
 
     <Button
         android:id="@+id/btn_to_other"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="@dimen/dp_60"
         android:layout_marginTop="12dp"
         android:background="@drawable/btn_blue"
         android:gravity="center"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="发布到社区"
+        android:text="@string/actions_my_works_details_share"
         android:textColor="#fff"
         android:textSize="16sp"
         />

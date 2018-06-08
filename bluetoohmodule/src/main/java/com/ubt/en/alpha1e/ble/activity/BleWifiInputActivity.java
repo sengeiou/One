@@ -3,8 +3,6 @@ package com.ubt.en.alpha1e.ble.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -32,10 +30,15 @@ import com.ubt.en.alpha1e.ble.R2;
 import com.ubt.en.alpha1e.ble.presenter.WifiInputPrenster;
 import com.vise.log.ViseLog;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 @Route(path = ModuleUtils.Bluetooh_BleWifiInputActivity)
 public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View, WifiInputPrenster> implements WifiInputContact.View {
@@ -65,26 +68,10 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
 
     private boolean isShowPassWord = false;//是否显示密码
 
-    private static final int MESSAGE_TIMEOUT = 60 * 1000;
-
-    private static final int MESSAGE_DISSMISSLOADING = 2000;
-
-    /**
-     * 连接网络超时Message what
-     */
-    private static final int MESSAGE_WHAT_CONNECT = 0x11;
-
-    /**
-     * 连接成功后消失Message what
-     */
-    private static final int MESSAGE_WHAT_DISSMISS_SUCCESS = 0x12;
-
-    /**
-     * 连接成功后消失Message what
-     */
-    private static final int MESSAGE_WHAT_DISSMISS_FAILED = 0x13;
 
     private boolean isFirstEnter;
+
+    private Disposable mDisposable;
 
     public static void launch(Activity context, String wifiName, boolean isFromFirst) {
         Intent intent = new Intent(context, BleWifiInputActivity.class);
@@ -126,8 +113,6 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
             if (!TextUtils.isEmpty(wifiName)) {
                 if (!TextUtils.isEmpty(wifiPasswd)) {
                     mPresenter.sendPasswd(wifiName, wifiPasswd);
-                    BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.wifi_connecting));
-                    mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
                 } else {
                     new BaseDialog.Builder(this)
                             .setMessage(R.string.wifi_connect_without_password)
@@ -140,8 +125,6 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
                                 public void onClick(DialogPlus dialog, View view) {
                                     if (view.getId() == R.id.button_confirm) {
                                         mPresenter.sendPasswd(wifiName, wifiPasswd);
-                                        BaseLoadingDialog.show(BleWifiInputActivity.this, SkinManager.getInstance().getTextById(R.string.wifi_connecting));
-                                        mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_CONNECT, MESSAGE_TIMEOUT);
                                         dialog.dismiss();
                                     } else if (view.getId() == R.id.button_cancle) {
                                         dialog.dismiss();
@@ -165,7 +148,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         mUnbinder = ButterKnife.bind(this);
         wifiName = getIntent().getStringExtra("WIFI_NAME");
         isFirstEnter = getIntent().getBooleanExtra("first_enter", false);
-        ViseLog.d("isFirseEnter==="+isFirstEnter);
+        ViseLog.d("isFirseEnter===" + isFirstEnter);
         mBleEditName.setText(wifiName);
         mBleEditName.setSelection(wifiName.length());//将光标移至文字末尾
         if (!TextUtils.isEmpty(wifiName)) {
@@ -180,11 +163,10 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
-        mHandler.removeMessages(MESSAGE_WHAT_CONNECT);
-        mHandler.removeMessages(MESSAGE_WHAT_DISSMISS_SUCCESS);
-        mHandler.removeMessages(MESSAGE_WHAT_DISSMISS_FAILED);
         mPresenter.unRegister();
+        mDisposable.dispose();
         AppStatusUtils.setBtBussiness(false);
+        BaseLoadingDialog.dismiss(this);
     }
 
     /**
@@ -193,20 +175,30 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
      * @param type 0 未连接 1 连接中 2 连接成功 3 连接失败
      */
     @Override
-    public void connectWifiResult(int type) {
-        ViseLog.d("type====" + type);
-        if (type == 2) {
-            mHandler.removeMessages(MESSAGE_WHAT_CONNECT);
-            BaseLoadingDialog.dismiss(this);
-            BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.wifi_connect_succeed),
-                    R.drawable.img_connect_wifi_succeed);
-            mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_DISSMISS_SUCCESS, MESSAGE_DISSMISSLOADING);
-        } else if (type == 3) {
-            mHandler.removeMessages(MESSAGE_WHAT_CONNECT);
-            BaseLoadingDialog.dismiss(this);
-            BaseLoadingDialog.show(this, SkinManager.getInstance().getTextById(R.string.wifi_connect_fail),
-                    R.drawable.img_overtime);
-            mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_DISSMISS_FAILED, MESSAGE_DISSMISSLOADING);
+    public void connectWifiResult(final int type) {
+        String content = "";
+        int imageId = 0;
+        if (type == 2 || type == 3) {
+            content = type == 2 ? SkinManager.getInstance().getTextById(R.string.wifi_connect_succeed) :
+                    SkinManager.getInstance().getTextById(R.string.wifi_connect_fail);
+            imageId = type == 2 ? R.drawable.img_connect_wifi_succeed : R.drawable.img_overtime;
+            BaseLoadingDialog.show(this, content,
+                    imageId);
+            mDisposable = Observable.timer(2, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+                @Override
+                public void accept(Long aLong) throws Exception {
+                    ViseLog.d("obser===" + type);
+                    BaseLoadingDialog.dismiss(BleWifiInputActivity.this);
+                    if (type == 2) {
+                        if (isFirstEnter) {
+                            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
+                        } else {
+                            setResult(1);
+                        }
+                        finish();
+                    }
+                }
+            });
         }
     }
 
@@ -215,25 +207,6 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         finishActivity();
     }
 
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == MESSAGE_WHAT_CONNECT) {
-                connectWifiResult(3);
-            } else if (msg.what == MESSAGE_WHAT_DISSMISS_SUCCESS) {//连接成功对话框消失
-                BaseLoadingDialog.dismiss(BleWifiInputActivity.this);
-                if (isFirstEnter) {
-                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation();
-                } else {
-                    setResult(1);
-                }
-                finish();
-            } else if (msg.what == MESSAGE_WHAT_DISSMISS_FAILED) {//连接失败对话框消失
-                BaseLoadingDialog.dismiss(BleWifiInputActivity.this);
-            }
-        }
-    };
 
     /**
      * 文本内容改变监听器
@@ -277,6 +250,7 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
     }
 
     private void finishActivity() {
+        BaseLoadingDialog.dismiss(this);
         boolean isFirstSearchWifi = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_WIFI_LIST, false);
         if (!isFirstSearchWifi) {
             ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).withInt(Constant1E.ENTER_BLESTATU_ACTIVITY, 1).navigation();

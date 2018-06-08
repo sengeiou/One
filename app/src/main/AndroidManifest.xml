@@ -33,6 +33,7 @@
         <activity
             android:name=".WelcomActivity"
             android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Splash"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -42,9 +43,6 @@
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
-            android:screenOrientation="landscape"/>
-        <activity
-            android:name=".voiceCmd.VoiceCmdActivity"
             android:screenOrientation="landscape"/>
         <!--activity声明结束-->
 

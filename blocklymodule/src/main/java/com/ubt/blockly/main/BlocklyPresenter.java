@@ -5,9 +5,7 @@ import android.content.Context;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdActionStopPlay;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetActionList;
@@ -27,7 +25,6 @@ import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,7 +42,7 @@ import java.util.List;
  */
 
 
-public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> implements BlocklyContract.Presenter, IProtolPackListener {
+public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> implements BlocklyContract.Presenter {
 
     private Context context;
     private BlueClientUtil mBlueClient;
@@ -187,18 +184,18 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
-        ViseLog.d("onProtocolPacket:" + packet.getmCmd() + "---getmParam:" +  new String(packet.getmParam()));
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.UV_GETACTIONFILE:
                 ViseLog.d("UV_GETACTIONFILE:" + new String(packet.getmParam()));

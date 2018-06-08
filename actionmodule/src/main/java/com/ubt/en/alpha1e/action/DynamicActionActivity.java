@@ -31,7 +31,6 @@ import com.ubt.en.alpha1e.action.model.DownloadProgressInfo;
 import com.ubt.en.alpha1e.action.model.DynamicActionModel;
 import com.ubt.en.alpha1e.action.presenter.DynamicActionPrenster;
 import com.ubt.en.alpha1e.action.util.DownLoadActionManager;
-import com.ubt.globaldialog.customDialog.ConfirmDialog;
 import com.ubt.globaldialog.customDialog.loading.LoadingDialog;
 import com.vise.log.ViseLog;
 
@@ -286,21 +285,6 @@ public class DynamicActionActivity extends MVPBaseActivity<DynamicActionContract
 
     }
 
-    private void showLowBatteryDialog() {
-        isShowLowBarry = true;
-        new ConfirmDialog(this).builder()
-                .setTitle("提示")
-                .setMsg("机器人电量低动作不能执行，请充电！")
-                .setCancelable(true)
-                .setPositiveButton("确定", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        isShowLowBarry = false;
-                        //调到主界面
-                        ViseLog.d(TAG, "确定 ");
-                    }
-                }).show();
-    }
 
 
     /**

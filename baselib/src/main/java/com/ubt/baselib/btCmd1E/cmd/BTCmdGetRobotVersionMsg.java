@@ -12,12 +12,12 @@ import org.json.JSONObject;
  * @描述: 获取WIFI状态
  */
 
-public class BTCmdGetLanguageStatus extends BaseBTReq {
+public class BTCmdGetRobotVersionMsg extends BaseBTReq {
     byte    cmd = BTCmd.DV_COMMON_CMD;
 
     byte[] parm = {0x00};
 
-    public BTCmdGetLanguageStatus(){
+    public BTCmdGetRobotVersionMsg(){
         JSONObject jsonObject = new JSONObject();
 
         try {

@@ -1,13 +1,9 @@
 package com.ubt.en.alpha1e.ble.Contact;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
-import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
-import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
-import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 
 /**
@@ -19,27 +15,19 @@ import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
  * version
  */
 
-public class BleStatuContact {
+public class RobotStatuContact {
     public interface View extends BaseView {
 
-        void setBleConnectStatu(BluetoothDevice device);
-
-
-        void setRobotStatu(RobotStatu robotStatu);
-
-        void setRobotNetWork(BleNetWork bleNetWork);
 
         void setRobotSoftVersion(String softVersion);
 
-        void setRobotSN(String SN);
-
-        void goBleSraechActivity();
 
         void setAutoUpgradeStatus(int status);
 
         void updateUpgradeProgress(UpgradeProgressInfo progressInfo);
+        void updateFirmProgress(UpgradeProgressInfo progressInfo);
 
-        void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo);
+        void setRobotHardVersion(String hardVersion);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -48,11 +36,8 @@ public class BleStatuContact {
 
         void unRegister();
 
-        void getRobotBleConnect();
+        void getRobotAutoState();
 
-        void dissConnectRobot();
-
-        void checkBlestatu();
 
         /** 改变 1E 自动升级状态
          * @param is0pen false 为未开启， true为已开启

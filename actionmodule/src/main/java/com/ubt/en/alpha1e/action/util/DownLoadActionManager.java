@@ -8,9 +8,7 @@ import android.text.TextUtils;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdDownLoadAction;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetActionList;
@@ -24,7 +22,6 @@ import com.ubt.en.alpha1e.action.model.DownloadProgressInfo;
 import com.ubt.en.alpha1e.action.model.DynamicActionModel;
 import com.ubt.htslib.base.ActionInfo;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,7 +43,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * version
  */
 
-public class DownLoadActionManager implements IProtolPackListener {
+public class DownLoadActionManager  {
     private static final String TAG = DownLoadActionManager.class.getSimpleName();
 
     private static DownLoadActionManager singleton;
@@ -121,17 +118,18 @@ public class DownLoadActionManager implements IProtolPackListener {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
+    public void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         byte[] param = packet.getmParam();
         byte cmd = packet.getmCmd();
         if (cmd == BTCmd.DV_DO_DOWNLOAD_ACTION) {

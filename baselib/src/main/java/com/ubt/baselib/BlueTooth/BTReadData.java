@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.ubt.baselib.btCmd1E.ProtocolPacket;
+
 /**
  * @作者：bin.zhang@ubtrobot.com
  * @日期: 2018/2/5 09:52
@@ -13,6 +15,7 @@ import android.os.Parcelable;
 public class BTReadData implements Parcelable {
     private BluetoothDevice bluetoothDevice;
     private byte[] datas;
+    private ProtocolPacket pack;
 
     public BluetoothDevice getBluetoothDevice() {
         return bluetoothDevice;
@@ -29,6 +32,15 @@ public class BTReadData implements Parcelable {
     public void setDatas(byte[] bytes) {
         this.datas = bytes;
     }
+
+    public ProtocolPacket getPack() {
+        return pack;
+    }
+
+    public void setPack(ProtocolPacket pack) {
+        this.pack = pack;
+    }
+
 
     @Override
     public int describeContents() {

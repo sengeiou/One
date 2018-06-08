@@ -12,10 +12,13 @@ public class TimeTools {
     private static final long ONE_DAY = 86400000L;
     private static final long ONE_WEEK = 604800000L;
 
-    private static final String ONE_SECOND = "刚刚";
+    private static final String ONE_SECOND = "Just";
     private static final String ONE_SECOND_AGO = "秒前";
-    private static final String ONE_MINUTE_AGO = "分钟前";
-    private static final String ONE_HOUR_AGO = "小时前";
+    private static final String ONE_MINUTE_AGO = " minute ago";
+    private static final String ONE_MINUTE_AGOS = " minutes ago";
+    private static final String ONE_HOUR_AGO = "hour ago";
+    private static final String ONE_HOUR_AGOS = "hours ago";
+
     private static final String ONE_DAY_AGO = "天前";
     private static final String ONE_MONTH_AGO = "月前";
     private static final String ONE_YEAR_AGO = "年前";
@@ -43,11 +46,13 @@ public class TimeTools {
         }
         if (delta < 45L * ONE_MINUTE) {
             long minutes = toMinutes(delta);
-            return (minutes <= 0 ? 1 : minutes) + ONE_MINUTE_AGO;
+            long minut = (minutes <= 0 ? 1 : minutes);
+            return minut + minut > 1 ? ONE_MINUTE_AGOS : ONE_MINUTE_AGO;
         }
         if (delta < 24L * ONE_HOUR) {
             long hours = toHours(delta);
-            return (hours <= 0 ? 1 : hours) + ONE_HOUR_AGO;
+            long hour = (hours <= 0 ? 1 : hours);
+            return hour + hour > 1 ? ONE_HOUR_AGOS : ONE_HOUR_AGO;
         }
 
         /*if (delta < 48L * ONE_HOUR) {

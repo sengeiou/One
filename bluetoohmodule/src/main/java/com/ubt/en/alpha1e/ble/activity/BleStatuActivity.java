@@ -1,6 +1,7 @@
 package com.ubt.en.alpha1e.ble.activity;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,7 +21,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
-import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.MVPBaseActivity;
@@ -29,7 +29,7 @@ import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
-import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.BleStatuPrenster;
@@ -109,6 +109,10 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     TextView tvRobotUpdateTip;
     @BindView(R2.id.iv_download_fail_warning)
     ImageView ivDownloadFailWarning;
+    @BindView(R2.id.view_red_dot)
+    View mViewRedDot;
+    @BindView(R2.id.tv_robot_soft_language)
+    TextView mTvRobotSoftLanguage;
 
     private int fromeType;
 
@@ -116,7 +120,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     private boolean mCurrentAutoUpgrade = false;
 
-    private BleRobotLanguageInfo currentRobotLanguageInfo = null;
+    private BleRobotVersionInfo currentRobotVerionInfo = null;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -130,7 +134,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     } else {//关闭
                         ckbAutoUpgrade.setChecked(false);
                     }
-                    BaseLoadingDialog.dismiss(BleStatuActivity.this);
+                    //BaseLoadingDialog.dismiss(BleStatuActivity.this);
                     break;
                 case UPDATE_UPGRADE_PROGRESS:
                     UpgradeProgressInfo progressInfo = (UpgradeProgressInfo) msg.obj;
@@ -143,7 +147,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                             tvRobotUpdateTip.setVisibility(View.VISIBLE);
                             ivDownloadFailWarning.setVisibility(View.VISIBLE);
                         } else if (progressInfo.status == 1) {//downloading
-                            if(!TextUtils.isEmpty(progressInfo.progress)) {
+                            if (!TextUtils.isEmpty(progressInfo.progress)) {
                                 tvRobotUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download).replace("#", progressInfo.progress));
                                 tvRobotUpdateTip.setTextColor(getResources().getColor(R.color.base_blue));
 
@@ -157,9 +161,9 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     }
                     break;
                 case UPDATE_ROBOT_LANGUAGE:
-                    currentRobotLanguageInfo = (BleRobotLanguageInfo)msg.obj;
-                    if(currentRobotLanguageInfo != null){
-                        tvRobotLanguage.setText(currentRobotLanguageInfo.langlong);
+                    currentRobotVerionInfo = (BleRobotVersionInfo) msg.obj;
+                    if (currentRobotVerionInfo != null) {
+                        tvRobotLanguage.setText(currentRobotVerionInfo.langlong);
                     }
                     break;
                 default:
@@ -190,7 +194,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     }
 
-    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect, R2.id.tv_robot_language, R2.id.ckb_auto_upgrade})
+    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect, R2.id.tv_robot_language,
+            R2.id.ckb_auto_upgrade, R2.id.tv_robot_soft_language})
     public void clickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_back_disconnect) {
@@ -204,9 +209,9 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
         } else if (i == R.id.tv_robot_language) {
             ViseLog.d("tv_robot_language");
-            String robotLanguage= "";
-            if(currentRobotLanguageInfo != null){
-                robotLanguage= currentRobotLanguageInfo.lang;
+            String robotLanguage = "";
+            if (currentRobotVerionInfo != null) {
+                robotLanguage = currentRobotVerionInfo.lang;
             }
             BleRobotLanguageActivity.launch(this, robotLanguage);
         } else if (i == R.id.ckb_auto_upgrade) {
@@ -253,7 +258,6 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
             }
 
 
-
         } else if (i == R.id.ble_tv_connect) {
             String s = String.format(SkinManager.getInstance().getTextById(R.string.about_robot_disconnect_dialogue), mTvBleName.getText());
 
@@ -276,7 +280,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                         }
                     }).create().show();
 
-
+        } else if (i == R.id.tv_robot_soft_language) {
+            startActivity(new Intent(this, RobotStatuActivity.class));
         }
     }
 
@@ -359,10 +364,10 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     }
 
     @Override
-    public void setRobotLanguage(BleRobotLanguageInfo robotLanguage) {
+    public void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo) {
         Message msg = new Message();
         msg.what = UPDATE_ROBOT_LANGUAGE;
-        msg.obj = robotLanguage;
+        msg.obj = robotVersionInfo;
         mHandler.sendMessage(msg);
     }
 
@@ -392,8 +397,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
      * 切换自动升级开关状态
      */
     private void switchAutoUpgradeStatus() {
-        BaseLoadingDialog.dismiss(this);
-        BaseLoadingDialog.show(this);
+//        BaseLoadingDialog.dismiss(this);
+//        BaseLoadingDialog.show(this);
 
         if (mCurrentAutoUpgrade) {
             mCurrentAutoUpgrade = false;

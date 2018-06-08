@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
@@ -56,6 +57,15 @@ public class ActionMainActivity extends MVPBaseActivity<ActionMainContact.View, 
         if (i == R.id.action_back) {
             finish();
         } else if (i == R.id.rl_action_create) {
+            if (AppStatusUtils.isLowPower()){
+                BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+                    @Override
+                    public void onOK() {
+
+                    }
+                });
+                return;
+            }
             startActivity(new Intent(this, ActionCreateActivity.class));
         } else if (i == R.id.rl_action_work) {
             startActivity(new Intent(this, DynamicActionActivity.class));

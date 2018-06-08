@@ -79,6 +79,14 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
             super.handleMessage(msg);
             switch (msg.what){
                 case REFRESH_DATA:
+                    RobotLanguage selectLanguage = getSelectLanguage();
+                    if(selectLanguage != null && selectLanguage.getLanguageSingleName().equals(mCurrentRobotLanguage)){
+                        tvTitleRight.setAlpha(0.3f);
+                        tvTitleRight.setEnabled(false);
+                    }else {
+                        tvTitleRight.setAlpha(1.0f);
+                        tvTitleRight.setEnabled(true);
+                    }
                     mAdapter.notifyDataSetChanged();
                     break;
                 case SHOW_SET_LANGUAGE_RESULT:
@@ -161,6 +169,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         mPresenter.init(this);
 
         mCurrentRobotLanguage = getIntent().getStringExtra("CURRENT_ROBOT_LANGUAGE");
+
+        ViseLog.d("mCurrentRobotLanguage = " + mCurrentRobotLanguage);
 
         mAdapter = new RobotLanguageAdapter(R.layout.ble_robot_language_item, mRobotLanguages);
         rvRobotLanguage.setLayoutManager(new LinearLayoutManager(this));
@@ -251,6 +261,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                 return;
             }
 
+            if(selectLanguage.getLanguageSingleName().equals(mCurrentRobotLanguage)){
+                ViseLog.d("same");
+                return;
+            }
+
             if (!hasConnectWifi) {
                 new BaseDialog.Builder(this)
                         .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#", selectLanguage.getLanguageName()))
@@ -325,7 +340,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
             robotLanguage.setSelect(false);
         }
         mRobotLanguages.get(position).setSelect(true);
-        mAdapter.notifyDataSetChanged();
+        mHandler.sendEmptyMessage(REFRESH_DATA);
     }
 
 

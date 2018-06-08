@@ -111,12 +111,13 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
             BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
                 @Override
                 public void onOK() {
-
                 }
             });
             return;
         }
-        ActionLevelCourseActivity.launchActivity(this, position + 1);
+        if (mPresenter.getActionCourseModels().get(position).getActionLockType() == 1) {
+            ActionLevelCourseActivity.launchActivity(this, position + 1);
+        }
     }
 
     private static final int REQUESTCODE = 10000;

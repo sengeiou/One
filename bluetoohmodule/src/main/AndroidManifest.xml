@@ -66,7 +66,13 @@
             android:launchMode="singleTask"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
-
+        <activity
+            android:name=".activity.RobotStatuActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask"
+            android:theme="@style/NoTitleThemeFullScreen"
+            android:windowSoftInputMode="adjustPan"/>
         <service
             android:name=".service.AutoConnectService"
             android:enabled="true"

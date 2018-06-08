@@ -227,38 +227,42 @@ public class CourseSixActionLayout extends BaseActionEditLayout implements Actio
      * 播放按钮，过3秒钟结束
      */
     private void playAction() {
-
         startPlayAction();
         CourseArrowAminalUtil.startViewAnimal(false, ivPlayArrow, 2);
         ivPlay.setEnabled(false);
         ivPlay.setImageResource(R.drawable.ic_pause);
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pause();
-                onPlayMusicComplete();
-            }
-        }, 10000);
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                pause();
+//            }
+//        }, 10000);
+    }
+
+    @Override
+    public void onPlayMusicComplete() {
+        ViseLog.d("onPlayMusicComplete=======");
+
     }
 
     @Override
     public void onFinishPlay() {
         ViseLog.d("onFinishPlay=======");
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor20.hts");
-                ivAddFrame.setEnabled(false);
-                ivPlay.setEnabled(false);
-                ivPlay.setEnabled(true);
-                ivPlay.setImageResource(R.drawable.ic_play_disable);
-                ivReset.setEnabled(true);
-                ivReset.setImageResource(R.drawable.ic_reset);
-                if (courseProgressListener != null) {
-                    courseProgressListener.completeSuccess(true);
-                }
-            }
-        });
+//        mHandler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor20.hts");
+//                ivAddFrame.setEnabled(false);
+//                ivPlay.setEnabled(false);
+//                ivPlay.setEnabled(true);
+//                ivPlay.setImageResource(R.drawable.ic_play_disable);
+//                ivReset.setEnabled(true);
+//                ivReset.setImageResource(R.drawable.ic_reset);
+//                if (courseProgressListener != null) {
+//                    courseProgressListener.completeSuccess(true);
+//                }
+//            }
+//        });
 
     }
 
@@ -307,6 +311,17 @@ public class CourseSixActionLayout extends BaseActionEditLayout implements Actio
 
         } else if (currentCourse == 3) {
 
+        } else if (currentCourse == 4) {
+            ivAddFrame.setEnabled(false);
+            ivPlay.setEnabled(false);
+            ivPlay.setEnabled(true);
+            ivPlay.setImageResource(R.drawable.ic_play_disable);
+            ivReset.setEnabled(true);
+            ivReset.setImageResource(R.drawable.ic_reset);
+            if (courseProgressListener != null) {
+                ViseLog.d("completeSuccess");
+                courseProgressListener.completeSuccess(true);
+            }
         }
         ViseLog.d("isPlayAction==" + isPlayAction);
 
