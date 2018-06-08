@@ -13,6 +13,8 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdActionStopPlay;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetActionList;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPause;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.playaction.R;
@@ -115,6 +117,9 @@ public class PlayActionManger {
 
     public void playAction(String actionName) {
         if(mBlueClient.getConnectionState() == 3){
+            if(AppStatusUtils.isLowPower()){
+                BaseLowBattaryDialog.getInstance().showLow5ActionDialog(null);
+            }
             mBlueClient.sendData(new BTCmdPlayAction(actionName).toByteArray());
             playState = PLAYING;
             currentPlayActionName =actionName;
@@ -230,12 +235,12 @@ public class PlayActionManger {
     }
 
     private void handleData(String actionName) {
-        for(int i=0; i<actionDataList.size(); i++){
+  /*      for(int i=0; i<actionDataList.size(); i++){
             if(actionDataList.get(i).getActionName().equals(actionName)){
                 ViseLog.d("double:" + actionName);
                 return;
             }
-        }
+        }*/
 
         ViseLog.d("double 1:" + actionName);
         ActionData actionData = new ActionData();
