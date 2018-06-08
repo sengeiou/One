@@ -10,7 +10,7 @@ import com.ubt.baselib.btCmd1E.BaseBTReq;
  */
 
 public class BTCmdReadSoftVer extends BaseBTReq {
-    byte    cmd = BTCmd.DV_READ_SOFTWARE_VERSION;
+    byte    cmd = BTCmd.DV_READ_ROBOT_SOFT_VERSION;
     byte[] parm = {0x00};
 
     public BTCmdReadSoftVer() {

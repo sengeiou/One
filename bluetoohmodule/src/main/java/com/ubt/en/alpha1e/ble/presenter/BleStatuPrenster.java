@@ -11,9 +11,7 @@ import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetRobotVersionMsg;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.model1E.ManualEvent;
@@ -129,7 +127,8 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 if (mView != null) {
                     mView.setRobotNetWork(bleNetWork);
                 }
-                mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
+                //mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
+                mBlueClientUtil.sendData(new BTCmdReadSNCode().toByteArray());
                 break;
             case BTCmd.DV_READ_SOFTWARE_VERSION:
                 ViseLog.d("机器人版本号：" + new String(packet.getmParam()));
@@ -144,7 +143,7 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 if (mView != null) {
                     mView.setRobotSN(new String(packet.getmParam()));
                 }
-                mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
+              //  mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
 
                 mBlueClientUtil.sendData(new BTCmdGetRobotVersionMsg().toByteArray());
                 break;

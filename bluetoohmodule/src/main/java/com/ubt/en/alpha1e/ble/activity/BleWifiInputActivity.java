@@ -164,7 +164,9 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         super.onDestroy();
         mUnbinder.unbind();
         mPresenter.unRegister();
-        mDisposable.dispose();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
         AppStatusUtils.setBtBussiness(false);
         BaseLoadingDialog.dismiss(this);
     }

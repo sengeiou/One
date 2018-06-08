@@ -21,6 +21,7 @@ import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
+import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.RobotStatuPrenster;
 import com.vise.log.ViseLog;
@@ -148,9 +149,9 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
 
 
     @Override
-    public void setRobotSoftVersion(String softVersion) {
-        if (!TextUtils.isEmpty(softVersion)) {
-            mTvRobotVersion.setText(softVersion);
+    public void setRobotSoftVersion(SystemRobotInfo systemRobotInfo) {
+        if (!TextUtils.isEmpty(systemRobotInfo.curVersion)) {
+            mTvRobotVersion.setText(systemRobotInfo.curVersion);
         }
     }
 

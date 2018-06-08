@@ -50,6 +50,7 @@ public class BaseUpdateRobotDialog {
                 if(listener != null){
                     listener.onConnect();
                 }
+                dismiss();
             }
         });
         contentView.findViewById(R.id.btn_bt_cancel).setOnClickListener(new View.OnClickListener() {
@@ -58,6 +59,7 @@ public class BaseUpdateRobotDialog {
                 if(listener != null){
                     listener.onCancel();
                 }
+                dismiss();
             }
         });
         btDisDialog.show();

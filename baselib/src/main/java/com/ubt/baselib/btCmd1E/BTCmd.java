@@ -284,6 +284,13 @@ public interface BTCmd {
     byte DV_DO_CHECK_ACTION_FILE_EXIST = (byte) 0x47;
 
     /**
+     * 读取机器人版本号
+     * 发送参数：文件名
+     * 回复 0 不存在 1 存在
+     */
+    byte DV_READ_ROBOT_SOFT_VERSION = (byte) 0x48;
+
+    /**
      * 读取红外传感器与障碍物的距离
      * 参数 01 开启上报， 00 停止上报
      */
