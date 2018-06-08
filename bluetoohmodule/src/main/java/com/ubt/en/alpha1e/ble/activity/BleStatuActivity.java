@@ -315,7 +315,9 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     }
 
     private void showRobotVersionDot() {
-        if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion) || !TextUtils.isEmpty(currentRobotVersionInfo.new_firmware_ver)) {
+
+        if ((mSystemRobotInfo != null && !TextUtils.isEmpty(mSystemRobotInfo.toVersion)) ||
+                (currentRobotVersionInfo != null && !TextUtils.isEmpty(currentRobotVersionInfo.new_firmware_ver))) {
             mViewRedDot.setVisibility(View.VISIBLE);
         } else {
             mViewRedDot.setVisibility(View.GONE);

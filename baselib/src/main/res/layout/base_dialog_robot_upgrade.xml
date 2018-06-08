@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="240dp"
         android:layout_height="64dp"
-        android:text="@string/base_upgrade_tip"
+        android:text="@string/base_install_tip"
         android:layout_gravity="center"
         android:textColor="#FF1D3740"
         android:textSize="15sp"

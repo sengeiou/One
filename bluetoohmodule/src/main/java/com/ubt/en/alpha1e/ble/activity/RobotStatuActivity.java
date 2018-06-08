@@ -1,5 +1,6 @@
 package com.ubt.en.alpha1e.ble.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,25 +12,35 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdStartUpgradeSoft;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseUpdateRobotDialog;
 import com.ubt.baselib.customView.BaseUpdateTipDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
-import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
+import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
+import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.RobotStatuPrenster;
 import com.vise.log.ViseLog;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 
 @Route(path = ModuleUtils.Bluetooh_BleStatuActivity)
@@ -77,6 +88,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
 
     private boolean mCurrentAutoUpgrade = false;
 
+    private SystemRobotInfo mSystemRobotInfo;
+    private BleRobotVersionInfo mBleRobotVersionInfo;
 
     @Override
     public int getContentViewId() {
@@ -88,12 +101,13 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
         mPresenter.init(this);
+        showRedDot(mTvRobotVersion, false);
+        showRedDot(mTvFirmwareVersion, false);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        AppStatusUtils.setBtBussiness(true);
         ViseLog.d("-onResume-");
         mPresenter.getRobotAutoState();
 
@@ -126,8 +140,19 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                         }
                     }).create().show();
 
-        } else if (i == R.id.tv_firmware_version) {//固件版本是否更新
-            if (true) {
+        } else if (i == R.id.tv_firmware_version) {//胸口版固件版本是否更新
+            Disposable mDisposable = Observable.intervalRange(1, 100, 0, 100, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            ViseLog.d("long===" + String.valueOf(aLong));
+                            Intent intent = new Intent(RobotStatuActivity.this, LanguageUpdateActivity.class);
+                            intent.putExtra("progress", String.valueOf(aLong));
+                            RobotStatuActivity.this.startActivity(intent);
+
+                        }
+                    });
+            if (mBleRobotVersionInfo != null && !TextUtils.isEmpty(mBleRobotVersionInfo.new_firmware_ver)) {
                 BaseUpdateRobotDialog.getInstance().show(new BaseUpdateRobotDialog.IDialogClick() {
                     @Override
                     public void onConnect() {
@@ -141,20 +166,60 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 });
             }
         } else if (i == R.id.tv_robot_version) {//系统版本是否更新
-            if (true) {
+            if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion)) {
                 BaseUpdateTipDialog.getInstance().show();
+                new BaseDialog.Builder(this)
+                        .setMessage(R.string.base_upgrade_tip)
+                        .setConfirmButtonId(R.string.base_confirm)
+                        .setConfirmButtonColor(R.color.base_blue)
+                        .setCancleButtonID(R.string.base_cancel)
+                        .setCancleButtonColor(R.color.black)
+                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                            @Override
+                            public void onClick(DialogPlus dialog, View view) {
+                                if (view.getId() == R.id.button_confirm) {
+                                    dialog.dismiss();
+                                    BlueClientUtil.getInstance().sendData(new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.REQUEST_UPDATE).toByteArray());
+                                } else if (view.getId() == R.id.button_cancle) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        }).create().show();
+//            Disposable mDisposable = Observable.intervalRange(1, 100, 0, 100, TimeUnit.MILLISECONDS)
+//                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+//                        @Override
+//                        public void accept(Long aLong) throws Exception {
+//                            ViseLog.d("long===" + String.valueOf(aLong));
+//                            JSONObject object = new JSONObject();
+//                            object.put("status", aLong == 100 ? 2 : 1);
+//                            object.put("progress", "" + aLong);
+//                            object.put("totalSize", "20M");
+//                            UpgradeProgressInfo upgradeProgressInfo = GsonImpl.get().toObject(object.toString(), UpgradeProgressInfo.class);
+//                            downSystemProgress(upgradeProgressInfo);
+//
+//                        }
+//                    });
             }
         }
     }
 
-
+    /**
+     * 设置机器人版本信息
+     *
+     * @param systemRobotInfo
+     */
     @Override
     public void setRobotSoftVersion(SystemRobotInfo systemRobotInfo) {
         if (!TextUtils.isEmpty(systemRobotInfo.curVersion)) {
             mTvRobotVersion.setText(systemRobotInfo.curVersion);
         }
+        if (!TextUtils.isEmpty(systemRobotInfo.toVersion)) {
+            showRedDot(mTvRobotVersion, true);
+        } else {
+            showRedDot(mTvRobotVersion, false);
+        }
+        mSystemRobotInfo = systemRobotInfo;
     }
-
 
     @Override
     public void setAutoUpgradeStatus(int status) {
@@ -176,7 +241,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
      * @param progressInfo
      */
     @Override
-    public void updateUpgradeProgress(UpgradeProgressInfo progressInfo) {
+    public void downSystemProgress(UpgradeProgressInfo progressInfo) {
 
         ViseLog.d("UpgradeProgressInfo = " + progressInfo);
         if (progressInfo != null) {
@@ -189,17 +254,18 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 if (!TextUtils.isEmpty(progressInfo.progress)) {
                     mTvSystemUpdateTip.setVisibility(View.VISIBLE);
                     mSystemVersionProgress.setVisibility(View.VISIBLE);
-                    mTvFirmwareProgress.setVisibility(View.VISIBLE);
+                    mTvSystemProgress.setVisibility(View.VISIBLE);
                     mSystemVersionProgress.setProgress(Integer.parseInt(progressInfo.progress));
-                    mTvFirmwareProgress.setText(progressInfo.progress);
+                    mTvSystemProgress.setText(progressInfo.progress + "%");
+
                 }
                 mIvDownloadSystemFailWarning.setVisibility(View.GONE);
 
             } else if (progressInfo.status == 2) {//download success
                 mIvDownloadSystemFailWarning.setVisibility(View.GONE);
                 mTvSystemUpdateTip.setVisibility(View.GONE);
-                mTvFirmwareProgress.setVisibility(View.GONE);
-                mTvFirmwareProgress.setVisibility(View.GONE);
+                mSystemVersionProgress.setVisibility(View.GONE);
+                mTvSystemProgress.setVisibility(View.GONE);
             }
         }
     }
@@ -210,30 +276,46 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
      * @param progressInfo
      */
     @Override
-    public void updateFirmProgress(UpgradeProgressInfo progressInfo) {
+    public void downloadFirmProgress(BleDownloadLanguageRsp progressInfo) {
         ViseLog.d("UpgradeProgressInfo = " + progressInfo);
         if (progressInfo != null) {
-            if (progressInfo.status == 0) {//download fail
-                mTvFirmwareUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
-                mTvFirmwareUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
+            if (progressInfo.name.equals("chip_firmware")) {
                 mTvFirmwareUpdateTip.setVisibility(View.VISIBLE);
-                mIvDownloadFirmFailWarning.setVisibility(View.VISIBLE);
-            } else if (progressInfo.status == 1) {//downloading
-                if (!TextUtils.isEmpty(progressInfo.progress)) {
-                    mTvFirmwareUpdateTip.setVisibility(View.VISIBLE);
-                    mFirmwareVersionProgress.setVisibility(View.VISIBLE);
-                    mTvSystemProgress.setVisibility(View.VISIBLE);
-                    mFirmwareVersionProgress.setProgress(Integer.parseInt(progressInfo.progress));
-                    mTvSystemProgress.setText(progressInfo.progress);
+                mFirmwareVersionProgress.setVisibility(View.VISIBLE);
+                mTvFirmwareProgress.setVisibility(View.VISIBLE);
+                mIvDownloadFirmFailWarning.setVisibility(View.GONE);
+                mFirmwareVersionProgress.setProgress(progressInfo.progess);
+                mTvFirmwareProgress.setText(progressInfo.progess + "%");
+                if (progressInfo.result == 0 && progressInfo.progess == 100) {
+                    mIvDownloadFirmFailWarning.setVisibility(View.GONE);
+                    mTvFirmwareUpdateTip.setVisibility(View.GONE);
+                    mFirmwareVersionProgress.setVisibility(View.GONE);
+                    mTvFirmwareProgress.setVisibility(View.GONE);
+                } else if (progressInfo.result == 1 || progressInfo.result == 2) {
+                    //  mTvFirmwareUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
+                    // mTvFirmwareUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
+                    mIvDownloadFirmFailWarning.setVisibility(View.GONE);
+                    mTvFirmwareUpdateTip.setVisibility(View.GONE);
+                    mFirmwareVersionProgress.setVisibility(View.GONE);
+                    mTvFirmwareProgress.setVisibility(View.GONE);
                 }
-                mIvDownloadFirmFailWarning.setVisibility(View.GONE);
-
-            } else if (progressInfo.status == 2) {//download success
-                mIvDownloadFirmFailWarning.setVisibility(View.GONE);
-                mTvFirmwareUpdateTip.setVisibility(View.GONE);
-                mFirmwareVersionProgress.setVisibility(View.GONE);
-                mTvSystemProgress.setVisibility(View.GONE);
             }
+        }
+    }
+
+    /**
+     * 设置机器人胸口版信息
+     *
+     * @param robotVersionInfo
+     */
+    @Override
+    public void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo) {
+        mBleRobotVersionInfo = robotVersionInfo;
+        mTvFirmwareVersion.setText(robotVersionInfo.firmware_ver);
+        if (robotVersionInfo != null && !TextUtils.isEmpty(robotVersionInfo.new_firmware_ver)) {
+            showRedDot(mTvFirmwareVersion, true);
+        } else {
+            showRedDot(mTvFirmwareVersion, false);
         }
     }
 
@@ -242,11 +324,19 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         mTvHardwareSerial.setText(hardVersion);
     }
 
+    /**
+     * 胸口版固件升级进度
+     *
+     * @param switchLanguageRsp
+     */
+    @Override
+    public void updateFirmVersionProgress(BleSwitchLanguageRsp switchLanguageRsp) {
+
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        AppStatusUtils.setBtBussiness(false);
     }
 
     @Override
@@ -256,10 +346,10 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         mUnbinder.unbind();
     }
 
-
     /**
      * 切换自动升级开关状态
      */
+
     private void switchAutoUpgradeStatus() {
 //        BaseLoadingDialog.dismiss(this);
 //        BaseLoadingDialog.show(this);
@@ -277,15 +367,15 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
      *
      * @param isShow 是否显示
      */
-    private void showRedDot(boolean isShow) {
+    private void showRedDot(TextView textView, boolean isShow) {
         if (isShow) {
             Drawable img = getResources().getDrawable(R.drawable.ble_update_red_dot);
             if (img != null) {
                 img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
-                // tvAboutCheck.setCompoundDrawables(img, null, null, null);
+                textView.setCompoundDrawables(null, null, img, null);
             }
         } else {
-            //tvAboutCheck.setCompoundDrawables(null, null, null, null);
+            textView.setCompoundDrawables(null, null, null, null);
         }
     }
 

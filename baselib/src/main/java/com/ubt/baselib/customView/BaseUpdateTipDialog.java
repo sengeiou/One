@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ubt.baselib.R;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdRobotUpgrade;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdStartUpgradeSoft;
 import com.ubt.baselib.utils.ContextUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.globaldialog.GlobalDialog;
@@ -55,7 +55,7 @@ public class BaseUpdateTipDialog {
         contentView.findViewById(R.id.btn_update).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BlueClientUtil.getInstance().sendData(new BTCmdRobotUpgrade(BTCmdRobotUpgrade.START).toByteArray());
+                BlueClientUtil.getInstance().sendData(new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.START_UPDATE).toByteArray());
                 dismiss();
             }
         });

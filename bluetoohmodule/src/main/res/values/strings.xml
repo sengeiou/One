@@ -52,6 +52,7 @@
     <string name="common_btn_switch_on" tools:ignore="ResourceName">Turn on</string>
     <string name="about_robot_new_version" tools:ignore="ResourceName">A new robot version is available, will you update it right now?</string>
     <string name="about_robot_auto_update_download" tools:ignore="ResourceName">Downloading robot updates (#%) ...</string>
+    <string name="about_robot_auto_update_download1" tools:ignore="ResourceName">Downloading robot updates...</string>
     <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates.</string>
     <string name="about_robot_language_done" tools:ignore="ResourceName">Done</string>
     <string name="about_robot_language_dialogue" tools:ignore="ResourceName">Are you sure you want to change the robot language to #? This will take you 3 or 4 minutes of time.</string>

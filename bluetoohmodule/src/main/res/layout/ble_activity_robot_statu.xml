@@ -54,8 +54,8 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_5"
-                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
                 >
 
                 <TextView
@@ -112,7 +112,7 @@
                     android:drawableEnd="@drawable/ble_update_red_dot"
                     android:drawablePadding="5dp"
                     android:focusable="true"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/sp_13"
                     />
 
                 <ImageView
@@ -135,8 +135,8 @@
                     android:layout_toRightOf="@+id/iv_download_system_fail_warning"
                     android:ellipsize="end"
                     android:gravity="left|center_vertical"
-                    android:text="@string/about_robot_auto_update_download"
-                    android:textColor="@color/base_blue"
+                    android:text="@string/about_robot_auto_update_download1"
+                    android:textColor="@color/base_color_grey"
                     android:textSize="@dimen/sp_12"
                     android:visibility="gone"
                     />
@@ -158,10 +158,9 @@
                 <TextView
                     android:id="@+id/tv_system_progress"
                     style="@style/ble_tv_robot_right"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@+id/tv_system_update_tip"
                     android:textSize="@dimen/sp_12"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     />
 
                 <View
@@ -198,7 +197,7 @@
                     android:drawablePadding="5dp"
                     android:focusable="true"
                     android:text="V1.0.1"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/sp_13"
                     />
 
                 <ImageView
@@ -221,8 +220,8 @@
                     android:layout_toRightOf="@+id/iv_download_firm_fail_warning"
                     android:ellipsize="end"
                     android:gravity="left|center_vertical"
-                    android:text="@string/about_robot_auto_update_download"
-                    android:textColor="@color/base_blue"
+                    android:text="@string/about_robot_auto_update_download1"
+                    android:textColor="@color/base_color_grey"
                     android:textSize="@dimen/sp_12"
                     android:visibility="gone"
                     />
@@ -264,8 +263,11 @@
             <RelativeLayout
                 android:id="@+id/rl_hardware_serial"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_45"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_firmware_version"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
                 >
 
                 <TextView
@@ -273,13 +275,13 @@
                     android:text="HardWare Version"
                     />
 
+
                 <TextView
                     android:id="@+id/tv_hardware_serial"
                     style="@style/ble_tv_robot_right"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
+                    android:text="V1.0.1"
+                    android:textSize="12sp"
                     />
-
 
             </RelativeLayout>
 

@@ -34,7 +34,7 @@
     <string name="base_ble_broken_tip">Your bluetooth has disconnected\nwith robot, please reconnect it.</string>
     <string name="base_upgrade_tip">A new version is available,\nwill you update right now?</string>
 
-
+    <string name="base_install_tip">A new version is available,\nwill you install right now?</string>
     <string name="base_ui_settings_language_france">法语</string>
     <string name="base_ui_settings_language_korean">韩语</string>
     <string name="base_ui_settings_language_italian">意大利语</string>

@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
+import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
+import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 
@@ -25,11 +28,16 @@ public class RobotStatuContact {
 
         void setAutoUpgradeStatus(int status);
 
-        void updateUpgradeProgress(UpgradeProgressInfo progressInfo);
-        void updateFirmProgress(UpgradeProgressInfo progressInfo);
+        void downSystemProgress(UpgradeProgressInfo progressInfo);
+
+        void downloadFirmProgress(BleDownloadLanguageRsp downloadLanguageRsp);
+
+        void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo);
 
         void setRobotHardVersion(String hardVersion);
-    }
+
+        void updateFirmVersionProgress(BleSwitchLanguageRsp switchLanguageRsp);
+     }
 
     public interface Presenter extends BasePresenter<View> {
 
@@ -40,7 +48,9 @@ public class RobotStatuContact {
         void getRobotAutoState();
 
 
-        /** 改变 1E 自动升级状态
+        /**
+         * 改变 1E 自动升级状态
+         *
          * @param is0pen false 为未开启， true为已开启
          */
         void doChangeAutoUpgrade(boolean is0pen);

@@ -157,6 +157,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         context.startActivity(intent);
     }
 
+
     @Override
     public int getContentViewId() {
         return R.layout.ble_activity_robot_language;
@@ -443,7 +444,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         ViseLog.d("-switchLanguageDialog->");
         if(switchProgressDialog == null){
             switchProgressDialog = new SwitchIngLanguageDialog(this)
-                    .setCancel(true);
+                    .setCancel(false);
 
             switchProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override

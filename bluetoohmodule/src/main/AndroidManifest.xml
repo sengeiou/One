@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
     <application>
@@ -32,7 +31,6 @@
             android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
-
         <activity
             android:name=".activity.BleSearchWifiActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -41,7 +39,6 @@
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
-
         <activity
             android:name=".activity.BleRobotLanguageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -50,7 +47,6 @@
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
-
         <activity
             android:name=".activity.BleWifiInputActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -58,25 +54,34 @@
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
-
         <activity
             android:name=".activity.BleStatuActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"
             android:launchMode="singleTask"
+            android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activity.RobotStatuActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"
             android:launchMode="singleTask"
+            android:screenOrientation="landscape"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
+
         <service
             android:name=".service.AutoConnectService"
             android:enabled="true"
             android:exported="true"/>
+
+        <activity
+            android:name=".activity.LanguageUpdateActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/ble_NoTitleDialog"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>

@@ -21,7 +21,9 @@ import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
+import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
+import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
@@ -94,7 +96,7 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-       // ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+        // ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
         BTCmdHelper.parseBTCmd(readData.getDatas(), this);
     }
 
@@ -135,7 +137,7 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                 ViseLog.d("upgradeProgressJson = " + upgradeProgressJson);
                 UpgradeProgressInfo upgradeProgressInfo = GsonImpl.get().toObject(upgradeProgressJson, UpgradeProgressInfo.class);
                 if (mView != null) {
-                    mView.updateUpgradeProgress(upgradeProgressInfo);
+                    mView.downSystemProgress(upgradeProgressInfo);
                 }
                 break;
             case BTCmd.DV_READ_HARDWARE_VERSION:
@@ -152,7 +154,19 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                 if (bleBaseModel.event == 1) {
                     BleRobotVersionInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotVersionInfo.class);
                     if (mView != null) {
-                        //  mView.setRobotLanguage(robotLanguageInfo);
+                        mView.setRobotVersionInfo(robotLanguageInfo);
+                    }
+                } else if (bleBaseModel.event == 7) {
+                    BleDownloadLanguageRsp downloadLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleDownloadLanguageRsp.class);
+                    ViseLog.d("downloadLanguageRsp = " + downloadLanguageRsp);
+                    if (mView != null) {
+                        mView.downloadFirmProgress(downloadLanguageRsp);
+                    }
+                }else if(bleBaseModel.event == 9){
+                    BleSwitchLanguageRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSwitchLanguageRsp.class);
+                    ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
+                    if(mView != null){
+                        mView.updateFirmVersionProgress(switchLanguageRsp);
                     }
                 }
                 break;
@@ -218,7 +232,6 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
 
         mBlueClientUtil.sendData(new BTCmdSetAutoUpgrade(params[0]).toByteArray());
     }
-
 
 
 }
