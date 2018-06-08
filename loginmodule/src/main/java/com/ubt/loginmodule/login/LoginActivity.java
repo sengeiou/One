@@ -29,7 +29,9 @@ import com.facebook.login.LoginResult;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.globalConst.Constant1E;
+import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.loginmodule.LoginUtil;
@@ -326,6 +328,11 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
     @Override
     public void loginSuccess() {
         BaseLoadingDialog.dismiss(this);
+        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
+        if(userInfoModel == null){
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.login_wrong_password));
+            return;
+        }
         boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
         if(noFirst){
             ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation(LoginActivity.this, navigationCallback);

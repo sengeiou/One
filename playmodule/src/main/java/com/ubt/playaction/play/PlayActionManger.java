@@ -84,6 +84,7 @@ public class PlayActionManger implements IProtolPackListener {
         this.listener = listener;
         mBlueClient = BlueClientUtil.getInstance();
         if(!EventBus.getDefault().isRegistered(this)){//加上判断
+            ViseLog.d("IPlayActionMangerListenerthis:" + this.getClass());
             EventBus.getDefault().register(this);
         }
     }
@@ -338,9 +339,10 @@ public class PlayActionManger implements IProtolPackListener {
     }
 
     public void addActionCycleList(ActionData actionData){
+        ViseLog.d("addActionCycleList actionData:" + actionData);
         for(int i=0; i<actionCycleList.size(); i++){
             if(actionDataList.get(i).getActionName().equals(actionData.getActionName())){
-                ViseLog.d("double:" + actionData.getActionName());
+                ViseLog.d("addActionCycleList:" + actionData.getActionName());
                 return;
             }
         }

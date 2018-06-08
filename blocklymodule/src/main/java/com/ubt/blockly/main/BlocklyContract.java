@@ -27,6 +27,8 @@ public class BlocklyContract {
         void infraredSensor(int state);
         void read6DState(int state);
         void tempState(String state);
+        void updatePower(int power);
+        void lostBT();
     }
 
     interface  Presenter extends BasePresenter<View> {

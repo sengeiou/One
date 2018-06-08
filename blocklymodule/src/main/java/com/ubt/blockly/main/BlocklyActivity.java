@@ -29,6 +29,7 @@ import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.model1E.BlocklyProjectMode;
 import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.ByteHexHelper;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
@@ -45,6 +46,7 @@ import com.ubt.blockly.main.bean.DeviceDirectionEnum;
 import com.ubt.blockly.main.bean.DirectionSensorEventListener;
 import com.ubt.blockly.main.bean.DragView;
 import com.ubt.blockly.main.bean.LedColorEnum;
+import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
@@ -94,14 +96,15 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     private boolean fromVideo = false;
     public static final String FROM_VIDEO = "fromVideo";
     public static final String SHOTCUT_NAME = "shotVideo";
+    private boolean isLoadFinish = false;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        mPresenter.register(this);
         if(BlueClientUtil.getInstance().getConnectionState() == 3){
+            mPresenter.register(this);
             mPresenter.getActionList();
         }
         fromVideo =  getIntent().getBooleanExtra(FROM_VIDEO, false);
@@ -160,6 +163,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
                 BaseLoadingDialog.dismiss(BlocklyActivity.this);
+                isLoadFinish = true;
 
             }
 
@@ -171,6 +175,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                isLoadFinish = true;
                 BaseLoadingDialog.dismiss(BlocklyActivity.this);
                 if(BlueClientUtil.getInstance().getConnectionState() == 3){
 
@@ -178,6 +183,12 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                     mPresenter.doRead6Dstate();
                     mPresenter.doReadTemperature((byte)0x01);
                     mPresenter.startOrStopRun((byte)0x01);
+
+                    if(mWebView != null ){
+                        //由于读取电量间隔时间1s中太长，有可能导致用户使用时还没将电量值上报给前端，导致低电量无法运行
+                        mWebView.loadUrl("javascript:uploadLowPowerData(" + AppStatusUtils.getCurrentPower() + ")");
+                    }
+
                 }
 
                 if(fromVideo){
@@ -317,6 +328,33 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
         });
     }
 
+    @Override
+    public void updatePower(int power) {
+        ViseLog.d("updatePower:" + power);
+        if(mWebView != null && isLoadFinish){
+            mWebView.loadUrl("javascript:uploadLowPowerData(" + power + ")");
+        }
+    }
+
+    @Override
+    public void lostBT() {
+
+        if(mPresenter != null){
+            mPresenter.unRegister();
+        }
+
+        if(mWebView != null){
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    ViseLog.d("Bluetooth disconnect checkBlueConnectState ");
+                    mWebView.loadUrl("javascript:checkBlueConnectState()");
+                }
+            });
+        }
+
+    }
+
     public void playRobotAction(String name) {
         ViseLog.d("playRobotAction:" + name);
         mPresenter.playAction(name);
@@ -331,7 +369,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     }
 
     public void connectBluetooth(){
-        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).withString(Constant1E.ENTER_BLESTATU_ACTIVITY, "2").navigation(this, 1);
+        ARouter.getInstance().build(ModuleUtils.Bluetooh_BleStatuActivity).withInt(Constant1E.ENTER_BLESTATU_ACTIVITY, 2).navigation(this, 1);
     }
 
     public boolean isBlueToothConnected(){
@@ -806,15 +844,31 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ViseLog.d("onActivityResult:" + requestCode + "resultCode:" + resultCode);
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if (requestCode == 1){
-                if(mPresenter != null ){
-                    mPresenter.getActionList();
-                    mPresenter.doReadInfraredSensor((byte)0x01);
-                    mPresenter.startOrStopRun((byte)0x01);
-                    mPresenter.doRead6Dstate();
-                    mPresenter.doReadTemperature((byte)0x01);
+                if(BlueClientUtil.getInstance().getConnectionState() == BluetoothState.STATE_CONNECTED){
+                    if(mPresenter != null ){
+                        ViseLog.d("onActivityResult send cmd");
+                        mPresenter.register(this);
+                        mPresenter.getActionList();
+                        mPresenter.doReadInfraredSensor((byte)0x01);
+                        mPresenter.startOrStopRun((byte)0x01);
+                        mPresenter.doRead6Dstate();
+                        mPresenter.doReadTemperature((byte)0x01);
+                    }
+                }
+
+
+                if(mWebView != null){
+                    mWebView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ViseLog.d("onActivityResult Bluetooth disconnect checkBlueConnectState ");
+                            mWebView.loadUrl("javascript:checkBlueConnectState()");
+                        }
+                    });
                 }
 
             }

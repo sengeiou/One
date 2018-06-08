@@ -2,23 +2,9 @@ package com.ubt.playaction.play;
 
 import android.content.Context;
 
-import com.ubt.baselib.BlueTooth.BTReadData;
-import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
-import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
-import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
-import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.mvp.BasePresenterImpl;
-import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
-import com.ubt.playaction.R;
 import com.ubt.playaction.model.ActionData;
-import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +18,7 @@ import java.util.List;
  */
 
 
-public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.View> implements PlayActionContract.Presenter, IProtolPackListener, PlayActionManger.IPlayActionMangerListener {
+public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.View> implements PlayActionContract.Presenter, PlayActionManger.IPlayActionMangerListener {
 
     public static final int STOP = 0;
     public static final int PLAYING = 1;
@@ -84,23 +70,28 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
         playActionManger.playPauseAction();
     }
 
+/*
 
-    /**
+    */
+/**
      * 读取蓝牙回调数据
      *
      * @param readData
-     */
+     *//*
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
         ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
         BTCmdHelper.parseBTCmd(readData.getDatas(), this);
     }
 
-    /**
+    */
+/**
      * 蓝牙数据解析回调
      *
      * @param packet
-     */
+     *//*
+
     @Override
     public void onProtocolPacket(ProtocolPacket packet) {
         ViseLog.d("onProtocolPacket:" + packet.getmCmd() + "---getmParam:" +  new String(packet.getmParam()));
@@ -151,12 +142,13 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
         actionData.setActionTime("03:25");
         actionDataList.add(actionData);
     }
+*/
 
-    /**
+ /*   *//**
      * 蓝牙连接断开状态
      *
-     * @param serviceStateChanged
-     */
+     * @param
+     *//*
     @org.greenrobot.eventbus.Subscribe
     public void onBluetoothServiceStateChanged(BTServiceStateChanged serviceStateChanged) {
         ViseLog.i("getState:" + serviceStateChanged.toString());
@@ -182,7 +174,7 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
     public int  getConnectState(){
         return mConnectState;
     }
-
+*/
 
     @Override
     public void setActionList(List<ActionData> actionDataList) {
