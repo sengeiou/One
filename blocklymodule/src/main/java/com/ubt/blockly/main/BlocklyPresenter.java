@@ -25,6 +25,7 @@ import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
+import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -147,6 +148,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
     @Override
     public void doReadInfraredSensor(byte cmd) {
         if(mBlueClient.getConnectionState() == 3){
+            ViseLog.d("doReadInfraredSensor");
             mBlueClient.sendData(new BTCmdSetPir(cmd).toByteArray());
         }
     }
@@ -154,6 +156,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
     @Override
     public void doRead6Dstate() {
         if(mBlueClient.getConnectionState() == 3){
+            ViseLog.d("doRead6Dstate");
             mBlueClient.sendData(new BTCmdRead6DState().toByteArray());
         }
     }
@@ -161,6 +164,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
     @Override
     public void doReadTemperature(byte cmd) {
         if(mBlueClient.getConnectionState() == 3){
+            ViseLog.d("doReadTemperature");
             mBlueClient.sendData(new BTCmdReadAcceleration(cmd).toByteArray());
         }
     }
@@ -168,6 +172,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
     @Override
     public void startOrStopRun(byte cmd) {
         if(mBlueClient.getConnectionState() == 3){
+            ViseLog.d("startOrStopRun");
             mBlueClient.sendData(new BTCmdSwitchEditStatus(cmd).toByteArray());
         }
     }
@@ -255,6 +260,24 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
             case BTCmd.DV_INTO_EDIT:
 
                 break;
+
+            case BTCmd.DV_READ_BATTERY:
+                ViseLog.i("电量data:" + HexUtil.encodeHexStr(packet.getmParam()));
+                if(packet.getmParamLen() < 4){
+                    ViseLog.e("错误参数，丢弃!!!");
+                    return;
+                }
+
+                int power = 0;
+                if(packet.getmParam()[2] == 1){
+                     power = 100; //充电中
+                }else{
+                     power = packet.getmParam()[3];
+                }
+                if(mView != null){
+                    mView.updatePower(power);
+                }
+                break;
             default:
                 break;
         }
@@ -279,7 +302,9 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
-                unRegister();
+                if(mView != null){
+                    mView.lostBT();
+                }
                 break;
             default:
 

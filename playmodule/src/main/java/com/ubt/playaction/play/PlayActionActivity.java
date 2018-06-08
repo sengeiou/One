@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -109,6 +108,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViseLog.d("onCreate");
         unbinder = ButterKnife.bind(this);
         mPresenter.register(this);
         if(BlueClientUtil.getInstance().getConnectionState() == 3){ //判断蓝牙是否连接
@@ -158,13 +158,6 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
     }
 
-    private void addHeader() {
-        View headerView=getLayoutInflater().inflate(R.layout.item_header_view, null);
-
-        headerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        actionAdapter.addHeaderView(headerView);
-    }
 
     @Override
     protected void onResume() {
@@ -188,7 +181,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         }
     }
 
-    @OnClick({R2.id.play_iv_back,R2.id.tv_select,R2.id.iv_playlist, R2.id.iv_reset, R2.id.iv_play_pause,R2.id.iv_close_list,R2.id.iv_delete_list,R2.id.iv_select_all,R2.id.rl_play_btn, R2.id.iv_20_tip})
+    @OnClick({R2.id.play_iv_back,R2.id.tv_select,R2.id.iv_playlist, R2.id.iv_reset, R2.id.iv_play_pause,R2.id.iv_close_list,R2.id.iv_delete_list,R2.id.iv_select_all,R2.id.rl_play_btn, R2.id.iv_20_tip,R2.id.rl_list})
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.play_iv_back){
@@ -246,6 +239,8 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             showDialog();
         }else if(id == R.id.iv_20_tip){
             rl20Tip.setVisibility(View.GONE);
+        }else if(id == R.id.rl_list){
+            rlPlaylist.setVisibility(View.GONE);
         }
     }
 
@@ -333,7 +328,6 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//        ToastUtils.showShort("item onItemClick");
         ActionData actionData = (ActionData) adapter.getItem(position);
         if(select){
             if(actionData.isSelect()){
@@ -344,6 +338,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
                 tempDataList.add(actionData);
             }
             actionAdapter.notifyItemChanged(position);
+            updateSelectAllState();
 
         }else{
             String actionName = actionData.getActionName();
@@ -357,6 +352,16 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         notifyPlayBtnState();
 
 
+    }
+
+    private void updateSelectAllState() {
+        if(tempDataList.size() == actionDataList.size()){
+            selectAll = true;
+            ivSelectAll.setImageResource(R.drawable.ic_row_selected);
+        }else{
+            selectAll = false;
+            ivSelectAll.setImageResource(R.drawable.ic_row_select);
+        }
     }
 
     @Override

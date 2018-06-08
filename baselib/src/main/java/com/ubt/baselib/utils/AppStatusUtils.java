@@ -36,6 +36,10 @@ public class AppStatusUtils {
         AppStatusUtils.currentPower = currentPower;
     }
 
+    public static int getCurrentPower() {
+        return currentPower;
+    }
+
     public static void setChargingStatus(int chargingStatus) {
         AppStatusUtils.chargingStatus = chargingStatus;
     }
