@@ -8,6 +8,7 @@ import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
+import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 
 /**
@@ -29,7 +30,7 @@ public class BleStatuContact {
 
         void setRobotNetWork(BleNetWork bleNetWork);
 
-        void setRobotSoftVersion(String softVersion);
+        void setRobotSoftVersion(SystemRobotInfo systemRobotInfo);
 
         void setRobotSN(String SN);
 

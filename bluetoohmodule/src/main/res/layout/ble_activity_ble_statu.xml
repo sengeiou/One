@@ -273,6 +273,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/tv_robot_soft_language"
                         android:background="@drawable/ble_update_red_dot"
+                        android:visibility="gone"
                         />
 
                     <TextView

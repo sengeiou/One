@@ -15,7 +15,6 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadHardwareVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
-import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -24,15 +23,19 @@ import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
+import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * @author：liuhai
@@ -91,7 +94,7 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+       // ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
         BTCmdHelper.parseBTCmd(readData.getDatas(), this);
     }
 
@@ -104,12 +107,14 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
     public void onProtocolPacket(ProtocolPacket packet) {
         switch (packet.getmCmd()) {
 
-            case BTCmd.DV_READ_SOFTWARE_VERSION:
-                ViseLog.d("机器人版本号：" + new String(packet.getmParam()));
+            case BTCmd.DV_READ_ROBOT_SOFT_VERSION:
+
+                String systemCommedInfo = BluetoothParamUtil.bytesToString(packet.getmParam());
+                ViseLog.d("机器人版本号 commonCmdJson= " + systemCommedInfo.toString());
+                SystemRobotInfo systemRobotInfo = GsonImpl.get().toObject(systemCommedInfo, SystemRobotInfo.class);
                 if (mView != null) {
-                    mView.setRobotSoftVersion(new String(packet.getmParam()));
+                    mView.setRobotSoftVersion(systemRobotInfo);
                 }
-                mBlueClientUtil.sendData(new BTCmdReadHardwareVer().toByteArray());
                 break;
 
             case BTCmd.DV_READ_AUTO_UPGRADE_STATE://自动读取
@@ -117,7 +122,7 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                 if (mView != null) {
                     mView.setAutoUpgradeStatus(packet.getmParam()[0]);
                 }
-                mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
+
                 break;
             case BTCmd.DV_SET_AUTO_UPGRADE://手动切换结果
                 ViseLog.d("机器人 DV_SET_AUTO_UPGRADE：" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
@@ -138,15 +143,11 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                 if (mView != null) {
                     mView.setRobotHardVersion(new String(packet.getmParam()));
                 }
-                ViseLog.d("获取机器人语言包请求");
-                mBlueClientUtil.sendData(new BTCmdGetRobotVersionMsg().toByteArray());
                 break;
             case BTCmd.DV_COMMON_CMD:
                 ViseLog.d("DV_COMMON_CMD = " + BluetoothParamUtil.bytesToString(packet.getmParam()));
-
                 String commonCmdJson = BluetoothParamUtil.bytesToString(packet.getmParam());
                 BleBaseModelInfo bleBaseModel = GsonImpl.get().toObject(commonCmdJson, BleBaseModelInfo.class);
-
                 ViseLog.d("bleBaseModel.event = " + bleBaseModel.event);
                 if (bleBaseModel.event == 1) {
                     BleRobotVersionInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotVersionInfo.class);
@@ -154,7 +155,6 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                         //  mView.setRobotLanguage(robotLanguageInfo);
                     }
                 }
-
                 break;
             default:
                 break;
@@ -165,7 +165,12 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
     @Override
     public void unRegister() {
         EventBus.getDefault().unregister(this);
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
+
+    private Disposable mDisposable;
 
     /**
      * 获取机器人连接状态
@@ -175,7 +180,26 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
         BluetoothDevice device = mBlueClientUtil.getConnectedDevice();
         if (mView != null) {
             if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
-                mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
+                mDisposable = Observable.intervalRange(1, 4, 0, 200, TimeUnit.MILLISECONDS).subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        ViseLog.d("long===" + String.valueOf(aLong));
+                        if (aLong == 1) {
+                            ViseLog.d("获取机器人自动更新请求");
+                            mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
+                        } else if (aLong == 2) {
+                            ViseLog.d("获取机器人软件版本请求");
+                            mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
+                        } else if (aLong == 3) {
+                            ViseLog.d("获取机器人硬件版本请求");
+                            mBlueClientUtil.sendData(new BTCmdReadHardwareVer().toByteArray());
+                        } else if (aLong == 4) {
+                            ViseLog.d("获取机器人语言包请求");
+                            mBlueClientUtil.sendData(new BTCmdGetRobotVersionMsg().toByteArray());
+                        }
+                    }
+                });
+
             }
 
         }
@@ -196,24 +220,5 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
     }
 
 
-    //                "status":	"true",
-//                    "name":	"UBT-alpha2-bigbox",
-//                    "ip":	"192.168.79.60"
-//        }
-    public BleNetWork praseNetWork(String netWork) {
 
-        BleNetWork bleNetWork = null;
-
-        try {
-            JSONObject object = new JSONObject(netWork);
-            boolean statu = object.optBoolean("status");
-            String wifiName = object.optString("name");
-            String ip = object.optString("ip");
-            bleNetWork = new BleNetWork(statu, wifiName, ip);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return bleNetWork;
-    }
 }
