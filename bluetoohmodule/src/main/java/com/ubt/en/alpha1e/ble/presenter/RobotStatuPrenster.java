@@ -15,7 +15,6 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadHardwareVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
-import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -27,13 +26,10 @@ import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
@@ -98,7 +94,7 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+       // ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
         BTCmdHelper.parseBTCmd(readData.getDatas(), this);
     }
 
@@ -150,10 +146,8 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                 break;
             case BTCmd.DV_COMMON_CMD:
                 ViseLog.d("DV_COMMON_CMD = " + BluetoothParamUtil.bytesToString(packet.getmParam()));
-
                 String commonCmdJson = BluetoothParamUtil.bytesToString(packet.getmParam());
                 BleBaseModelInfo bleBaseModel = GsonImpl.get().toObject(commonCmdJson, BleBaseModelInfo.class);
-
                 ViseLog.d("bleBaseModel.event = " + bleBaseModel.event);
                 if (bleBaseModel.event == 1) {
                     BleRobotVersionInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotVersionInfo.class);
@@ -226,24 +220,5 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
     }
 
 
-    //                "status":	"true",
-//                    "name":	"UBT-alpha2-bigbox",
-//                    "ip":	"192.168.79.60"
-//        }
-    public BleNetWork praseNetWork(String netWork) {
 
-        BleNetWork bleNetWork = null;
-
-        try {
-            JSONObject object = new JSONObject(netWork);
-            boolean statu = object.optBoolean("status");
-            String wifiName = object.optString("name");
-            String ip = object.optString("ip");
-            bleNetWork = new BleNetWork(statu, wifiName, ip);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return bleNetWork;
-    }
 }

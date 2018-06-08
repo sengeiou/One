@@ -2,6 +2,7 @@ package com.ubt.en.alpha1e.ble.activity;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,6 +32,7 @@ import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
+import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.BleStatuPrenster;
 import com.vise.log.ViseLog;
@@ -113,7 +115,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     View mViewRedDot;
     @BindView(R2.id.tv_robot_soft_language)
     TextView mTvRobotSoftLanguage;
-    @BindView(R.id.v_has_language_new_version)
+    @BindView(R2.id.v_has_language_new_version)
     View vHasLanguageNewVersion;
 
     private int fromeType;
@@ -123,6 +125,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     private boolean mCurrentAutoUpgrade = false;
 
     private BleRobotVersionInfo currentRobotVersionInfo = null;
+    private SystemRobotInfo mSystemRobotInfo;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -167,12 +170,13 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     if (currentRobotVersionInfo != null) {
                         tvRobotLanguage.setText(currentRobotVersionInfo.langlong);
                         ViseLog.d("currentRobotVersionInfo.new_version = " + currentRobotVersionInfo.new_version);
-                        if(TextUtils.isEmpty(currentRobotVersionInfo.new_version)){
+                        if (TextUtils.isEmpty(currentRobotVersionInfo.new_version)) {
                             vHasLanguageNewVersion.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             vHasLanguageNewVersion.setVisibility(View.VISIBLE);
                         }
                     }
+                    showRobotVersionDot();
                     break;
                 default:
                     break;
@@ -203,7 +207,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     }
 
     @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect,
-            R2.id.tv_robot_language,R2.id.tv_robot_language_right,R2.id.v_has_language_new_version,
+            R2.id.tv_robot_language, R2.id.tv_robot_language_right, R2.id.v_has_language_new_version,
             R2.id.ckb_auto_upgrade, R2.id.tv_robot_soft_language})
     public void clickView(View view) {
         int i = view.getId();
@@ -310,6 +314,14 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         }
     }
 
+    private void showRobotVersionDot() {
+        if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion) || !TextUtils.isEmpty(currentRobotVersionInfo.new_firmware_ver)) {
+            mViewRedDot.setVisibility(View.VISIBLE);
+        } else {
+            mViewRedDot.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void setRobotStatu(RobotStatu robotStatu) {
 
@@ -329,14 +341,22 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         }
     }
 
+    /**
+     * 获取机器人软件版本
+     *
+     * @param systemRobotInfo
+     */
     @Override
-    public void setRobotSoftVersion(String softVersion) {
-
-        if (!TextUtils.isEmpty(softVersion)) {
-            mTvRobotVersion.setText(softVersion);
-        }
+    public void setRobotSoftVersion(SystemRobotInfo systemRobotInfo) {
+        mSystemRobotInfo = systemRobotInfo;
+        showRobotVersionDot();
     }
 
+    /**
+     * 设置机器人序列号
+     *
+     * @param SN
+     */
     @Override
     public void setRobotSN(String SN) {
         if (!TextUtils.isEmpty(SN)) {
@@ -349,6 +369,11 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         BleConnectActivity.launch(this, false);
     }
 
+    /**
+     * 设置
+     *
+     * @param status
+     */
     @Override
     public void setAutoUpgradeStatus(int status) {
         ViseLog.d("setAutoUpgradeStatus = " + status);
@@ -364,6 +389,11 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         }
     }
 
+    /**
+     * 更新机器人软件更新进度
+     *
+     * @param progressInfo
+     */
     @Override
     public void updateUpgradeProgress(UpgradeProgressInfo progressInfo) {
         Message msg = new Message();
@@ -372,6 +402,11 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         mHandler.sendMessage(msg);
     }
 
+    /**
+     * 设置机器人语言包信息
+     *
+     * @param robotVersionInfo
+     */
     @Override
     public void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo) {
         Message msg = new Message();
@@ -439,5 +474,21 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     }
 
+    /**
+     * 显示升级小红点
+     *
+     * @param isShow 是否显示
+     */
+    private void showRedDot(TextView textView, boolean isShow) {
+        if (isShow) {
+            Drawable img = getResources().getDrawable(R.drawable.ble_update_red_dot);
+            if (img != null) {
+                img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
+                textView.setCompoundDrawables(img, null, null, null);
+            }
+        } else {
+            textView.setCompoundDrawables(null, null, null, null);
+        }
+    }
 
 }
