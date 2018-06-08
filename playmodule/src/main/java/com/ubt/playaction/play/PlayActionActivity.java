@@ -108,6 +108,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViseLog.d("onCreate");
         unbinder = ButterKnife.bind(this);
         mPresenter.register(this);
         if(BlueClientUtil.getInstance().getConnectionState() == 3){ //判断蓝牙是否连接
