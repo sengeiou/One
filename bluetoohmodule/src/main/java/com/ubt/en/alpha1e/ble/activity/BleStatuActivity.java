@@ -113,6 +113,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     View mViewRedDot;
     @BindView(R2.id.tv_robot_soft_language)
     TextView mTvRobotSoftLanguage;
+    @BindView(R.id.v_has_language_new_version)
+    View vHasLanguageNewVersion;
 
     private int fromeType;
 
@@ -120,7 +122,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     private boolean mCurrentAutoUpgrade = false;
 
-    private BleRobotVersionInfo currentRobotVerionInfo = null;
+    private BleRobotVersionInfo currentRobotVersionInfo = null;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -161,9 +163,15 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     }
                     break;
                 case UPDATE_ROBOT_LANGUAGE:
-                    currentRobotVerionInfo = (BleRobotVersionInfo) msg.obj;
-                    if (currentRobotVerionInfo != null) {
-                        tvRobotLanguage.setText(currentRobotVerionInfo.langlong);
+                    currentRobotVersionInfo = (BleRobotVersionInfo) msg.obj;
+                    if (currentRobotVersionInfo != null) {
+                        tvRobotLanguage.setText(currentRobotVersionInfo.langlong);
+                        ViseLog.d("currentRobotVersionInfo.new_version = " + currentRobotVersionInfo.new_version);
+                        if(TextUtils.isEmpty(currentRobotVersionInfo.new_version)){
+                            vHasLanguageNewVersion.setVisibility(View.GONE);
+                        }else {
+                            vHasLanguageNewVersion.setVisibility(View.VISIBLE);
+                        }
                     }
                     break;
                 default:
@@ -194,7 +202,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     }
 
-    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect, R2.id.tv_robot_language,
+    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect,
+            R2.id.tv_robot_language,R2.id.tv_robot_language_right,R2.id.v_has_language_new_version,
             R2.id.ckb_auto_upgrade, R2.id.tv_robot_soft_language})
     public void clickView(View view) {
         int i = view.getId();
@@ -207,11 +216,11 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         } else if (i == R.id.tv_wifi_select) {
             BleSearchWifiActivity.launch(this, false, wifiName);
 
-        } else if (i == R.id.tv_robot_language) {
+        } else if (i == R.id.tv_robot_language || i == R.id.tv_robot_language_right || i == R.id.v_has_language_new_version) {
             ViseLog.d("tv_robot_language");
             String robotLanguage = "";
-            if (currentRobotVerionInfo != null) {
-                robotLanguage = currentRobotVerionInfo.lang;
+            if (currentRobotVersionInfo != null) {
+                robotLanguage = currentRobotVersionInfo.lang;
             }
             BleRobotLanguageActivity.launch(this, robotLanguage);
         } else if (i == R.id.ckb_auto_upgrade) {

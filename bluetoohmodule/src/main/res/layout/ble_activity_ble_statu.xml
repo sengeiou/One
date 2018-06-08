@@ -298,13 +298,33 @@
                         android:text="@string/about_robot_language"
                         />
 
+
                     <TextView
                         android:id="@+id/tv_robot_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/base_tv_ble_gray"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/v_has_language_new_version"
+                        />
+
+                    <View
+                        android:id="@+id/v_has_language_new_version"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_toLeftOf="@+id/tv_robot_language_right"
+                        android:background="@drawable/ble_update_red_dot"
+                        android:visibility="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_robot_language_right"
                         style="@style/ble_tv_robot_right"
                         android:drawablePadding="@dimen/dp_10"
                         android:drawableRight="@drawable/more"
                         />
-
 
                 </RelativeLayout>
 
