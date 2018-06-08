@@ -2647,12 +2647,13 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
     public void onReadEng(byte[] eng_angle) {
 
-        ViseLog.d("onReadEng:" + needAdd);
+        ViseLog.d("onReadEng:" + needAdd +   "  length==="+eng_angle.length);
 
         if (needAdd) {
+            if (eng_angle.length>1){
             ViseLog.d("onReadEng:" + readCount + "--" + eng_angle[0] + "--" + eng_angle[1]);
             init[ByteHexHelper.byteToInt(eng_angle[0]) - 1] = String.valueOf(ByteHexHelper.byteToInt(eng_angle[1]));
-            i++;
+            i++;}
             readEngOneByOne();
 
 

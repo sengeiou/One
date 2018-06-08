@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.BitmapUtil;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.R2;
 import com.ubt.en.alpha1e.action.adapter.SelectGridAdapter;
@@ -191,10 +192,14 @@ public class ActionSaveCourseActivity extends MVPBaseActivity<SaveActionContact.
      */
     private void setLeftImageShow() {
         mEdtDisc.setHint(selectModel.getActionDescrion());
-        mIvDemo1.setImageResource(selectModel.getImageTypeArray()[0]);
-        mIvDemo2.setImageResource(selectModel.getImageTypeArray()[1]);
-        mIvDemo3.setImageResource(selectModel.getImageTypeArray()[2]);
-        mImgActionLogo.setImageResource(selectModel.getImageTypeArray()[0]);
+
+        selectModel.setBitmap(BitmapUtil.compressImage(this.getResources(), selectModel.getLeftSelectedImage(), 2));
+
+        mIvDemo1.setImageBitmap(BitmapUtil.compressImage(this.getResources(), selectModel.getImageTypeArray()[0], 2));
+        mIvDemo2.setImageBitmap(BitmapUtil.compressImage(this.getResources(), selectModel.getImageTypeArray()[1], 2));
+        mIvDemo3.setImageBitmap(BitmapUtil.compressImage(this.getResources(), selectModel.getImageTypeArray()[2], 2));
+
+        mImgActionLogo.setImageBitmap(BitmapUtil.compressImage(this.getResources(), selectModel.getImageTypeArray()[0], 2));
         selectModel.setLeftSelectedImage(selectModel.getImageTypeArray()[0]);
     }
 

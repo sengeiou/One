@@ -5,25 +5,22 @@ import android.content.Context;
 
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
-import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadHardwareVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
 import com.ubt.baselib.model1E.BleNetWork;
-import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
-import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
-import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
+import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
@@ -46,7 +43,7 @@ import org.json.JSONObject;
  * version
  */
 
-public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> implements BleStatuContact.Presenter, IProtolPackListener {
+public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View> implements RobotStatuContact.Presenter, IProtolPackListener {
 
 
     private BlueClientUtil mBlueClientUtil;
@@ -78,9 +75,7 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
-                if (mView != null) {
-                    mView.setBleConnectStatu(null);
-                }
+
                 break;
             default:
 
@@ -88,21 +83,6 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
         }
     }
 
-    /**
-     * 监听到蓝牙开启立即申请定位权限
-     *
-     * @param stateChanged
-     */
-    @Subscribe
-    public void onActionStateChanged(BTStateChanged stateChanged) {
-        ViseLog.i(stateChanged.toString());
-        if (stateChanged.getState() == BTStateChanged.STATE_ON) {
-            ViseLog.e("开启蓝牙");
-            if (mView != null) {
-                mView.goBleSraechActivity();
-            }
-        }
-    }
 
     /**
      * 读取蓝牙回调数据
@@ -123,55 +103,44 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     @Override
     public void onProtocolPacket(ProtocolPacket packet) {
         switch (packet.getmCmd()) {
-            case BTCmd.DV_READ_NETWORK_STATUS:
-                String networkInfoJson = BluetoothParamUtil.bytesToString(packet.getmParam());
-                ViseLog.d(networkInfoJson);
-                BleNetWork bleNetWork = praseNetWork(networkInfoJson);
-                if (mView != null) {
-                    mView.setRobotNetWork(bleNetWork);
-                }
-                mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
-                break;
+
             case BTCmd.DV_READ_SOFTWARE_VERSION:
                 ViseLog.d("机器人版本号：" + new String(packet.getmParam()));
                 if (mView != null) {
                     mView.setRobotSoftVersion(new String(packet.getmParam()));
                 }
-                mBlueClientUtil.sendData(new BTCmdReadSNCode().toByteArray());
+                mBlueClientUtil.sendData(new BTCmdReadHardwareVer().toByteArray());
                 break;
 
-            case BTCmd.READ_SN_CODE:
-                ViseLog.d("机器人序列号：" + new String(packet.getmParam()));
-                ViseLog.d("机器人序列号：" + new String(packet.getmParam()) + "   packet =  " + packet.getmParam());
+            case BTCmd.DV_READ_AUTO_UPGRADE_STATE://自动读取
+                ViseLog.d("机器人 AUTO_UPGRADE_STATE：" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
                 if (mView != null) {
-                    mView.setRobotSN(new String(packet.getmParam()));
-                }
-                //mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
-
-                mBlueClientUtil.sendData(new BTCmdGetLanguageStatus().toByteArray());
-                break;
-
-            case BTCmd.DV_READ_AUTO_UPGRADE_STATE:
-                ViseLog.d("机器人 AUTO_UPGRADE_STATE：:" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
-                if(mView != null){
                     mView.setAutoUpgradeStatus(packet.getmParam()[0]);
                 }
+                mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
                 break;
-            case BTCmd.DV_SET_AUTO_UPGRADE:
+            case BTCmd.DV_SET_AUTO_UPGRADE://手动切换结果
                 ViseLog.d("机器人 DV_SET_AUTO_UPGRADE：" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
-                if(mView != null){
+                if (mView != null) {
                     mView.setAutoUpgradeStatus(packet.getmParam()[0]);
                 }
                 break;
             case BTCmd.DV_DO_UPGRADE_PROGRESS:
-                String upgradeProgressJson= BluetoothParamUtil.bytesToString(packet.getmParam());
+                String upgradeProgressJson = BluetoothParamUtil.bytesToString(packet.getmParam());
                 ViseLog.d("upgradeProgressJson = " + upgradeProgressJson);
-                UpgradeProgressInfo upgradeProgressInfo = GsonImpl.get().toObject(upgradeProgressJson,UpgradeProgressInfo.class);
-                if(mView != null){
+                UpgradeProgressInfo upgradeProgressInfo = GsonImpl.get().toObject(upgradeProgressJson, UpgradeProgressInfo.class);
+                if (mView != null) {
                     mView.updateUpgradeProgress(upgradeProgressInfo);
                 }
                 break;
-
+            case BTCmd.DV_READ_HARDWARE_VERSION:
+                ViseLog.d("机器人硬件版本号：" + new String(packet.getmParam()));
+                if (mView != null) {
+                    mView.setRobotHardVersion(new String(packet.getmParam()));
+                }
+                ViseLog.d("获取机器人语言包请求");
+                mBlueClientUtil.sendData(new BTCmdGetLanguageStatus().toByteArray());
+                break;
             case BTCmd.DV_COMMON_CMD:
                 ViseLog.d("DV_COMMON_CMD = " + BluetoothParamUtil.bytesToString(packet.getmParam()));
 
@@ -179,10 +148,10 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 BleBaseModelInfo bleBaseModel = GsonImpl.get().toObject(commonCmdJson, BleBaseModelInfo.class);
 
                 ViseLog.d("bleBaseModel.event = " + bleBaseModel.event);
-                if(bleBaseModel.event == 1){
+                if (bleBaseModel.event == 1) {
                     BleRobotLanguageInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotLanguageInfo.class);
-                    if(mView != null){
-                        mView.setRobotLanguage(robotLanguageInfo);
+                    if (mView != null) {
+                        //  mView.setRobotLanguage(robotLanguageInfo);
                     }
                 }
 
@@ -192,17 +161,6 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
         }
     }
 
-    /**
-     * 进入退出手动连接
-     *
-     * @param manualEvent 进入为true 退出为false
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doEntryManalConnect(ManualEvent manualEvent) {
-        if (manualEvent.getEvent() == ManualEvent.Event.CONNECT_ROBOT_SUCCESS) {//进入蓝牙联网页面
-            getRobotBleConnect();
-        }
-    }
 
     @Override
     public void unRegister() {
@@ -213,18 +171,11 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
      * 获取机器人连接状态
      */
     @Override
-    public void getRobotBleConnect() {
+    public void getRobotAutoState() {
         BluetoothDevice device = mBlueClientUtil.getConnectedDevice();
         if (mView != null) {
             if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
-                mView.setBleConnectStatu(device);
-                if (device != null) {//查询网络状态
-                    // BTCmdGetWifiStatus
-                    mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
-
-                }
-            } else {
-                mView.setBleConnectStatu(null);
+                mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
             }
 
         }
@@ -232,35 +183,12 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     }
 
 
-    /**
-     * 获取机器人信息
-     */
     @Override
-    public void dissConnectRobot() {
-        mBlueClientUtil.disconnect();
-        AppStatusUtils.setIsForceDisBT(true);
-        ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_DISCONNECT);
-        manualEvent.setManual(true);
-        EventBus.getDefault().post(manualEvent);
-    }
-
-    @Override
-    public void checkBlestatu() {
-        if (mBlueClientUtil.isEnabled()) {
-            if (mView != null) {
-                mView.goBleSraechActivity();
-            }
-        } else {
-            mBlueClientUtil.openBluetooth();
-        }
-    }
-
-    @Override
-   public void doChangeAutoUpgrade(boolean is0pen) {
+    public void doChangeAutoUpgrade(boolean is0pen) {
         byte[] params = new byte[1];
-        if(is0pen){
+        if (is0pen) {
             params[0] = BTCmdSetAutoUpgrade.ON;
-        }else {
+        } else {
             params[0] = BTCmdSetAutoUpgrade.OFF;
         }
 

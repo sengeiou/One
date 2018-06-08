@@ -26,6 +26,7 @@ import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.BitmapUtil;
 import com.ubt.baselib.utils.FileUtils;
 import com.ubt.baselib.utils.LQRPhotoSelectUtils;
+import com.ubt.baselib.utils.NetUtil;
 import com.ubt.baselib.utils.PermissionUtils;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.action.adapter.SelectGridAdapter;
@@ -310,16 +311,23 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     @Override
     public void saveActionFailed() {
         BaseLoadingDialog.dismiss(this);
+        ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_save_fail));
     }
 
 
     private void saveAction() {
+
+        if (!NetUtil.isNetWorkConnected(this)) {
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.base_network_error));
+            return;
+        }
+
         if (mEdtName.getText().toString().equals("")) {
             ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.actions_enter_name));
             return;
         }
 
-        if (!mPresenter.isRightName(mEdtName.getText().toString(), -1, false, "")) {
+        if (!mPresenter.isRightName(mEdtName.getText().toString(), 16, false, "")) {
             return;
         }
 
