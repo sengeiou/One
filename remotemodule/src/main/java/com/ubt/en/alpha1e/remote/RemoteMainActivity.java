@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.AppStatusUtils;
@@ -113,6 +114,15 @@ public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (mPresenter.getRoleInfos().get(position).getBz() == 0) {
+            if (AppStatusUtils.isLowPower()){
+                BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+                    @Override
+                    public void onOK() {
+
+                    }
+                });
+                return;
+            }
             //startActivity(new Intent(this,RemoteActivity.class));
             RemoteActivity.launch(this, position + 1);
         }

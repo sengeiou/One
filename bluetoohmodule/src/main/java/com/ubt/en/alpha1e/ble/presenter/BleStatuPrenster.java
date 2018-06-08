@@ -7,10 +7,7 @@ import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
-import com.ubt.baselib.btCmd1E.BaseBTReq;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
@@ -26,13 +23,11 @@ import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
-import com.ubt.en.alpha1e.ble.model.BleBaseModel;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -145,8 +140,7 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 break;
 
             case BTCmd.READ_SN_CODE:
-                ViseLog.d("机器人序列号：" + new String(packet.getmParam()));
-                ViseLog.d("机器人序列号：" + new String(packet.getmParam()) + "   packet =  " + packet.getmParam());
+                 ViseLog.d("机器人序列号：" + new String(packet.getmParam()) + "   packet =  " + packet.getmParam());
                 if (mView != null) {
                     mView.setRobotSN(new String(packet.getmParam()));
                 }
