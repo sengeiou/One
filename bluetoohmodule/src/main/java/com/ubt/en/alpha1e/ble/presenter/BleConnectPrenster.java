@@ -12,8 +12,6 @@ import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.BlueTooth.BleDevice;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
@@ -24,7 +22,6 @@ import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,7 +41,7 @@ import java.util.List;
  * version
  */
 
-public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View> implements BleConnectContact.Presenter, IProtolPackListener {
+public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View> implements BleConnectContact.Presenter {
 
     private static final String TAG = "BleConnectPrenster";
     boolean isScanning = false;
@@ -144,17 +141,18 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.DV_HANDSHAKE:
                 // 校验握手时间接受多次数据-----------start

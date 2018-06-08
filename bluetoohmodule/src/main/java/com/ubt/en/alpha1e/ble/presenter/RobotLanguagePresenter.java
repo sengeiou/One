@@ -1,46 +1,31 @@
 package com.ubt.en.alpha1e.ble.presenter;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.google.gson.reflect.TypeToken;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguages;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetLanguage;
 import com.ubt.baselib.globalConst.Constant1E;
-import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.model1E.BleNetWork;
-import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
-import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.BleHttpEntity;
 import com.ubt.en.alpha1e.ble.Contact.RobotLanguageContact;
-import com.ubt.en.alpha1e.ble.model.BaseModel;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
-import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageList;
 import com.ubt.en.alpha1e.ble.model.BleSetRobotLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
-import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.requestModel.GetRobotLanguageRequest;
 import com.vise.log.ViseLog;
-import com.vise.utils.assist.JSONUtil;
 import com.vise.utils.convert.HexUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -48,7 +33,6 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,7 +48,7 @@ import java.util.List;
  * version
  */
 
-public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageContact.View> implements RobotLanguageContact.Presenter, IProtolPackListener {
+public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageContact.View> implements RobotLanguageContact.Presenter {
 
     private BlueClientUtil mBlueClientUtil;
 
@@ -188,8 +172,8 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
         mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
     }
 
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.DV_READ_NETWORK_STATUS:
                 String networkInfoJson = BluetoothParamUtil.bytesToString(packet.getmParam());
@@ -247,7 +231,8 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
         ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     public BleNetWork praseNetWork(String netWork) {

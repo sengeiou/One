@@ -12,7 +12,6 @@ import com.tencent.android.tpush.XGPushShowedResult;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadBattery;
@@ -62,7 +61,7 @@ public class GlobalMsgService extends Service {
         super.onCreate();
         EventBus.getDefault().register(this);
         ViseLog.i("onCreate");
-        initBTListener();
+//        initBTListener();
     }
 
     @Override
@@ -145,54 +144,51 @@ public class GlobalMsgService extends Service {
 
     @Subscribe
     public void onBTRead(BTReadData data){
-        BTCmdHelper.parseBTCmd(data.getDatas(), mBTCmdListener);
+//        BTCmdHelper.parseBTCmd(data.getDatas(), mBTCmdListener);
+        parseBTCmd(data);
     }
 
-    private void initBTListener(){
-        mBTCmdListener = new IProtolPackListener() {
-            @Override
-            public void onProtocolPacket(ProtocolPacket packet) {
-                switch (packet.getmCmd()){
-                    case BTCmd.DV_READ_BATTERY: //更新电量
-                        ViseLog.i("电量data:"+ HexUtil.encodeHexStr(packet.getmParam()));
-                        ViseLog.i("电量 isNeed20Toast:"+isNeed20Toast+"  isNeed5Dialog:"+isNeed5Dialog+
-                               "   isBussiness:"+AppStatusUtils.isBussiness());
-                        if(packet.getmParamLen() < 4){
-                            ViseLog.e("错误参数，丢弃!!!");
-                            return;
-                        }
-                        int power = packet.getmParam()[3];
-                        AppStatusUtils.setCurrentPower(power);
-                        AppStatusUtils.setChargingStatus(packet.getmParam()[2]);
-                        if(0x00 == packet.getmParam()[2]){
-                            if(power >5 && power <= 20){
-                                if(isNeed20Toast) {
-                                    isNeed20Toast = false;
-                                    ToastUtils.showCustomShortWithGravity(R.layout.base_toast_lowpower_20, Gravity.CENTER, 0, 0);
-                                }
-                                isNeed5Dialog = true;
-                            }else if(power <= 5){
-                                if(isNeed5Dialog) {
-                                    isNeed5Dialog = false;
-                                    if (!AppStatusUtils.isBussiness()) { //非特殊处理模块集中弹低电提示
-                                        BaseLowBattaryDialog.getInstance().showLow5Dialog(null);
-                                    }
-                                }
-                            }else{
-                                isNeed20Toast = true;
+    private void parseBTCmd(BTReadData data){
+        ProtocolPacket packet = data.getPack();
+            switch (packet.getmCmd()){
+                case BTCmd.DV_READ_BATTERY: //更新电量
+                    ViseLog.i("电量data:"+ HexUtil.encodeHexStr(packet.getmParam()));
+                    ViseLog.i("电量 isNeed20Toast:"+isNeed20Toast+"  isNeed5Dialog:"+isNeed5Dialog+
+                           "   isBussiness:"+AppStatusUtils.isBussiness());
+                    if(packet.getmParamLen() < 4){
+                        ViseLog.e("错误参数，丢弃!!!");
+                        return;
+                    }
+                    int power = packet.getmParam()[3];
+                    AppStatusUtils.setCurrentPower(power);
+                    AppStatusUtils.setChargingStatus(packet.getmParam()[2]);
+                    if(0x00 == packet.getmParam()[2]){
+                        if(power >5 && power <= 20){
+                            if(isNeed20Toast) {
+                                isNeed20Toast = false;
+                                ToastUtils.showCustomShortWithGravity(R.layout.base_toast_lowpower_20, Gravity.CENTER, 0, 0);
                             }
+                            isNeed5Dialog = true;
+                        }else if(power <= 5){
+                            if(isNeed5Dialog) {
+                                isNeed5Dialog = false;
+                                if (!AppStatusUtils.isBussiness()) { //非特殊处理模块集中弹低电提示
+                                    BaseLowBattaryDialog.getInstance().showLow5Dialog(null);
+                                }
+                            }
+                        }else{
+                            isNeed20Toast = true;
                         }
-                        break;
-                    case BTCmd.DV_DO_UPGRADE_SOFT:
-                        if(0x01 == packet.getmParam()[0]){
-                            BaseUpdateTipDialog.getInstance().show();
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                    }
+                    break;
+                case BTCmd.DV_DO_UPGRADE_SOFT:
+                    if(0x01 == packet.getmParam()[0]){
+                        BaseUpdateTipDialog.getInstance().show();
+                    }
+                    break;
+                default:
+                    break;
             }
-        };
     }
 
     public boolean isRobotConnected() {

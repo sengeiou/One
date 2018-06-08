@@ -2,7 +2,11 @@ package com.ubt.baselib.BlueTooth;
 
 import android.bluetooth.BluetoothDevice;
 
+import com.ubt.baselib.btCmd1E.BTCmdHelper;
+import com.ubt.baselib.btCmd1E.IBTReadDataListener;
 import com.ubt.bluetoothlib.blueClient.IBlueClientListener;
+import com.vise.log.ViseLog;
+import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -13,14 +17,17 @@ import org.greenrobot.eventbus.EventBus;
  */
 
 public class BlueToothListenerImpl implements IBlueClientListener {
-    BTReadData mReadData = new BTReadData();
-    BTStateChanged mStateChanged = new BTStateChanged();
-    BTDiscoveryStateChanged mDiscover = new BTDiscoveryStateChanged();
-    BTScanModeChanged mScanMode = new BTScanModeChanged();
-    BTServiceStateChanged mServiceState = new BTServiceStateChanged();
-    BTDeviceFound mDeviceFound = new BTDeviceFound();
 
+    private IBTReadDataListener mBTCmdListener;
 
+    public BlueToothListenerImpl(){
+        mBTCmdListener = new IBTReadDataListener() {
+            @Override
+            public void onData(BTReadData data) {
+                EventBus.getDefault().post(data);
+            }
+        };
+    }
     /**
      * 接收到蓝牙数据
      * @param bluetoothDevice
@@ -28,9 +35,12 @@ public class BlueToothListenerImpl implements IBlueClientListener {
      */
     @Override
     public void onReadData(BluetoothDevice bluetoothDevice, byte[] bytes) {
+        ViseLog.d("bytes:"+ HexUtil.encodeHexStr(bytes));
+        BTCmdHelper.parseBTCmd(bytes,bluetoothDevice, mBTCmdListener);
+        /*BTReadData mReadData = new BTReadData();
         mReadData.setBluetoothDevice(bluetoothDevice);
         mReadData.setDatas(bytes);
-        EventBus.getDefault().post(mReadData);
+        EventBus.getDefault().post(mReadData);*/
     }
 
     /**
@@ -40,6 +50,7 @@ public class BlueToothListenerImpl implements IBlueClientListener {
      */
     @Override
     public void onActionStateChanged(int preState, int state) {
+        BTStateChanged mStateChanged = new BTStateChanged();
         mStateChanged.setPreState(preState);
         mStateChanged.setState(state);
         EventBus.getDefault().post(mStateChanged);
@@ -53,6 +64,7 @@ public class BlueToothListenerImpl implements IBlueClientListener {
      */
     @Override
     public void onActionDiscoveryStateChanged(String discoveryState) {
+        BTDiscoveryStateChanged mDiscover = new BTDiscoveryStateChanged();
         mDiscover.setDiscoveryState(discoveryState);
         EventBus.getDefault().post(mDiscover);
     }
@@ -67,6 +79,7 @@ public class BlueToothListenerImpl implements IBlueClientListener {
      */
     @Override
     public void onActionScanModeChanged(int preScanMode, int scanMode) {
+        BTScanModeChanged mScanMode = new BTScanModeChanged();
         mScanMode.setPreScanMode(preScanMode);
         mScanMode.setScanMode(scanMode);
         EventBus.getDefault().post(mScanMode);
@@ -80,6 +93,7 @@ public class BlueToothListenerImpl implements IBlueClientListener {
      */
     @Override
     public void onBluetoothServiceStateChanged(int state) {
+        BTServiceStateChanged mServiceState = new BTServiceStateChanged();
         mServiceState.setState(state);
         EventBus.getDefault().post(mServiceState);
     }
@@ -92,6 +106,7 @@ public class BlueToothListenerImpl implements IBlueClientListener {
      */
     @Override
     public void onActionDeviceFound(BluetoothDevice bluetoothDevice, int rssi) {
+        BTDeviceFound mDeviceFound = new BTDeviceFound();
         mDeviceFound.setBluetoothDevice(bluetoothDevice);
         mDeviceFound.setRssi(rssi);
         EventBus.getDefault().post(mDeviceFound);

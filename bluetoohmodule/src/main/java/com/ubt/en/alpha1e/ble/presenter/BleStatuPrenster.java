@@ -7,10 +7,7 @@ import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
-import com.ubt.baselib.btCmd1E.BaseBTReq;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
@@ -26,13 +23,11 @@ import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
-import com.ubt.en.alpha1e.ble.model.BleBaseModel;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,7 +44,7 @@ import org.json.JSONObject;
  * version
  */
 
-public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> implements BleStatuContact.Presenter, IProtolPackListener {
+public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> implements BleStatuContact.Presenter {
 
 
     private BlueClientUtil mBlueClientUtil;
@@ -114,17 +109,18 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.DV_READ_NETWORK_STATUS:
                 String networkInfoJson = BluetoothParamUtil.bytesToString(packet.getmParam());

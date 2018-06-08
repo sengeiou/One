@@ -15,8 +15,6 @@ import com.ubt.baselib.BlueTooth.BleDevice;
 import com.ubt.baselib.EnterBackgroundEvent;
 import com.ubt.baselib.MyLifecycleCallback;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
@@ -24,7 +22,6 @@ import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,7 +41,7 @@ import java.util.List;
  * version
  */
 
-public class AutoConnectPrenster implements IProtolPackListener {
+public class AutoConnectPrenster {
 
     private static final String TAG = "BleConnectPrenster";
     boolean isScanning = false;
@@ -243,17 +240,18 @@ public class AutoConnectPrenster implements IProtolPackListener {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.DV_HANDSHAKE:
                 if (!isManualConnectMode) {
