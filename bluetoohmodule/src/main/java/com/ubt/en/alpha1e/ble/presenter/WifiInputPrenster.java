@@ -5,8 +5,6 @@ import android.content.Context;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdConnectWifi;
 import com.ubt.baselib.customView.BaseLoadingDialog;
@@ -39,7 +37,7 @@ import io.reactivex.functions.Consumer;
  * version
  */
 
-public class WifiInputPrenster extends BasePresenterImpl<WifiInputContact.View> implements WifiInputContact.Presenter, IProtolPackListener {
+public class WifiInputPrenster extends BasePresenterImpl<WifiInputContact.View> implements WifiInputContact.Presenter {
 
     BlueClientUtil mBlueClientUtil;
     private int MESSAGE_TIMEOUt = 60 * 1000;
@@ -118,16 +116,17 @@ public class WifiInputPrenster extends BasePresenterImpl<WifiInputContact.View> 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
 //        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.DV_DO_NETWORK_CONNECT:
                 ViseLog.d("param====" + packet.getmParam()[0]+"  isConnected=="+isConnected);

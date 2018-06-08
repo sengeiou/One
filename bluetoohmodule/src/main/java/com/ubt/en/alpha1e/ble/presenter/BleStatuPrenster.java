@@ -8,11 +8,13 @@ import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BTCmdHelper;
+import com.ubt.baselib.btCmd1E.BaseBTReq;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
@@ -24,6 +26,7 @@ import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
+import com.ubt.en.alpha1e.ble.model.BleBaseModel;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
@@ -46,7 +49,7 @@ import org.json.JSONObject;
  * version
  */
 
-public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> implements BleStatuContact.Presenter, IProtolPackListener {
+public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> implements BleStatuContact.Presenter {
 
 
     private BlueClientUtil mBlueClientUtil;
@@ -111,17 +114,18 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.DV_READ_NETWORK_STATUS:
                 String networkInfoJson = BluetoothParamUtil.bytesToString(packet.getmParam());
@@ -146,17 +150,16 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 if (mView != null) {
                     mView.setRobotSN(new String(packet.getmParam()));
                 }
-                //mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
+                mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
 
                 mBlueClientUtil.sendData(new BTCmdGetLanguageStatus().toByteArray());
                 break;
 
             case BTCmd.DV_READ_AUTO_UPGRADE_STATE:
-                ViseLog.d("机器人 AUTO_UPGRADE_STATE：:" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
+                ViseLog.d("机器人 AUTO_UPGRADE_STATE：" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
                 if(mView != null){
                     mView.setAutoUpgradeStatus(packet.getmParam()[0]);
                 }
-                break;
             case BTCmd.DV_SET_AUTO_UPGRADE:
                 ViseLog.d("机器人 DV_SET_AUTO_UPGRADE：" + new String(packet.getmParam()) + "    packet = " + packet.getmParam() + " / " + packet.getmParam()[0]);
                 if(mView != null){

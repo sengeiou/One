@@ -6,8 +6,6 @@ import android.content.res.Resources;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSwitchEditStatus;
@@ -20,7 +18,6 @@ import com.ubt.en.alpha1e.remote.R;
 import com.ubt.en.alpha1e.remote.contract.RemoteContact;
 import com.ubt.en.alpha1e.remote.model.RemoteItem;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,7 +35,7 @@ import java.util.List;
  * version
  */
 
-public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implements RemoteContact.Presenter, IProtolPackListener {
+public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implements RemoteContact.Presenter {
 
     private List<RemoteItem> mRemoteItems = new ArrayList<>();
     public int[] fighterdrawableId = {R.drawable.ic_forward, R.drawable.ic_left, R.drawable.ic_forward, R.drawable.ic_left, R.drawable.ic_forward, R.drawable.ic_left,
@@ -75,17 +72,18 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.DV_ACTION_FINISH:
                 if (mView != null) {

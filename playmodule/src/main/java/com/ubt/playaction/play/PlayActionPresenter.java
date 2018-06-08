@@ -5,9 +5,7 @@ import android.content.Context;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
-import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -15,7 +13,6 @@ import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.playaction.R;
 import com.ubt.playaction.model.ActionData;
 import com.vise.log.ViseLog;
-import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -32,7 +29,7 @@ import java.util.List;
  */
 
 
-public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.View> implements PlayActionContract.Presenter, IProtolPackListener, PlayActionManger.IPlayActionMangerListener {
+public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.View> implements PlayActionContract.Presenter,  PlayActionManger.IPlayActionMangerListener {
 
     public static final int STOP = 0;
     public static final int PLAYING = 1;
@@ -92,18 +89,18 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
+//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+        onProtocolPacket(readData);
     }
 
     /**
      * 蓝牙数据解析回调
      *
-     * @param packet
+     * @param readData
      */
-    @Override
-    public void onProtocolPacket(ProtocolPacket packet) {
-        ViseLog.d("onProtocolPacket:" + packet.getmCmd() + "---getmParam:" +  new String(packet.getmParam()));
+    private void onProtocolPacket(BTReadData readData) {
+        ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
             case BTCmd.UV_GETACTIONFILE:
                 ViseLog.d("UV_GETACTIONFILE:" +  BluetoothParamUtil.bytesToString(packet.getmParam()));
