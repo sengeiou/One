@@ -9,7 +9,7 @@ import com.ubt.baselib.BlueTooth.BTStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdGetRobotVersionMsg;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
@@ -24,7 +24,7 @@ import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
-import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
@@ -140,13 +140,13 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 break;
 
             case BTCmd.READ_SN_CODE:
-                 ViseLog.d("机器人序列号：" + new String(packet.getmParam()) + "   packet =  " + packet.getmParam());
+                ViseLog.d("机器人序列号：" + new String(packet.getmParam()) + "   packet =  " + packet.getmParam());
                 if (mView != null) {
                     mView.setRobotSN(new String(packet.getmParam()));
                 }
                 mBlueClientUtil.sendData(new BTCmdReadAutoUpgradeState().toByteArray());
 
-                mBlueClientUtil.sendData(new BTCmdGetLanguageStatus().toByteArray());
+                mBlueClientUtil.sendData(new BTCmdGetRobotVersionMsg().toByteArray());
                 break;
 
             case BTCmd.DV_READ_AUTO_UPGRADE_STATE:
@@ -177,9 +177,9 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
 
                 ViseLog.d("bleBaseModel.event = " + bleBaseModel.event);
                 if(bleBaseModel.event == 1){
-                    BleRobotLanguageInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotLanguageInfo.class);
+                    BleRobotVersionInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotVersionInfo.class);
                     if(mView != null){
-                        mView.setRobotLanguage(robotLanguageInfo);
+                        mView.setRobotVersionInfo(robotLanguageInfo);
                     }
                 }
 
@@ -253,7 +253,7 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
     }
 
     @Override
-   public void doChangeAutoUpgrade(boolean is0pen) {
+    public void doChangeAutoUpgrade(boolean is0pen) {
         byte[] params = new byte[1];
         if(is0pen){
             params[0] = BTCmdSetAutoUpgrade.ON;

@@ -10,7 +10,7 @@ import com.ubt.baselib.btCmd1E.BTCmdHelper;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguageStatus;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdGetRobotVersionMsg;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadHardwareVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
@@ -22,7 +22,7 @@ import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
-import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.vise.log.ViseLog;
@@ -139,7 +139,7 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                     mView.setRobotHardVersion(new String(packet.getmParam()));
                 }
                 ViseLog.d("获取机器人语言包请求");
-                mBlueClientUtil.sendData(new BTCmdGetLanguageStatus().toByteArray());
+                mBlueClientUtil.sendData(new BTCmdGetRobotVersionMsg().toByteArray());
                 break;
             case BTCmd.DV_COMMON_CMD:
                 ViseLog.d("DV_COMMON_CMD = " + BluetoothParamUtil.bytesToString(packet.getmParam()));
@@ -149,7 +149,7 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
 
                 ViseLog.d("bleBaseModel.event = " + bleBaseModel.event);
                 if (bleBaseModel.event == 1) {
-                    BleRobotLanguageInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotLanguageInfo.class);
+                    BleRobotVersionInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotVersionInfo.class);
                     if (mView != null) {
                         //  mView.setRobotLanguage(robotLanguageInfo);
                     }

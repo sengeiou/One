@@ -9,20 +9,22 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 @Parcelable
-public class BleRobotLanguageInfo extends BleBaseModel {
+public class BleRobotVersionInfo extends BleBaseModel {
 
     public String lang = "";  //语言名
     public String langlong = "";  //语言名
     public String version = ""; //芯片的语言包的版本号
     public String firmware_ver = ""; //芯片的固件的版本号
+    public String new_version = ""; //最新的语言包的版本号
+    public String new_firmware_ver = ""; //最新的固件版本号
 
-    public BleRobotLanguageInfo thiz;
+    public BleRobotVersionInfo thiz;
 
     @Override
-    public BleRobotLanguageInfo getThiz(String json) {
+    public BleRobotVersionInfo getThiz(String json) {
 
         try {
-            thiz = mMapper.readValue(json, BleRobotLanguageInfo.class);
+            thiz = mMapper.readValue(json, BleRobotVersionInfo.class);
             return thiz;
         } catch (Exception e) {
             thiz = null;
@@ -30,12 +32,12 @@ public class BleRobotLanguageInfo extends BleBaseModel {
         }
     }
 
-    public static ArrayList<BleRobotLanguageInfo> getModelList(String json) {
-        ArrayList<BleRobotLanguageInfo> result = new ArrayList<BleRobotLanguageInfo>();
+    public static ArrayList<BleRobotVersionInfo> getModelList(String json) {
+        ArrayList<BleRobotVersionInfo> result = new ArrayList<BleRobotVersionInfo>();
         try {
             JSONArray j_list = new JSONArray(json);
             for (int i = 0; i < j_list.length(); i++) {
-                result.add(new BleRobotLanguageInfo().getThiz(j_list.get(i).toString()));
+                result.add(new BleRobotVersionInfo().getThiz(j_list.get(i).toString()));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -43,7 +45,7 @@ public class BleRobotLanguageInfo extends BleBaseModel {
         return result;
     }
 
-    public static String getModeslStr(ArrayList<BleRobotLanguageInfo> infos) {
+    public static String getModeslStr(ArrayList<BleRobotVersionInfo> infos) {
 
         try {
             return mMapper.writeValueAsString(infos);
@@ -53,7 +55,7 @@ public class BleRobotLanguageInfo extends BleBaseModel {
         }
     }
 
-    public static String getString(BleRobotLanguageInfo info)
+    public static String getString(BleRobotVersionInfo info)
     {
         try {
             return  GsonImpl.get().toJson(info);
@@ -66,7 +68,7 @@ public class BleRobotLanguageInfo extends BleBaseModel {
 
     @Override
     public String toString() {
-        return "BleRobotLanguageInfo{" +
+        return "BleRobotVersionInfo{" +
                 "lang=" + lang +
                 ", langlong=" + langlong +
                 ", version=" + version +

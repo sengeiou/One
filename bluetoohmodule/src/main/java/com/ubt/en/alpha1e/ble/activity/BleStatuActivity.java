@@ -29,7 +29,7 @@ import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
-import com.ubt.en.alpha1e.ble.model.BleRobotLanguageInfo;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.BleStatuPrenster;
@@ -120,7 +120,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     private boolean mCurrentAutoUpgrade = false;
 
-    private BleRobotLanguageInfo currentRobotLanguageInfo = null;
+    private BleRobotVersionInfo currentRobotVerionInfo = null;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -161,9 +161,9 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     }
                     break;
                 case UPDATE_ROBOT_LANGUAGE:
-                    currentRobotLanguageInfo = (BleRobotLanguageInfo) msg.obj;
-                    if (currentRobotLanguageInfo != null) {
-                        tvRobotLanguage.setText(currentRobotLanguageInfo.langlong);
+                    currentRobotVerionInfo = (BleRobotVersionInfo) msg.obj;
+                    if (currentRobotVerionInfo != null) {
+                        tvRobotLanguage.setText(currentRobotVerionInfo.langlong);
                     }
                     break;
                 default:
@@ -210,8 +210,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         } else if (i == R.id.tv_robot_language) {
             ViseLog.d("tv_robot_language");
             String robotLanguage = "";
-            if (currentRobotLanguageInfo != null) {
-                robotLanguage = currentRobotLanguageInfo.lang;
+            if (currentRobotVerionInfo != null) {
+                robotLanguage = currentRobotVerionInfo.lang;
             }
             BleRobotLanguageActivity.launch(this, robotLanguage);
         } else if (i == R.id.ckb_auto_upgrade) {
@@ -364,10 +364,10 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     }
 
     @Override
-    public void setRobotLanguage(BleRobotLanguageInfo robotLanguage) {
+    public void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo) {
         Message msg = new Message();
         msg.what = UPDATE_ROBOT_LANGUAGE;
-        msg.obj = robotLanguage;
+        msg.obj = robotVersionInfo;
         mHandler.sendMessage(msg);
     }
 
