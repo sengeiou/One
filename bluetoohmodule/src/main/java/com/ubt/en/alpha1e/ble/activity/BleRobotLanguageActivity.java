@@ -116,7 +116,6 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
                         if(switchLanguageRsp.progess == 100 && switchProgressDialog != null){
                             switchProgressDialog.dismiss();
-
                             mSwitchLanguageRsp = switchLanguageRsp;
 
                             Message msg1 = new Message();
@@ -243,10 +242,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void setSwitchLanguageResult(BleSwitchLanguageRsp switchLanguageRsp) {
-        Message msg = new Message();
+        ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
+        /*Message msg = new Message();
         msg.what = SHOW_SET_LANGUAGE_PROGRESS;
         msg.obj = switchLanguageRsp;
-        mHandler.sendMessage(msg);
+        mHandler.sendMessage(msg);*/
     }
 
     @Override
@@ -452,7 +452,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
         ViseLog.d("-switchLanguageDialog->");
         if(switchProgressDialog == null){
-            switchProgressDialog = new SwitchIngLanguageDialog(this)
+            switchProgressDialog = new SwitchIngLanguageDialog(this,0)
                     .setCancel(false);
 
             switchProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {

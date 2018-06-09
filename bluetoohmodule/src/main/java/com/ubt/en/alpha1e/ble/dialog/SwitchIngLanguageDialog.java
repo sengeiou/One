@@ -1,6 +1,5 @@
 package com.ubt.en.alpha1e.ble.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -13,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.en.alpha1e.ble.R;
 
 
@@ -40,8 +40,11 @@ public class SwitchIngLanguageDialog extends Dialog {
      */
 
     private TextView tvProgress = null;
+    private TextView tvTitle = null;
 
     private ProgressBar pbProgress = null;
+
+    private int type = 0;//0为语言包 1 为胸口版
 
     /**
      * the SwitchIngLanguageDialog constructor
@@ -49,7 +52,7 @@ public class SwitchIngLanguageDialog extends Dialog {
      * @param ctx  Context
      */
 
-    public SwitchIngLanguageDialog(final Context ctx) {
+    public SwitchIngLanguageDialog(final Context ctx,int type) {
         super(ctx);
         mDialog = this;
 
@@ -74,25 +77,17 @@ public class SwitchIngLanguageDialog extends Dialog {
         Window window = getWindow();
         window.setAttributes(lp);
         // 必须放在加载布局后
-        //setparams();
 
+        tvTitle = findViewById(R.id.tv_title);
         tvProgress = findViewById(R.id.tv_progress);
         pbProgress = findViewById(R.id.pb_progress);
 
-    }
+        if(type == 0){
+            tvTitle.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_changing));
+        }else {
+            tvTitle.setText(SkinManager.getInstance().getTextById(R.string.about_robot_updating));
+        }
 
-    private void setparams() {
-        this.setCancelable(cancelable);
-        this.setCanceledOnTouchOutside(false);
-        WindowManager windowManager = getWindow().getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        WindowManager.LayoutParams lp = this.getWindow().getAttributes();
-        // Dialog宽度
-        lp.width = display.getWidth();
-        lp.height = display.getHeight();
-        Window window = getWindow();
-        window.setAttributes(lp);
-        window.getDecorView().getBackground().setAlpha(120);
     }
 
     @Override
@@ -126,35 +121,6 @@ public class SwitchIngLanguageDialog extends Dialog {
         mDialog.setCanceledOnTouchOutside(cancelable);
 
         return mDialog;
-    }
-
-    /**
-     * dismiss the dialog
-     */
-    public void dismiss(Context context) {
-        try {
-            if (context instanceof Activity) {
-                if (((Activity) context).isFinishing()) {
-                    mDialog = null;
-                    return;
-                }
-            }
-
-            if (mDialog != null && mDialog.isShowing()) {
-                Context loadContext = mDialog.getContext();
-                if (loadContext != null && loadContext instanceof Activity) {
-                    if (((Activity) loadContext).isFinishing()) {
-                        mDialog = null;
-                        return;
-                    }
-                }
-                mDialog.dismiss();
-                mDialog = null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            mDialog = null;
-        }
     }
 
 }
