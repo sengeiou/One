@@ -81,6 +81,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     private SystemRobotInfo mSystemRobotInfo;
     private BleRobotVersionInfo mBleRobotVersionInfo;
 
+    private DialogPlus systemDialog;
+
     @Override
     public int getContentViewId() {
         return R.layout.ble_activity_robot_statu;
@@ -149,7 +151,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
      * @param type
      */
     private void showUpdateDialog(final int type) {
-        new BaseDialog.Builder(this)
+        systemDialog = new BaseDialog.Builder(this)
                 .setMessage(R.string.base_upgrade_tip)
                 .setConfirmButtonId(R.string.base_not_now)
                 .setConfirmButtonColor(R.color.black)
@@ -165,7 +167,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                             mPresenter.sendUpdateVersion(type);
                         }
                     }
-                }).create().show();
+                }).create();
+        systemDialog.show();
     }
 
     /**
@@ -305,6 +308,14 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     }
 
     @Override
+    public void systemRequestUpdate() {
+        if (systemDialog != null && systemDialog.isShowing()) {
+            systemDialog.dismiss();
+            systemDialog = null;
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
     }
@@ -321,9 +332,6 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
      */
 
     private void switchAutoUpgradeStatus() {
-//        BaseLoadingDialog.dismiss(this);
-//        BaseLoadingDialog.show(this);
-
         if (mCurrentAutoUpgrade) {
             mCurrentAutoUpgrade = false;
         } else {

@@ -37,6 +37,8 @@ public class RobotStatuContact {
         void setRobotHardVersion(String hardVersion);
 
         void updateFirmVersionProgress(BleSwitchLanguageRsp switchLanguageRsp);
+
+        void systemRequestUpdate();
      }
 
     public interface Presenter extends BasePresenter<View> {

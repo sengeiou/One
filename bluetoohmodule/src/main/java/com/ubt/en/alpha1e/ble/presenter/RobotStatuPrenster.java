@@ -172,6 +172,12 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                     }
                 }
                 break;
+
+            case BTCmd.DV_DO_UPGRADE_SOFT:
+                if (mView != null) {
+                    mView.systemRequestUpdate();
+                }
+                break;
             default:
                 break;
         }
