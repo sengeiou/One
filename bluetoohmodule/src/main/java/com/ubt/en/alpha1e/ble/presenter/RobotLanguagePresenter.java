@@ -72,7 +72,7 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
 
         ViseHttp.POST(BleHttpEntity.GET_ROBOT_LANGUAGE)
                 .setJson(GsonImpl.get().toJson(robotLanguageRequest))
-                .connectTimeOut(5)
+                .connectTimeOut(10)
                 .request(new ACallback<String>() {
 
                     @Override

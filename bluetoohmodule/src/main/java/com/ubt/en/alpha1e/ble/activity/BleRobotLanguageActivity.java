@@ -30,7 +30,7 @@ import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.ble.Contact.RobotLanguageContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
-import com.ubt.en.alpha1e.ble.dialog.SwitchIngLanguageDialog;
+//import com.ubt.en.alpha1e.ble.dialog.SwitchIngLanguageDialog;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
@@ -69,11 +69,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     private List<RobotLanguage> mRobotLanguageExists = new ArrayList<>();
 
-    private SwitchIngLanguageDialog switchProgressDialog = null;
+    //private SwitchIngLanguageDialog switchProgressDialog = null;
 
     private boolean hasConnectWifi = true;
 
-    private BleSwitchLanguageRsp mSwitchLanguageRsp = null;
+    //private BleSwitchLanguageRsp mSwitchLanguageRsp = null;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -91,7 +91,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     }
                     mAdapter.notifyDataSetChanged();
                     break;
-                case SHOW_SET_LANGUAGE_RESULT:
+                /*case SHOW_SET_LANGUAGE_RESULT:
                     int status = msg.arg1;
                     ViseLog.d("SHOW_SET_LANGUAGE_RESULT = " + status);
                     if(status == 0){
@@ -101,8 +101,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     }else if(status == 2){
                         showLowBatteryDialog();
                     }
-                    break;
-                case SHOW_SET_LANGUAGE_PROGRESS:
+                    break;*/
+                /*case SHOW_SET_LANGUAGE_PROGRESS:
 
                     BleSwitchLanguageRsp switchLanguageRsp = (BleSwitchLanguageRsp)msg.obj;
                     ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
@@ -135,7 +135,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                         msg1.arg1 = 1;
                         mHandler.sendMessage(msg1);
                     }
-                    break;
+                    break;*/
                 case UPDATE_DOWNLOAD_LANGUAGE:
                     BleDownloadLanguageRsp downloadLanguageRsp = (BleDownloadLanguageRsp) msg.obj;
                     ViseLog.d("downloadLanguageRsp = " + downloadLanguageRsp);
@@ -362,7 +362,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     /**
      * 显示设置语言对话框
      */
-    public void showSetLanguageDialog(boolean isSuccess) {
+    /*public void showSetLanguageDialog(boolean isSuccess) {
 
         String message ;
         int imgId ;
@@ -406,9 +406,9 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     }
 
-    /**
+    *//**
      * 显示低电量
-     */
+     *//*
     public void showLowBatteryDialog() {
 
         String titleMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_1);
@@ -445,9 +445,9 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     }
 
 
-    /**
+    *//**
      * 切换语言对话框
-     */
+     *//*
     public void showSwitchLanguageDialog(int progress) {
 
         ViseLog.d("-switchLanguageDialog->");
@@ -469,6 +469,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
             switchProgressDialog.doShow();
         }
     }
+
+    */
 
     private void finishActivity() {
 
