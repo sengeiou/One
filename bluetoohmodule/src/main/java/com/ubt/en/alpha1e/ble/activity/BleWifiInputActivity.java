@@ -151,12 +151,19 @@ public class BleWifiInputActivity extends MVPBaseActivity<WifiInputContact.View,
         ViseLog.d("isFirseEnter===" + isFirstEnter);
         mBleEditName.setText(wifiName);
         mBleEditName.setSelection(wifiName.length());//将光标移至文字末尾
-        if (!TextUtils.isEmpty(wifiName)) {
-            mBleEditPasswd.setFocusable(true);
-        }
+
         mBleEditName.addTextChangedListener(mTextWatcher);
         mPresenter.init(this);
         AppStatusUtils.setBtBussiness(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!TextUtils.isEmpty(wifiName)) {
+            mBleEditPasswd.setFocusable(true);
+            mBleEditPasswd.requestFocus();
+        }
     }
 
     @Override

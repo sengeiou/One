@@ -14,6 +14,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSNCode;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdUpdateFirmware;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
@@ -276,6 +277,26 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
         mBlueClientUtil.sendData(new BTCmdSetAutoUpgrade(params[0]).toByteArray());
     }
 
+    /**
+     * 获取语言包版本
+     */
+    public void getLanguageVersion() {
+        if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            mBlueClientUtil.sendData(new BTCmdGetRobotVersionMsg().toByteArray());
+        }
+    }
+
+    /**
+     * 发送升级指令
+     *
+     * @param
+     */
+    public void sendUpdateVersion() {
+        if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            ViseLog.d("发送胸口版升级" + new BTCmdUpdateFirmware("resource").toString());
+            mBlueClientUtil.sendData(new BTCmdUpdateFirmware("resource").toByteArray());
+        }
+    }
 
     //                "status":	"true",
 //                    "name":	"UBT-alpha2-bigbox",

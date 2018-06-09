@@ -13,7 +13,7 @@ public class BleDownloadLanguageRsp extends BleBaseModel {
 
     public int result = 0;  //0 ( 成功) 1 (失败) 2 (被意外终止，或者被取消)
 
-    public int progess = 0;
+    public int progress = 0;
 
     public String name = "";
 
@@ -71,7 +71,7 @@ public class BleDownloadLanguageRsp extends BleBaseModel {
     public String toString() {
         return "BleDownloadLanguageRsp{" +
                 "result=" + result +
-                ",progess=" + progess +
+                ",progress=" + progress +
                 ",name=" + name +
                 ",langauage=" + language +
                 '}';

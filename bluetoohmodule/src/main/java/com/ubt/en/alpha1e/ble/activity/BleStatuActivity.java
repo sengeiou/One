@@ -23,6 +23,7 @@ import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -33,10 +34,18 @@ import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.BleStatuPrenster;
 import com.vise.log.ViseLog;
 
+import org.json.JSONObject;
+
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 
 @Route(path = ModuleUtils.Bluetooh_BleStatuActivity)
@@ -149,9 +158,8 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     }
 
-    @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect,
-            R2.id.tv_robot_language, R2.id.tv_robot_language_right, R2.id.v_has_language_new_version,
-            R2.id.ckb_auto_upgrade, R2.id.tv_robot_soft_language, R2.id.tv_isdown_robot})
+    @OnClick({R2.id.ble_statu_connect, R2.id.rl_robot_wifi, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect,
+            R2.id.rl_robot_language, R2.id.rl_robot_soft_version})
     public void clickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_back_disconnect) {
@@ -160,24 +168,75 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
             finishBleStatuActivity();
         } else if (i == R.id.ble_statu_connect) {
             mPresenter.checkBlestatu();
-        } else if (i == R.id.tv_wifi_select) {
+        } else if (i == R.id.rl_robot_wifi) {
             BleSearchWifiActivity.launch(this, false, wifiName);
 
-        } else if (i == R.id.tv_robot_language || i == R.id.tv_robot_language_right || i == R.id.v_has_language_new_version) {
+        } else if (i == R.id.rl_robot_language) {
             ViseLog.d("tv_robot_language");
-            String robotLanguage = "";
-            if (currentRobotVersionInfo != null) {
-                robotLanguage = currentRobotVersionInfo.lang;
-            }
-            BleRobotLanguageActivity.launch(this, robotLanguage);
+
+            Disposable mDisposable = Observable.intervalRange(1, 100, 0, 100, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+
+                            ViseLog.d("long===" + String.valueOf(aLong));
+                            JSONObject object = new JSONObject();
+                            object.put("result", 0);
+                            object.put("progress", aLong);
+                            object.put("name", "resource");
+                            object.put("language", "english");
+                            BleDownloadLanguageRsp upgradeProgressInfo = GsonImpl.get().toObject(object.toString(), BleDownloadLanguageRsp.class);
+                            downLanguageProgress(upgradeProgressInfo);
+
+                        }
+                    });
+
+//            if (!TextUtils.isEmpty(currentRobotVersionInfo.new_version)) {
+//                showUpdateDialog();
+//                return;
+//            }
+//
+//            String robotLanguage = "";
+//            if (currentRobotVersionInfo != null) {
+//                robotLanguage = currentRobotVersionInfo.lang;
+//            }
+//            BleRobotLanguageActivity.launch(this, robotLanguage);
         } else if (i == R.id.ble_tv_connect) {
             disconnectRobotBle();
 
-        } else if (i == R.id.tv_robot_soft_language || i == R.id.tv_isdown_robot) {
+        } else if (i == R.id.rl_robot_soft_version) {
             startActivity(new Intent(this, RobotStatuActivity.class));
         }
     }
 
+    /**
+     * 系统版本或者胸口版又升级对话框
+     */
+    private void showUpdateDialog() {
+        new BaseDialog.Builder(this)
+                .setMessage(R.string.base_upgrade_tip)
+                .setConfirmButtonId(R.string.base_not_now)
+                .setConfirmButtonColor(R.color.black)
+                .setCancleButtonID(R.string.base_update)
+                .setCancleButtonColor(R.color.base_blue)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            dialog.dismiss();
+                            String robotLanguage = "";
+                            if (currentRobotVersionInfo != null) {
+                                robotLanguage = currentRobotVersionInfo.lang;
+                            }
+                            BleRobotLanguageActivity.launch(BleStatuActivity.this, robotLanguage);
+                        } else if (view.getId() == R.id.button_cancle) {
+                            dialog.dismiss();
+                            mPresenter.sendUpdateVersion();
+                        }
+                    }
+                }).create().show();
+
+    }
 
     /**
      * 设置机器人连接状态
@@ -291,19 +350,23 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         if (progressInfo != null) {
             if (progressInfo.result == 1 || progressInfo.result == 2) {
                 mTvIsdownRobot.setVisibility(View.GONE);
-            } else if (progressInfo.result == 0 && progressInfo.progess == 100) {
-                mTvIsdownRobot.setVisibility(View.GONE);
-                mViewRedDot.setVisibility(View.VISIBLE);
+            } else if (progressInfo.result == 0) {
+                if (progressInfo.progress == 100) {
+                    mTvIsdownRobot.setVisibility(View.GONE);
+                    mViewRedDot.setVisibility(View.VISIBLE);
+                } else {
+                    mTvIsdownRobot.setVisibility(View.VISIBLE);
+                }
             }
 
             if (!progressInfo.name.equals("chip_firmware")) {
                 mTvIsdownRobotlanguage.setVisibility(View.VISIBLE);
-                String str = SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download);
-                String progress = String.format(str, progressInfo.progess);
-                mTvIsdownRobotlanguage.setText(progress);
-                if (progressInfo.result == 0 && progressInfo.progess == 100) {
+                  ViseLog.d("progress===" + String.valueOf(progressInfo.progress));
+                mTvIsdownRobotlanguage.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download).replace("#", String.valueOf(progressInfo.progress)));
+                if (progressInfo.result == 0 && progressInfo.progress == 100) {
                     vHasLanguageNewVersion.setVisibility(View.VISIBLE);
                     mTvIsdownRobotlanguage.setVisibility(View.GONE);
+                    mPresenter.getLanguageVersion();
                 } else if (progressInfo.result == 1 || progressInfo.result == 2) {
                     mTvIsdownRobotlanguage.setVisibility(View.GONE);
                 }

@@ -16,17 +16,17 @@ import org.json.JSONObject;
  */
 
 public class BTCmdUpdateFirmware extends BaseBTReq {
-    byte    cmd = BTCmd.DV_COMMON_CMD;
+    byte cmd = BTCmd.DV_COMMON_CMD;
 
     byte[] parm = {0x00};
 
-    public BTCmdUpdateFirmware(String language){
+    public BTCmdUpdateFirmware(String language) {
         JSONObject jsonObject = new JSONObject();
 
         try {
             jsonObject.put("seq", 12);
-            jsonObject.put("event","10");
-            jsonObject.put("name",language);
+            jsonObject.put("event", "10");
+            jsonObject.put("name", language);
         } catch (JSONException e) {
             e.printStackTrace();
         }

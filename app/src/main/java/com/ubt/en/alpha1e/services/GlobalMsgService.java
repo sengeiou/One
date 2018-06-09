@@ -186,6 +186,7 @@ public class GlobalMsgService extends Service {
                 }
                 break;
             case BTCmd.DV_DO_UPGRADE_SOFT:
+                ViseLog.d("系统软件请求升级");
                 if (0x01 == packet.getmParam()[0]) {
                     BaseUpdateTipDialog.getInstance().show();
                 }

@@ -147,7 +147,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                         for(RobotLanguage robotLanguage : mRobotLanguages){
                             if(robotLanguage.getLanguageSingleName().equals(downloadLanguageRsp.language)){
                                 robotLanguage.setResult(downloadLanguageRsp.result);
-                                robotLanguage.setProgess(downloadLanguageRsp.progess);
+                                robotLanguage.setProgess(downloadLanguageRsp.progress);
                                 mAdapter.notifyDataSetChanged();
                                 break;
                             }

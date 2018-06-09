@@ -71,7 +71,7 @@ public class BleSwitchLanguageRsp extends BleBaseModel {
     public String toString() {
         return "BleSwitchLanguageRsp{" +
                 "result=" + result +
-                ",progess=" + progess +
+                ",progress=" + progess +
                 ",name=" + name +
                 ",language=" + language +
                 '}';

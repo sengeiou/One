@@ -1,6 +1,5 @@
 package com.ubt.en.alpha1e.ble.activity;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,14 +11,11 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.ubt.baselib.btCmd1E.cmd.BTCmdStartUpgradeSoft;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
-import com.ubt.baselib.customView.BaseUpdateTipDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
-import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -31,16 +27,10 @@ import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.RobotStatuPrenster;
 import com.vise.log.ViseLog;
 
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 
 @Route(path = ModuleUtils.Bluetooh_BleStatuActivity)
@@ -113,100 +103,69 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         AppStatusUtils.setBtBussiness(false);
     }
 
-    @OnClick({R2.id.iv_robot_back, R2.id.ckb_auto_upgrade, R2.id.tv_robot_version, R2.id.tv_firmware_version})
+    @OnClick({R2.id.iv_robot_back, R2.id.ckb_auto_upgrade, R2.id.rl_system_version, R2.id.rl_firmware_version})
     public void clickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_robot_back) {
             finish();
         } else if (i == R.id.ckb_auto_upgrade) {
-            ViseLog.d("ckb_auto_upgrade");
+            ViseLog.d("ckb_auto_u pgrade");
             //成功之后才切换
             ckbAutoUpgrade.setChecked(!ckbAutoUpgrade.isChecked());
             new BaseDialog.Builder(this)
                     .setMessage(mCurrentAutoUpgrade ? R.string.about_robot_auto_update_off : R.string.about_robot_auto_update_on)
-                    .setConfirmButtonId(mCurrentAutoUpgrade ? R.string.common_btn_switch_off : R.string.common_btn_switch_on)
-                    .setConfirmButtonColor(mCurrentAutoUpgrade ? R.color.base_color_red : R.color.base_blue)
-                    .setCancleButtonID(R.string.base_cancel)
-                    .setCancleButtonColor(R.color.black)
+                    .setConfirmButtonId(R.string.base_cancel)
+                    .setConfirmButtonColor(R.color.black)
+                    .setCancleButtonID(mCurrentAutoUpgrade ? R.string.common_btn_switch_off : R.string.common_btn_switch_on)
+                    .setCancleButtonColor(mCurrentAutoUpgrade ? R.color.base_color_red : R.color.base_blue)
                     .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                         @Override
                         public void onClick(DialogPlus dialog, View view) {
                             if (view.getId() == R.id.button_confirm) {
                                 dialog.dismiss();
-                                switchAutoUpgradeStatus();
                             } else if (view.getId() == R.id.button_cancle) {
                                 dialog.dismiss();
+                                switchAutoUpgradeStatus();
+
                             }
                         }
                     }).create().show();
 
-        } else if (i == R.id.tv_firmware_version) {//胸口版固件版本是否更新
-            Disposable mDisposable = Observable.intervalRange(1, 100, 0, 100, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-                        @Override
-                        public void accept(Long aLong) throws Exception {
-                            ViseLog.d("long===" + String.valueOf(aLong));
-                            Intent intent = new Intent(RobotStatuActivity.this, LanguageUpdateActivity.class);
-                            intent.putExtra("progress", String.valueOf(aLong));
-                            RobotStatuActivity.this.startActivity(intent);
-
-                        }
-                    });
+        } else if (i == R.id.rl_firmware_version) {//胸口版固件版本是否更新
             if (mBleRobotVersionInfo != null && !TextUtils.isEmpty(mBleRobotVersionInfo.new_firmware_ver)) {
-                new BaseDialog.Builder(this)
-                        .setMessage(R.string.base_upgrade_tip)
-                        .setConfirmButtonId(R.string.base_confirm)
-                        .setConfirmButtonColor(R.color.base_blue)
-                        .setCancleButtonID(R.string.base_cancel)
-                        .setCancleButtonColor(R.color.black)
-                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                            @Override
-                            public void onClick(DialogPlus dialog, View view) {
-                                if (view.getId() == R.id.button_confirm) {
-                                    dialog.dismiss();
-                                    BlueClientUtil.getInstance().sendData(new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.REQUEST_UPDATE).toByteArray());
-                                } else if (view.getId() == R.id.button_cancle) {
-                                    dialog.dismiss();
-                                }
-                            }
-                        }).create().show();
+                showUpdateDialog(2);
             }
-        } else if (i == R.id.tv_robot_version) {//系统版本是否更新
+        } else if (i == R.id.rl_system_version) {//系统版本是否更新
             if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion)) {
-                BaseUpdateTipDialog.getInstance().show();
-                new BaseDialog.Builder(this)
-                        .setMessage(R.string.base_upgrade_tip)
-                        .setConfirmButtonId(R.string.base_confirm)
-                        .setConfirmButtonColor(R.color.base_blue)
-                        .setCancleButtonID(R.string.base_cancel)
-                        .setCancleButtonColor(R.color.black)
-                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                            @Override
-                            public void onClick(DialogPlus dialog, View view) {
-                                if (view.getId() == R.id.button_confirm) {
-                                    dialog.dismiss();
-                                    BlueClientUtil.getInstance().sendData(new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.REQUEST_UPDATE).toByteArray());
-                                } else if (view.getId() == R.id.button_cancle) {
-                                    dialog.dismiss();
-                                }
-                            }
-                        }).create().show();
-//            Disposable mDisposable = Observable.intervalRange(1, 100, 0, 100, TimeUnit.MILLISECONDS)
-//                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-//                        @Override
-//                        public void accept(Long aLong) throws Exception {
-//                            ViseLog.d("long===" + String.valueOf(aLong));
-//                            JSONObject object = new JSONObject();
-//                            object.put("status", aLong == 100 ? 2 : 1);
-//                            object.put("progress", "" + aLong);
-//                            object.put("totalSize", "20M");
-//                            UpgradeProgressInfo upgradeProgressInfo = GsonImpl.get().toObject(object.toString(), UpgradeProgressInfo.class);
-//                            downSystemProgress(upgradeProgressInfo);
-//
-//                        }
-//                    });
+                showUpdateDialog(1);
             }
         }
+    }
+
+
+    /**
+     * 系统版本或者胸口版又升级对话框
+     *
+     * @param type
+     */
+    private void showUpdateDialog(final int type) {
+        new BaseDialog.Builder(this)
+                .setMessage(R.string.base_upgrade_tip)
+                .setConfirmButtonId(R.string.base_not_now)
+                .setConfirmButtonColor(R.color.black)
+                .setCancleButtonID(R.string.base_update)
+                .setCancleButtonColor(R.color.base_blue)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            dialog.dismiss();
+                        } else if (view.getId() == R.id.button_cancle) {
+                            dialog.dismiss();
+                            mPresenter.sendUpdateVersion(type);
+                        }
+                    }
+                }).create().show();
     }
 
     /**
@@ -272,6 +231,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 mTvSystemUpdateTip.setVisibility(View.GONE);
                 mSystemVersionProgress.setVisibility(View.GONE);
                 mTvSystemProgress.setVisibility(View.GONE);
+                mPresenter.getSystemVersion();
             }
         }
     }
@@ -290,13 +250,14 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 mFirmwareVersionProgress.setVisibility(View.VISIBLE);
                 mTvFirmwareProgress.setVisibility(View.VISIBLE);
                 mIvDownloadFirmFailWarning.setVisibility(View.GONE);
-                mFirmwareVersionProgress.setProgress(progressInfo.progess);
-                mTvFirmwareProgress.setText(progressInfo.progess + "%");
-                if (progressInfo.result == 0 && progressInfo.progess == 100) {
+                mFirmwareVersionProgress.setProgress(progressInfo.progress);
+                mTvFirmwareProgress.setText(progressInfo.progress + "%");
+                if (progressInfo.result == 0 && progressInfo.progress == 100) {
                     mIvDownloadFirmFailWarning.setVisibility(View.GONE);
                     mTvFirmwareUpdateTip.setVisibility(View.GONE);
                     mFirmwareVersionProgress.setVisibility(View.GONE);
                     mTvFirmwareProgress.setVisibility(View.GONE);
+                    mPresenter.getVoiceFirmVersion();
                 } else if (progressInfo.result == 1 || progressInfo.result == 2) {
                     //  mTvFirmwareUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
                     // mTvFirmwareUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));

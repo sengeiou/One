@@ -15,6 +15,8 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAutoUpgradeState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadHardwareVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdStartUpgradeSoft;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdUpdateFirmware;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -162,10 +164,10 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                     if (mView != null) {
                         mView.downloadFirmProgress(downloadLanguageRsp);
                     }
-                }else if(bleBaseModel.event == 9){
+                } else if (bleBaseModel.event == 9) {
                     BleSwitchLanguageRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSwitchLanguageRsp.class);
                     ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
-                    if(mView != null){
+                    if (mView != null) {
                         mView.updateFirmVersionProgress(switchLanguageRsp);
                     }
                 }
@@ -233,5 +235,42 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
         mBlueClientUtil.sendData(new BTCmdSetAutoUpgrade(params[0]).toByteArray());
     }
 
+    /**
+     * 查询系统版本
+     */
+    public void getSystemVersion() {
+        if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            ViseLog.d("获取机器人软件版本请求");
+            mBlueClientUtil.sendData(new BTCmdReadSoftVer().toByteArray());
+        }
+    }
+
+    /**
+     * 查询胸口版固件版本
+     */
+    public void getVoiceFirmVersion() {
+        if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            ViseLog.d("获取机器人软件版本请求");
+            mBlueClientUtil.sendData(new BTCmdReadHardwareVer().toByteArray());
+        }
+    }
+
+    /**
+     * 发送升级指令
+     *
+     * @param type 1系统版本升级 2 胸口版升级
+     */
+    public void sendUpdateVersion(int type) {
+        if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            if (type == 1) {
+                ViseLog.d("发送系统版本升级" + new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.START_UPDATE).toString());
+                mBlueClientUtil.sendData(new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.START_UPDATE).toByteArray());
+
+            } else if (type == 2) {
+                ViseLog.d("发送胸口版升级" + new BTCmdUpdateFirmware("chip_firmware").toString());
+                mBlueClientUtil.sendData(new BTCmdUpdateFirmware("chip_firmware").toByteArray());
+            }
+        }
+    }
 
 }
