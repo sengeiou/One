@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="16dp"
-                android:text="@string/about_robot_title"
+                android:text="@string/about_robot_vsersion"
                 android:textColor="@color/base_tv_large_black"
                 android:textSize="@dimen/sp_18"/>
         </RelativeLayout>
@@ -101,7 +101,7 @@
                     style="@style/ble_tv_robot_left"
                     android:layout_centerVertical="false"
                     android:layout_marginTop="@dimen/dp_15"
-                    android:text="System version"
+                    android:text="@string/about_system_vsersion"
                     />
 
                 <TextView
@@ -185,7 +185,7 @@
                     style="@style/ble_tv_robot_left"
                     android:layout_centerVertical="false"
                     android:layout_marginTop="@dimen/dp_15"
-                    android:text="Voice FirmWare version"
+                    android:text="@string/about_firmware_vsersion"
                     />
 
                 <TextView
@@ -196,7 +196,6 @@
                     android:drawableEnd="@drawable/ble_update_red_dot"
                     android:drawablePadding="5dp"
                     android:focusable="true"
-                    android:text="V1.0.1"
                     android:textSize="@dimen/sp_13"
                     />
 
@@ -260,31 +259,33 @@
                     />
             </RelativeLayout>
 
+
             <RelativeLayout
                 android:id="@+id/rl_hardware_serial"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_45"
                 android:layout_below="@+id/rl_firmware_version"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center_vertical"
                 >
 
                 <TextView
                     style="@style/ble_tv_robot_left"
-                    android:text="HardWare Version"
+                    android:text="@string/about_harward_vsersion"
                     />
-
 
                 <TextView
                     android:id="@+id/tv_hardware_serial"
                     style="@style/ble_tv_robot_right"
-                    android:text="V1.0.1"
-                    android:textSize="12sp"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0_5"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:background="@color/base_line"
                     />
 
             </RelativeLayout>
-
 
         </RelativeLayout>
 

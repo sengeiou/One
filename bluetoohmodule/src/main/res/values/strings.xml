@@ -46,6 +46,9 @@
     <string name="ble_robot_language_english" tools:ignore="ResourceName">English</string>
     <string name="about_robot_language" tools:ignore="ResourceName">Robot Language</string>
     <string name="about_robot_vsersion" tools:ignore="ResourceName">Robot Version</string>
+    <string name="about_system_vsersion" tools:ignore="ResourceName">System Version</string>
+    <string name="about_firmware_vsersion" tools:ignore="ResourceName">Voice firmware Version</string>
+    <string name="about_harward_vsersion" tools:ignore="ResourceName">Hardwre Version</string>
     <string name="about_robot_auto_update_off" tools:ignore="ResourceName">Turn it off, the robot can not update to the newest version automatically. And you will receive a prompt of new version.</string>
     <string name="about_robot_auto_update_on" tools:ignore="ResourceName">Turn on Auto Update, the robot will update when new version is available.  If turn it off,  you can only receive a tip.</string>
     <string name="common_btn_switch_off" tools:ignore="ResourceName">Turn off</string>
@@ -56,7 +59,7 @@
     <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates.</string>
     <string name="about_robot_language_done" tools:ignore="ResourceName">Done</string>
     <string name="about_robot_language_dialogue" tools:ignore="ResourceName">Are you sure you want to change the robot language to #? This will take you 3 or 4 minutes of time.</string>
-    <string name="about_robot_language_changing" tools:ignore="ResourceName">Robot language is changing, please Do Not power off the robot.</string>
+    <string name="about_robot_language_changing" tools:ignore="ResourceName">Robot language is updateing, please Do Not power off the robot.</string>
     <string name="about_robot_language_changing_success" tools:ignore="ResourceName">Robot language is English now.</string>
     <string name="about_robot_language_low_battery_tips_1" tools:ignore="ResourceName">Robot battery is low! </string>
     <string name="about_robot_language_low_battery_tips_2" tools:ignore="ResourceName">Robot language can not be changed, please charge the robot first.</string>

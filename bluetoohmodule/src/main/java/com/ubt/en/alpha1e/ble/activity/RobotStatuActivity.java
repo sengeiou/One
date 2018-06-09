@@ -15,7 +15,6 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdStartUpgradeSoft;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
-import com.ubt.baselib.customView.BaseUpdateRobotDialog;
 import com.ubt.baselib.customView.BaseUpdateTipDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
@@ -153,17 +152,23 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                         }
                     });
             if (mBleRobotVersionInfo != null && !TextUtils.isEmpty(mBleRobotVersionInfo.new_firmware_ver)) {
-                BaseUpdateRobotDialog.getInstance().show(new BaseUpdateRobotDialog.IDialogClick() {
-                    @Override
-                    public void onConnect() {
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
+                new BaseDialog.Builder(this)
+                        .setMessage(R.string.base_upgrade_tip)
+                        .setConfirmButtonId(R.string.base_confirm)
+                        .setConfirmButtonColor(R.color.base_blue)
+                        .setCancleButtonID(R.string.base_cancel)
+                        .setCancleButtonColor(R.color.black)
+                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                            @Override
+                            public void onClick(DialogPlus dialog, View view) {
+                                if (view.getId() == R.id.button_confirm) {
+                                    dialog.dismiss();
+                                    BlueClientUtil.getInstance().sendData(new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.REQUEST_UPDATE).toByteArray());
+                                } else if (view.getId() == R.id.button_cancle) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        }).create().show();
             }
         } else if (i == R.id.tv_robot_version) {//系统版本是否更新
             if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion)) {
@@ -321,7 +326,10 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
 
     @Override
     public void setRobotHardVersion(String hardVersion) {
-        mTvHardwareSerial.setText(hardVersion);
+        if (!TextUtils.isEmpty(hardVersion)) {
+            ViseLog.d("hardVersion===" + hardVersion);
+            mTvHardwareSerial.setText(hardVersion.trim());
+        }
     }
 
     /**

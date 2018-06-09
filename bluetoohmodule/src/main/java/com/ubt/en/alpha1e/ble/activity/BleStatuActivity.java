@@ -314,6 +314,9 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         }
     }
 
+    /**
+     * 设置机器人是否有新版本显示红点
+     */
     private void showRobotVersionDot() {
 
         if ((mSystemRobotInfo != null && !TextUtils.isEmpty(mSystemRobotInfo.toVersion)) ||

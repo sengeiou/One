@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ubt.baselib.utils.ActivityTool;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
 import com.vise.log.ViseLog;
@@ -49,7 +50,7 @@ public class LanguageUpdateActivity extends AppCompatActivity {
         this.setFinishOnTouchOutside(false);
         mUnbinder = ButterKnife.bind(this);
         setIntentData(getIntent());
-
+        ActivityTool.addActivity(this);
     }
 
     @Override
@@ -66,6 +67,9 @@ public class LanguageUpdateActivity extends AppCompatActivity {
         ViseLog.e("LanguageUpdateActivity=setIntentData=" + progress);
         mPbProgress.setProgress(Integer.parseInt(progress));
         mTvProgress.setText(progress + "%");
+        if (Integer.parseInt(progress) == 100) {
+            finish();
+        }
     }
 
     @Override
@@ -80,5 +84,6 @@ public class LanguageUpdateActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        ActivityTool.removeActivity(this);
     }
 }

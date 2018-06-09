@@ -249,7 +249,8 @@
                 android:id="@+id/rl_robot_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/rl_robot_update"
+                android:layout_below="@+id/rl_robot_wifi"
+                android:layout_marginTop="@dimen/dp_15"
                 android:background="@drawable/ble_aboutrobot_item_selector"
                 >
 
@@ -257,8 +258,6 @@
                     android:id="@+id/rl_robot_soft_version"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_50"
-                    android:layout_marginTop="@dimen/dp_15"
-                    android:background="@drawable/ble_aboutrobot_item_selector"
                     >
 
                     <TextView
@@ -284,6 +283,13 @@
                         android:drawableRight="@drawable/more"
                         />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_0_5"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:background="@color/base_line"
+                        />
 
                 </RelativeLayout>
 
@@ -292,7 +298,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_50"
                     android:layout_below="@+id/rl_robot_soft_version"
-                    android:background="@drawable/ble_aboutrobot_item_selector"
                     >
 
                     <TextView
@@ -328,6 +333,13 @@
                         android:drawableRight="@drawable/more"
                         />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_0_5"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:background="@color/base_line"
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout
