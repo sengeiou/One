@@ -23,7 +23,6 @@ import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
-import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -34,18 +33,10 @@ import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.BleStatuPrenster;
 import com.vise.log.ViseLog;
 
-import org.json.JSONObject;
-
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 
 @Route(path = ModuleUtils.Bluetooh_BleStatuActivity)
@@ -173,34 +164,16 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
         } else if (i == R.id.rl_robot_language) {
             ViseLog.d("tv_robot_language");
+            if (!TextUtils.isEmpty(currentRobotVersionInfo.new_version)) {
+                showUpdateDialog();
+                return;
+            }
 
-            Disposable mDisposable = Observable.intervalRange(1, 100, 0, 100, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-                        @Override
-                        public void accept(Long aLong) throws Exception {
-
-                            ViseLog.d("long===" + String.valueOf(aLong));
-                            JSONObject object = new JSONObject();
-                            object.put("result", 0);
-                            object.put("progress", aLong);
-                            object.put("name", "resource");
-                            object.put("language", "english");
-                            BleDownloadLanguageRsp upgradeProgressInfo = GsonImpl.get().toObject(object.toString(), BleDownloadLanguageRsp.class);
-                            downLanguageProgress(upgradeProgressInfo);
-
-                        }
-                    });
-
-//            if (!TextUtils.isEmpty(currentRobotVersionInfo.new_version)) {
-//                showUpdateDialog();
-//                return;
-//            }
-//
-//            String robotLanguage = "";
-//            if (currentRobotVersionInfo != null) {
-//                robotLanguage = currentRobotVersionInfo.lang;
-//            }
-//            BleRobotLanguageActivity.launch(this, robotLanguage);
+            String robotLanguage = "";
+            if (currentRobotVersionInfo != null) {
+                robotLanguage = currentRobotVersionInfo.lang;
+            }
+            BleRobotLanguageActivity.launch(this, robotLanguage);
         } else if (i == R.id.ble_tv_connect) {
             disconnectRobotBle();
 
@@ -361,7 +334,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
             if (!progressInfo.name.equals("chip_firmware")) {
                 mTvIsdownRobotlanguage.setVisibility(View.VISIBLE);
-                  ViseLog.d("progress===" + String.valueOf(progressInfo.progress));
+                ViseLog.d("progress===" + String.valueOf(progressInfo.progress));
                 mTvIsdownRobotlanguage.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download).replace("#", String.valueOf(progressInfo.progress)));
                 if (progressInfo.result == 0 && progressInfo.progress == 100) {
                     vHasLanguageNewVersion.setVisibility(View.VISIBLE);
