@@ -119,6 +119,7 @@ public class PlayActionManger {
         if(mBlueClient.getConnectionState() == 3){
             if(AppStatusUtils.isLowPower()){
                 BaseLowBattaryDialog.getInstance().showLow5ActionDialog(null);
+                return;
             }
             mBlueClient.sendData(new BTCmdPlayAction(actionName).toByteArray());
             playState = PLAYING;
