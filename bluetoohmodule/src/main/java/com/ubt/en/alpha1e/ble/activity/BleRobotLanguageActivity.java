@@ -1,26 +1,19 @@
 package com.ubt.en.alpha1e.ble.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.OnClickListener;
-import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.MVPBaseActivity;
@@ -30,7 +23,6 @@ import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.ble.Contact.RobotLanguageContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
-//import com.ubt.en.alpha1e.ble.dialog.SwitchIngLanguageDialog;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
@@ -45,6 +37,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+//import com.ubt.en.alpha1e.ble.dialog.SwitchIngLanguageDialog;
 
 
 public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageContact.View, RobotLanguagePresenter> implements RobotLanguageContact.View, BaseQuickAdapter.OnItemClickListener {
@@ -114,7 +108,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     mSwitchLanguageRsp = switchLanguageRsp;
                     if(switchLanguageRsp.result == 0 ){
 
-                        if(switchLanguageRsp.progess == 100 && switchProgressDialog != null){
+                        if(switchLanguageRsp.progress == 100 && switchProgressDialog != null){
                             switchProgressDialog.dismiss();
                             mSwitchLanguageRsp = switchLanguageRsp;
 
@@ -123,7 +117,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                             msg1.arg1 = 0;
                             mHandler.sendMessage(msg1);
                         }else{
-                            showSwitchLanguageDialog(switchLanguageRsp.progess);
+                            showSwitchLanguageDialog(switchLanguageRsp.progress);
                         }
 
                     }else if(switchLanguageRsp.result == 1 || switchLanguageRsp.result == 2 ){

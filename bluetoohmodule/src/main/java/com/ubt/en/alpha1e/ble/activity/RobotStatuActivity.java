@@ -234,7 +234,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 mTvSystemUpdateTip.setVisibility(View.GONE);
                 mSystemVersionProgress.setVisibility(View.GONE);
                 mTvSystemProgress.setVisibility(View.GONE);
-                mPresenter.getSystemVersion();
+                //mPresenter.getSystemVersion();
             }
         }
     }

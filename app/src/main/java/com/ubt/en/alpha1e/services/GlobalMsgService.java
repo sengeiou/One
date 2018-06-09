@@ -1,6 +1,5 @@
 package com.ubt.en.alpha1e.services;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,7 +47,6 @@ import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.xinge.XGConstact;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
-import com.vise.utils.system.AndroidUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -78,37 +76,39 @@ public class GlobalMsgService extends Service {
     private SwitchIngLanguageDialog switchProgressDialog = null;
     private BleSwitchLanguageRsp mSwitchLanguageRsp = null;
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case UPDATE_UPGRADE_PROGRESS_RSP:
                     BleSwitchLanguageRsp switchLanguageRsp = (BleSwitchLanguageRsp) msg.obj;
 
                     if (switchLanguageRsp != null) {
                         mSwitchLanguageRsp = switchLanguageRsp;
 
-                        if(switchLanguageRsp.name.equals("chip_instruction") || switchLanguageRsp.name.equals("chip_firmware")){
+                        if (switchLanguageRsp.name.equals("chip_instruction") || switchLanguageRsp.name.equals("chip_firmware")) {
                             int type = 0;
-                            if("chip_firmware".equals(switchLanguageRsp.name)){
+                            if ("chip_firmware".equals(switchLanguageRsp.name)) {
                                 type = 1;
                             }
 
-                            if(switchLanguageRsp.result == 0 ){
-                                if(switchLanguageRsp.progess == 100 && switchProgressDialog != null){
-                                    switchProgressDialog.dismiss();
-                                    showSetLanguageDialog(ActivityTool.currentActivity(), true, type);
-                                }else{
-                                    showSwitchLanguageDialog(ActivityTool.currentActivity(), switchLanguageRsp.progess,type);
+                            if (switchLanguageRsp.result == 0) {
+                                if (switchLanguageRsp.progress == 100) {
+                                    if (switchProgressDialog != null) {
+                                        switchProgressDialog.dismiss();
+                                        showSetLanguageDialog(ActivityTool.currentActivity(), true, type);
+                                    }
+                                } else {
+                                    showSwitchLanguageDialog(ActivityTool.currentActivity(), switchLanguageRsp.progress, type);
                                 }
 
-                            }else if(switchLanguageRsp.result == 1 || switchLanguageRsp.result == 2 ){
+                            } else if (switchLanguageRsp.result == 1 || switchLanguageRsp.result == 2) {
 
                                 switchProgressDialog.dismiss();
-                                if(switchLanguageRsp.result == 1){
-                                    showSetLanguageDialog(ActivityTool.currentActivity(), false,type);
-                                }else {
+                                if (switchLanguageRsp.result == 1) {
+                                    showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
+                                } else {
                                     showLowBatteryDialog(ActivityTool.currentActivity());
                                 }
                             }
@@ -116,7 +116,7 @@ public class GlobalMsgService extends Service {
                     }
                     break;
                 case BLUETOOTH_DISCONNECT:
-                    if(switchProgressDialog != null && switchProgressDialog.isShowing()){
+                    if (switchProgressDialog != null && switchProgressDialog.isShowing()) {
                         switchProgressDialog.dismiss();
                     }
                     break;
@@ -317,11 +317,16 @@ public class GlobalMsgService extends Service {
     /**
      * 切换语言对话框
      */
-    public void showSwitchLanguageDialog(Context context, int progress,int type) {
+    public void showSwitchLanguageDialog(Context context, int progress, int type) {
 
-        ViseLog.d("-switchLanguageDialog->" );
-        if(switchProgressDialog == null){
-            switchProgressDialog = new SwitchIngLanguageDialog(context,type).setCancel(false);
+        if (mDialogPlus != null) {
+            mDialogPlus.dismiss();
+            mDialogPlus = null;
+        }
+
+        ViseLog.d("-switchLanguageDialog->");
+        if (switchProgressDialog == null) {
+            switchProgressDialog = new SwitchIngLanguageDialog(context, type).setCancel(false);
             switchProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
@@ -331,7 +336,7 @@ public class GlobalMsgService extends Service {
         }
 
         switchProgressDialog.setProgress(progress);
-        if(!switchProgressDialog.isShowing()){
+        if (!switchProgressDialog.isShowing()) {
             switchProgressDialog.doShow();
         }
     }
@@ -339,21 +344,25 @@ public class GlobalMsgService extends Service {
     /**
      * 显示设置语言对话框
      */
-    public void showSetLanguageDialog(Context context, boolean isSuccess,int type) {
+    public void showSetLanguageDialog(Context context, boolean isSuccess, int type) {
+        if (mDialogPlus != null) {
+            mDialogPlus.dismiss();
+            mDialogPlus = null;
+        }
 
-        String message ;
-        int imgId ;
-        if(isSuccess){
-            if(type == 0){
-                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#",mSwitchLanguageRsp.language);
-            }else {
+        String message;
+        int imgId;
+        if (isSuccess) {
+            if (type == 0) {
+                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#", mSwitchLanguageRsp.language);
+            } else {
                 message = SkinManager.getInstance().getTextById(R.string.about_robot_upgrade_success);
             }
             imgId = R.drawable.img_language_ok;
-        }else {
-            if(type == 0){
+        } else {
+            if (type == 0) {
                 message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_fail);
-            }else {
+            } else {
                 message = SkinManager.getInstance().getTextById(R.string.about_robot_upgrade_fail);
             }
             imgId = R.drawable.img_language_failed;
@@ -367,8 +376,7 @@ public class GlobalMsgService extends Service {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         int width = (int) ((display.getWidth()) * 0.55); //设置宽度
-
-        DialogPlus.newDialog(context)
+        mDialogPlus = DialogPlus.newDialog(context)
                 .setContentHolder(viewHolder)
                 .setGravity(Gravity.CENTER)
                 .setContentWidth(width)
@@ -377,15 +385,19 @@ public class GlobalMsgService extends Service {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
                         if (view.getId() == R.id.btn_ok) {//点击确定以后刷新列表并解锁下一关
-
                             dialog.dismiss();
+                            mDialogPlus = null;
                         }
                     }
                 })
                 .setCancelable(false)
-                .create().show();
+                .create();
+        mDialogPlus.show();
+
 
     }
+
+    DialogPlus mDialogPlus = null;
 
     /**
      * 显示低电量

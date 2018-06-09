@@ -321,6 +321,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     @Override
     public void downLanguageProgress(BleDownloadLanguageRsp progressInfo) {
         if (progressInfo != null) {
+            ViseLog.d("progressInfo===" + progressInfo.toString());
             if (progressInfo.result == 1 || progressInfo.result == 2) {
                 mTvIsdownRobot.setVisibility(View.GONE);
             } else if (progressInfo.result == 0) {
@@ -334,12 +335,12 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
             if (!progressInfo.name.equals("chip_firmware")) {
                 mTvIsdownRobotlanguage.setVisibility(View.VISIBLE);
-                ViseLog.d("progress===" + String.valueOf(progressInfo.progress));
+
                 mTvIsdownRobotlanguage.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download).replace("#", String.valueOf(progressInfo.progress)));
                 if (progressInfo.result == 0 && progressInfo.progress == 100) {
                     vHasLanguageNewVersion.setVisibility(View.VISIBLE);
                     mTvIsdownRobotlanguage.setVisibility(View.GONE);
-                    mPresenter.getLanguageVersion();
+                    //mPresenter.getLanguageVersion();
                 } else if (progressInfo.result == 1 || progressInfo.result == 2) {
                     mTvIsdownRobotlanguage.setVisibility(View.GONE);
                 }

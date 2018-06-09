@@ -24,6 +24,7 @@ import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
+import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
@@ -175,6 +176,12 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                     BleRobotVersionInfo robotLanguageInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotVersionInfo.class);
                     if (mView != null) {
                         mView.setRobotVersionInfo(robotLanguageInfo);
+                    }
+                } else if (bleBaseModel.event == 7) {
+                    BleDownloadLanguageRsp downloadLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleDownloadLanguageRsp.class);
+                    ViseLog.d("downloadLanguageRsp = " + downloadLanguageRsp);
+                    if (mView != null) {
+                        mView.downLanguageProgress(downloadLanguageRsp);
                     }
                 }
 
