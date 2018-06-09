@@ -1,13 +1,27 @@
 package com.ubt.en.alpha1e.services;
 
+import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
@@ -20,17 +34,21 @@ import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.customView.BaseUpdateTipDialog;
+import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.ActivityTool;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.R;
+import com.ubt.en.alpha1e.ble.dialog.SwitchIngLanguageDialog;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
 import com.ubt.en.alpha1e.xinge.XGConstact;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
+import com.vise.utils.system.AndroidUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,6 +71,60 @@ public class GlobalMsgService extends Service {
     private boolean isNeed20Toast = true; //是否需要显示电量低于20%的Toast
     private boolean isNeed5Dialog = true; //是否需要显示电量低于5%的Dialog
     private Timer batteryTimer = null; //电量查询定时器
+
+    private static final int UPDATE_UPGRADE_PROGRESS_RSP = 1;
+    private static final int BLUETOOTH_DISCONNECT = 2;
+
+    private SwitchIngLanguageDialog switchProgressDialog = null;
+    private BleSwitchLanguageRsp mSwitchLanguageRsp = null;
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case UPDATE_UPGRADE_PROGRESS_RSP:
+                    BleSwitchLanguageRsp switchLanguageRsp = (BleSwitchLanguageRsp) msg.obj;
+
+                    if (switchLanguageRsp != null) {
+                        mSwitchLanguageRsp = switchLanguageRsp;
+
+                        if(switchLanguageRsp.name.equals("chip_instruction") || switchLanguageRsp.name.equals("chip_firmware")){
+                            int type = 0;
+                            if("chip_firmware".equals(switchLanguageRsp.name)){
+                                type = 1;
+                            }
+
+                            if(switchLanguageRsp.result == 0 ){
+                                if(switchLanguageRsp.progess == 100 && switchProgressDialog != null){
+                                    switchProgressDialog.dismiss();
+                                    showSetLanguageDialog(ActivityTool.currentActivity(), true, type);
+                                }else{
+                                    showSwitchLanguageDialog(ActivityTool.currentActivity(), switchLanguageRsp.progess,type);
+                                }
+
+                            }else if(switchLanguageRsp.result == 1 || switchLanguageRsp.result == 2 ){
+
+                                switchProgressDialog.dismiss();
+                                if(switchLanguageRsp.result == 1){
+                                    showSetLanguageDialog(ActivityTool.currentActivity(), false,type);
+                                }else {
+                                    showLowBatteryDialog(ActivityTool.currentActivity());
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case BLUETOOTH_DISCONNECT:
+                    if(switchProgressDialog != null && switchProgressDialog.isShowing()){
+                        switchProgressDialog.dismiss();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -96,6 +168,7 @@ public class GlobalMsgService extends Service {
                         + "   isBtBussiness:" + AppStatusUtils.isBtBussiness());
                 isNeed20Toast = true;
                 isNeed5Dialog = true;
+                mHandler.sendEmptyMessage(BLUETOOTH_DISCONNECT);
                 if (!AppStatusUtils.isForceDisBT()) {
                     if (AppStatusUtils.isBtBussiness()) {
                         ViseLog.e("特殊处理状态，不弹窗");
@@ -198,9 +271,11 @@ public class GlobalMsgService extends Service {
                 if (bleBaseModel.event == 9) {
                     BleSwitchLanguageRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSwitchLanguageRsp.class);
                     ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
-                    if (switchLanguageRsp != null && switchLanguageRsp.name.equals("chip_firmware ")) {
 
-                    }
+                    Message msg = new Message();
+                    msg.what = UPDATE_UPGRADE_PROGRESS_RSP;
+                    msg.obj = switchLanguageRsp;
+                    mHandler.sendMessage(msg);
                 }
                 break;
             default:
@@ -236,5 +311,116 @@ public class GlobalMsgService extends Service {
                 batteryTimer = null;
             }
         }
+    }
+
+    /**
+     * 切换语言对话框
+     */
+    public void showSwitchLanguageDialog(Context context, int progress,int type) {
+
+        ViseLog.d("-switchLanguageDialog->" );
+        if(switchProgressDialog == null){
+            switchProgressDialog = new SwitchIngLanguageDialog(context,type).setCancel(false);
+            switchProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    switchProgressDialog = null;
+                }
+            });
+        }
+
+        switchProgressDialog.setProgress(progress);
+        if(!switchProgressDialog.isShowing()){
+            switchProgressDialog.doShow();
+        }
+    }
+
+    /**
+     * 显示设置语言对话框
+     */
+    public void showSetLanguageDialog(Context context, boolean isSuccess,int type) {
+
+        String message ;
+        int imgId ;
+        if(isSuccess){
+            if(type == 0){
+                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#",mSwitchLanguageRsp.language);
+            }else {
+                message = SkinManager.getInstance().getTextById(R.string.about_robot_upgrade_success);
+            }
+            imgId = R.drawable.img_language_ok;
+        }else {
+            if(type == 0){
+                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_fail);
+            }else {
+                message = SkinManager.getInstance().getTextById(R.string.about_robot_upgrade_fail);
+            }
+            imgId = R.drawable.img_language_failed;
+        }
+
+        View contentView = LayoutInflater.from(context).inflate(R.layout.base_dialog_set_language_result, null);
+        TextView tvResult = contentView.findViewById(R.id.tv_result);
+        tvResult.setText(message);
+        ((ImageView) contentView.findViewById(R.id.iv_result)).setImageResource(imgId);
+        ViewHolder viewHolder = new ViewHolder(contentView);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        int width = (int) ((display.getWidth()) * 0.55); //设置宽度
+
+        DialogPlus.newDialog(context)
+                .setContentHolder(viewHolder)
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(width)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.btn_ok) {//点击确定以后刷新列表并解锁下一关
+
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .setCancelable(false)
+                .create().show();
+
+    }
+
+    /**
+     * 显示低电量
+     */
+    public void showLowBatteryDialog(Context context) {
+
+        String titleMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_1);
+        String detailMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_2);
+
+        View contentView = LayoutInflater.from(context).inflate(R.layout.ble_dialog_low_battery, null);
+        TextView tvTitle = contentView.findViewById(R.id.tv_title);
+        TextView tvMessage = contentView.findViewById(R.id.tv_message);
+        tvTitle.setText(titleMsg);
+        tvMessage.setText(detailMsg);
+
+        ViewHolder viewHolder = new ViewHolder(contentView);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        int width = (int) ((display.getWidth()) * 0.55); //设置宽度
+
+        DialogPlus.newDialog(context)
+                .setContentHolder(viewHolder)
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(width)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.btn_ok) {//点击确定以后刷新列表并解锁下一关
+
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .setCancelable(false)
+                .create().show();
+
     }
 }

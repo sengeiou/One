@@ -59,14 +59,16 @@
     <string name="about_robot_auto_update_download_fail" tools:ignore="ResourceName">Failed to download updates.</string>
     <string name="about_robot_language_done" tools:ignore="ResourceName">Done</string>
     <string name="about_robot_language_dialogue" tools:ignore="ResourceName">Are you sure you want to change the robot language to #? This will take you 3 or 4 minutes of time.</string>
-    <string name="about_robot_language_changing" tools:ignore="ResourceName">Robot language is updateing, please Do Not power off the robot.</string>
-    <string name="about_robot_language_changing_success" tools:ignore="ResourceName">Robot language is English now.</string>
+    <string name="about_robot_language_changing" tools:ignore="ResourceName">Robot language is updating, please Do Not power off the robot.</string>
+    <string name="about_robot_language_changing_success" tools:ignore="ResourceName">Robot language is # now.</string>
     <string name="about_robot_language_low_battery_tips_1" tools:ignore="ResourceName">Robot battery is low! </string>
     <string name="about_robot_language_low_battery_tips_2" tools:ignore="ResourceName">Robot language can not be changed, please charge the robot first.</string>
     <string name="about_robot_language_changing_fail" tools:ignore="ResourceName">Failed to change the robot language.</string>
     <string name="about_robot_language_package_downloading" tools:ignore="ResourceName">Downloading the package...</string>
     <string name="about_robot_language_package_download_fail" tools:ignore="ResourceName">Failed to download the package. Please check the network.</string>
     <string name="about_robot_language_package_dialogue" tools:ignore="ResourceName">There is no # package in the robot system, please connect the robot to Wi-Fi and download the package first.</string>
-
+    <string name="about_robot_upgrade_success" tools:ignore="ResourceName">Robot is updated to the lasted version.</string>
+    <string name="about_robot_upgrade_fail" tools:ignore="ResourceName">Failed to update the new version.</string>
+    <string name="about_robot_updating" tools:ignore="ResourceName">Robot is updating, please Do Not power off the robot.</string>
 
 </resources>
