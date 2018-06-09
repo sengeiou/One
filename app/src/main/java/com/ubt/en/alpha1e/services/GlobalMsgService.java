@@ -190,7 +190,7 @@ public class GlobalMsgService extends Service {
                     BaseUpdateTipDialog.getInstance().show();
                 }
                 break;
-            case BTCmd.DV_COMMON_CMD://机器人胸口版固件或语言包升级进度
+            case BTCmd.DV_COMMON_CMD:
                 ViseLog.d("DV_COMMON_CMD = " + BluetoothParamUtil.bytesToString(packet.getmParam()));
                 String commonCmdJson = BluetoothParamUtil.bytesToString(packet.getmParam());
                 BleBaseModelInfo bleBaseModel = GsonImpl.get().toObject(commonCmdJson, BleBaseModelInfo.class);

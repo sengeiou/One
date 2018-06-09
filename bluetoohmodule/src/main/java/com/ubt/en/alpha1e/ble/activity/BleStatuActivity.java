@@ -2,11 +2,7 @@ package com.ubt.en.alpha1e.ble.activity;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,8 +26,8 @@ import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
+import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
-import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.BleStatuPrenster;
@@ -117,6 +113,10 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     TextView mTvRobotSoftLanguage;
     @BindView(R2.id.v_has_language_new_version)
     View vHasLanguageNewVersion;
+    @BindView(R2.id.tv_isdown_robot)
+    TextView mTvIsdownRobot;
+    @BindView(R2.id.tv_isdown_robotlanguage)
+    TextView mTvIsdownRobotlanguage;
 
     private int fromeType;
 
@@ -126,63 +126,6 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     private BleRobotVersionInfo currentRobotVersionInfo = null;
     private SystemRobotInfo mSystemRobotInfo;
-
-    private Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case UPDATE_AUTO_UPGRADE:
-                    ViseLog.d("mCurrentAutoUpgrade = " + mCurrentAutoUpgrade);
-                    if (mCurrentAutoUpgrade) { //打开
-                        ckbAutoUpgrade.setChecked(true);
-                    } else {//关闭
-                        ckbAutoUpgrade.setChecked(false);
-                    }
-                    //BaseLoadingDialog.dismiss(BleStatuActivity.this);
-                    break;
-                case UPDATE_UPGRADE_PROGRESS:
-                    UpgradeProgressInfo progressInfo = (UpgradeProgressInfo) msg.obj;
-                    ViseLog.d("UpgradeProgressInfo = " + progressInfo);
-                    if (progressInfo != null) {
-                        if (progressInfo.status == 0) {//download fail
-                            tvRobotUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
-                            tvRobotUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
-
-                            tvRobotUpdateTip.setVisibility(View.VISIBLE);
-                            ivDownloadFailWarning.setVisibility(View.VISIBLE);
-                        } else if (progressInfo.status == 1) {//downloading
-                            if (!TextUtils.isEmpty(progressInfo.progress)) {
-                                tvRobotUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download).replace("#", progressInfo.progress));
-                                tvRobotUpdateTip.setTextColor(getResources().getColor(R.color.base_blue));
-
-                                tvRobotUpdateTip.setVisibility(View.VISIBLE);
-                            }
-                            ivDownloadFailWarning.setVisibility(View.GONE);
-
-                        } else if (progressInfo.status == 2) {//download success
-
-                        }
-                    }
-                    break;
-                case UPDATE_ROBOT_LANGUAGE:
-                    currentRobotVersionInfo = (BleRobotVersionInfo) msg.obj;
-                    if (currentRobotVersionInfo != null) {
-                        tvRobotLanguage.setText(currentRobotVersionInfo.langlong);
-                        ViseLog.d("currentRobotVersionInfo.new_version = " + currentRobotVersionInfo.new_version);
-                        if (TextUtils.isEmpty(currentRobotVersionInfo.new_version)) {
-                            vHasLanguageNewVersion.setVisibility(View.GONE);
-                        } else {
-                            vHasLanguageNewVersion.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    showRobotVersionDot();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     @Override
     public int getContentViewId() {
@@ -208,7 +151,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     @OnClick({R2.id.ble_statu_connect, R2.id.tv_wifi_select, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect,
             R2.id.tv_robot_language, R2.id.tv_robot_language_right, R2.id.v_has_language_new_version,
-            R2.id.ckb_auto_upgrade, R2.id.tv_robot_soft_language})
+            R2.id.ckb_auto_upgrade, R2.id.tv_robot_soft_language, R2.id.tv_isdown_robot})
     public void clickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_back_disconnect) {
@@ -227,78 +170,20 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                 robotLanguage = currentRobotVersionInfo.lang;
             }
             BleRobotLanguageActivity.launch(this, robotLanguage);
-        } else if (i == R.id.ckb_auto_upgrade) {
-            ViseLog.d("ckb_auto_upgrade");
-            //成功之后才切换
-            ckbAutoUpgrade.setChecked(!ckbAutoUpgrade.isChecked());
-
-            if (mCurrentAutoUpgrade) {
-                new BaseDialog.Builder(this)
-                        .setMessage(R.string.about_robot_auto_update_off)
-                        .setConfirmButtonId(R.string.common_btn_switch_off)
-                        .setConfirmButtonColor(R.color.base_color_red)
-                        .setCancleButtonID(R.string.base_cancel)
-                        .setCancleButtonColor(R.color.black)
-                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                            @Override
-                            public void onClick(DialogPlus dialog, View view) {
-                                if (view.getId() == R.id.button_confirm) {
-                                    dialog.dismiss();
-                                    switchAutoUpgradeStatus();
-                                } else if (view.getId() == R.id.button_cancle) {
-                                    dialog.dismiss();
-                                }
-                            }
-                        }).create().show();
-            } else {
-                new BaseDialog.Builder(this)
-                        .setMessage(R.string.about_robot_auto_update_on)
-                        .setConfirmButtonId(R.string.common_btn_switch_on)
-                        .setConfirmButtonColor(R.color.base_blue)
-                        .setCancleButtonID(R.string.base_cancel)
-                        .setCancleButtonColor(R.color.black)
-                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                            @Override
-                            public void onClick(DialogPlus dialog, View view) {
-                                if (view.getId() == R.id.button_confirm) {
-                                    dialog.dismiss();
-                                    switchAutoUpgradeStatus();
-                                } else if (view.getId() == R.id.button_cancle) {
-                                    dialog.dismiss();
-                                }
-                            }
-                        }).create().show();
-            }
-
-
         } else if (i == R.id.ble_tv_connect) {
-            String s = String.format(SkinManager.getInstance().getTextById(R.string.about_robot_disconnect_dialogue), mTvBleName.getText());
+            disconnectRobotBle();
 
-            new BaseDialog.Builder(this)
-                    .setMessage(s)
-                    .setConfirmButtonId(R.string.ble_disconnect)
-                    .setConfirmButtonColor(R.color.base_color_red)
-                    .setCancleButtonID(R.string.base_cancel)
-                    .setCancleButtonColor(R.color.black)
-                    .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                        @Override
-                        public void onClick(DialogPlus dialog, View view) {
-                            if (view.getId() == R.id.button_confirm) {
-                                mPresenter.dissConnectRobot();
-                                dialog.dismiss();
-                            } else if (view.getId() == R.id.button_cancle) {
-                                dialog.dismiss();
-                            }
-
-                        }
-                    }).create().show();
-
-        } else if (i == R.id.tv_robot_soft_language) {
+        } else if (i == R.id.tv_robot_soft_language || i == R.id.tv_isdown_robot) {
             startActivity(new Intent(this, RobotStatuActivity.class));
         }
     }
 
 
+    /**
+     * 设置机器人连接状态
+     *
+     * @param device
+     */
     @Override
     public void setBleConnectStatu(BluetoothDevice device) {
         if (device != null) {
@@ -327,10 +212,6 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         }
     }
 
-    @Override
-    public void setRobotStatu(RobotStatu robotStatu) {
-
-    }
 
     @Override
     public void setRobotNetWork(BleNetWork bleNetWork) {
@@ -369,42 +250,65 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         }
     }
 
+    /**
+     * 启动蓝牙搜索页面
+     */
     @Override
     public void goBleSraechActivity() {
         BleConnectActivity.launch(this, false);
     }
 
-    /**
-     * 设置
-     *
-     * @param status
-     */
-    @Override
-    public void setAutoUpgradeStatus(int status) {
-        ViseLog.d("setAutoUpgradeStatus = " + status);
-
-        if (status == 0) {//关闭
-            mCurrentAutoUpgrade = false;
-            mHandler.sendEmptyMessage(UPDATE_AUTO_UPGRADE);
-        } else if (status == 1) {
-            mCurrentAutoUpgrade = true;
-            mHandler.sendEmptyMessage(UPDATE_AUTO_UPGRADE);
-        } else {
-            //2 设置中... 不做处理
-        }
-    }
 
     /**
-     * 更新机器人软件更新进度
+     * 下载机器人软件进度
      *
      * @param progressInfo
      */
     @Override
-    public void updateUpgradeProgress(UpgradeProgressInfo progressInfo) {
-        Message msg = new Message();
-        msg.what = UPDATE_UPGRADE_PROGRESS;
-        msg.obj = progressInfo;
-        mHandler.sendMessage(msg);
+    public void downSystemProgress(UpgradeProgressInfo progressInfo) {
+        ViseLog.d("UpgradeProgressInfo = " + progressInfo);
+        if (progressInfo != null) {
+            if (progressInfo.status == 0) {//download fail
+                mTvIsdownRobot.setVisibility(View.GONE);
+            } else if (progressInfo.status == 1) {//downloading
+                if (!TextUtils.isEmpty(progressInfo.progress)) {
+                    mTvIsdownRobot.setVisibility(View.VISIBLE);
+                }
+            } else if (progressInfo.status == 2) {//download success
+                mTvIsdownRobot.setVisibility(View.GONE);
+                mViewRedDot.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    /**
+     * 语言包动态下载进度
+     *
+     * @param progressInfo
+     */
+    @Override
+    public void downLanguageProgress(BleDownloadLanguageRsp progressInfo) {
+        if (progressInfo != null) {
+            if (progressInfo.result == 1 || progressInfo.result == 2) {
+                mTvIsdownRobot.setVisibility(View.GONE);
+            } else if (progressInfo.result == 0 && progressInfo.progess == 100) {
+                mTvIsdownRobot.setVisibility(View.GONE);
+                mViewRedDot.setVisibility(View.VISIBLE);
+            }
+
+            if (!progressInfo.name.equals("chip_firmware")) {
+                mTvIsdownRobotlanguage.setVisibility(View.VISIBLE);
+                String str = SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download);
+                String progress = String.format(str, progressInfo.progess);
+                mTvIsdownRobotlanguage.setText(progress);
+                if (progressInfo.result == 0 && progressInfo.progess == 100) {
+                    vHasLanguageNewVersion.setVisibility(View.VISIBLE);
+                    mTvIsdownRobotlanguage.setVisibility(View.GONE);
+                } else if (progressInfo.result == 1 || progressInfo.result == 2) {
+                    mTvIsdownRobotlanguage.setVisibility(View.GONE);
+                }
+            }
+        }
     }
 
     /**
@@ -414,10 +318,17 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
      */
     @Override
     public void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo) {
-        Message msg = new Message();
-        msg.what = UPDATE_ROBOT_LANGUAGE;
-        msg.obj = robotVersionInfo;
-        mHandler.sendMessage(msg);
+        currentRobotVersionInfo = robotVersionInfo;
+        if (currentRobotVersionInfo != null) {
+            tvRobotLanguage.setText(currentRobotVersionInfo.langlong);
+            ViseLog.d("currentRobotVersionInfo.new_version = " + currentRobotVersionInfo.new_version);
+            if (TextUtils.isEmpty(currentRobotVersionInfo.new_version)) {
+                vHasLanguageNewVersion.setVisibility(View.GONE);
+            } else {
+                vHasLanguageNewVersion.setVisibility(View.VISIBLE);
+            }
+        }
+        showRobotVersionDot();
     }
 
     @Override
@@ -442,20 +353,6 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * 切换自动升级开关状态
-     */
-    private void switchAutoUpgradeStatus() {
-//        BaseLoadingDialog.dismiss(this);
-//        BaseLoadingDialog.show(this);
-
-        if (mCurrentAutoUpgrade) {
-            mCurrentAutoUpgrade = false;
-        } else {
-            mCurrentAutoUpgrade = true;
-        }
-        mPresenter.doChangeAutoUpgrade(mCurrentAutoUpgrade);
-    }
 
     /**
      * 结束页面
@@ -474,26 +371,30 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         finish();
     }
 
-    @OnClick(R2.id.rl_robot_language)
-    public void onViewClicked() {
-
-    }
-
     /**
-     * 显示升级小红点
-     *
-     * @param isShow 是否显示
+     * 断开蓝牙连接
      */
-    private void showRedDot(TextView textView, boolean isShow) {
-        if (isShow) {
-            Drawable img = getResources().getDrawable(R.drawable.ble_update_red_dot);
-            if (img != null) {
-                img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
-                textView.setCompoundDrawables(img, null, null, null);
-            }
-        } else {
-            textView.setCompoundDrawables(null, null, null, null);
-        }
+    private void disconnectRobotBle() {
+        String s = String.format(SkinManager.getInstance().getTextById(R.string.about_robot_disconnect_dialogue), mTvBleName.getText());
+        new BaseDialog.Builder(this)
+                .setMessage(s)
+                .setConfirmButtonId(R.string.ble_disconnect)
+                .setConfirmButtonColor(R.color.base_color_red)
+                .setCancleButtonID(R.string.base_cancel)
+                .setCancleButtonColor(R.color.black)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            mPresenter.dissConnectRobot();
+                            dialog.dismiss();
+                        } else if (view.getId() == R.id.button_cancle) {
+                            dialog.dismiss();
+                        }
+
+                    }
+                }).create().show();
     }
+
 
 }

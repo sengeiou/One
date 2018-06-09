@@ -2,26 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="300dp"
               android:layout_height="wrap_content"
+              android:paddingTop="@dimen/dp_25"
               android:background="@drawable/circle_boder"
-              android:orientation="vertical"
-              android:paddingTop="@dimen/dp_25">
+              android:orientation="vertical">
+
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/base_ble_broken_tip"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_10"
-        android:gravity="center_horizontal"
-        android:text="@string/base_upgrade_tip"
         android:textColor="#FF1D3740"
         android:textSize="15sp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center_horizontal"
         />
 
     <View
+        android:layout_marginTop="@dimen/dp_35"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/dp_35"
         android:background="#FFCDCED2"
         />
 
@@ -30,18 +31,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
-
         <Button
             android:id="@+id/btn_bt_connect"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="0.5"
-            android:background="@null"
+            android:text="@string/base_connect"
             android:gravity="center"
-            android:text="@string/base_not_now"
-            android:textAllCaps="false"
-            android:textColor="#FF333333"
+            android:textColor="#FF37AAFF"
             android:textSize="17sp"
+            android:background="@null"
+            android:textAllCaps="false"
             />
 
         <View
@@ -55,12 +55,12 @@
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="0.5"
-            android:background="@null"
+            android:text="@string/base_cancel"
             android:gravity="center"
-            android:text="@string/base_update"
-            android:textAllCaps="false"
             android:textColor="#FF37AAFF"
             android:textSize="17sp"
+            android:background="@null"
+            android:textAllCaps="false"
             />
 
     </LinearLayout>

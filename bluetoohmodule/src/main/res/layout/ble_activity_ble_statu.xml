@@ -265,6 +265,18 @@
                         android:text="@string/about_robot_version"
                         />
 
+                    <TextView
+                        android:id="@+id/tv_isdown_robot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_toLeftOf="@+id/view_red_dot"
+                        android:text="@string/about_robot_auto_update_download1"
+                        android:textColor="@color/base_tv_ble_gray"
+                        android:visibility="gone"
+                        />
+
 
                     <View
                         android:id="@+id/view_red_dot"
@@ -273,7 +285,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/tv_robot_soft_language"
                         android:background="@drawable/ble_update_red_dot"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         />
 
                     <TextView
@@ -305,6 +317,18 @@
                         android:text="@string/about_robot_language"
                         />
 
+
+                    <TextView
+                        android:id="@+id/tv_isdown_robotlanguage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_toLeftOf="@+id/tv_robot_language"
+                        android:text="@string/about_robot_auto_update_download"
+                        android:textColor="@color/base_tv_ble_gray"
+                        android:visibility="gone"
+                        />
 
                     <TextView
                         android:id="@+id/tv_robot_language"

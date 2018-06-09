@@ -18,6 +18,7 @@ import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseUpdateTipDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.R;
@@ -109,7 +110,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         super.onResume();
         ViseLog.d("-onResume-");
         mPresenter.getRobotAutoState();
-
+        AppStatusUtils.setBtBussiness(false);
     }
 
     @OnClick({R2.id.iv_robot_back, R2.id.ckb_auto_upgrade, R2.id.tv_robot_version, R2.id.tv_firmware_version})

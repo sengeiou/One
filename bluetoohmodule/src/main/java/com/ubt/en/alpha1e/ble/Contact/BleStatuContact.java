@@ -6,8 +6,8 @@ import android.content.Context;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
+import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
-import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 
@@ -26,7 +26,6 @@ public class BleStatuContact {
         void setBleConnectStatu(BluetoothDevice device);
 
 
-        void setRobotStatu(RobotStatu robotStatu);
 
         void setRobotNetWork(BleNetWork bleNetWork);
 
@@ -36,9 +35,9 @@ public class BleStatuContact {
 
         void goBleSraechActivity();
 
-        void setAutoUpgradeStatus(int status);
+        void downSystemProgress(UpgradeProgressInfo progressInfo);
 
-        void updateUpgradeProgress(UpgradeProgressInfo progressInfo);
+        void downLanguageProgress(BleDownloadLanguageRsp progressInfo);
 
         void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo);
     }
