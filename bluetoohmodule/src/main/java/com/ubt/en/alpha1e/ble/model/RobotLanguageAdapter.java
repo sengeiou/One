@@ -51,6 +51,7 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
             if(robotLanguage.getResult() == 0){
                 downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_downloading));
                 pbProgress.setProgress(robotLanguage.getProgess());
+                tvProgress.setText(robotLanguage.getProgess() + "%");
             }else {
                 downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
                 pbProgress.setProgress(robotLanguage.getProgess());

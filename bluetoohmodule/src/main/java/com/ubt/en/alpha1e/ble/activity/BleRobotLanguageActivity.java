@@ -73,6 +73,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     private boolean hasConnectWifi = true;
 
+    private BleSwitchLanguageRsp mSwitchLanguageRsp = null;
+
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -104,10 +106,18 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
                     BleSwitchLanguageRsp switchLanguageRsp = (BleSwitchLanguageRsp)msg.obj;
                     ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
+                    if(!"chip_instruction".equals(switchLanguageRsp.name)){
+                        //语言包才往下走
+                        return;
+                    }
+
+                    mSwitchLanguageRsp = switchLanguageRsp;
                     if(switchLanguageRsp.result == 0 ){
 
                         if(switchLanguageRsp.progess == 100 && switchProgressDialog != null){
                             switchProgressDialog.dismiss();
+
+                            mSwitchLanguageRsp = switchLanguageRsp;
 
                             Message msg1 = new Message();
                             msg1.what = SHOW_SET_LANGUAGE_RESULT;
@@ -156,7 +166,6 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         intent.putExtra("CURRENT_ROBOT_LANGUAGE", currentRobotLanguage);
         context.startActivity(intent);
     }
-
 
     @Override
     public int getContentViewId() {
@@ -261,11 +270,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
             if (selectLanguage == null) {
                 return;
             }
-
-            if(selectLanguage.getLanguageSingleName().equals(mCurrentRobotLanguage)){
-                ViseLog.d("same");
-                return;
-            }
+            ViseLog.d("hasConnectWifi = " + hasConnectWifi + "  selectLanguage = " + selectLanguage.getLanguageName());
 
             if (!hasConnectWifi) {
                 new BaseDialog.Builder(this)
@@ -362,7 +367,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         String message ;
         int imgId ;
         if(isSuccess){
-            message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success);
+            if(mSwitchLanguageRsp != null){
+                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#",mSwitchLanguageRsp.language);
+            }else {
+                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#","");
+            }
             imgId = R.drawable.img_language_ok;
         }else {
             message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_fail);

@@ -17,9 +17,7 @@ public class BleSwitchLanguageRsp extends BleBaseModel {
 
     public String name = "";
 
-    private String langauage;
-
-
+    public String language;
 
     public BleSwitchLanguageRsp thiz;
 
@@ -75,7 +73,7 @@ public class BleSwitchLanguageRsp extends BleBaseModel {
                 "result=" + result +
                 ",progess=" + progess +
                 ",name=" + name +
-                ",langauage=" + langauage +
+                ",language=" + language +
                 '}';
     }
 }
