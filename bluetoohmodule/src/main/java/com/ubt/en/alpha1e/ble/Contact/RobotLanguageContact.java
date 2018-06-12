@@ -30,8 +30,6 @@ public class RobotLanguageContact {
 
         void setDownloadLanguage(BleDownloadLanguageRsp downloadLanguageRsp);
 
-        void setSwitchLanguageResult(BleSwitchLanguageRsp switchLanguageRsp);
-
         void setRobotNetWork(BleNetWork bleNetWork);
     }
 

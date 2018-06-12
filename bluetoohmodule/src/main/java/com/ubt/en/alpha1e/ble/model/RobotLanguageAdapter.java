@@ -41,7 +41,7 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
 
         RelativeLayout rlDownloadTip = helper.getView(R.id.rl_download_tip);
         if(robotLanguage.getResult() == -1){
-            rlDownloadTip.setVisibility(View.INVISIBLE);
+            rlDownloadTip.setVisibility(View.GONE);
         }else {
             rlDownloadTip.setVisibility(View.VISIBLE);
             TextView downloadTip = helper.getView(R.id.tv_language_update_tip);
@@ -52,10 +52,17 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
                 downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_downloading));
                 pbProgress.setProgress(robotLanguage.getProgess());
                 tvProgress.setText(robotLanguage.getProgess() + "%");
+
+                downloadTip.setTextColor(mContext.getResources().getColor(R.color.base_blue));
+                pbProgress.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.shape_progressbar_mini));
             }else {
-                downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
+                //downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
+                downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_downloading));
                 pbProgress.setProgress(robotLanguage.getProgess());
                 tvProgress.setText(robotLanguage.getProgess() + "%");
+
+                downloadTip.setTextColor(mContext.getResources().getColor(R.color.base_color_red));
+                pbProgress.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.shape_progressbar_mini_red));
             }
         }
 

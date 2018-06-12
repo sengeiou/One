@@ -209,12 +209,6 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
                     if(mView != null){
                         mView.setDownloadLanguage(downloadLanguageRsp);
                     }
-                }else if(bleBaseModel.event == 9){
-                    BleSwitchLanguageRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSwitchLanguageRsp.class);
-                    ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
-                    if(mView != null){
-                        mView.setSwitchLanguageResult(switchLanguageRsp);
-                    }
                 }
 
                 break;
