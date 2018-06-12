@@ -5,6 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -45,7 +46,8 @@ public class CyclePlayActionAdapter extends BaseQuickAdapter<ActionData, BaseVie
         GifImageView gifPlaying = helper.getView(R.id.iv_play_state);
         TextView tvActionName = helper.getView(R.id.tv_action_name);
         ImageView ivDelete = helper.getView(R.id.iv_delete_item);
-
+        RelativeLayout rlItem = helper.getView(R.id.rl_item_list);
+        helper.addOnClickListener(R.id.iv_delete_item);
         if(PlayActionManger.getInstance().getCurrentPlayActionName().equals(item.getActionName())  && PlayActionManger.getInstance().getPlayState() == PlayActionManger.PLAYING){
             gifPlaying.setVisibility(View.VISIBLE);
             tvActionName.setTextColor(context.getResources().getColor(R.color.text_blue_color));
