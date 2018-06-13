@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.ubt.baselib.R;
 import com.ubt.baselib.utils.ContextUtils;
+import com.ubt.globaldialog.DialogActivity;
 import com.ubt.globaldialog.GlobalDialog;
 
 /**
@@ -73,7 +74,10 @@ public class BaseBTDisconnectDialog {
     }
 
     public boolean isShowing(){
-        return btDisDialog!= null;
+        if(DialogActivity.dialog == null){
+            btDisDialog = null;
+        }
+        return (btDisDialog!= null) ;
     }
 
     public interface IDialogClick{

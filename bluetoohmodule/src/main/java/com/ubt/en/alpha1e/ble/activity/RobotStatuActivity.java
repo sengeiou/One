@@ -74,12 +74,16 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     ImageView mIvDownloadSystemFailWarning;
     @BindView(R2.id.iv_download_firm_fail_warning)
     ImageView mIvDownloadFirmFailWarning;
+    @BindView(R2.id.tv_voice_version)
+    TextView mTvVoiceVersion;
 
 
     private boolean mCurrentAutoUpgrade = false;
 
     private SystemRobotInfo mSystemRobotInfo;
     private BleRobotVersionInfo mBleRobotVersionInfo;
+
+    private DialogPlus systemDialog;
 
     @Override
     public int getContentViewId() {
@@ -153,7 +157,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
      * @param type
      */
     private void showUpdateDialog(final int type) {
-        new BaseDialog.Builder(this)
+        systemDialog = new BaseDialog.Builder(this)
                 .setMessage(R.string.base_upgrade_tip)
                 .setConfirmButtonId(R.string.base_not_now)
                 .setConfirmButtonColor(R.color.black)
@@ -169,7 +173,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                             mPresenter.sendUpdateVersion(type);
                         }
                     }
-                }).create().show();
+                }).create();
+        systemDialog.show();
     }
 
     /**
@@ -235,7 +240,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 mTvSystemUpdateTip.setVisibility(View.GONE);
                 mSystemVersionProgress.setVisibility(View.GONE);
                 mTvSystemProgress.setVisibility(View.GONE);
-                mPresenter.getSystemVersion();
+                //mPresenter.getSystemVersion();
             }
         }
     }
@@ -288,6 +293,17 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         } else {
             showRedDot(mTvFirmwareVersion, false);
         }
+
+        if (robotVersionInfo != null) {
+
+            String version = "version:" + "(" + robotVersionInfo.version + ")";
+
+            String firmwareversion = "--firmware_ver:" + "(" + robotVersionInfo.firmware_ver + ")";
+
+            String resource_ver = "--resource_ver:" + "(" + robotVersionInfo.resource_ver + ")";
+
+            mTvVoiceVersion.setText(version + firmwareversion + resource_ver);
+        }
     }
 
     @Override
@@ -309,6 +325,14 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     }
 
     @Override
+    public void systemRequestUpdate() {
+        if (systemDialog != null && systemDialog.isShowing()) {
+            systemDialog.dismiss();
+            systemDialog = null;
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
     }
@@ -325,9 +349,6 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
      */
 
     private void switchAutoUpgradeStatus() {
-//        BaseLoadingDialog.dismiss(this);
-//        BaseLoadingDialog.show(this);
-
         if (mCurrentAutoUpgrade) {
             mCurrentAutoUpgrade = false;
         } else {

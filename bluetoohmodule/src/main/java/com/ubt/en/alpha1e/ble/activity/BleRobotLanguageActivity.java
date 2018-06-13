@@ -89,16 +89,16 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     BleDownloadLanguageRsp downloadLanguageRsp = (BleDownloadLanguageRsp) msg.obj;
                     ViseLog.d("downloadLanguageRsp = " + downloadLanguageRsp);
 
-                    if(downloadLanguageRsp.result == 1){
-                        ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
-                    }else if(downloadLanguageRsp.result == 0){
-                        for(RobotLanguage robotLanguage : mRobotLanguages){
-                            if(robotLanguage.getLanguageSingleName().equals(downloadLanguageRsp.language)){
-                                robotLanguage.setResult(downloadLanguageRsp.result);
-                                robotLanguage.setProgess(downloadLanguageRsp.progress);
-                                mAdapter.notifyDataSetChanged();
-                                break;
+                    for(RobotLanguage robotLanguage : mRobotLanguages){
+                        if(robotLanguage.getLanguageSingleName().equals(downloadLanguageRsp.language)){
+                            robotLanguage.setResult(downloadLanguageRsp.result);
+                            robotLanguage.setProgess(downloadLanguageRsp.progress);
+                            mAdapter.notifyDataSetChanged();
+
+                            if(downloadLanguageRsp.result == 1){
+                                ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
                             }
+                            break;
                         }
                     }
 
@@ -146,6 +146,16 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
         mPresenter.getRobotWifiStatus();
 
+
+        /*BleDownloadLanguageRsp downloadLanguageRsp = new BleDownloadLanguageRsp();
+        downloadLanguageRsp.result = 1;
+        downloadLanguageRsp.language = "zh";
+        downloadLanguageRsp.progress = 90;
+
+        Message msg = new Message();
+        msg.what = UPDATE_DOWNLOAD_LANGUAGE;
+        msg.obj = downloadLanguageRsp;
+        mHandler.sendMessageDelayed(msg,10000);*/
     }
 
     @Override

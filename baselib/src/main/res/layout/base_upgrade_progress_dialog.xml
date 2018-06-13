@@ -50,7 +50,7 @@
             android:gravity="center"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginBottom="@dimen/dp_15"
-            android:textColor="@color/ble_color_prey"
+            android:textColor="@color/base_color_prey"
             android:text="36%"
             android:textSize="20sp"
             />

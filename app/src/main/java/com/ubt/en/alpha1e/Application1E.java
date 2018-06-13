@@ -22,12 +22,12 @@ public class Application1E extends Application {
     public void onCreate() {
         super.onCreate();
         InitBaseLib.init(Application1E.this);
+        startGlobalMsgService();
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 CrashReport.initCrashReport(getApplicationContext(), "4973745c10", BuildConfig.DEBUG);
-                startGlobalMsgService();
                 initXG(getApplicationContext());
             }
         }).start();

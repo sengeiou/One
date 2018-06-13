@@ -8,6 +8,7 @@ import com.ubt.baselib.R;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdStartUpgradeSoft;
 import com.ubt.baselib.utils.ContextUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
+import com.ubt.globaldialog.DialogActivity;
 import com.ubt.globaldialog.GlobalDialog;
 
 /**
@@ -72,6 +73,9 @@ public class BaseUpdateTipDialog {
     }
 
     public boolean isShowing(){
+        if(DialogActivity.dialog == null){
+            updateDialog = null;
+        }
         return updateDialog!= null;
     }
 
