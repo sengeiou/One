@@ -351,7 +351,7 @@ public class GlobalMsgService extends Service {
         int imgId;
         if (isSuccess) {
             if (type == 0) {
-                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#", mSwitchLanguageRsp.language);
+                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#", mSwitchLanguageRsp.language == null ? "" : mSwitchLanguageRsp.language);
             } else {
                 message = SkinManager.getInstance().getTextById(R.string.about_robot_upgrade_success);
             }

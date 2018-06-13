@@ -193,7 +193,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
             }
             mHandler.sendEmptyMessage(REFRESH_DATA);
         }else {
-            ToastUtils.showShort("network exception");
+            ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.common_btn_no_network));
         }
     }
 

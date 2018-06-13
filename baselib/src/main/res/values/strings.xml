@@ -14,7 +14,9 @@
     <string name="common_btn_edit">Edit</string>
     <string name="common_btn_hint">Hint</string>
     <string name="common_btn_unknown_error">Unknown error</string>
-    
+    <string name="common_btn_no_network_toast">Network disconnected. Please check your network settings. </string>
+    <string name="common_btn_no_network">Network error. Tap to load again.</string>
+
     <string name="base_confirm">Confirm</string>
     <string name="base_setting">Setting</string>
     <string name="base_cancel">Cancel</string>
