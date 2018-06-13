@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.en.alpha1e.remote.contract.RemoteContact;
 import com.ubt.en.alpha1e.remote.model.RemoteGridAdapter;
 import com.ubt.en.alpha1e.remote.presenster.RemotePrenster;
@@ -92,6 +93,7 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
     protected void onResume() {
         super.onResume();
         mPresenter.startOrStopRun((byte) 0x05);
+        AppStatusUtils.setBtBussiness(true);
     }
 
     private void initView() {
@@ -244,6 +246,7 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        AppStatusUtils.setBtBussiness(false);
     }
 
     @Override
