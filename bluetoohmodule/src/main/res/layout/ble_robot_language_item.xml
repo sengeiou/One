@@ -43,6 +43,7 @@
             android:gravity="left|center_vertical"
             android:ellipsize="end"
             android:text="@string/about_robot_language_package_downloading"
+            android:visibility="gone"
             />
 
         <ProgressBar
@@ -55,7 +56,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_progressbar_bg"
             android:max="100"
-            android:progress="36"
+            android:progress="0"
             android:visibility="visible"/>
 
         <TextView
