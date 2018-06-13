@@ -1,5 +1,9 @@
 package com.ubt.playaction.play;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
+import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -95,6 +100,8 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     RelativeLayout rl20Tip;
     @BindView(R2.id.iv_20_tip)
     ImageView iv20Tip;
+    @BindView(R2.id.rl_root)
+    RelativeLayout mRootRl;
     Unbinder unbinder;
 
     CyclePlayActionAdapter cyclePlayActionAdapter;
@@ -169,7 +176,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
                     Message msg = new Message();
                     msg.what = MSG_CODE;
                     msg.obj = actionName;
-                    mHandler.sendMessageDelayed(msg, 300);
+                    mHandler.sendMessageDelayed(msg, 400);
 //                    mPresenter.playAction(actionName);
 
                 }
@@ -453,13 +460,15 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             String actionName = actionData.getActionName();
             if(!TextUtils.isEmpty(actionName)/* && !PlayActionManger.getInstance().isCycle()*/){
                 ViseLog.d("onItemClick:" + actionName);
+//                ImageView imageView = view.findViewById(R.id.iv_action_icon);
+//                addGoodToCar(imageView);
                 PlayActionManger.getInstance().addActionCycleList(actionData);
                 mPresenter.stopAction();
                 ViseLog.d("notePlay stop");
                 Message msg = new Message();
                 msg.what = MSG_CODE;
                 msg.obj = actionName;
-                mHandler.sendMessageDelayed(msg, 300);
+                mHandler.sendMessageDelayed(msg, 400);
 //                mPresenter.playAction(actionName);
             }
         }
@@ -594,4 +603,83 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     public void noteTapHead() {
         Toast.makeText(PlayActionActivity.this, "stop play!", Toast.LENGTH_SHORT).show();
     }
+
+
+    private PathMeasure mPathMeasure;
+    private float[] mCurrentPosition = new float[2];
+    private void addGoodToCar(ImageView imageView){
+        final ImageView view = new ImageView(PlayActionActivity.this);
+        view.setImageDrawable(imageView.getDrawable());
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imageView.getWidth(), imageView.getHeight());
+        mRootRl.addView(view, layoutParams);
+
+        //二、计算动画开始/结束点的坐标的准备工作
+        //得到父布局的起始点坐标（用于辅助计算动画开始/结束时的点的坐标）
+        int[] parentLoc = new int[2];
+        mRootRl.getLocationInWindow(parentLoc);
+
+        //得到商品图片的坐标（用于计算动画开始的坐标）
+        int startLoc[] = new int[2];
+        imageView.getLocationInWindow(startLoc);
+
+        //得到购物车图片的坐标(用于计算动画结束后的坐标)
+        int endLoc[] = new int[2];
+        ivPlayList.getLocationInWindow(endLoc);
+
+        float startX = startLoc[0] - parentLoc[0] + imageView.getWidth()/2;
+        float startY = startLoc[1] - parentLoc[1] + imageView.getHeight()/2;
+
+        //商品掉落后的终点坐标：购物车起始点-父布局起始点+购物车图片的1/5
+        float toX = endLoc[0] - parentLoc[0] + ivPlayList.getWidth() / 5;
+        float toY = endLoc[1] - parentLoc[1];
+
+        //开始绘制贝塞尔曲线
+        Path path = new Path();
+        path.moveTo(startX, startY);
+        //使用二次萨贝尔曲线：注意第一个起始坐标越大，贝塞尔曲线的横向距离就会越大，一般按照下面的式子取即可
+        path.quadTo((startX + toX) / 2, startY, toX, toY);
+        mPathMeasure = new PathMeasure(path, false);
+
+        //属性动画
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, mPathMeasure.getLength());
+        valueAnimator.setDuration(1000);
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float)animation.getAnimatedValue();
+                mPathMeasure.getPosTan(value, mCurrentPosition, null);
+                view.setTranslationX(mCurrentPosition[0]);
+                view.setTranslationY(mCurrentPosition[1]);
+            }
+        });
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                mRootRl.removeView(view);
+
+                //shopImg 开始一个放大动画
+//                Animation scaleAnim = AnimationUtils.loadAnimation(GoodsListActivity.this, R.anim.shop_car_scale);
+//                mCarImageView.startAnimation(scaleAnim);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        valueAnimator.start();
+    }
+
 }
