@@ -335,6 +335,7 @@ public class PlayActionManger {
         this.cycle = cycle;
         if(cycle){
             if(mHandler != null){
+                mHandler.removeMessages(MSG_STOP);
                 mHandler.sendEmptyMessageDelayed(MSG_STOP, DELAY_TIME);
             }
         }else{
