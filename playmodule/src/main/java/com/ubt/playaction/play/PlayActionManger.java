@@ -131,6 +131,11 @@ public class PlayActionManger {
             if(listener != null){
                 listener.notePlayStart(actionName);
             }
+
+            int mode = SPUtils.getInstance().getInt(PlayConstant.SP_PLAY_MODE, PlayConstant.SP_PLAY_MODE_ORDER);
+            if( mode== PlayConstant.SP_PLAY_MODE_LSIT|| mode == PlayConstant.SP_PLAY_MODE_SINGLE){
+                setCycle(true);
+            }
         }
     }
 
@@ -242,6 +247,7 @@ public class PlayActionManger {
                 }
                 if(listener != null) {
                     listener.notePlayStop();
+                    listener.noteTapHead();
                 }
                 break;
             default:
@@ -386,6 +392,7 @@ public class PlayActionManger {
         void notePlayStop();
         void notePlayFinish(String name);
         void notePlayOrPause();
+        void noteTapHead();
     }
 
 

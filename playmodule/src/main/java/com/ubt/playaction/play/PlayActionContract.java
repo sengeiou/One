@@ -25,6 +25,7 @@ public class PlayActionContract {
         void notePlayStart(String actionName);
         void notePlayOrPause();
         void notePlayStop();
+        void noteTapHead();
     }
 
     public interface Presenter extends BasePresenter<View>{

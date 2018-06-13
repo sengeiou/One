@@ -13,20 +13,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
-import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.SPUtils;
-import com.ubt.baselib.utils.ToastUtils;
-import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.playaction.R;
 import com.ubt.playaction.R2;
@@ -221,7 +218,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
         });
 
-        if(BlueClientUtil.getInstance().getConnectionState() != BluetoothState.STATE_CONNECTED){
+ /*       if(BlueClientUtil.getInstance().getConnectionState() != BluetoothState.STATE_CONNECTED){
             if (!BaseBTDisconnectDialog.getInstance().isShowing()) {
                 BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
                     @Override
@@ -236,7 +233,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
                     }
                 });
             }
-        }
+        }*/
     }
 
 
@@ -339,7 +336,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             SPUtils.getInstance().put(PlayConstant.SP_PLAY_MODE, PlayConstant.SP_PLAY_MODE_LSIT);
             ivCycleState.setImageResource(R.drawable.ic_circle_listloop);
             ivPlayListCycle.setImageResource(R.drawable.ic_circle_listloop);
-            ToastUtils.showShort("List");
+            Toast.makeText(PlayActionActivity.this, "List", Toast.LENGTH_SHORT).show();
             if(SPUtils.getInstance().getInt(PlayConstant.SP_SHOW_20_TIP, 0) == 0 /*&& PlayActionManger.getInstance().getPlayState() == PlayActionManger.PLAYING*/){
                 rl20Tip.setVisibility(View.VISIBLE);
                 SPUtils.getInstance().put(PlayConstant.SP_SHOW_20_TIP, PlayConstant.TIP_SHOW);
@@ -349,7 +346,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             SPUtils.getInstance().put(PlayConstant.SP_PLAY_MODE, PlayConstant.SP_PLAY_MODE_SINGLE);
             ivCycleState.setImageResource(R.drawable.ic_circle_single);
             ivPlayListCycle.setImageResource(R.drawable.ic_circle_single);
-            ToastUtils.showShort("Single");
+            Toast.makeText(PlayActionActivity.this, "Single", Toast.LENGTH_SHORT).show();
             if(SPUtils.getInstance().getInt(PlayConstant.SP_SHOW_20_TIP, 0) == 0 && PlayActionManger.getInstance().getPlayState() == PlayActionManger.PLAYING){
                 rl20Tip.setVisibility(View.VISIBLE);
                 SPUtils.getInstance().put(PlayConstant.SP_SHOW_20_TIP, PlayConstant.TIP_SHOW);
@@ -358,7 +355,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             SPUtils.getInstance().put(PlayConstant.SP_PLAY_MODE, PlayConstant.SP_PLAY_MODE_ORDER);
             ivCycleState.setImageResource(R.drawable.ic_circle_list);
             ivPlayListCycle.setImageResource(R.drawable.ic_circle_list);
-            ToastUtils.showShort("Order");
+            Toast.makeText(PlayActionActivity.this, "Order", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -591,5 +588,10 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         }
         actionAdapter.notifyDataSetChanged();
         rl20Tip.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void noteTapHead() {
+        Toast.makeText(PlayActionActivity.this, "stop play!", Toast.LENGTH_SHORT).show();
     }
 }
