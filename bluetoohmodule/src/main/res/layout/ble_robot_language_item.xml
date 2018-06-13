@@ -43,7 +43,6 @@
             android:gravity="left|center_vertical"
             android:ellipsize="end"
             android:text="@string/about_robot_language_package_downloading"
-            android:visibility="gone"
             />
 
         <ProgressBar
