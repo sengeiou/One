@@ -29,6 +29,8 @@ public class BlocklyContract {
         void tempState(String state);
         void updatePower(int power);
         void lostBT();
+        void noteTapHead();
+        void noteRobotFallDown(int state);
     }
 
     interface  Presenter extends BasePresenter<View> {
@@ -49,6 +51,7 @@ public class BlocklyContract {
         void doRead6Dstate();
         void doReadTemperature(byte cmd);
         void startOrStopRun(byte cmd);
+        void doReadRobotFallState();
 
     }
 }
