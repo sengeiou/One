@@ -144,19 +144,26 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
         ViseLog.d("mCurrentRobotLanguage = " + mCurrentRobotLanguage);
 
+
+        AppStatusUtils.setBtBussiness(false);
+        initUI();
+    }
+
+    private void initUI(){
         mAdapter = new RobotLanguageAdapter(R.layout.ble_robot_language_item, mRobotLanguages);
         rvRobotLanguage.setLayoutManager(new LinearLayoutManager(this));
         rvRobotLanguage.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
-        AppStatusUtils.setBtBussiness(false);
+
+        mPresenter.getRobotLanguageListFromWeb();
+
+        //mPresenter.getRobotLanguageListFromRobot();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getRobotLanguageListFromWeb();
-
-        //mPresenter.getRobotLanguageListFromRobot();
 
         mPresenter.getRobotWifiStatus();
 
