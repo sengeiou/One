@@ -28,5 +28,7 @@ public class RemoteMainContact {
         void unRegister();
         List<RemoteRoleInfo> getRoleInfos();
 
+        boolean isBluthConnected();
+
     }
 }

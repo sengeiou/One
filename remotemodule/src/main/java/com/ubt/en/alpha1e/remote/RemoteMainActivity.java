@@ -114,7 +114,7 @@ public class RemoteMainActivity extends MVPBaseActivity<RemoteMainContact.View, 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (mPresenter.getRoleInfos().get(position).getBz() == 0) {
-            if (AppStatusUtils.isLowPower()){
+            if (mPresenter.isBluthConnected() && AppStatusUtils.isLowPower()) {
                 BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
                     @Override
                     public void onOK() {

@@ -127,7 +127,7 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
     public void playAction(int index) {
         //action/controller/Left slide tackle.hts
         // mBlueClientUtil.sendData(new BTCmdActionStopPlay().toByteArray());
-        if (!isBlutoohConnected()) {
+        if (!isBlutoohConnected() && index != -1) {
             checkBlutoohStatu();
             return;
         }
