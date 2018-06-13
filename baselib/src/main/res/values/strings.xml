@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">BaseLib</string>
 
     <string name="common_btn_done">Done</string>
@@ -35,6 +35,8 @@
     <string name="base_upgrade_tip">A new version is available,\nwill you update right now?</string>
 
     <string name="base_install_tip">A new version is available,\nwill you install right now?</string>
+    <string name="about_robot_language_changing" tools:ignore="ResourceName">Robot language is updating, please Do Not power off the robot.</string>
+    <string name="base_loading_completed">Loading is completed.</string>
     <string name="base_ui_settings_language_france">法语</string>
     <string name="base_ui_settings_language_korean">韩语</string>
     <string name="base_ui_settings_language_italian">意大利语</string>

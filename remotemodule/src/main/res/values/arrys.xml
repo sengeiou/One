@@ -7,10 +7,10 @@
         <item>Backward.hts</item>
         <item>TurnLeft.hts </item>
         <item>TurnRight.hts</item>
+        <item>Shoot left.hts</item>
+        <item>Shoot right.hts</item>
         <item>Left slide tackle.hts</item>
         <item>Right slide tackle.hts</item>
-        <item>Shoot right.hts</item>
-        <item>Shoot left.hts</item>
         <item>Fall backward rise.hts</item>
         <item>Fall forward rise.hts </item>
     </string-array>

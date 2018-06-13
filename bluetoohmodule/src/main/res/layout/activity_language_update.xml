@@ -52,7 +52,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:gravity="center"
             android:text="36%"
-            android:textColor="@color/ble_color_prey"
+            android:textColor="@color/base_color_prey"
             android:textSize="20sp"
             />
 

@@ -28,6 +28,7 @@ import com.scwang.smartrefresh.layout.internal.ProgressDrawable;
 import com.scwang.smartrefresh.layout.internal.pathview.PathsDrawable;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 import com.ubt.baselib.R;
+import com.ubt.baselib.skin.SkinManager;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -48,7 +49,7 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
     public static String REFRESH_FOOTER_REFRESHING = "...";
     public static String REFRESH_FOOTER_FINISH = "";
     public static String REFRESH_FOOTER_FAILED = "加载失败";
-    public static String REFRESH_FOOTER_ALLLOADED = "全部加载完成";
+    public static String REFRESH_FOOTER_ALLLOADED = "Loading is completed.";
 
     protected TextView mTitleText;
     protected ImageView mArrowView;
@@ -282,7 +283,7 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
         if (mLoadmoreFinished != finished) {
             mLoadmoreFinished = finished;
             if (finished) {
-                mTitleText.setText(REFRESH_FOOTER_ALLLOADED);
+                mTitleText.setText(SkinManager.getInstance().getTextById(R.string.base_loading_completed));
                 mArrowView.setVisibility(GONE);
             } else {
                 mTitleText.setText(REFRESH_FOOTER_PULLUP);

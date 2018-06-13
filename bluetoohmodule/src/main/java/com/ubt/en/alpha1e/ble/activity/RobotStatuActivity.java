@@ -74,6 +74,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     ImageView mIvDownloadSystemFailWarning;
     @BindView(R2.id.iv_download_firm_fail_warning)
     ImageView mIvDownloadFirmFailWarning;
+    @BindView(R2.id.tv_voice_version)
+    TextView mTvVoiceVersion;
 
 
     private boolean mCurrentAutoUpgrade = false;
@@ -286,6 +288,17 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
             showRedDot(mTvFirmwareVersion, true);
         } else {
             showRedDot(mTvFirmwareVersion, false);
+        }
+
+        if (robotVersionInfo != null) {
+
+            String version = "version:" + "(" + robotVersionInfo.version + ")";
+
+            String firmwareversion = "--firmware_ver:" + "(" + robotVersionInfo.firmware_ver + ")";
+
+            String resource_ver = "--resource_ver:" + "(" + robotVersionInfo.resource_ver + ")";
+
+            mTvVoiceVersion.setText(version + firmwareversion + resource_ver);
         }
     }
 

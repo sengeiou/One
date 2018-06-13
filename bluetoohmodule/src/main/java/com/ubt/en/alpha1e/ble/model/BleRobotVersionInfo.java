@@ -13,11 +13,11 @@ public class BleRobotVersionInfo extends BleBaseModel {
 
     public String lang = "";  //语言名
     public String langlong = "";  //语言名
-    public String version = ""; //芯片的语言包的版本号
+    public String version = ""; //芯片的指令集的版本号
     public String firmware_ver = ""; //芯片的固件的版本号
     public String new_version = ""; //最新的语言包的版本号
     public String new_firmware_ver = ""; //最新的固件版本号
-
+    public String resource_ver="";//芯片的语言包的版本号
     public BleRobotVersionInfo thiz;
 
     @Override
