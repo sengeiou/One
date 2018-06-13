@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_progressbar_bg"
             android:max="100"
-            android:progress="36"
+            android:progress="0"
             android:visibility="visible"/>
 
         <TextView

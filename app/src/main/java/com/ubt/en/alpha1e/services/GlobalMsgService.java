@@ -26,7 +26,6 @@ import com.ubt.baselib.BlueTooth.BTReadData;
 import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
-import com.ubt.baselib.btCmd1E.IProtolPackListener;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadBattery;
 import com.ubt.baselib.commonModule.ModuleUtils;
@@ -65,7 +64,6 @@ import java.util.TimerTask;
 
 public class GlobalMsgService extends Service {
 
-    private IProtolPackListener mBTCmdListener;
     private boolean isNeed20Toast = true; //是否需要显示电量低于20%的Toast
     private boolean isNeed5Dialog = true; //是否需要显示电量低于5%的Dialog
     private Timer batteryTimer = null; //电量查询定时器
@@ -221,7 +219,6 @@ public class GlobalMsgService extends Service {
 
     @Subscribe
     public void onBTRead(BTReadData data) {
-//        BTCmdHelper.parseBTCmd(data.getDatas(), mBTCmdListener);
         parseBTCmd(data);
     }
 

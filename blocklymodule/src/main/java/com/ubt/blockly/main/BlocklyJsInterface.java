@@ -363,14 +363,14 @@ public class BlocklyJsInterface {
 
     @JavascriptInterface
     public void registerEventObservers(String params) {
-        ViseLog.d(TAG, "registerEventObservers params=" + params);
+        ViseLog.d("registerEventObservers params=" + params);
         try {
             JSONObject jsonObject = new JSONObject(params);
             String sensorType = jsonObject.getString("sensorType");
             if (sensorType.equalsIgnoreCase((EventType.lowBatter).toString())) {
 //                ((BlocklyActivity) mBaseActivity).checkBattery();
             } else if (sensorType.equalsIgnoreCase((EventType.fallDown).toString())) {
-//                ((BlocklyActivity) mBaseActivity).checkRobotFall();
+                ((BlocklyActivity) mBaseActivity).checkRobotFall();
             } else if (sensorType.equalsIgnoreCase((EventType.infraredDistance).toString())) {
 //                ((BlocklyActivity) mBaseActivity).startInfrared(params);
             } else if (sensorType.equalsIgnoreCase("robotState")) {

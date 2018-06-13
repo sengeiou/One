@@ -116,24 +116,28 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
             ViseLog.d("ckb_auto_u pgrade");
             //成功之后才切换
             ckbAutoUpgrade.setChecked(!ckbAutoUpgrade.isChecked());
-            new BaseDialog.Builder(this)
-                    .setMessage(mCurrentAutoUpgrade ? R.string.about_robot_auto_update_off : R.string.about_robot_auto_update_on)
-                    .setConfirmButtonId(R.string.base_cancel)
-                    .setConfirmButtonColor(R.color.black)
-                    .setCancleButtonID(mCurrentAutoUpgrade ? R.string.common_btn_switch_off : R.string.common_btn_switch_on)
-                    .setCancleButtonColor(mCurrentAutoUpgrade ? R.color.base_color_red : R.color.base_blue)
-                    .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                        @Override
-                        public void onClick(DialogPlus dialog, View view) {
-                            if (view.getId() == R.id.button_confirm) {
-                                dialog.dismiss();
-                            } else if (view.getId() == R.id.button_cancle) {
-                                dialog.dismiss();
-                                switchAutoUpgradeStatus();
+            if(mCurrentAutoUpgrade){
+                new BaseDialog.Builder(this)
+                        .setMessage(R.string.about_robot_auto_update_off)
+                        .setConfirmButtonId(R.string.base_cancel)
+                        .setConfirmButtonColor(R.color.black)
+                        .setCancleButtonID(R.string.common_btn_switch_off)
+                        .setCancleButtonColor(R.color.base_color_red)
+                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                            @Override
+                            public void onClick(DialogPlus dialog, View view) {
+                                if (view.getId() == R.id.button_confirm) {
+                                    dialog.dismiss();
+                                } else if (view.getId() == R.id.button_cancle) {
+                                    dialog.dismiss();
+                                    switchAutoUpgradeStatus();
 
+                                }
                             }
-                        }
-                    }).create().show();
+                        }).create().show();
+            }else {
+                switchAutoUpgradeStatus();
+            }
 
         } else if (i == R.id.rl_firmware_version) {//胸口版固件版本是否更新
             if (mBleRobotVersionInfo != null && !TextUtils.isEmpty(mBleRobotVersionInfo.new_firmware_ver)) {

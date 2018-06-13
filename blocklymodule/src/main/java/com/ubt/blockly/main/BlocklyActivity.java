@@ -179,10 +179,10 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                 BaseLoadingDialog.dismiss(BlocklyActivity.this);
                 if(BlueClientUtil.getInstance().getConnectionState() == 3){
 
+                    mPresenter.startOrStopRun((byte)0x01);
                     mPresenter.doReadInfraredSensor((byte)0x01);  //进入block如果连接蓝牙立马开始读取红外传感器数据
                     mPresenter.doRead6Dstate();
                     mPresenter.doReadTemperature((byte)0x01);
-                    mPresenter.startOrStopRun((byte)0x01);
 
                     if(mWebView != null ){
                         //由于读取电量间隔时间1s中太长，有可能导致用户使用时还没将电量值上报给前端，导致低电量无法运行
@@ -246,6 +246,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             mWebView.post(new Runnable() {
                 @Override
                 public void run() {
+                    ViseLog.d("checkBlueConnectState getActionList");
                     mWebView.loadUrl("javascript:checkBlueConnectState()");
                 }
             });
@@ -347,12 +348,48 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             mWebView.post(new Runnable() {
                 @Override
                 public void run() {
-                    ViseLog.d("Bluetooth disconnect checkBlueConnectState ");
+                    ViseLog.d(" checkBlueConnectState Bluetooth disconnect");
                     mWebView.loadUrl("javascript:checkBlueConnectState()");
                 }
             });
         }
 
+    }
+
+    @Override
+    public void noteTapHead() {
+        if(isLoadFinish && mWebView != null){
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    ViseLog.d("tapped robot head and stop block run!");
+                    mWebView.loadUrl("javascript:robotTouched()");
+                }
+            });
+
+        }
+    }
+
+    @Override
+    public void noteRobotFallDown(int state) {
+        ViseLog.d("noteRobotFallDown:" + state);
+        if(state == 3){
+            callJavascript(true);
+        }else{
+            callJavascript(false);
+        }
+    }
+
+    public void callJavascript( boolean status){
+
+        final String js = "javascript:eventJudgmentForApp(" + status + ")" ;
+        mWebView.post(new Runnable() {
+            @Override
+            public void run() {
+                ViseLog.d("callJavascript:" + js);
+                mWebView.loadUrl(js);
+            }
+        });
     }
 
     public void playRobotAction(String name) {
@@ -377,6 +414,13 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             return true;
         }else{
             return  false;
+        }
+    }
+
+
+    public void checkRobotFall() {
+        if(mPresenter != null) {
+            mPresenter.doReadRobotFallState();
         }
     }
 
@@ -865,7 +909,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                     mWebView.post(new Runnable() {
                         @Override
                         public void run() {
-                            ViseLog.d("onActivityResult Bluetooth disconnect checkBlueConnectState ");
+                            ViseLog.d(" checkBlueConnectState onActivityResult Bluetooth disconnect");
                             mWebView.loadUrl("javascript:checkBlueConnectState()");
                         }
                     });

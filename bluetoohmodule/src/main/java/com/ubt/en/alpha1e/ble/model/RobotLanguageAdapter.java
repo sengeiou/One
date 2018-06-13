@@ -39,9 +39,17 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
 
         ViseLog.d("robotLanguage = " + robotLanguage.getLanguageName());
 
+        ImageView ivChoose = helper.getView(R.id.iv_choose);
+        ivChoose.setImageResource(R.drawable.img_choose);
+        if(robotLanguage.isSelect()){
+            ivChoose.setVisibility(View.VISIBLE);
+        }else {
+            ivChoose.setVisibility(View.INVISIBLE);
+        }
+
         RelativeLayout rlDownloadTip = helper.getView(R.id.rl_download_tip);
         if(robotLanguage.getResult() == -1){
-            rlDownloadTip.setVisibility(View.INVISIBLE);
+            rlDownloadTip.setVisibility(View.GONE);
         }else {
             rlDownloadTip.setVisibility(View.VISIBLE);
             TextView downloadTip = helper.getView(R.id.tv_language_update_tip);
@@ -52,18 +60,24 @@ public class RobotLanguageAdapter extends BaseQuickAdapter<RobotLanguage, BaseVi
                 downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_downloading));
                 pbProgress.setProgress(robotLanguage.getProgess());
                 tvProgress.setText(robotLanguage.getProgess() + "%");
+
+                downloadTip.setVisibility(View.VISIBLE);
+                downloadTip.setTextColor(mContext.getResources().getColor(R.color.base_blue));
+                pbProgress.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.shape_progressbar_mini));
+                if(robotLanguage.getProgess() == 100){
+                    downloadTip.setVisibility(View.GONE);
+                }
             }else {
-                downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
+                downloadTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_downloading));
                 pbProgress.setProgress(robotLanguage.getProgess());
                 tvProgress.setText(robotLanguage.getProgess() + "%");
-            }
-        }
 
-        ImageView ivChoose = helper.getView(R.id.iv_choose);
-        if(robotLanguage.isSelect()){
-            ivChoose.setVisibility(View.VISIBLE);
-        }else {
-            ivChoose.setVisibility(View.INVISIBLE);
+                downloadTip.setVisibility(View.VISIBLE);
+                downloadTip.setTextColor(mContext.getResources().getColor(R.color.base_color_red));
+                pbProgress.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.shape_progressbar_mini_red));
+                ivChoose.setImageResource(R.drawable.img_wrong);
+                ivChoose.setVisibility(View.VISIBLE);
+            }
         }
 
     }

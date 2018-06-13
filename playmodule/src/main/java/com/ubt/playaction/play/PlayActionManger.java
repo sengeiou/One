@@ -15,11 +15,13 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdPause;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.playaction.R;
 import com.ubt.playaction.model.ActionData;
 import com.ubt.playaction.model.ActionIconAndTime;
+import com.ubt.playaction.model.PlayConstant;
 import com.vise.log.ViseLog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -122,12 +124,25 @@ public class PlayActionManger {
                 return;
             }
             mBlueClient.sendData(new BTCmdPlayAction(actionName).toByteArray());
+            getCurrentPlayPos(actionName);
             playState = PLAYING;
+            ViseLog.d("playAction currentPlayActionName:" + actionName);
             currentPlayActionName =actionName;
             if(listener != null){
                 listener.notePlayStart(actionName);
             }
         }
+    }
+
+    private void getCurrentPlayPos(String actionName){
+        for(int  i=0; i<actionCycleList.size(); i++){
+            if (actionName.equals(actionCycleList.get(i).getActionName())){
+                currentCyclePos = i;
+                return;
+            }
+        }
+
+        ViseLog.d("getCurrentPlayPos currentCyclePos:" + currentCyclePos);
     }
 
 
@@ -164,8 +179,7 @@ public class PlayActionManger {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
+
         onProtocolPacket(readData);
     }
 
@@ -191,14 +205,14 @@ public class PlayActionManger {
                     listener.notePlayFinish(name);
                 }
 
-                ViseLog.d("DV_ACTION_FINISH:" + cycle + "--actionCycleList:" + actionCycleList.size());
-
-                if(cycle){
+                int mode = SPUtils.getInstance().getInt(PlayConstant.SP_PLAY_MODE,PlayConstant.SP_PLAY_MODE_ORDER);
+                ViseLog.d("DV_ACTION_FINISH mode:" + mode + "--actionCycleList:" + actionCycleList.size() + "--currentCyclePos:" + currentCyclePos);
+                if(mode == PlayConstant.SP_PLAY_MODE_LSIT){
                     currentCyclePos++;
-
                     playAction(actionCycleList.get(currentCyclePos%(actionCycleList.size())).getActionName());
+                }else if(mode == PlayConstant.SP_PLAY_MODE_SINGLE){
+                    playAction(actionCycleList.get(currentCyclePos).getActionName());
                 }
-
 
                 break;
             case BTCmd.DV_STOPPLAY:  //停止播放
@@ -236,13 +250,6 @@ public class PlayActionManger {
     }
 
     private void handleData(String actionName) {
-  /*      for(int i=0; i<actionDataList.size(); i++){
-            if(actionDataList.get(i).getActionName().equals(actionName)){
-                ViseLog.d("double:" + actionName);
-                return;
-            }
-        }*/
-
         ViseLog.d("double 1:" + actionName);
         ActionData actionData = new ActionData();
         actionData.setActionName(actionName);
@@ -342,15 +349,19 @@ public class PlayActionManger {
     }
 
     public void addActionCycleList(ActionData actionData){
-        ViseLog.d("addActionCycleList actionData:" + actionData);
+
         for(int i=0; i<actionCycleList.size(); i++){
-            if(actionDataList.get(i).getActionName().equals(actionData.getActionName())){
+            if(actionCycleList.get(i).getActionName().equals(actionData.getActionName())){
                 ViseLog.d("addActionCycleList:" + actionData.getActionName());
                 return;
             }
         }
 
-        actionCycleList.add(actionData);
+        ViseLog.d("addActionCycleList actionData:" + actionData);
+
+        actionCycleList.add(0, actionData);
+
+//        actionCycleList.add(actionData);
     }
 
     public int getCurrentCyclePos() {

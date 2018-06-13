@@ -14,6 +14,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayEmoj;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPlaySound;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdRead6DState;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadAcceleration;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadRobotFallDown;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetLedEffect;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetPir;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSoundStopPlay;
@@ -22,6 +23,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdStopEyeLed;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdStopPlayEmoji;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSwitchEditStatus;
 import com.ubt.baselib.mvp.BasePresenterImpl;
+import com.ubt.baselib.utils.ByteHexHelper;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
@@ -74,6 +76,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void playAction(String actionName) {
+        ViseLog.d("playAction:" + actionName);
         if(mBlueClient.getConnectionState() == 3){
             mBlueClient.sendData(new BTCmdPlayAction(actionName).toByteArray());
         }
@@ -82,6 +85,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void stopAction() {
+        ViseLog.d("stopAction" );
         if(mBlueClient.getConnectionState() == 3){
             mBlueClient.sendData(new BTCmdActionStopPlay().toByteArray());
         }
@@ -90,6 +94,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void playEmoji(String emojiName) {
+        ViseLog.d("playEmoji:" + emojiName);
         if(mBlueClient.getConnectionState() == 3){
             mBlueClient.sendData(new BTCmdPlayEmoj(emojiName).toByteArray());
         }
@@ -105,6 +110,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void playLedLight(byte[] params) {
+        ViseLog.d("playLedLight:" + ByteHexHelper.bytesToHexString(params));
         if(mBlueClient.getConnectionState() == 3){
             mBlueClient.sendData(new BTCmdSetLedEffect(params).toByteArray());
         }
@@ -112,6 +118,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void doWalk(byte direct, byte speed, byte[] step) {
+        ViseLog.d("doWalk");
         byte[] params = new byte[6];
         params[0] = direct;
         params[1] = speed;
@@ -126,6 +133,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void stopPlayAudio() {
+        ViseLog.d("stopPlayAudio");
         if(mBlueClient.getConnectionState() ==3){
             mBlueClient.sendData(new BTCmdSoundStopPlay().toByteArray());
         }
@@ -133,6 +141,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void stopLedLight() {
+        ViseLog.d("stopLedLight");
         if(mBlueClient.getConnectionState() ==3){
             mBlueClient.sendData(new BTCmdStopEyeLed().toByteArray());
         }
@@ -140,6 +149,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void stopPlayEmoji() {
+        ViseLog.d("stopPlayEmoji");
         if(mBlueClient.getConnectionState() ==3){
             mBlueClient.sendData(new BTCmdStopPlayEmoji().toByteArray());
         }
@@ -147,6 +157,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void doReadInfraredSensor(byte cmd) {
+        ViseLog.d("doReadInfraredSensor");
         if(mBlueClient.getConnectionState() == 3){
             ViseLog.d("doReadInfraredSensor");
             mBlueClient.sendData(new BTCmdSetPir(cmd).toByteArray());
@@ -177,6 +188,14 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
         }
     }
 
+    @Override
+    public void doReadRobotFallState() {
+        if(mBlueClient.getConnectionState() == BluetoothState.STATE_CONNECTED){
+            ViseLog.d("doReadRobotFallState");
+            mBlueClient.sendData(new BTCmdReadRobotFallDown().toByteArray());
+        }
+    }
+
 
     /**
      * 读取蓝牙回调数据
@@ -197,6 +216,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
      */
     private void onProtocolPacket(BTReadData readData) {
         ProtocolPacket packet = readData.getPack();
+        ViseLog.d("packet.getmCmd():" + packet.getmCmd());
         switch (packet.getmCmd()) {
             case BTCmd.UV_GETACTIONFILE:
                 ViseLog.d("UV_GETACTIONFILE:" + new String(packet.getmParam()));
@@ -210,6 +230,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
                 break;
             case BTCmd.DV_ACTION_FINISH:
                 String actionName = BluetoothParamUtil.bytesToString(packet.getmParam());
+                ViseLog.d("DV_ACTION_FINISH:" + actionName);
                 if(mView != null) {
                     mView.notePlayFinish(actionName);
                 }
@@ -231,6 +252,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
                 }
                 break;
             case BTCmd.DV_WALK:
+                ViseLog.d("DV_WALK");
                 if(packet.getmParam()[0] == 0 || packet.getmParam()[0] == 3){
                     if(mView != null){
                         mView.doWalkFinish();
@@ -238,6 +260,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
                 }
                 break;
             case BTCmd.DV_READ_INFRARED_DISTANCE:
+                ViseLog.d("DV_READ_INFRARED_DISTANCE:" + packet.getmParam()[0]);
                 if(packet.getmParam()[0] != -1){
                     if(mView != null) {
                         mView.infraredSensor(packet.getmParam()[0]);
@@ -245,6 +268,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
                 }
                 break;
             case BTCmd.DV_6D_GESTURE:
+                ViseLog.d("DV_6D_GESTURE:" + packet.getmParam()[0]);
                 if(packet.getmParam()[0] != -1){
                     if(mView != null) {
                         mView.read6DState(packet.getmParam()[0]);
@@ -252,13 +276,14 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
                 }
                 break;
             case BTCmd.DV_READ_ROBOT_ACCELERATION: //用于温湿度传感器
+                ViseLog.d("DV_READ_ROBOT_ACCELERATION:" + BluetoothParamUtil.bytesToString(packet.getmParam()));
                 String value = BluetoothParamUtil.bytesToString(packet.getmParam());
                 if(mView != null){
                     mView.tempState(value);
                 }
                 break;
             case BTCmd.DV_INTO_EDIT:
-
+                ViseLog.d("DV_INTO_EDIT");
                 break;
 
             case BTCmd.DV_READ_BATTERY:
@@ -276,6 +301,18 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
                 }
                 if(mView != null){
                     mView.updatePower(power);
+                }
+                break;
+            case BTCmd.DV_TAP_HEAD:
+                ViseLog.d("DV_TAP_HEAD:" + BluetoothParamUtil.bytesToString(packet.getmParam()));
+                if(mView != null){
+                    mView.noteTapHead();
+                }
+                break;
+            case BTCmd.DV_READ_ROBOT_FALL_DOWN:
+                ViseLog.d("DV_READ_ROBOT_FALL_DOWN:" + packet.getmParam()[0]);
+                if(mView != null){
+                    mView.noteRobotFallDown(packet.getmParam()[0]);
                 }
                 break;
             default:
