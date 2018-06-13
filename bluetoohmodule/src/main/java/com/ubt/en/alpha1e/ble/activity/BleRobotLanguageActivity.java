@@ -51,6 +51,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     private static final int REFRESH_DATA = 1;
     private static final int UPDATE_DOWNLOAD_LANGUAGE = 2;
+    private static final int DOWNLOAD_FAIL_RESET = 3;
 
     @BindView(R2.id.iv_back)
     ImageView mIvBack;
@@ -97,11 +98,24 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
                             if(downloadLanguageRsp.result == 1){
                                 ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
+
+                                Message resetMsg = new Message();
+                                resetMsg.what = DOWNLOAD_FAIL_RESET;
+                                resetMsg.obj = robotLanguage;
+                                mHandler.sendMessageDelayed(resetMsg,2000);
                             }
                             break;
                         }
                     }
-
+                    break;
+                case DOWNLOAD_FAIL_RESET:
+                    RobotLanguage resetRobotLanguage = (RobotLanguage)msg.obj;
+                    if(resetRobotLanguage != null && mAdapter != null){
+                        ViseLog.d("resetRobotLanguage = " + resetRobotLanguage);
+                        resetRobotLanguage.setResult(-1);
+                        resetRobotLanguage.setProgess(0);
+                        mAdapter.notifyDataSetChanged();
+                    }
                     break;
                 default:
                     break;
@@ -142,10 +156,9 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         super.onResume();
         mPresenter.getRobotLanguageListFromWeb();
 
-        mPresenter.getRobotLanguageListFromRobot();
+        //mPresenter.getRobotLanguageListFromRobot();
 
         mPresenter.getRobotWifiStatus();
-
 
         /*BleDownloadLanguageRsp downloadLanguageRsp = new BleDownloadLanguageRsp();
         downloadLanguageRsp.result = 1;
@@ -155,7 +168,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         Message msg = new Message();
         msg.what = UPDATE_DOWNLOAD_LANGUAGE;
         msg.obj = downloadLanguageRsp;
-        mHandler.sendMessageDelayed(msg,10000);*/
+        mHandler.sendMessageDelayed(msg,5000);*/
     }
 
     @Override
@@ -285,7 +298,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     protected void onDestroy() {
+        if(mHandler.hasMessages(DOWNLOAD_FAIL_RESET)){
+            mHandler.removeMessages(DOWNLOAD_FAIL_RESET);
+        }
         super.onDestroy();
+
         mPresenter.unRegister();
         mUnbinder.unbind();
     }
