@@ -1,27 +1,21 @@
 package com.ubt.en.alpha1e.ble.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.OnClickListener;
-import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.customView.BaseDialog;
+import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
@@ -30,9 +24,8 @@ import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.ble.Contact.RobotLanguageContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
-//import com.ubt.en.alpha1e.ble.dialog.SwitchIngLanguageDialog;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
-import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
 import com.ubt.en.alpha1e.ble.model.RobotLanguageAdapter;
 import com.ubt.en.alpha1e.ble.presenter.RobotLanguagePresenter;
@@ -96,7 +89,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                             robotLanguage.setProgess(downloadLanguageRsp.progress);
                             mAdapter.notifyDataSetChanged();
 
-                            if(downloadLanguageRsp.result == 1){
+                            if(downloadLanguageRsp.result > 0){
                                 ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
 
                                 Message resetMsg = new Message();
@@ -107,6 +100,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                             break;
                         }
                     }
+                    BaseLoadingDialog.dismiss(BleRobotLanguageActivity.this);
+
                     break;
                 case DOWNLOAD_FAIL_RESET:
                     RobotLanguage resetRobotLanguage = (RobotLanguage)msg.obj;
@@ -208,7 +203,10 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void setRobotLanguageResult(int status) {
-
+        ViseLog.d("status = " + status);
+        if(status != 0){
+            BaseLoadingDialog.dismiss(this);
+        }
     }
 
     @Override
@@ -217,6 +215,13 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         msg.what = UPDATE_DOWNLOAD_LANGUAGE;
         msg.obj = downloadLanguageRsp;
         mHandler.sendMessage(msg);
+    }
+
+    @Override
+    public void setUpgradeProgress(BleUpgradeProgressRsp upgradeProgressRsp) {
+
+        //这里只是出来加载框消失，具体的结果处理，在全局服务里面处理
+        BaseLoadingDialog.dismiss(this);
     }
 
     @Override
@@ -281,6 +286,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
                                 dialog.dismiss();
                                 ViseLog.d("selectLanguage.getLanguageSingleName() = " + selectLanguage.getLanguageSingleName());
+
+                                BaseLoadingDialog.show(BleRobotLanguageActivity.this);
                                 mPresenter.setRobotLanguage(selectLanguage.getLanguageSingleName());
                             }
                         }

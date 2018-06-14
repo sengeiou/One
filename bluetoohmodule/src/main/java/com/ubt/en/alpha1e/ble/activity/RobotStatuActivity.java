@@ -21,7 +21,7 @@ import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
-import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
 import com.ubt.en.alpha1e.ble.presenter.RobotStatuPrenster;
@@ -342,7 +342,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
      * @param switchLanguageRsp
      */
     @Override
-    public void updateFirmVersionProgress(BleSwitchLanguageRsp switchLanguageRsp) {
+    public void updateFirmVersionProgress(BleUpgradeProgressRsp switchLanguageRsp) {
 
     }
 

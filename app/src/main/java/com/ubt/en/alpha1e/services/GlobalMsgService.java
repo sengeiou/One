@@ -43,7 +43,7 @@ import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.R;
 import com.ubt.en.alpha1e.ble.dialog.SwitchIngLanguageDialog;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
-import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.xinge.XGConstact;
 import com.vise.log.ViseLog;
 import com.vise.utils.convert.HexUtil;
@@ -73,7 +73,7 @@ public class GlobalMsgService extends Service {
     private static final int BLUETOOTH_DISCONNECT = 2;
 
     private SwitchIngLanguageDialog switchProgressDialog = null;
-    private BleSwitchLanguageRsp mSwitchLanguageRsp = null;
+    private BleUpgradeProgressRsp mUpgradeProgressRsp = null;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -81,31 +81,35 @@ public class GlobalMsgService extends Service {
             super.handleMessage(msg);
             switch (msg.what) {
                 case UPDATE_UPGRADE_PROGRESS_RSP:
-                    BleSwitchLanguageRsp switchLanguageRsp = (BleSwitchLanguageRsp) msg.obj;
+                    BleUpgradeProgressRsp upgradeProgressRsp = (BleUpgradeProgressRsp) msg.obj;
 
-                    if (switchLanguageRsp != null) {
-                        mSwitchLanguageRsp = switchLanguageRsp;
+                    if (upgradeProgressRsp != null) {
+                        mUpgradeProgressRsp = upgradeProgressRsp;
 
-                        if (switchLanguageRsp.name.equals("chip_instruction") || switchLanguageRsp.name.equals("chip_firmware")) {
+                        if (upgradeProgressRsp.name.equals("chip_instruction") || upgradeProgressRsp.name.equals("chip_firmware")) {
                             int type = 0;
-                            if ("chip_firmware".equals(switchLanguageRsp.name)) {
+                            if ("chip_firmware".equals(upgradeProgressRsp.name)) {
                                 type = 1;
                             }
 
-                            if (switchLanguageRsp.result == 0) {
-                                if (switchLanguageRsp.progress == 100) {
+                            if (upgradeProgressRsp.result == 0) {
+                                if (upgradeProgressRsp.progress == 100) {
                                     if (switchProgressDialog != null) {
                                         switchProgressDialog.dismiss();
                                         showSetLanguageDialog(ActivityTool.currentActivity(), true, type);
                                     }
                                 } else {
-                                    showSwitchLanguageDialog(ActivityTool.currentActivity(), switchLanguageRsp.progress, type);
+                                    showSwitchLanguageDialog(ActivityTool.currentActivity(), upgradeProgressRsp.progress, type);
                                 }
 
-                            } else if (switchLanguageRsp.result == 1 || switchLanguageRsp.result == 2) {
+                            } else if (upgradeProgressRsp.result == 1 || upgradeProgressRsp.result == 2) {
 
-                                switchProgressDialog.dismiss();
-                                if (switchLanguageRsp.result == 1) {
+                                ViseLog.d("switchProgressDialog = " + switchProgressDialog);
+                                if(switchProgressDialog != null){
+                                    switchProgressDialog.dismiss();
+                                }
+
+                                if (upgradeProgressRsp.result == 1) {
                                     showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
                                 } else {
                                     showLowBatteryDialog(ActivityTool.currentActivity());
@@ -268,7 +272,7 @@ public class GlobalMsgService extends Service {
                 BleBaseModelInfo bleBaseModel = GsonImpl.get().toObject(commonCmdJson, BleBaseModelInfo.class);
                 ViseLog.d("bleBaseModel.event = " + bleBaseModel.event);
                 if (bleBaseModel.event == 9) {
-                    BleSwitchLanguageRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSwitchLanguageRsp.class);
+                    BleUpgradeProgressRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleUpgradeProgressRsp.class);
                     ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
 
                     Message msg = new Message();
@@ -352,10 +356,10 @@ public class GlobalMsgService extends Service {
         int imgId;
         if (isSuccess) {
             if (type == 0) {
-                if(TextUtils.isEmpty(mSwitchLanguageRsp.language)){
+                if(TextUtils.isEmpty(mUpgradeProgressRsp.language)){
                     message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success_1);
                 }else {
-                    message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#", mSwitchLanguageRsp.language);
+                    message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#", mUpgradeProgressRsp.language);
                 }
 
             } else {

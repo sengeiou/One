@@ -25,7 +25,7 @@ import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
-import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
 import com.ubt.en.alpha1e.ble.model.UpgradeProgressInfo;
@@ -165,7 +165,7 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                         mView.downloadFirmProgress(downloadLanguageRsp);
                     }
                 } else if (bleBaseModel.event == 9) {
-                    BleSwitchLanguageRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSwitchLanguageRsp.class);
+                    BleUpgradeProgressRsp switchLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleUpgradeProgressRsp.class);
                     ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
                     if (mView != null) {
                         mView.updateFirmVersionProgress(switchLanguageRsp);

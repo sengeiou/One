@@ -9,7 +9,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 @Parcelable
-public class BleSwitchLanguageRsp extends BleBaseModel {
+public class BleUpgradeProgressRsp extends BleBaseModel {
 
     public int result = 0;  //0 ( 成功) 1 (失败) 2 (被意外终止，或者被取消)
 
@@ -19,13 +19,13 @@ public class BleSwitchLanguageRsp extends BleBaseModel {
 
     public String language;
 
-    public BleSwitchLanguageRsp thiz;
+    public BleUpgradeProgressRsp thiz;
 
     @Override
-    public BleSwitchLanguageRsp getThiz(String json) {
+    public BleUpgradeProgressRsp getThiz(String json) {
 
         try {
-            thiz = mMapper.readValue(json, BleSwitchLanguageRsp.class);
+            thiz = mMapper.readValue(json, BleUpgradeProgressRsp.class);
             return thiz;
         } catch (Exception e) {
             thiz = null;
@@ -33,12 +33,12 @@ public class BleSwitchLanguageRsp extends BleBaseModel {
         }
     }
 
-    public static ArrayList<BleSwitchLanguageRsp> getModelList(String json) {
-        ArrayList<BleSwitchLanguageRsp> result = new ArrayList<BleSwitchLanguageRsp>();
+    public static ArrayList<BleUpgradeProgressRsp> getModelList(String json) {
+        ArrayList<BleUpgradeProgressRsp> result = new ArrayList<BleUpgradeProgressRsp>();
         try {
             JSONArray j_list = new JSONArray(json);
             for (int i = 0; i < j_list.length(); i++) {
-                result.add(new BleSwitchLanguageRsp().getThiz(j_list.get(i).toString()));
+                result.add(new BleUpgradeProgressRsp().getThiz(j_list.get(i).toString()));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class BleSwitchLanguageRsp extends BleBaseModel {
         return result;
     }
 
-    public static String getModeslStr(ArrayList<BleSwitchLanguageRsp> infos) {
+    public static String getModeslStr(ArrayList<BleUpgradeProgressRsp> infos) {
 
         try {
             return mMapper.writeValueAsString(infos);
@@ -56,7 +56,7 @@ public class BleSwitchLanguageRsp extends BleBaseModel {
         }
     }
 
-    public static String getString(BleSwitchLanguageRsp info)
+    public static String getString(BleUpgradeProgressRsp info)
     {
         try {
             return  GsonImpl.get().toJson(info);
@@ -69,7 +69,7 @@ public class BleSwitchLanguageRsp extends BleBaseModel {
 
     @Override
     public String toString() {
-        return "BleSwitchLanguageRsp{" +
+        return "BleUpgradeProgressRsp{" +
                 "result=" + result +
                 ",progress=" + progress +
                 ",name=" + name +

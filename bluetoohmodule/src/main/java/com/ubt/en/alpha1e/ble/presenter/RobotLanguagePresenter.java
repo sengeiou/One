@@ -22,7 +22,7 @@ import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageList;
 import com.ubt.en.alpha1e.ble.model.BleSetRobotLanguageRsp;
-import com.ubt.en.alpha1e.ble.model.BleSwitchLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
 import com.ubt.en.alpha1e.ble.requestModel.GetRobotLanguageRequest;
 import com.vise.log.ViseLog;
@@ -209,8 +209,13 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
                     if(mView != null){
                         mView.setDownloadLanguage(downloadLanguageRsp);
                     }
+                }else if(bleBaseModel.event == 9){
+                    BleUpgradeProgressRsp upgradeProgressRsp = GsonImpl.get().toObject(commonCmdJson, BleUpgradeProgressRsp.class);
+                    ViseLog.d("upgradeProgressRsp = " + upgradeProgressRsp);
+                    if(mView != null){
+                        mView.setUpgradeProgress(upgradeProgressRsp);
+                    }
                 }
-
                 break;
             default:
                 break;
