@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/play_action_item_rect"
             android:scaleType="fitXY"
-            android:alpha="0.7"
+            android:alpha="0.5"
             android:visibility="invisible"
             />
 
