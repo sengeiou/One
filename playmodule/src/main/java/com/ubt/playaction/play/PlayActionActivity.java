@@ -386,7 +386,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
                                 rlPlaybtn.setVisibility(View.INVISIBLE);
                                 rlPlayCtrl.setVisibility(View.VISIBLE);
                                 resetSelectAllState();
-                                rl20Tip.setVisibility(View.VISIBLE);
+//                                rl20Tip.setVisibility(View.VISIBLE);
                             }
                             dialog.dismiss();
                         } else if (view.getId() == com.ubt.baselib.R.id.button_cancle) {
@@ -596,7 +596,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
         }
         actionAdapter.notifyDataSetChanged();
-        rl20Tip.setVisibility(View.GONE);
+//        rl20Tip.setVisibility(View.GONE);
     }
 
     @Override
