@@ -236,7 +236,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
      */
     private void showRobotVersionDot() {
 
-        if ((mSystemRobotInfo != null && !TextUtils.isEmpty(mSystemRobotInfo.toVersion)) ||
+        if ((mSystemRobotInfo != null && !TextUtils.isEmpty(mSystemRobotInfo.toVersion) && compareSoftVersion(mSystemRobotInfo)) ||
                 (currentRobotVersionInfo != null && !TextUtils.isEmpty(currentRobotVersionInfo.new_firmware_ver))) {
             mViewRedDot.setVisibility(View.VISIBLE);
         } else {
@@ -244,6 +244,28 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
         }
     }
 
+
+    private boolean compareSoftVersion(SystemRobotInfo systemRobotInfo) {
+        boolean isnewVersion = false;
+        String curVersion = systemRobotInfo.curVersion.replaceAll("v", "").trim();
+        String toVersion = systemRobotInfo.toVersion.replaceAll("v", "").trim();
+        ViseLog.d("curVersion==" + curVersion + "    toVersion==" + toVersion);
+
+        String[] curArray = curVersion.split("[.]");
+        String[] toArray = toVersion.split("[.]");
+        int n = Math.min(curArray.length, toArray.length);
+        ViseLog.d("curArray.length==" + curArray.length + "    toArray.length==" + toArray.length + "   n===" + n);
+        for (int i = 0; i < n; i++) {
+            ViseLog.d("curArray[i]==" + curArray[i] + "    toArray[i]==" + toArray[i]);
+            if (Integer.parseInt(toArray[i]) > Integer.parseInt(curArray[i])) {
+                ViseLog.d("toversion版本高于curVersion==");
+                isnewVersion = true;
+                break;
+            }
+        }
+        ViseLog.d("isnewVersion==" + isnewVersion);
+        return isnewVersion;
+    }
 
     @Override
     public void setRobotNetWork(BleNetWork bleNetWork) {

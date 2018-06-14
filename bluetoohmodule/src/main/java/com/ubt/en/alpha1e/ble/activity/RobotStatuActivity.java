@@ -116,7 +116,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
             ViseLog.d("ckb_auto_u pgrade");
             //成功之后才切换
             ckbAutoUpgrade.setChecked(!ckbAutoUpgrade.isChecked());
-            if(mCurrentAutoUpgrade){
+            if (mCurrentAutoUpgrade) {
                 new BaseDialog.Builder(this)
                         .setMessage(R.string.about_robot_auto_update_off)
                         .setConfirmButtonId(R.string.base_cancel)
@@ -135,7 +135,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                                 }
                             }
                         }).create().show();
-            }else {
+            } else {
                 switchAutoUpgradeStatus();
             }
 
@@ -144,7 +144,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 showUpdateDialog(2);
             }
         } else if (i == R.id.rl_system_version) {//系统版本是否更新
-            if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion)) {
+            if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion)&&compareSoftVersion(mSystemRobotInfo)) {
                 showUpdateDialog(1);
             }
         }
@@ -187,12 +187,34 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         if (!TextUtils.isEmpty(systemRobotInfo.curVersion)) {
             mTvRobotVersion.setText(systemRobotInfo.curVersion);
         }
-        if (!TextUtils.isEmpty(systemRobotInfo.toVersion)) {
+        if (!TextUtils.isEmpty(systemRobotInfo.toVersion) && compareSoftVersion(systemRobotInfo)) {
             showRedDot(mTvRobotVersion, true);
         } else {
             showRedDot(mTvRobotVersion, false);
         }
         mSystemRobotInfo = systemRobotInfo;
+    }
+
+    private boolean compareSoftVersion(SystemRobotInfo systemRobotInfo) {
+        boolean isnewVersion = false;
+        String curVersion = systemRobotInfo.curVersion.replaceAll("v", "").trim();
+        String toVersion = systemRobotInfo.toVersion.replaceAll("v", "").trim();
+        ViseLog.d("curVersion==" + curVersion + "    toVersion==" + toVersion);
+
+        String[] curArray = curVersion.split("[.]");
+        String[] toArray = toVersion.split("[.]");
+        int n = Math.min(curArray.length, toArray.length);
+        ViseLog.d("curArray.length==" + curArray.length + "    toArray.length==" + toArray.length + "   n===" + n);
+        for (int i = 0; i < n; i++) {
+            ViseLog.d("curArray[i]==" + curArray[i] + "    toArray[i]==" + toArray[i]);
+            if (Integer.parseInt(toArray[i]) > Integer.parseInt(curArray[i])) {
+                ViseLog.d("toversion版本高于curVersion==");
+                isnewVersion = true;
+                break;
+            }
+        }
+        ViseLog.d("isnewVersion==" + isnewVersion);
+        return isnewVersion;
     }
 
     @Override

@@ -60,6 +60,7 @@
     <string name="about_robot_language_done" tools:ignore="ResourceName">Done</string>
     <string name="about_robot_language_dialogue" tools:ignore="ResourceName">Are you sure you want to change the robot language to #? This will take you 3 or 4 minutes of time.</string>
     <string name="about_robot_language_changing_success" tools:ignore="ResourceName">Robot language is # now.</string>
+    <string name="about_robot_language_changing_success_1" tools:ignore="ResourceName">Robot language change success .</string>
     <string name="about_robot_language_low_battery_tips_1" tools:ignore="ResourceName">Robot battery is low! </string>
     <string name="about_robot_language_low_battery_tips_2" tools:ignore="ResourceName">Robot language can not be changed, please charge the robot first.</string>
     <string name="about_robot_language_changing_fail" tools:ignore="ResourceName">Failed to change the robot language.</string>

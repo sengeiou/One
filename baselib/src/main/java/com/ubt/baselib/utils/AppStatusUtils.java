@@ -1,5 +1,8 @@
 package com.ubt.baselib.utils;
 
+import com.ubt.bluetoothlib.base.BluetoothState;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
+
 /**
  * @作者：bin.zhang@ubtrobot.com
  * @日期: 2018/5/24 10:59
@@ -49,7 +52,11 @@ public class AppStatusUtils {
      * @return
      */
     public static boolean isLowPower(){
-        return (chargingStatus == 0 &&currentPower <= 5);
+        if(BlueClientUtil.getInstance().getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            return (chargingStatus == 0 && currentPower <= 5);
+        }else{
+            return false;
+        }
     }
 
 

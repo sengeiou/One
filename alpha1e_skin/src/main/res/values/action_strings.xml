@@ -11,7 +11,7 @@
     <string name="actions_my_works_no_actions">You haven\'t created any actions.</string>
     <string name="actions_my_works_details_title">Details</string>
     <string name="actions_my_works_details_time">Create on</string>
-    <string name="actions_my_works_details_des">Description</string>
+    <string name="actions_my_works_details_des">Description: </string>
     <string name="actions_my_works_details_share">Share to the Community</string>
     <string name="actions_my_works_details_play">play</string>
     <string name="actions_my_works_details_loading">Loading...</string>

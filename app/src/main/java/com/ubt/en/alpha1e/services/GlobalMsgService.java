@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -351,7 +352,12 @@ public class GlobalMsgService extends Service {
         int imgId;
         if (isSuccess) {
             if (type == 0) {
-                message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#", mSwitchLanguageRsp.language == null ? "" : mSwitchLanguageRsp.language);
+                if(TextUtils.isEmpty(mSwitchLanguageRsp.language)){
+                    message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success_1);
+                }else {
+                    message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#", mSwitchLanguageRsp.language);
+                }
+
             } else {
                 message = SkinManager.getInstance().getTextById(R.string.about_robot_upgrade_success);
             }
