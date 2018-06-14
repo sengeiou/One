@@ -100,7 +100,7 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
         }else if(id == R.id.cl_user_name){
             InputMethodManager imm = (InputMethodManager) (getActivity().getSystemService(Context.INPUT_METHOD_SERVICE));
             if(imm.isActive() ){
-                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(/*getActivity().getCurrentFocus().getApplicationWindowToken()*/view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
 

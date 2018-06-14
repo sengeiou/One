@@ -121,7 +121,7 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
         }else if(id == R.id.cl_register_root){
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if(imm.isActive() ){
-                imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(/*getCurrentFocus().getApplicationWindowToken()*/view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
 

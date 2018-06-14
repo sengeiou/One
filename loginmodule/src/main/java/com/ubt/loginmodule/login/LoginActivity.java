@@ -286,7 +286,7 @@ public class LoginActivity extends MVPBaseActivity <LoginContract.View, LoginPre
         } else if(i == R.id.cl_root){
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if(imm.isActive() ){
-                imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(/*getCurrentFocus().getApplicationWindowToken()*/view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }else if(i == R.id.iv_ins){
             ToastUtils.showShort("coming soon");
