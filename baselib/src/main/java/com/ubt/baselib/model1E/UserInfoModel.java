@@ -19,6 +19,7 @@ public class UserInfoModel implements Serializable{
     private String sex;
     private String birthDay;
     private String headPic;
+    private String country;
 
     public String getUserId() {
         return userId;
@@ -68,6 +69,14 @@ public class UserInfoModel implements Serializable{
         this.headPic = headPic;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     @Override
     public String toString() {
         return "UserInfoModel{" +
@@ -77,6 +86,7 @@ public class UserInfoModel implements Serializable{
                 ", sex='" + sex + '\'' +
                 ", birthDate='" + birthDay + '\'' +
                 ", headPic='" + headPic + '\'' +
+                ", country='" + country + '\'' +
                 '}';
     }
 }
