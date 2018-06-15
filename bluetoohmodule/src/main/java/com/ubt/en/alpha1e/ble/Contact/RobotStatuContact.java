@@ -56,5 +56,7 @@ public class RobotStatuContact {
          * @param is0pen false 为未开启， true为已开启
          */
         void doChangeAutoUpgrade(boolean is0pen);
+
+        void doTestUpgradeByApp();
     }
 }

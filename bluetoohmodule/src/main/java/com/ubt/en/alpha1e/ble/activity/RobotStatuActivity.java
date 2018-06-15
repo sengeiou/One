@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -16,6 +17,7 @@ import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -76,6 +78,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     ImageView mIvDownloadFirmFailWarning;
     @BindView(R2.id.tv_voice_version)
     TextView mTvVoiceVersion;
+    @BindView(R2.id.rl_test_upgrade)
+    RelativeLayout rlTestUpgrade;
 
 
     private boolean mCurrentAutoUpgrade = false;
@@ -107,7 +111,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         AppStatusUtils.setBtBussiness(false);
     }
 
-    @OnClick({R2.id.iv_robot_back, R2.id.ckb_auto_upgrade, R2.id.rl_system_version, R2.id.rl_firmware_version})
+    @OnClick({R2.id.iv_robot_back, R2.id.ckb_auto_upgrade, R2.id.rl_system_version, R2.id.rl_firmware_version, R2.id.rl_test_upgrade})
     public void clickView(View view) {
         int i = view.getId();
         if (i == R.id.iv_robot_back) {
@@ -144,9 +148,13 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 showUpdateDialog(2);
             }
         } else if (i == R.id.rl_system_version) {//系统版本是否更新
-            if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion)&&compareSoftVersion(mSystemRobotInfo)) {
+            if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion) && compareSoftVersion(mSystemRobotInfo)) {
                 showUpdateDialog(1);
             }
+        } else if(i == R.id.rl_test_upgrade || i == R2.id.rl_test_upgrade){
+            ViseLog.d("rl_test_upgrade = " + R.id.rl_test_upgrade + "/" + R2.id.rl_test_upgrade + "/" + i);
+            mPresenter.doTestUpgradeByApp();
+            ToastUtils.showShort("已发送升级命令");
         }
     }
 

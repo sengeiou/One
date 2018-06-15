@@ -291,6 +291,13 @@ public interface BTCmd {
     byte DV_READ_ROBOT_SOFT_VERSION = (byte) 0x48;
 
     /**
+     * 测试安装固件(慎用)
+     * 发送参数：0
+     * 回复 0
+     */
+    byte DV_DO_TEST_FIRMWARE_UPGRADE = (byte) 0x49;
+
+    /**
      * 读取红外传感器与障碍物的距离
      * 参数 01 开启上报， 00 停止上报
      */
