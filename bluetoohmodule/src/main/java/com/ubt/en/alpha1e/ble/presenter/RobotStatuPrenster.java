@@ -16,6 +16,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdReadHardwareVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadSoftVer;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetAutoUpgrade;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdStartUpgradeSoft;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdTestFirmwareUpgrade;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdUpdateFirmware;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
@@ -178,6 +179,9 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                     mView.systemRequestUpdate();
                 }
                 break;
+            case BTCmd.DV_DO_TEST_FIRMWARE_UPGRADE:
+                ViseLog.d("测试固件升级发送成功--");
+                break;
             default:
                 break;
         }
@@ -239,6 +243,14 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
         }
 
         mBlueClientUtil.sendData(new BTCmdSetAutoUpgrade(params[0]).toByteArray());
+    }
+
+    @Override
+    public void doTestUpgradeByApp() {
+        if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            ViseLog.d("测试固件升级");
+            mBlueClientUtil.sendData(new BTCmdTestFirmwareUpgrade().toByteArray());
+        }
     }
 
     /**
