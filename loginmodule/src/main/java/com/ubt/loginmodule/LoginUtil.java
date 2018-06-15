@@ -69,7 +69,7 @@ public class LoginUtil {
         if (string == null){
             return false;
         }
-        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
         Pattern p;
         Matcher m;
         p = Pattern.compile(regEx1);
