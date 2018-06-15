@@ -84,7 +84,7 @@ public class GlobalMsgService extends Service {
                     try {
                         BleUpgradeProgressRsp upgradeProgressRsp = (BleUpgradeProgressRsp) msg.obj;
 
-                        if (upgradeProgressRsp != null ) {
+                        if (upgradeProgressRsp != null && ActivityTool.currentActivity() != null) {
                             mUpgradeProgressRsp = upgradeProgressRsp;
 
                             if (upgradeProgressRsp.name.equals("chip_instruction") || upgradeProgressRsp.name.equals("chip_firmware")) {
