@@ -580,6 +580,20 @@ public class BlocklyJsInterface {
         ((BlocklyActivity) mBaseActivity).stopPlay();
     }
 
+
+    /**
+     * 获取app当前语言代码
+     *
+     * @return
+     */
+    @JavascriptInterface
+    public String getAppLanguageCode() {
+        String localLanguage = SPUtils.getInstance().getString(Constant1E.CURRENT_APP_LANGUAGE, "en");
+        ViseLog.d("getAppLanguageCode:" + localLanguage);
+
+        return localLanguage;
+    }
+
     /**
      * 保存项目
      *
