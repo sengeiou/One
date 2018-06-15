@@ -13,6 +13,8 @@ import com.vise.log.ViseLog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -34,7 +36,7 @@ public class BTHeartBeatManager {
     private static AlarmManager am;
 
     private static BlueClientUtil mBlueClientUtil;
-
+    private Timer heartTimer;
     public BTHeartBeatManager() {
 
     }
@@ -67,18 +69,19 @@ public class BTHeartBeatManager {
         if (mBlueClientUtil != null) {
             mBlueClientUtil.sendData(heartDatas);
         }
-        stopHeart();  //防止未关闭又重新发送心跳
-        startAlarm();
-
+//        stopHeart();  //防止未关闭又重新发送心跳
+//        startAlarm();
+        startHeartTimer();
         return true;
     }
 
     private void stopHeart() {
-        if (am != null && pi != null) {
+        /*if (am != null && pi != null) {
             am.cancel(pi);
             pi = null;
             am = null;
-        }
+        }*/
+        stopHeartTimer();
     }
 
     private void resetHeartCnt() {
@@ -137,6 +140,38 @@ public class BTHeartBeatManager {
                 ViseLog.e("心跳超时!!!");
                 BTHeartBeatManager.getInstance().stopHeart();
             }
+        }
+    }
+
+    private boolean startHeartTimer(){
+        if (mContext == null) {
+            ViseLog.e("请先初始化BTHeartBeatManager");
+            return false;
+        }
+
+        if (heartTimer != null) {
+            heartTimer.cancel();
+        }
+        heartTimer = new Timer();
+        heartTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (mBlueClientUtil != null && mHeartCnt.incrementAndGet() < 6) {
+                    ViseLog.i("发送蓝牙心跳");
+                    mBlueClientUtil.sendData(heartDatas);
+                }else{
+                    ViseLog.e("心跳超时!!!");
+                    stopHeartTimer();
+                }
+            }
+        }, 300, repeatTime);//每1分钟执行一次
+        return true;
+    }
+
+    private void stopHeartTimer(){
+        if (heartTimer != null) {
+            heartTimer.cancel();
+            heartTimer = null;
         }
     }
 }

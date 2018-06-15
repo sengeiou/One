@@ -223,6 +223,7 @@ public class AutoConnectPrenster {
 //            }
             BleDevice bleDevice = DataSupport.findFirst(BleDevice.class);
             String mac = device.getAddress();
+            if(bleDevice != null)
             ViseLog.d("localrecord===" + bleDevice.getMac() + "   mac====" + mac);
             if (bleDevice != null && !TextUtils.isEmpty(mac)
                     && bleDevice.getMac().equals(mac) && !isManualConnectMode&&!isManualDisConnect) {
