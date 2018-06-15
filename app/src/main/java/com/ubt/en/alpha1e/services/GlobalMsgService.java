@@ -81,41 +81,45 @@ public class GlobalMsgService extends Service {
             super.handleMessage(msg);
             switch (msg.what) {
                 case UPDATE_UPGRADE_PROGRESS_RSP:
-                    BleUpgradeProgressRsp upgradeProgressRsp = (BleUpgradeProgressRsp) msg.obj;
+                    try {
+                        BleUpgradeProgressRsp upgradeProgressRsp = (BleUpgradeProgressRsp) msg.obj;
 
-                    if (upgradeProgressRsp != null) {
-                        mUpgradeProgressRsp = upgradeProgressRsp;
+                        if (upgradeProgressRsp != null ) {
+                            mUpgradeProgressRsp = upgradeProgressRsp;
 
-                        if (upgradeProgressRsp.name.equals("chip_instruction") || upgradeProgressRsp.name.equals("chip_firmware")) {
-                            int type = 0;
-                            if ("chip_firmware".equals(upgradeProgressRsp.name)) {
-                                type = 1;
-                            }
+                            if (upgradeProgressRsp.name.equals("chip_instruction") || upgradeProgressRsp.name.equals("chip_firmware")) {
+                                int type = 0;
+                                if ("chip_firmware".equals(upgradeProgressRsp.name)) {
+                                    type = 1;
+                                }
 
-                            if (upgradeProgressRsp.result == 0) {
-                                if (upgradeProgressRsp.progress == 100) {
-                                    if (switchProgressDialog != null) {
-                                        switchProgressDialog.dismiss();
-                                        showSetLanguageDialog(ActivityTool.currentActivity(), true, type);
+                                if (upgradeProgressRsp.result == 0) {
+                                    if (upgradeProgressRsp.progress == 100) {
+                                        if (switchProgressDialog != null) {
+                                            switchProgressDialog.dismiss();
+                                            showSetLanguageDialog(ActivityTool.currentActivity(), true, type);
+                                        }
+                                    } else {
+                                        showSwitchLanguageDialog(ActivityTool.currentActivity(), upgradeProgressRsp.progress, type);
                                     }
-                                } else {
-                                    showSwitchLanguageDialog(ActivityTool.currentActivity(), upgradeProgressRsp.progress, type);
-                                }
 
-                            } else if (upgradeProgressRsp.result == 1 || upgradeProgressRsp.result == 2) {
+                                } else if (upgradeProgressRsp.result == 1 || upgradeProgressRsp.result == 2) {
 
-                                ViseLog.d("switchProgressDialog = " + switchProgressDialog);
-                                if(switchProgressDialog != null){
-                                    switchProgressDialog.dismiss();
-                                }
+                                    ViseLog.d("switchProgressDialog = " + switchProgressDialog);
+                                    if(switchProgressDialog != null){
+                                        switchProgressDialog.dismiss();
+                                    }
 
-                                if (upgradeProgressRsp.result == 1) {
-                                    showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
-                                } else {
-                                    showLowBatteryDialog(ActivityTool.currentActivity());
+                                    if (upgradeProgressRsp.result == 1) {
+                                        showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
+                                    } else {
+                                        showLowBatteryDialog(ActivityTool.currentActivity());
+                                    }
                                 }
                             }
                         }
+                    }catch (Exception ex){
+                        ViseLog.e("ex = " + ex.getMessage());
                     }
                     break;
                 case BLUETOOTH_DISCONNECT:
