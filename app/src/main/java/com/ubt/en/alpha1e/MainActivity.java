@@ -8,8 +8,11 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.model1E.ManualEvent;
+import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.en.alpha1e.ble.model.BleConnectServiceUtil;
 import com.ubt.en.alpha1e.customView.RightBar;
+import com.ubt.en.alpha1e.presenter.MainContact;
+import com.ubt.en.alpha1e.presenter.MainPrenster;
 import com.ubt.mainmodule.controlCenter.CtlCenterFragment;
 import com.ubt.mainmodule.main.MainFragment;
 import com.ubt.mainmodule.user.UserMainFragment;
@@ -19,11 +22,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.SupportFragment;
 
 @Route(path = ModuleUtils.Main_MainActivity)
-public class MainActivity extends SupportActivity {
+public class MainActivity extends MVPBaseActivity<MainContact.View, MainPrenster> implements MainContact.View {
 
     public static final int FIRST = 0;
     public static final int SECOND = 1;
@@ -35,6 +37,11 @@ public class MainActivity extends SupportActivity {
     private SupportFragment[] mFragments = new SupportFragment[3];
     private int fragmentCur = FIRST; //标识当前fragment标号
     BleConnectServiceUtil util;
+
+    @Override
+    public int getContentViewId() {
+        return 0;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
