@@ -51,7 +51,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     private static final int REFRESH_DATA = 1;
     private static final int UPDATE_DOWNLOAD_LANGUAGE = 2;
     private static final int DOWNLOAD_FAIL_RESET = 3;
-    private static final int DEAL_CHANGE_LANGUAGE_RESULT = 4;
+    private static final int DOWNLOAD_SUCCESS_RESET = 4;
+    private static final int DEAL_CHANGE_LANGUAGE_RESULT = 5;
 
     @BindView(R2.id.iv_back)
     ImageView mIvBack;
@@ -99,10 +100,18 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                             if(downloadLanguageRsp.result > 0){
                                 ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
 
+                                //下载失败后，2S后进度条消失
                                 Message resetMsg = new Message();
                                 resetMsg.what = DOWNLOAD_FAIL_RESET;
                                 resetMsg.obj = robotLanguage;
                                 mHandler.sendMessageDelayed(resetMsg,2000);
+                            }else if(downloadLanguageRsp.progress == 100){
+
+                                //下载成功后，进度条消失
+                                Message resetMsg = new Message();
+                                resetMsg.what = DOWNLOAD_SUCCESS_RESET;
+                                resetMsg.obj = robotLanguage;
+                                mHandler.sendMessage(resetMsg);
                             }
                             break;
                         }
@@ -111,6 +120,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
                     break;
                 case DOWNLOAD_FAIL_RESET:
+                case DOWNLOAD_SUCCESS_RESET:
                     RobotLanguage resetRobotLanguage = (RobotLanguage)msg.obj;
                     if(resetRobotLanguage != null && mAdapter != null){
                         ViseLog.d("resetRobotLanguage = " + resetRobotLanguage);
@@ -123,8 +133,10 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     int result = msg.arg1;
                     if(result != 0){
                         BaseLoadingDialog.dismiss(BleRobotLanguageActivity.this);
-                        if(result == 2){
+                        if(result == 2){//低电量
                             showLowBatteryDialog(BleRobotLanguageActivity.this);
+                        }else if(result == 3){//未联网
+                            showConnectWifiDialog();
                         }
                     }
                     break;
@@ -190,8 +202,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
         /*Message msg = new Message();
         msg.what = DEAL_CHANGE_LANGUAGE_RESULT;
-        msg.arg1 = 2;
-        mHandler.sendMessage(msg);*/
+        msg.arg1 = 3;
+        mHandler.sendMessageDelayed(msg,5000);*/
     }
 
     @Override
@@ -271,25 +283,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
             ViseLog.d("hasConnectWifi = " + hasConnectWifi + "  selectLanguage = " + selectLanguage.getLanguageName());
 
             if (!hasConnectWifi) {
-                new BaseDialog.Builder(this)
-                        .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#", selectLanguage.getLanguageName()))
-                        .setConfirmButtonId(R.string.base_cancel)
-                        .setConfirmButtonColor(R.color.base_blue)
-                        .setCancleButtonID(R.string.base_connect)
-                        .setCancleButtonColor(R.color.base_blue)
-                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                            @Override
-                            public void onClick(DialogPlus dialog, View view) {
-                                if (view.getId() == R.id.button_confirm) {
-                                    dialog.dismiss();
-
-                                } else if (view.getId() == R.id.button_cancle) {
-                                    dialog.dismiss();
-
-                                    BleSearchWifiActivity.launch(BleRobotLanguageActivity.this, false, "");
-                                }
-                            }
-                        }).create().show();
+                showConnectWifiDialog();
                 return;
             }
 
@@ -368,11 +362,41 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         finish();
     }
 
+    /**
+     * 显示连接WIFI对话框
+     */
+    private void showConnectWifiDialog() {
+        final RobotLanguage selectLanguage = getSelectLanguage();
+        if (selectLanguage == null) {
+            return;
+        }
+
+        new BaseDialog.Builder(this)
+                .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#", selectLanguage.getLanguageName()))
+                .setConfirmButtonId(R.string.base_cancel)
+                .setConfirmButtonColor(R.color.base_blue)
+                .setCancleButtonID(R.string.base_connect)
+                .setCancleButtonColor(R.color.base_blue)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            dialog.dismiss();
+
+                        } else if (view.getId() == R.id.button_cancle) {
+                            dialog.dismiss();
+
+                            BleSearchWifiActivity.launch(BleRobotLanguageActivity.this, false, "");
+                        }
+                    }
+                }).create().show();
+    }
+
 
     /**
      * 显示低电量
      */
-    public void showLowBatteryDialog(Context context) {
+    private void showLowBatteryDialog(Context context) {
 
         String titleMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_1);
         String detailMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_2);
