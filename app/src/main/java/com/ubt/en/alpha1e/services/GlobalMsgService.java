@@ -109,12 +109,13 @@ public class GlobalMsgService extends Service {
                                     if(switchProgressDialog != null){
                                         switchProgressDialog.dismiss();
                                     }
+                                    showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
 
-                                    if (upgradeProgressRsp.result == 1) {
+                                    /*if (upgradeProgressRsp.result == 1) {
                                         showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
                                     } else {
                                         showLowBatteryDialog(ActivityTool.currentActivity());
-                                    }
+                                    }*/
                                 }
                             }
                         }

@@ -37,7 +37,7 @@ public class MyTwitter {
 	private static final String PREFERENCES_ACCESS_TOKEN = "access_token";
 	private static final String PREFERENCES_ACCESS_TOKEN_SECRET = "access_token_secret";
 
-	static final String TWITTER_CALLBACK_URL = "oauth://twitter";
+	static final String TWITTER_CALLBACK_URL = "https://ubtrobot.com/";
 
 	private static final String TWITTER_CONSUMER_KEY = LoginSP.TWITTER_CONSUMER_KEY/*"9cIOTALrzHemaRCoVPjkPXc98"*/;
 	private static final String TWITTER_CONSUMER_KEY_SECRET =LoginSP.TWITTER_CONSUMER_SECRET /*"cnAeDUovNPThUyl8Rs3P7QnmzDemBxx88RAd6seiy1UoHZCAzG"*/;

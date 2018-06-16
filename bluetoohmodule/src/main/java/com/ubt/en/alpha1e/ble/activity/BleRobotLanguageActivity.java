@@ -7,13 +7,19 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.model1E.BleNetWork;
@@ -45,6 +51,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     private static final int REFRESH_DATA = 1;
     private static final int UPDATE_DOWNLOAD_LANGUAGE = 2;
     private static final int DOWNLOAD_FAIL_RESET = 3;
+    private static final int DOWNLOAD_SUCCESS_RESET = 4;
+    private static final int DEAL_CHANGE_LANGUAGE_RESULT = 5;
 
     @BindView(R2.id.iv_back)
     ImageView mIvBack;
@@ -92,10 +100,18 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                             if(downloadLanguageRsp.result > 0){
                                 ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
 
+                                //下载失败后，2S后进度条消失
                                 Message resetMsg = new Message();
                                 resetMsg.what = DOWNLOAD_FAIL_RESET;
                                 resetMsg.obj = robotLanguage;
                                 mHandler.sendMessageDelayed(resetMsg,2000);
+                            }else if(downloadLanguageRsp.progress == 100){
+
+                                //下载成功后，进度条消失
+                                Message resetMsg = new Message();
+                                resetMsg.what = DOWNLOAD_SUCCESS_RESET;
+                                resetMsg.obj = robotLanguage;
+                                mHandler.sendMessage(resetMsg);
                             }
                             break;
                         }
@@ -104,12 +120,24 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
                     break;
                 case DOWNLOAD_FAIL_RESET:
+                case DOWNLOAD_SUCCESS_RESET:
                     RobotLanguage resetRobotLanguage = (RobotLanguage)msg.obj;
                     if(resetRobotLanguage != null && mAdapter != null){
                         ViseLog.d("resetRobotLanguage = " + resetRobotLanguage);
                         resetRobotLanguage.setResult(-1);
                         resetRobotLanguage.setProgess(0);
                         mAdapter.notifyDataSetChanged();
+                    }
+                    break;
+                case DEAL_CHANGE_LANGUAGE_RESULT:
+                    int result = msg.arg1;
+                    if(result != 0){
+                        BaseLoadingDialog.dismiss(BleRobotLanguageActivity.this);
+                        if(result == 2){//低电量
+                            showLowBatteryDialog(BleRobotLanguageActivity.this);
+                        }else if(result == 3){//未联网
+                            showConnectWifiDialog();
+                        }
                     }
                     break;
                 default:
@@ -171,6 +199,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         msg.what = UPDATE_DOWNLOAD_LANGUAGE;
         msg.obj = downloadLanguageRsp;
         mHandler.sendMessageDelayed(msg,5000);*/
+
+        /*Message msg = new Message();
+        msg.what = DEAL_CHANGE_LANGUAGE_RESULT;
+        msg.arg1 = 3;
+        mHandler.sendMessageDelayed(msg,5000);*/
     }
 
     @Override
@@ -204,9 +237,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     @Override
     public void setRobotLanguageResult(int status) {
         ViseLog.d("status = " + status);
-        if(status != 0){
-            BaseLoadingDialog.dismiss(this);
-        }
+        Message msg = new Message();
+        msg.what = DEAL_CHANGE_LANGUAGE_RESULT;
+        msg.arg1 = status;
+        mHandler.sendMessage(msg);
+
     }
 
     @Override
@@ -248,25 +283,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
             ViseLog.d("hasConnectWifi = " + hasConnectWifi + "  selectLanguage = " + selectLanguage.getLanguageName());
 
             if (!hasConnectWifi) {
-                new BaseDialog.Builder(this)
-                        .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#", selectLanguage.getLanguageName()))
-                        .setConfirmButtonId(R.string.base_cancel)
-                        .setConfirmButtonColor(R.color.base_blue)
-                        .setCancleButtonID(R.string.base_connect)
-                        .setCancleButtonColor(R.color.base_blue)
-                        .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
-                            @Override
-                            public void onClick(DialogPlus dialog, View view) {
-                                if (view.getId() == R.id.button_confirm) {
-                                    dialog.dismiss();
-
-                                } else if (view.getId() == R.id.button_cancle) {
-                                    dialog.dismiss();
-
-                                    BleSearchWifiActivity.launch(BleRobotLanguageActivity.this, false, "");
-                                }
-                            }
-                        }).create().show();
+                showConnectWifiDialog();
                 return;
             }
 
@@ -345,5 +362,73 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         finish();
     }
 
+    /**
+     * 显示连接WIFI对话框
+     */
+    private void showConnectWifiDialog() {
+        final RobotLanguage selectLanguage = getSelectLanguage();
+        if (selectLanguage == null) {
+            return;
+        }
+
+        new BaseDialog.Builder(this)
+                .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_dialogue).replace("#", selectLanguage.getLanguageName()))
+                .setConfirmButtonId(R.string.base_cancel)
+                .setConfirmButtonColor(R.color.base_blue)
+                .setCancleButtonID(R.string.base_connect)
+                .setCancleButtonColor(R.color.base_blue)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            dialog.dismiss();
+
+                        } else if (view.getId() == R.id.button_cancle) {
+                            dialog.dismiss();
+
+                            BleSearchWifiActivity.launch(BleRobotLanguageActivity.this, false, "");
+                        }
+                    }
+                }).create().show();
+    }
+
+
+    /**
+     * 显示低电量
+     */
+    private void showLowBatteryDialog(Context context) {
+
+        String titleMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_1);
+        String detailMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_2);
+
+        View contentView = LayoutInflater.from(context).inflate(R.layout.ble_dialog_low_battery, null);
+        TextView tvTitle = contentView.findViewById(R.id.tv_title);
+        TextView tvMessage = contentView.findViewById(R.id.tv_message);
+        tvTitle.setText(titleMsg);
+        tvMessage.setText(detailMsg);
+
+        ViewHolder viewHolder = new ViewHolder(contentView);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        int width = (int) ((display.getWidth()) * 0.55); //设置宽度
+
+        DialogPlus.newDialog(context)
+                .setContentHolder(viewHolder)
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(width)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.btn_ok) {//点击确定以后刷新列表并解锁下一关
+
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .setCancelable(false)
+                .create().show();
+
+    }
 
 }

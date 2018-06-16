@@ -22,6 +22,9 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * MVPPlugin
  *  邮箱 784787081@qq.com
@@ -89,7 +92,13 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
         request.setOpenId(userId);
         request.setUbtAppId(Integer.valueOf(LoginSP.APPID));
 
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("X-UBT-AppId", LoginSP.APPID);
+        headers.put("X-UBT-Sign", LoginSP.APPKEY);
+
+
         ViseHttp.PUT(LoginHttpEntity.LOGIN_THIRD).baseUrl(LoginHttpEntity.BASE_LOGIN_URL)
+                .addHeaders(headers)
                 .setJson(GsonImpl.get().toJson(request))
                 .request(new ACallback<String>() {
 
