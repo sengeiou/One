@@ -67,12 +67,12 @@ dependencies {
     compile(name: 'gifLib-1.0.0.1', ext: 'aar')
     compile(name: 'globaldialog-1.0.0.1', ext: 'aar')
     compile(name: 'htslib-1.0.0.1', ext: 'aar')
-    // compile(name: 'skin-support-1.0.0.1', ext: 'aar')
+     compile(name: 'skin-support-1.0.0.1', ext: 'aar')
     compile(name: 'highlight-release', ext: 'aar')
     compile(name: 'qiniu-android-sdk-7.3.12', ext: 'aar')
     //七牛库
     compile(name: 'happy-dns-0.2.7', ext: 'aar')
-    //七牛需要依赖的库
+    //七牛需要依赖 的库
     //权限申请库
     compile 'com.yanzhenjie:permission:1.1.2'
     //okhttpUtils
@@ -84,5 +84,5 @@ dependencies {
     //引用自定义maven库中文件
     //compile 'com.ubt:bluetooth:1.0.0@aar'
     //implementation project(':skin-support')
-    implementation project(':skin-support')
+    //implementation project(':skin-support')
 }

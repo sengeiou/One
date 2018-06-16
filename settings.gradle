@@ -1,5 +1,5 @@
  include  ':baselib', ':app',  ':loginmodule',':remotemodule', ':playmodule'
-include  ':bluetoohmodule', ':blocklymodule', ':actionmodule', ':skin-support','alpha1e_skin'
+include  ':bluetoohmodule', ':blocklymodule', ':actionmodule', 'alpha1e_skin'
 
 //include ":mainmodule"
 //project(':mainmodule').projectDir = new File(settingsDir, '../EbotEnMainModule/mainmodule')

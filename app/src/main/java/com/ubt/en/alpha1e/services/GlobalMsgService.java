@@ -84,7 +84,7 @@ public class GlobalMsgService extends Service {
                     try {
                         BleUpgradeProgressRsp upgradeProgressRsp = (BleUpgradeProgressRsp) msg.obj;
 
-                        if (upgradeProgressRsp != null ) {
+                        if (upgradeProgressRsp != null && ActivityTool.currentActivity() != null) {
                             mUpgradeProgressRsp = upgradeProgressRsp;
 
                             if (upgradeProgressRsp.name.equals("chip_instruction") || upgradeProgressRsp.name.equals("chip_firmware")) {
@@ -109,12 +109,13 @@ public class GlobalMsgService extends Service {
                                     if(switchProgressDialog != null){
                                         switchProgressDialog.dismiss();
                                     }
+                                    showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
 
-                                    if (upgradeProgressRsp.result == 1) {
+                                    /*if (upgradeProgressRsp.result == 1) {
                                         showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
                                     } else {
                                         showLowBatteryDialog(ActivityTool.currentActivity());
-                                    }
+                                    }*/
                                 }
                             }
                         }

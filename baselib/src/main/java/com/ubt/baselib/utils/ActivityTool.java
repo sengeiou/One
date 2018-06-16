@@ -47,6 +47,10 @@ public class ActivityTool {
      * 获取当前的Activity（堆栈中最后一个压入的)
      */
     public static Activity currentActivity() {
+        if(activityStack == null || activityStack.size() == 0){
+            //程序刚启动的时候，获取可能为空
+            return null;
+        }
         Activity activity = activityStack.lastElement();
         return activity;
     }

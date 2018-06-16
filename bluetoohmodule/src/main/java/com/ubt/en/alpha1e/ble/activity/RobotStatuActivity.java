@@ -254,6 +254,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 mTvSystemUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
                 mTvSystemUpdateTip.setVisibility(View.VISIBLE);
                 mIvDownloadSystemFailWarning.setVisibility(View.VISIBLE);
+                mSystemVersionProgress.setVisibility(View.GONE);
+                mTvSystemProgress.setVisibility(View.GONE);
             } else if (progressInfo.status == 1) {//downloading
                 if (!TextUtils.isEmpty(progressInfo.progress)) {
                     mTvSystemUpdateTip.setVisibility(View.VISIBLE);
@@ -261,7 +263,6 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                     mTvSystemProgress.setVisibility(View.VISIBLE);
                     mSystemVersionProgress.setProgress(Integer.parseInt(progressInfo.progress));
                     mTvSystemProgress.setText(progressInfo.progress + "%");
-
                 }
                 mIvDownloadSystemFailWarning.setVisibility(View.GONE);
 
