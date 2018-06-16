@@ -59,10 +59,38 @@
             />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/white"
+        android:visibility="visible">
+
+
+        <ImageView
+            android:id="@+id/bleImageview3"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_back"/>
+
+        <TextView
+            android:id="@+id/bleTextview5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/about_robot_title"
+            android:textColor="@color/base_tv_large_black"
+            android:textSize="@dimen/sp_18"/>
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/rl_title"
         android:background="@color/base_background"
         android:visibility="visible">
 
@@ -71,38 +99,11 @@
             android:layout_height="match_parent"
             >
 
-            <RelativeLayout
-                android:id="@+id/rl_title"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:background="@color/white"
-                android:visibility="visible">
-
-
-                <ImageView
-                    android:id="@+id/bleImageview3"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_back"/>
-
-                <TextView
-                    android:id="@+id/bleTextview5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/about_robot_title"
-                    android:textColor="@color/base_tv_large_black"
-                    android:textSize="@dimen/sp_18"/>
-            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/img_head"
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
-                android:layout_below="@+id/rl_title"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_15"
                 android:scaleType="fitXY"

@@ -32,9 +32,14 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
 
@@ -61,6 +66,9 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
      */
     private boolean isPermissionCompleted;
 
+    private boolean isTimeOut = false;
+    Disposable disposable;
+
     @Override
     public int getContentViewId() {
         return 0;
@@ -77,13 +85,31 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         //设置当前窗体为全屏显示
         window.setFlags(flag, flag);
-         setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
         startParamInit(); //同步后台参数
-        initView();
-        gifDrawable.start();
+        //initView();
+        applyPermission();
+        //gifDrawable.start();
         initNavigationListener();
         getSHA();
+        startTimer();
+    }
+
+    /**
+     * 开启两秒超时，达到两秒才进入首页
+     */
+    private void startTimer() {
+        disposable = Observable.timer(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        ViseLog.d("到达两秒超时");
+                        isTimeOut = true;
+                        compareLanguageAndPermissResult();
+                    }
+                });
+
     }
 
     private void initNavigationListener() {
@@ -132,6 +158,9 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (disposable != null) {
+            disposable.dispose();
+        }
 
     }
 
@@ -266,8 +295,8 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
      * 比较动画及权限结束和更新语言包结束
      */
     private void compareLanguageAndPermissResult() {
-        ViseLog.d("完成语言包更新 isDownLanguageCompleted:"+isDownLanguageCompleted+ "  isPermissionCompleted:"+isPermissionCompleted);
-        if (isDownLanguageCompleted && isPermissionCompleted) {
+        ViseLog.d("完成语言包更新 isDownLanguageCompleted:" + isDownLanguageCompleted + "  isPermissionCompleted:" + isPermissionCompleted);
+        if (isDownLanguageCompleted && isPermissionCompleted && isTimeOut) {
             startMainActivity();
         }
     }
@@ -275,11 +304,12 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
     /**
      * 开始后台参数同步
      */
-    private void startParamInit(){
+    private void startParamInit() {
         if (SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO) != null) {
             mPresenter.refreshToken();  //同步用户信息参数
-        }else{
+        } else {
             mPresenter.initLanugage(this);
         }
     }
+
 }

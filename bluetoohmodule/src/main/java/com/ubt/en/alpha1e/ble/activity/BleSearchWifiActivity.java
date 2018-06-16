@@ -63,6 +63,8 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
 
     private boolean isFirstEnter;
     private String wifiName;
+    //用于记录进入SaveActivity的时间
+    private long inSaveActTime;
 
     public static void launch(Context context, boolean isFrom, String wifiName) {
         Intent intent = new Intent(context, BleSearchWifiActivity.class);
@@ -145,6 +147,11 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        //当当前的时间-进入SaveActivity的时间<1秒时，直接返回
+        if ((System.currentTimeMillis() - inSaveActTime) < 1000) {
+            return;
+        }
+        inSaveActTime = System.currentTimeMillis();
         ScanResult scanResult = (ScanResult) adapter.getData().get(position);
         BleWifiInputActivity.launch(this, scanResult.SSID, isFirstEnter);
     }

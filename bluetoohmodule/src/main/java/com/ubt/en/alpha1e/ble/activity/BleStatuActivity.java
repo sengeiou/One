@@ -149,7 +149,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
     }
 
-    @OnClick({R2.id.ble_statu_connect, R2.id.rl_robot_wifi, R2.id.ble_tv_connect, R2.id.bleImageview3, R2.id.iv_back_disconnect,
+    @OnClick({R2.id.ble_statu_connect, R2.id.rl_robot_wifi, R2.id.rl_robot_disconnect, R2.id.bleImageview3, R2.id.iv_back_disconnect,
             R2.id.rl_robot_language, R2.id.rl_robot_soft_version})
     public void clickView(View view) {
         int i = view.getId();
@@ -164,7 +164,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
 
         } else if (i == R.id.rl_robot_language) {
             ViseLog.d("tv_robot_language");
-            if (!TextUtils.isEmpty(currentRobotVersionInfo.new_version)) {
+            if (currentRobotVersionInfo != null && !TextUtils.isEmpty(currentRobotVersionInfo.new_version)) {
                 showUpdateDialog();
                 return;
             }
@@ -174,7 +174,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                 robotLanguage = currentRobotVersionInfo.lang;
             }
             BleRobotLanguageActivity.launch(this, robotLanguage);
-        } else if (i == R.id.ble_tv_connect) {
+        } else if (i == R.id.rl_robot_disconnect) {
             disconnectRobotBle();
 
         } else if (i == R.id.rl_robot_soft_version) {
@@ -222,10 +222,12 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
             ViseLog.d("已连接蓝牙");
             mRlBleDisconnect.setVisibility(View.GONE);
             mScrollView.setVisibility(View.VISIBLE);
+            mRlTitle.setVisibility(View.VISIBLE);
             mTvBleName.setText(device.getName());
         } else {
             mRlBleDisconnect.setVisibility(View.VISIBLE);
             mScrollView.setVisibility(View.GONE);
+            mRlTitle.setVisibility(View.GONE);
             ViseLog.d("没有连接蓝牙");
 
         }

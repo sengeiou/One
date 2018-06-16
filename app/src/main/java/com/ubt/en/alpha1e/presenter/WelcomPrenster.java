@@ -1,7 +1,6 @@
 package com.ubt.en.alpha1e.presenter;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
@@ -64,73 +63,73 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
      */
     @Override
     public void initLanugage(final Context context) {
-
-        if (SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO) != null) {
-            getLanguageType(context);
-        } else {
-            //判断本地是否有语言包
-            String assetPath = FileUtils.getCacheDirectory(context, "") + Constant1E.LANUGAGE_PATH +
-                    File.separator + Constant1E.LANGUAGE_NAME;
-            ViseLog.d("assets===" + assetPath);
-            ViseLog.d("是否存在" + FileUtils.isFileExists(assetPath));
-            if (!FileUtils.isFileExists(assetPath)) {
-                ViseLog.d("文件不存在，将Assets文件下的语言包复制到SD卡");
-                //复制assets下的语言包到SD卡，skinPath为空则复制失败，直接返回借宿，skinPath不为空则说明复制成功然后加载语言包。
-                Observable.create(new ObservableOnSubscribe<String>() {
-                    @Override
-                    public void subscribe(ObservableEmitter<String> e) throws Exception {
-                        e.onNext(FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
-                       // ViseLog.d("rxjava subscribe===" + FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
-                    }
-                }).subscribeOn(Schedulers.io())               //在IO线程进行网络请求
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<String>() {
-                            @Override
-                            public void accept(String skinPath) throws Exception {
-                                ViseLog.d("rxjava===accept" + skinPath);
-                                if (TextUtils.isEmpty(skinPath)) {
-                                    if (mView != null) {
-                                        mView.updateLanguageCompleted();
-                                    }
-                                } else {
-                                    /**
-                                     * 根据手机系统语言再从语言包中选择一种语言
-                                     */
-                                    final String Language = SkinManager.getInstance().getLanguageByLocal(R.array.base_ui_lanuages_up);
-                                    ViseLog.d("当前语言包===" + Language);
-                                    SkinManager.getInstance().loadSkin(Language, new SkinManager.SkinListener() {
-                                        @Override
-                                        public void onStart() {
-                                        }
-
-                                        @Override
-                                        public void onSuccess() {
-                                            if (mView != null) {
-                                                mView.updateLanguageCompleted();
-                                            }
-                                            SPUtils.getInstance().put(Constant1E.CURRENT_APP_LANGUAGE, Language);
-                                        }
-
-                                        @Override
-                                        public void onFailed(String errMsg) {
-                                            if (mView != null) {
-                                                mView.updateLanguageCompleted();
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        });
-
-
-            } else {
-                if (mView != null) {
-                    mView.updateLanguageCompleted();
-                }
-            }
-
-
-        }
+        getLanguageType(context);
+//        if (SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO) != null) {
+//            getLanguageType(context);
+//        } else {
+//            //判断本地是否有语言包
+//            String assetPath = FileUtils.getCacheDirectory(context, "") + Constant1E.LANUGAGE_PATH +
+//                    File.separator + Constant1E.LANGUAGE_NAME;
+//            ViseLog.d("assets===" + assetPath);
+//            ViseLog.d("是否存在" + FileUtils.isFileExists(assetPath));
+//            if (!FileUtils.isFileExists(assetPath)) {
+//                ViseLog.d("文件不存在，将Assets文件下的语言包复制到SD卡");
+//                //复制assets下的语言包到SD卡，skinPath为空则复制失败，直接返回借宿，skinPath不为空则说明复制成功然后加载语言包。
+//                Observable.create(new ObservableOnSubscribe<String>() {
+//                    @Override
+//                    public void subscribe(ObservableEmitter<String> e) throws Exception {
+//                        e.onNext(FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
+//                       // ViseLog.d("rxjava subscribe===" + FileUtils.copySkinFromAssets(context, Constant1E.LANGUAGE_NAME));
+//                    }
+//                }).subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Consumer<String>() {
+//                            @Override
+//                            public void accept(String skinPath) throws Exception {
+//                                ViseLog.d("rxjava===accept" + skinPath);
+//                                if (TextUtils.isEmpty(skinPath)) {
+//                                    if (mView != null) {
+//                                        mView.updateLanguageCompleted();
+//                                    }
+//                                } else {
+//                                    /**
+//                                     * 根据手机系统语言再从语言包中选择一种语言
+//                                     */
+//                                    final String Language = SkinManager.getInstance().getLanguageByLocal(R.array.base_ui_lanuages_up);
+//                                    ViseLog.d("当前语言包===" + Language);
+//                                    SkinManager.getInstance().loadSkin(Language, new SkinManager.SkinListener() {
+//                                        @Override
+//                                        public void onStart() {
+//                                        }
+//
+//                                        @Override
+//                                        public void onSuccess() {
+//                                            if (mView != null) {
+//                                                mView.updateLanguageCompleted();
+//                                            }
+//                                            SPUtils.getInstance().put(Constant1E.CURRENT_APP_LANGUAGE, Language);
+//                                        }
+//
+//                                        @Override
+//                                        public void onFailed(String errMsg) {
+//                                            if (mView != null) {
+//                                                mView.updateLanguageCompleted();
+//                                            }
+//                                        }
+//                                    });
+//                                }
+//                            }
+//                        });
+//
+//
+//            } else {
+//                if (mView != null) {
+//                    mView.updateLanguageCompleted();
+//                }
+//            }
+//
+//
+//        }
     }
 
 
@@ -142,8 +141,6 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
 
     private void getLanguageType(final Context context) {
         GetLanguageRequest request = new GetLanguageRequest();
-        request.setUserId(String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID)));
-        request.setToken(SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
         request.setType("1");
         request.setVersion(SPUtils.getInstance().getString(Constant1E.CURRENT_APP_LANGUAGE_VERSION));
         ViseLog.d(request.toString());
@@ -233,9 +230,31 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
                     public void accept(Integer integer) throws Exception {
                         ViseLog.d("integer" + integer);
                         SPUtils.getInstance().put(Constant1E.CURRENT_APP_LANGUAGE_VERSION, response.getVersion());
-                        if (mView != null) {
-                            mView.updateLanguageCompleted();
-                        }
+                        final String Language = SkinManager.getInstance().getLanguageByLocal(R.array.base_ui_lanuages_up);
+                        ViseLog.d("当前语言包===" + Language);
+                        SkinManager.getInstance().loadSkin(Language, new SkinManager.SkinListener() {
+                            @Override
+                            public void onStart() {
+                            }
+
+                            @Override
+                            public void onSuccess() {
+                                if (mView != null) {
+                                    mView.updateLanguageCompleted();
+                                }
+                                SPUtils.getInstance().put(Constant1E.CURRENT_APP_LANGUAGE, Language);
+                            }
+
+                            @Override
+                            public void onFailed(String errMsg) {
+                                if (mView != null) {
+                                    mView.updateLanguageCompleted();
+                                }
+                            }
+                        });
+//                        if (mView != null) {
+//                            mView.updateLanguageCompleted();
+//                        }
                     }
                 });
 
@@ -292,21 +311,21 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
     }
 
     @Override
-    public void refreshToken(){
-        ViseLog.i("token:"+SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN)+"  time:"+System.currentTimeMillis());
+    public void refreshToken() {
+        ViseLog.i("token:" + SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN) + "  time:" + System.currentTimeMillis());
         ViseHttp.PUT(LoginHttpEntity.REFRESH_TOKEN)
                 .baseUrl(MainHttpEntity.BASE_UBX_COMMON)
-                .addHeader("authorization",SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN))
+                .addHeader("authorization", SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String msg) {
                         ViseLog.d("refreshToken onSuccess:" + "  msg:" + msg);
                         try {
                             JSONObject JMsg = new JSONObject(msg);
-                            if(JMsg.has("token")){
+                            if (JMsg.has("token")) {
                                 SPUtils.getInstance().put(Constant1E.SP_USER_TOKEN, JMsg.getString("token"));
                                 getUserInfo();
-                            }else{
+                            } else {
                                 SPUtils.getInstance().remove(Constant1E.SP_USER_INFO); //更新TOKEN失败，清除用户信息
                                 if (mView != null) {
                                     mView.getUserInfoCompleted();

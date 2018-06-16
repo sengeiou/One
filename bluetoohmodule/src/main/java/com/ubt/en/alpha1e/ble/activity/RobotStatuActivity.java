@@ -148,10 +148,10 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 showUpdateDialog(2);
             }
         } else if (i == R.id.rl_system_version) {//系统版本是否更新
-            if (!TextUtils.isEmpty(mSystemRobotInfo.toVersion) && compareSoftVersion(mSystemRobotInfo)) {
+            if (mSystemRobotInfo != null && !TextUtils.isEmpty(mSystemRobotInfo.toVersion) && compareSoftVersion(mSystemRobotInfo)) {
                 showUpdateDialog(1);
             }
-        } else if(i == R.id.rl_test_upgrade || i == R2.id.rl_test_upgrade){
+        } else if (i == R.id.rl_test_upgrade || i == R2.id.rl_test_upgrade) {
             ViseLog.d("rl_test_upgrade = " + R.id.rl_test_upgrade + "/" + R2.id.rl_test_upgrade + "/" + i);
             mPresenter.doTestUpgradeByApp();
             ToastUtils.showShort("已发送升级命令");
