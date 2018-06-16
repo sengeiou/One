@@ -29,7 +29,7 @@
 
 
     <style name="AppTheme.Splash" parent="AppTheme.NoActionBar">
-        <item name="android:windowBackground">@mipmap/welcome_bg</item>
+        <item name="android:windowBackground">@mipmap/welcom_start</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 

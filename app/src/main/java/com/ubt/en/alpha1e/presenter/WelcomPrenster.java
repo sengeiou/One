@@ -239,10 +239,10 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
 
                             @Override
                             public void onSuccess() {
+                                SPUtils.getInstance().put(Constant1E.CURRENT_APP_LANGUAGE, Language);
                                 if (mView != null) {
                                     mView.updateLanguageCompleted();
                                 }
-                                SPUtils.getInstance().put(Constant1E.CURRENT_APP_LANGUAGE, Language);
                             }
 
                             @Override

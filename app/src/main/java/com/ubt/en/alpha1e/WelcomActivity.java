@@ -28,7 +28,6 @@ import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -40,7 +39,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
 
 /**
@@ -141,18 +139,18 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
      * 初始化数据
      */
     private void initView() {
-        try {
-            gifDrawable = new GifDrawable(getResources(), R.drawable.gif_welcome);
-            gifDrawable.addAnimationListener(new AnimationListener() {
-                @Override
-                public void onAnimationCompleted() {
-                    applyPermission();
-                }
-            });
-            gifWelcome.setImageDrawable(gifDrawable);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            gifDrawable = new GifDrawable(getResources(), R.drawable.gif_welcome);
+//            gifDrawable.addAnimationListener(new AnimationListener() {
+//                @Override
+//                public void onAnimationCompleted() {
+//                    applyPermission();
+//                }
+//            });
+//            gifWelcome.setImageDrawable(gifDrawable);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

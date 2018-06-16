@@ -151,8 +151,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
             if (mSystemRobotInfo != null && !TextUtils.isEmpty(mSystemRobotInfo.toVersion) && compareSoftVersion(mSystemRobotInfo)) {
                 showUpdateDialog(1);
             }
-        } else if (i == R.id.rl_test_upgrade || i == R2.id.rl_test_upgrade) {
-            ViseLog.d("rl_test_upgrade = " + R.id.rl_test_upgrade + "/" + R2.id.rl_test_upgrade + "/" + i);
+        } else if (i == R.id.rl_test_upgrade || i == R.id.rl_test_upgrade) {
+            ViseLog.d("rl_test_upgrade = " + R.id.rl_test_upgrade + "/" + R.id.rl_test_upgrade + "/" + i);
             mPresenter.doTestUpgradeByApp();
             ToastUtils.showShort("已发送升级命令");
         }
@@ -249,14 +249,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
 
         ViseLog.d("UpgradeProgressInfo = " + progressInfo);
         if (progressInfo != null) {
-            if (progressInfo.status == 0) {//download fail
-                mTvSystemUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
-                mTvSystemUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
-                mTvSystemUpdateTip.setVisibility(View.VISIBLE);
-                mIvDownloadSystemFailWarning.setVisibility(View.VISIBLE);
-                mSystemVersionProgress.setVisibility(View.GONE);
-                mTvSystemProgress.setVisibility(View.GONE);
-            } else if (progressInfo.status == 1) {//downloading
+            if (progressInfo.status == 1) {//downloading
                 if (!TextUtils.isEmpty(progressInfo.progress)) {
                     mTvSystemUpdateTip.setVisibility(View.VISIBLE);
                     mSystemVersionProgress.setVisibility(View.VISIBLE);
@@ -272,6 +265,13 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 mSystemVersionProgress.setVisibility(View.GONE);
                 mTvSystemProgress.setVisibility(View.GONE);
                 //mPresenter.getSystemVersion();
+            } else {
+                mTvSystemUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
+                mTvSystemUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
+                mTvSystemUpdateTip.setVisibility(View.VISIBLE);
+                mIvDownloadSystemFailWarning.setVisibility(View.VISIBLE);
+                mSystemVersionProgress.setVisibility(View.GONE);
+                mTvSystemProgress.setVisibility(View.GONE);
             }
         }
     }
@@ -298,7 +298,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                     mFirmwareVersionProgress.setVisibility(View.GONE);
                     mTvFirmwareProgress.setVisibility(View.GONE);
                     mPresenter.getVoiceFirmVersion();
-                } else if (progressInfo.result == 1 || progressInfo.result == 2) {
+                } else  {
                     //  mTvFirmwareUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
                     // mTvFirmwareUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
                     mIvDownloadFirmFailWarning.setVisibility(View.GONE);

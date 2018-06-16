@@ -324,15 +324,15 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     public void downSystemProgress(UpgradeProgressInfo progressInfo) {
         ViseLog.d("UpgradeProgressInfo = " + progressInfo);
         if (progressInfo != null) {
-            if (progressInfo.status == 0) {//download fail
-                mTvIsdownRobot.setVisibility(View.GONE);
-            } else if (progressInfo.status == 1) {//downloading
+            if (progressInfo.status == 1) {//downloading
                 if (!TextUtils.isEmpty(progressInfo.progress)) {
                     mTvIsdownRobot.setVisibility(View.VISIBLE);
                 }
             } else if (progressInfo.status == 2) {//download success
                 mTvIsdownRobot.setVisibility(View.GONE);
                 mViewRedDot.setVisibility(View.VISIBLE);
+            } else {//download fail
+                mTvIsdownRobot.setVisibility(View.GONE);
             }
         }
     }
@@ -346,15 +346,15 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
     public void downLanguageProgress(BleDownloadLanguageRsp progressInfo) {
         if (progressInfo != null) {
             ViseLog.d("progressInfo===" + progressInfo.toString());
-            if (progressInfo.result == 1 || progressInfo.result == 2) {
-                mTvIsdownRobot.setVisibility(View.GONE);
-            } else if (progressInfo.result == 0) {
+            if (progressInfo.result == 0) {
                 if (progressInfo.progress == 100) {
                     mTvIsdownRobot.setVisibility(View.GONE);
                     mViewRedDot.setVisibility(View.VISIBLE);
                 } else {
                     mTvIsdownRobot.setVisibility(View.VISIBLE);
                 }
+            }else{
+                mTvIsdownRobot.setVisibility(View.GONE);
             }
 
             if (!progressInfo.name.equals("chip_firmware")) {
