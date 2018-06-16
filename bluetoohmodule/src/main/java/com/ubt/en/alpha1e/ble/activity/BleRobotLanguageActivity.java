@@ -7,13 +7,19 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.model1E.BleNetWork;
@@ -45,6 +51,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     private static final int REFRESH_DATA = 1;
     private static final int UPDATE_DOWNLOAD_LANGUAGE = 2;
     private static final int DOWNLOAD_FAIL_RESET = 3;
+    private static final int DEAL_CHANGE_LANGUAGE_RESULT = 4;
 
     @BindView(R2.id.iv_back)
     ImageView mIvBack;
@@ -112,6 +119,15 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                         mAdapter.notifyDataSetChanged();
                     }
                     break;
+                case DEAL_CHANGE_LANGUAGE_RESULT:
+                    int result = msg.arg1;
+                    if(result != 0){
+                        BaseLoadingDialog.dismiss(BleRobotLanguageActivity.this);
+                        if(result == 2){
+                            showLowBatteryDialog(BleRobotLanguageActivity.this);
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
@@ -171,6 +187,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         msg.what = UPDATE_DOWNLOAD_LANGUAGE;
         msg.obj = downloadLanguageRsp;
         mHandler.sendMessageDelayed(msg,5000);*/
+
+        /*Message msg = new Message();
+        msg.what = DEAL_CHANGE_LANGUAGE_RESULT;
+        msg.arg1 = 2;
+        mHandler.sendMessage(msg);*/
     }
 
     @Override
@@ -204,9 +225,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     @Override
     public void setRobotLanguageResult(int status) {
         ViseLog.d("status = " + status);
-        if(status != 0){
-            BaseLoadingDialog.dismiss(this);
-        }
+        Message msg = new Message();
+        msg.what = DEAL_CHANGE_LANGUAGE_RESULT;
+        msg.arg1 = status;
+        mHandler.sendMessage(msg);
+
     }
 
     @Override
@@ -345,5 +368,43 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         finish();
     }
 
+
+    /**
+     * 显示低电量
+     */
+    public void showLowBatteryDialog(Context context) {
+
+        String titleMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_1);
+        String detailMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_2);
+
+        View contentView = LayoutInflater.from(context).inflate(R.layout.ble_dialog_low_battery, null);
+        TextView tvTitle = contentView.findViewById(R.id.tv_title);
+        TextView tvMessage = contentView.findViewById(R.id.tv_message);
+        tvTitle.setText(titleMsg);
+        tvMessage.setText(detailMsg);
+
+        ViewHolder viewHolder = new ViewHolder(contentView);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        int width = (int) ((display.getWidth()) * 0.55); //设置宽度
+
+        DialogPlus.newDialog(context)
+                .setContentHolder(viewHolder)
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(width)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.btn_ok) {//点击确定以后刷新列表并解锁下一关
+
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .setCancelable(false)
+                .create().show();
+
+    }
 
 }
