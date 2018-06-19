@@ -8,6 +8,7 @@ import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetLanguages;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdGetRobotVersionMsg;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSetLanguage;
 import com.ubt.baselib.globalConst.Constant1E;
@@ -21,6 +22,7 @@ import com.ubt.en.alpha1e.ble.Contact.RobotLanguageContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotLanguageList;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.BleSetRobotLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
@@ -172,6 +174,11 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
         mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
     }
 
+    @Override
+    public void getRobotVersionMsg() {
+        mBlueClientUtil.sendData(new BTCmdGetRobotVersionMsg().toByteArray());
+    }
+
     private void onProtocolPacket(BTReadData readData) {
         ProtocolPacket packet = readData.getPack();
         switch (packet.getmCmd()) {
@@ -214,6 +221,11 @@ public class RobotLanguagePresenter extends BasePresenterImpl<RobotLanguageConta
                     ViseLog.d("upgradeProgressRsp = " + upgradeProgressRsp);
                     if(mView != null){
                         mView.setUpgradeProgress(upgradeProgressRsp);
+                    }
+                }else if (bleBaseModel.event == 1) {
+                    BleRobotVersionInfo robotVersionInfo = GsonImpl.get().toObject(commonCmdJson, BleRobotVersionInfo.class);
+                    if (mView != null) {
+                        mView.setRobotVersionInfo(robotVersionInfo);
                     }
                 }
                 break;
