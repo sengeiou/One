@@ -84,6 +84,7 @@ public class PlayActionManger {
     public void init(IPlayActionMangerListener listener) {
         this.listener = listener;
         mBlueClient = BlueClientUtil.getInstance();
+        ActionIconAndTime.init();
         if(!EventBus.getDefault().isRegistered(this)){//加上判断
             ViseLog.d("IPlayActionMangerListenerthis:" + this.getClass());
             EventBus.getDefault().register(this);
