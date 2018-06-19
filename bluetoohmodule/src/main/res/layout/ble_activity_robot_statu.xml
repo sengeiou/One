@@ -292,6 +292,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:layout_below="@+id/rl_hardware_serial"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -321,6 +322,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:layout_below="@+id/rl_voice_serial"
+                android:visibility="gone"
                 >
 
                 <TextView
