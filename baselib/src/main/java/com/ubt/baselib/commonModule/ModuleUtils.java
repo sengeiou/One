@@ -64,7 +64,6 @@ public interface ModuleUtils {
      */
     // String Bluetooh_BleStatuActivity = "/bluetooh/BleStatuActivity";
 
-    String Bluetooh_ConnectService = "/bluetooh/ConnectService";
 
 
 
