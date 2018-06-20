@@ -29,10 +29,11 @@ import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadBattery;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdStartUpgradeSoft;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
+import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
-import com.ubt.baselib.customView.BaseUpdateTipDialog;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.ActivityTool;
 import com.ubt.baselib.utils.AppStatusUtils;
@@ -71,9 +72,11 @@ public class GlobalMsgService extends Service {
 
     private static final int UPDATE_UPGRADE_PROGRESS_RSP = 1;
     private static final int BLUETOOTH_DISCONNECT = 2;
-
+    private static final int ROBOT_REQUEST_UPDATE = 3;
     private SwitchIngLanguageDialog switchProgressDialog = null;
     private BleUpgradeProgressRsp mUpgradeProgressRsp = null;
+
+    private DialogPlus updateDialog = null;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -106,7 +109,7 @@ public class GlobalMsgService extends Service {
                                 } else if (upgradeProgressRsp.result == 1 || upgradeProgressRsp.result == 2) {
 
                                     ViseLog.d("switchProgressDialog = " + switchProgressDialog);
-                                    if(switchProgressDialog != null){
+                                    if (switchProgressDialog != null) {
                                         switchProgressDialog.dismiss();
                                     }
                                     showSetLanguageDialog(ActivityTool.currentActivity(), false, type);
@@ -119,7 +122,7 @@ public class GlobalMsgService extends Service {
                                 }
                             }
                         }
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
                         ViseLog.e("ex = " + ex.getMessage());
                     }
                     break;
@@ -127,6 +130,10 @@ public class GlobalMsgService extends Service {
                     if (switchProgressDialog != null && switchProgressDialog.isShowing()) {
                         switchProgressDialog.dismiss();
                     }
+                    break;
+                case ROBOT_REQUEST_UPDATE:
+                    ViseLog.d("Message===handleMessage()");
+                    showUpdateDialog();
                     break;
                 default:
                     break;
@@ -266,9 +273,13 @@ public class GlobalMsgService extends Service {
                 }
                 break;
             case BTCmd.DV_DO_UPGRADE_SOFT:
-                ViseLog.d("系统软件请求升级");
+                ViseLog.d("系统软件请求升级1111111=="+packet.getmParam()[0]);
                 if (0x01 == packet.getmParam()[0]) {
-                    BaseUpdateTipDialog.getInstance().show();
+                    ViseLog.d("系统软件请求升级222222=="+packet.getmParam()[0]);
+                    // BaseUpdateTipDialog.getInstance().show();
+                    Message message = new Message();
+                    message.what = ROBOT_REQUEST_UPDATE;
+                    mHandler.sendMessage(message);
                 }
                 break;
             case BTCmd.DV_COMMON_CMD:
@@ -361,9 +372,9 @@ public class GlobalMsgService extends Service {
         int imgId;
         if (isSuccess) {
             if (type == 0) {
-                if(TextUtils.isEmpty(mUpgradeProgressRsp.language)){
+                if (TextUtils.isEmpty(mUpgradeProgressRsp.language)) {
                     message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success_1);
-                }else {
+                } else {
                     message = SkinManager.getInstance().getTextById(R.string.about_robot_language_changing_success).replaceAll("#", mUpgradeProgressRsp.language);
                 }
 
@@ -448,4 +459,35 @@ public class GlobalMsgService extends Service {
                 .create().show();
 
     }
+
+    private void showUpdateDialog() {
+        if (updateDialog != null && updateDialog.isShowing()) {
+            updateDialog.dismiss();
+            updateDialog = null;
+        }
+        ViseLog.d("=====showUpdateDialog===");
+        if (ActivityTool.currentActivity() != null) {
+            ViseLog.d("ActivityTool.currentActivity()==="+ActivityTool.currentActivity());
+            updateDialog = new BaseDialog.Builder(ActivityTool.currentActivity())
+                    .setMessage(R.string.base_install_tip)
+                    .setConfirmButtonId(R.string.base_not_now)
+                    .setConfirmButtonColor(R.color.black)
+                    .setCancleButtonID(R.string.base_update)
+                    .setCancleButtonColor(R.color.base_blue)
+                    .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                        @Override
+                        public void onClick(DialogPlus dialog, View view) {
+                            if (view.getId() == R.id.button_confirm) {
+                                dialog.dismiss();
+                            } else if (view.getId() == R.id.button_cancle) {
+                                dialog.dismiss();
+                                BlueClientUtil.getInstance().sendData(new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.START_UPDATE).toByteArray());
+                                ViseLog.d("发送系统版本升级" + new BTCmdStartUpgradeSoft(BTCmdStartUpgradeSoft.START_UPDATE).toString());
+                            }
+                        }
+                    }).create();
+            updateDialog.show();
+        }
+    }
+
 }

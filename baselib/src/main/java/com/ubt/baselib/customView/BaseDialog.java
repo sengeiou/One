@@ -97,12 +97,14 @@ public class BaseDialog {
         Display display = windowManager.getDefaultDisplay();
         int width = (int) ((display.getWidth()) * 0.6); //设置宽度
         int height = (int) ((display.getHeight()) * 0.6); //设置宽度
+        int screenWidth = Math.max(width, height); //设置宽度
+        int screenHeight= Math.min(width,height);
         dialogPlus = DialogPlus.newDialog(mParams.getContext())
                 .setContentHolder(viewHolder)
                 .setGravity(Gravity.CENTER)
                 .setContentBackgroundResource(R.drawable.base_rect_background)
-                .setContentWidth(width)
-                .setContentHeight(height)
+                .setContentWidth(screenWidth)
+                .setContentHeight(screenHeight)
                 .setCancelable(mParams.isCancleable())
                 .setOnClickListener(new OnClickListener() {
                     @Override
