@@ -273,9 +273,9 @@ public class GlobalMsgService extends Service {
                 }
                 break;
             case BTCmd.DV_DO_UPGRADE_SOFT:
-                ViseLog.d("系统软件请求升级1111111=="+packet.getmParam()[0]);
+                ViseLog.d("系统软件请求升级1111111===="+packet.getmParam()[0]);
                 if (0x01 == packet.getmParam()[0]) {
-                    ViseLog.d("系统软件请求升级222222=="+packet.getmParam()[0]);
+                    ViseLog.d("系统软件请求升级222222===="+packet.getmParam()[0]);
                     // BaseUpdateTipDialog.getInstance().show();
                     Message message = new Message();
                     message.what = ROBOT_REQUEST_UPDATE;
