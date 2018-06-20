@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -49,7 +48,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     @BindView(R2.id.tv_robot_update)
     TextView mTvRobotUpdate;
     @BindView(R2.id.ckb_auto_upgrade)
-    CheckBox ckbAutoUpgrade;
+    ImageView ckbAutoUpgrade;
     @BindView(R2.id.tv_system_version)
     TextView mTvSystemVersion;
     @BindView(R2.id.tv_robot_version)
@@ -80,7 +79,8 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     TextView mTvVoiceVersion;
     @BindView(R2.id.rl_test_upgrade)
     RelativeLayout rlTestUpgrade;
-
+    //用于记录点击开关时间
+    private long inSaveActTime;
 
     private boolean mCurrentAutoUpgrade = false;
 
@@ -117,9 +117,15 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         if (i == R.id.iv_robot_back) {
             finish();
         } else if (i == R.id.ckb_auto_upgrade) {
-            ViseLog.d("ckb_auto_u pgrade");
+            //当当前的时间-进入SaveActivity的时间<1秒时，直接返回
+            if ((System.currentTimeMillis() - inSaveActTime) < 1500) {
+                ViseLog.d("在1秒内点击切换按钮");
+                return;
+            }
+            inSaveActTime = System.currentTimeMillis();
+            ViseLog.d("ckb_auto_u pgrade 点击自动升级开关");
             //成功之后才切换
-            ckbAutoUpgrade.setChecked(!ckbAutoUpgrade.isChecked());
+           // ckbAutoUpgrade.setChecked(!ckbAutoUpgrade.isChecked());
             if (mCurrentAutoUpgrade) {
                 new BaseDialog.Builder(this)
                         .setMessage(R.string.about_robot_auto_update_off)
@@ -236,7 +242,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         } else {
             //2 设置中... 不做处理
         }
-        ckbAutoUpgrade.setChecked(mCurrentAutoUpgrade);
+        ckbAutoUpgrade.setImageResource(mCurrentAutoUpgrade?R.drawable.list_open:R.drawable.list_closed);
     }
 
     /**
@@ -299,7 +305,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                     mFirmwareVersionProgress.setVisibility(View.GONE);
                     mTvFirmwareProgress.setVisibility(View.GONE);
                     mPresenter.getVoiceFirmVersion();
-                } else  {
+                } else {
                     //  mTvFirmwareUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download_fail));
                     // mTvFirmwareUpdateTip.setTextColor(getResources().getColor(R.color.base_color_red));
                     mIvDownloadFirmFailWarning.setVisibility(View.GONE);
