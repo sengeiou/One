@@ -156,7 +156,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                    super.onReceivedSslError(view, handler, error);
+                super.onReceivedSslError(view, handler, error);
             }
 
             @Override
@@ -372,7 +372,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
     @Override
     public void noteRobotFallDown(int state) {
-        ViseLog.d("noteRobotFallDown:===" + state);
+        ViseLog.d("noteRobotFallDown:" + state);
         if(state == 3){
             callJavascript(true);
         }else{
