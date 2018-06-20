@@ -252,6 +252,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
             if (progressInfo.status == 1) {//downloading
                 if (!TextUtils.isEmpty(progressInfo.progress)) {
                     mTvSystemUpdateTip.setVisibility(View.VISIBLE);
+                    mTvSystemUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download1));
                     mSystemVersionProgress.setVisibility(View.VISIBLE);
                     mTvSystemProgress.setVisibility(View.VISIBLE);
                     mSystemVersionProgress.setProgress(Integer.parseInt(progressInfo.progress));

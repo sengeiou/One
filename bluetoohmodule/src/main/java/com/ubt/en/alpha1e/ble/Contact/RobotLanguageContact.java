@@ -6,6 +6,7 @@ import com.ubt.baselib.model1E.BleNetWork;
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
 
@@ -33,6 +34,8 @@ public class RobotLanguageContact {
         void setUpgradeProgress(BleUpgradeProgressRsp upgradeProgressRsp);
 
         void setRobotNetWork(BleNetWork bleNetWork);
+
+        void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo);
     }
 
     public interface Presenter extends BasePresenter<RobotLanguageContact.View> {
@@ -48,5 +51,7 @@ public class RobotLanguageContact {
         void setRobotLanguage(String language);
 
         void getRobotWifiStatus();
+
+        void getRobotVersionMsg();
     }
 }

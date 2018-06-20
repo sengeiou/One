@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,9 +15,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ubt.baselib.R;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -35,15 +42,17 @@ public class BaseLoadingDialog extends Dialog {
      */
     private static BaseLoadingDialog loadDialog;
     /**
-     * cancelable, the dialog dimiss or undimiss flag
+     * isCancelable, the dialog dimiss or undimiss flag
      */
-    private boolean cancelable;
+    private static boolean isCancelable;
     /**
      * if the dialog don't dimiss, what is the tips.
      */
     private String tipMsg;
 
     private int drawableId;
+
+    private static Disposable mDisposable;
 
     /**
      * the LoadingDialog constructor
@@ -55,12 +64,13 @@ public class BaseLoadingDialog extends Dialog {
 
     public BaseLoadingDialog(final Context ctx, boolean cancelable, String tipMsg, int drawableId) {
         super(ctx);
-
-        this.cancelable = cancelable;
+        isCancelable = cancelable;
         this.tipMsg = tipMsg;
         this.drawableId = drawableId;
         //this.getContext().setTheme(android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth);
         setContentView(R.layout.base_dialog_loading);
+        this.setCancelable(!cancelable);
+        this.setCanceledOnTouchOutside(!cancelable);
         //设置window背景，默认的背景会有Padding值，不能全屏。当然不一定要是透明，你可以设置其他背景，替换默认的背景即可。
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //一定要在setContentView之后调用，否则无效
@@ -69,11 +79,15 @@ public class BaseLoadingDialog extends Dialog {
         WindowManager windowManager = getWindow().getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = this.getWindow().getAttributes();
+
+        DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
+
         // Dialog宽度
-        lp.width = display.getWidth();
-        lp.height = display.getHeight();
+        lp.width = (int)(dm.density * 180);
+        lp.height = (int)(dm.density * 150);
         Window window = getWindow();
         window.setAttributes(lp);
+
         // 必须放在加载布局后
         //setparams();
         TextView tv = (TextView) findViewById(R.id.tv_load);
@@ -88,25 +102,20 @@ public class BaseLoadingDialog extends Dialog {
         }
     }
 
-    private void setparams() {
-        this.setCancelable(cancelable);
-        this.setCanceledOnTouchOutside(false);
-        WindowManager windowManager = getWindow().getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        WindowManager.LayoutParams lp = this.getWindow().getAttributes();
-        // Dialog宽度
-        lp.width = display.getWidth();
-        lp.height = display.getHeight();
-        Window window = getWindow();
-        window.setAttributes(lp);
-        window.getDecorView().getBackground().setAlpha(120);
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (!cancelable) {
-                Toast.makeText(getContext(), tipMsg, Toast.LENGTH_SHORT).show();
+            if (!isCancelable) {
+                if (loadDialog != null && loadDialog.isShowing()) {
+                    loadDialog.dismiss();
+                    loadDialog = null;
+                    if (mDisposable != null) {
+                        mDisposable.dispose();
+                        mDisposable = null;
+                    }
+                }
+
                 return true;
             }
         }
@@ -121,6 +130,27 @@ public class BaseLoadingDialog extends Dialog {
     public static void show(Context context) {
         show(context, null, true, 0);
     }
+
+    /**
+     * 设置可以取消
+     *
+     * @param context
+     */
+    public static void show(int time, Context context) {
+        show(context, null, true, 0);
+        if (time > 0) {
+            mDisposable = Observable.timer(time, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            isCancelable = false;
+                            loadDialog.setCancelable(true);
+                            loadDialog.setCanceledOnTouchOutside(true);
+                        }
+                    });
+        }
+    }
+
 
     /**
      * show the dialog
@@ -146,6 +176,7 @@ public class BaseLoadingDialog extends Dialog {
         show(context, message, true, drawableId);
     }
 
+
     /**
      * show the dialog
      *
@@ -170,6 +201,10 @@ public class BaseLoadingDialog extends Dialog {
      * dismiss the dialog
      */
     public static void dismiss(Context context) {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+            mDisposable = null;
+        }
         try {
             if (context instanceof Activity) {
                 if (((Activity) context).isFinishing()) {

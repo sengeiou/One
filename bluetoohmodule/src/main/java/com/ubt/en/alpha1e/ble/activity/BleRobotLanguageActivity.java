@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -31,6 +32,7 @@ import com.ubt.en.alpha1e.ble.Contact.RobotLanguageContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
+import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
 import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.ble.model.RobotLanguage;
 import com.ubt.en.alpha1e.ble.model.RobotLanguageAdapter;
@@ -53,6 +55,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     private static final int DOWNLOAD_FAIL_RESET = 3;
     private static final int DOWNLOAD_SUCCESS_RESET = 4;
     private static final int DEAL_CHANGE_LANGUAGE_RESULT = 5;
+    private static final int UPDATE_CURRENT_LANGUAGE = 6;
 
     @BindView(R2.id.iv_back)
     ImageView mIvBack;
@@ -140,6 +143,14 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                         }
                     }
                     break;
+                case UPDATE_CURRENT_LANGUAGE:
+                    String currentLanguage = (String) msg.obj;
+                    ViseLog.d("currentLanguage = " + currentLanguage + "  mCurrentRobotLanguage = " + mCurrentRobotLanguage);
+                    if(!TextUtils.isEmpty(currentLanguage) && !currentLanguage.equals(mCurrentRobotLanguage)){
+                        mCurrentRobotLanguage = currentLanguage;
+                        mHandler.sendEmptyMessage(REFRESH_DATA);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -167,7 +178,6 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
         ViseLog.d("mCurrentRobotLanguage = " + mCurrentRobotLanguage);
 
-
         AppStatusUtils.setBtBussiness(false);
         initUI();
     }
@@ -190,6 +200,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
         mPresenter.getRobotWifiStatus();
 
+        mPresenter.getRobotVersionMsg();
+
         /*BleDownloadLanguageRsp downloadLanguageRsp = new BleDownloadLanguageRsp();
         downloadLanguageRsp.result = 1;
         downloadLanguageRsp.language = "zh";
@@ -204,6 +216,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         msg.what = DEAL_CHANGE_LANGUAGE_RESULT;
         msg.arg1 = 3;
         mHandler.sendMessageDelayed(msg,5000);*/
+
     }
 
     @Override
@@ -269,6 +282,16 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         ViseLog.d("bleNetWork = " + bleNetWork.isStatu() + " hasConnectWifi = " + hasConnectWifi);
     }
 
+    @Override
+    public void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo) {
+        if(robotVersionInfo != null){
+            Message msg = new Message();
+            msg.what = UPDATE_CURRENT_LANGUAGE;
+            msg.obj = robotVersionInfo.lang;
+            mHandler.sendMessage(msg);
+        }
+    }
+
     @OnClick({R2.id.iv_back,R2.id.tv_title_right})
     public void onViewClicked(View view) {
         int i = view.getId();
@@ -304,7 +327,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                                 dialog.dismiss();
                                 ViseLog.d("selectLanguage.getLanguageSingleName() = " + selectLanguage.getLanguageSingleName());
 
-                                BaseLoadingDialog.show(BleRobotLanguageActivity.this);
+                                BaseLoadingDialog.show(15,BleRobotLanguageActivity.this);
                                 mPresenter.setRobotLanguage(selectLanguage.getLanguageSingleName());
                             }
                         }
