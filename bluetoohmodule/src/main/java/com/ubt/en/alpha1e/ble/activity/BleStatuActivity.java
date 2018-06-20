@@ -365,7 +365,7 @@ public class BleStatuActivity extends MVPBaseActivity<BleStatuContact.View, BleS
                     vHasLanguageNewVersion.setVisibility(View.VISIBLE);
                     mTvIsdownRobotlanguage.setVisibility(View.GONE);
                     //mPresenter.getLanguageVersion();
-                } else if (progressInfo.result == 1 || progressInfo.result == 2) {
+                } else if (progressInfo.result > 0) {
                     mTvIsdownRobotlanguage.setVisibility(View.GONE);
                 }
             }
