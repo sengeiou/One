@@ -92,7 +92,7 @@ public class BleConnectActivity extends MVPBaseActivity<BleConnectContact.View, 
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
         isFromFirst = getIntent().getBooleanExtra("first_enter", false);
-        ViseLog.d("isFirseEnter==="+isFromFirst);
+        ViseLog.d("isFirseEnter===="+isFromFirst);
         AppStatusUtils.setBtBussiness(true);
         initUi();
         ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.MANUAL_ENTER);
