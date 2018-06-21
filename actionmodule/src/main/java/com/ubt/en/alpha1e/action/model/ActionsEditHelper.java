@@ -344,7 +344,7 @@ public class ActionsEditHelper  {
      * @param actionName
      */
     public void playAction(String actionName) {
-        ViseLog.d("ActionEditHelper", " playAction actionName===" + actionName);
+        ViseLog.d("ActionEditHelper playAction actionName===" + actionName);
         byte[] actions = BluetoothParamUtil.stringToBytes(actionName);
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdPlayAction(actionName).toByteArray());

@@ -357,17 +357,27 @@ public class CourseSixActionLayout extends BaseActionEditLayout implements Actio
      *
      * @param current 跳转课程
      */
-    private void showNextDialog(int current) {
+    private void showNextDialog(final int current) {
 
         currentCourse = current;
         ViseLog.d("进入第6课时，弹出对话框");
-
-        mHelper.showNextDialog(mContext, 6, current, new ActionsEditHelper.ClickListener() {
+        ViseLog.d( "进入第二课时，弹出对话框");
+        if (courseProgressListener != null) {
+            courseProgressListener.showProgressDialog();
+        }
+        mHandler.postDelayed(new Runnable() {
             @Override
-            public void confirm() {
-                setLayoutByCurrentCourse();
+            public void run() {
+                mHelper.showNextDialog(mContext, 6, current, new ActionsEditHelper.ClickListener() {
+                    @Override
+                    public void confirm() {
+                        setLayoutByCurrentCourse();
+                    }
+                });
             }
-        });
+        },400);
+
+
     }
 
     /**
@@ -436,4 +446,9 @@ public class CourseSixActionLayout extends BaseActionEditLayout implements Actio
             ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor24.hts");
         }
     }
+    @Override
+    public void onDestory() {
+        courseProgressListener=null;
+    }
+
 }

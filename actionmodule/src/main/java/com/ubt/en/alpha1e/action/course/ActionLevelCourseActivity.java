@@ -47,7 +47,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
      * 当前课时
      */
     private int currentCourse;
-
+    private boolean isFinishCourse = false;
 
     public static void launchActivity(Activity context, int position) {
         Intent intent = new Intent(context, ActionLevelCourseActivity.class);
@@ -114,9 +114,11 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         mHelper.doEnterCourse((byte) 0);
         if (mActionEdit != null) {
             mActionEdit.doReset();
+            mActionEdit.onDestory();
         }
         mHelper.unRegister();
         AppStatusUtils.setBtBussiness(false);
+        mActionEdit = null;
     }
 
 
@@ -133,11 +135,12 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     private void showExitDialog() {
         new BaseDialog.Builder(this)
+                .setCancleable(true)
                 .setMessage(SkinManager.getInstance().getTextById(R.string.actions_lesson_quit))
                 .setConfirmButtonId(R.string.base_cancel)
-                .setConfirmButtonColor(R.color.base_blue)
+                .setConfirmButtonColor(R.color.black)
                 .setCancleButtonID(R.string.base_confirm)
-                .setCancleButtonColor(R.color.black)
+                .setCancleButtonColor(R.color.base_blue)
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
@@ -157,22 +160,30 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     @Override
     public void onPlaying() {
-        mActionEdit.onPlaying();
+        if (mActionEdit != null) {
+            mActionEdit.onPlaying();
+        }
     }
 
     @Override
     public void onPausePlay() {
-        mActionEdit.onPausePlay();
+        if (mActionEdit != null) {
+            mActionEdit.onPausePlay();
+        }
     }
 
     @Override
     public void onFinishPlay() {
-        mActionEdit.onFinishPlay();
+        if (mActionEdit != null) {
+            mActionEdit.onFinishPlay();
+        }
     }
 
     @Override
     public void onFrameDo(int index) {
-        mActionEdit.onFrameDo(index);
+        if (mActionEdit != null) {
+            mActionEdit.onFrameDo(index);
+        }
     }
 
     @Override
@@ -183,15 +194,17 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     @Override
     public void onReadEng(byte[] eng_angle) {
+        if (mActionEdit!=null){
         mActionEdit.onReadEng(eng_angle);
-    }
+    }}
 
 
     @Override
     public void playComplete() {
         ViseLog.d("播放完成");
-
-        mHandler.sendEmptyMessage(1111);
+        if (!isFinishCourse) {
+            mHandler.sendEmptyMessage(1111);
+        }
     }
 
     @Override
@@ -216,10 +229,12 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     @Override
     public void tapHead() {
+        ViseLog.d("拍头打断" + "isFinishIng==" + !isFinishing() + "   isHowHeadDialog==" + isHowHeadDialog);
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (!isFinishing() && !isHowHeadDialog) {
+                    ViseLog.d("显示拍头打断对话框");
                     showTapHeadDialog();
                 }
             }
@@ -237,11 +252,13 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
     }
 
     private boolean isHowHeadDialog;
+    private DialogPlus mTapDialogPlus;
 
     private void showTapHeadDialog() {
         isHowHeadDialog = true;
 
-        new BaseDialog.Builder(this)
+        mTapDialogPlus = new BaseDialog.Builder(this)
+                .setCancleable(true)
                 .setMessage(R.string.actions_not_finish_course)
                 .setConfirmButtonId(R.string.actions_lesson_not_quit)
                 .setConfirmButtonColor(R.color.base_blue)
@@ -252,17 +269,27 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
                     public void onClick(DialogPlus dialog, View view) {
                         if (view.getId() == R.id.button_confirm) {
                             isHowHeadDialog = false;
-                            dialog.dismiss();
+                            if (mTapDialogPlus != null) {
+                                mTapDialogPlus.dismiss();
+                            }
                         } else if (view.getId() == R.id.button_cancle) {
                             ((ActionsEditHelper) mHelper).doEnterCourse((byte) 0);
                             ActionLevelCourseActivity.this.finish();
                             isHowHeadDialog = false;
-
-                            dialog.dismiss();
+                            if (mTapDialogPlus != null) {
+                                mTapDialogPlus.dismiss();
+                            }
                         }
 
                     }
-                }).create().show();
+                }).setOnDissmissListener(new BaseDialog.OnDissmissListener() {
+                    @Override
+                    public void onDissmiss() {
+                        ViseLog.d("拍头对话框消失");
+                        isHowHeadDialog = false;
+                    }
+                }).create();
+        mTapDialogPlus.show();
 
 
     }
@@ -282,7 +309,18 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         currentCourse = current;
         mPresenter.savaCourseDataToDB(level, current);
         if (level == 10) {
-            returnCardActivity();
+            if (isHowHeadDialog) {
+                if (mTapDialogPlus != null && mTapDialogPlus.isShowing()) {
+                    mTapDialogPlus.dismiss();
+                    mTapDialogPlus = null;
+                }
+            }
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    returnCardActivity();
+                }
+            }, isHowHeadDialog ? 400 : 0);
         }
     }
 
@@ -291,19 +329,54 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         showExitDialog();
     }
 
+    /**
+     * 课程结束的时候如果显示拍头打断对话框则隐藏拍头对话框
+     *
+     * @param isSuccess
+     */
     @Override
     public void completeSuccess(boolean isSuccess) {
-        returnCardActivity();
+        if (isHowHeadDialog) {
+            if (mTapDialogPlus != null && mTapDialogPlus.isShowing()) {
+                mTapDialogPlus.dismiss();
+                mTapDialogPlus = null;
+            }
+        }
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                returnCardActivity();
+            }
+        }, isHowHeadDialog ? 400 : 0);
         mPresenter.savaCourseDataToDB(level + 1, 1);
+    }
+
+    @Override
+    public void showProgressDialog() {
+        if (mTapDialogPlus != null && mTapDialogPlus.isShowing()) {
+            mTapDialogPlus.dismiss();
+            mTapDialogPlus = null;
+        }
+    }
+
+    /**
+     * 显示提示框的时候拍头打断对话框显示在后面
+     */
+    @Override
+    public void showGuide() {
+        if (isHowHeadDialog && mTapDialogPlus != null && mTapDialogPlus.isShowing()) {
+            mTapDialogPlus.dismiss();
+            mTapDialogPlus = null;
+
+        }
     }
 
     /**
      * 返回关卡页面
      */
     public void returnCardActivity() {
-
+        isFinishCourse = true;
         mHelper.playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_victory editor.hts");
-
         View contentView = LayoutInflater.from(this).inflate(R.layout.action_dialog_course_result, null);
         TextView tvResult = contentView.findViewById(R.id.tv_result);
         tvResult.setText(SkinManager.getInstance().getTextById(R.string.actions_lesson_pass));

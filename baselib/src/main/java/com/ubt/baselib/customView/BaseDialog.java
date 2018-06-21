@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.R;
 import com.ubt.baselib.skin.SkinManager;
@@ -106,6 +107,14 @@ public class BaseDialog {
                 .setContentWidth(screenWidth)
                 .setContentHeight(screenHeight)
                 .setCancelable(mParams.isCancleable())
+                .setOnDismissListener(new OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogPlus dialog) {
+                        if (mParams.getOnDissmissListener()!=null){
+                            mParams.getOnDissmissListener().onDissmiss();
+                        }
+                    }
+                })
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
@@ -210,6 +219,17 @@ public class BaseDialog {
             mParams.setButtonOnClickListener(buttonOnClickListener);
             return this;
         }
+        /**
+         * 设置按钮点击事件
+         *
+         * @param onDissmissListener
+         * @return
+         */
+        public Builder setOnDissmissListener(OnDissmissListener onDissmissListener) {
+            mParams.setOnDissmissListener(onDissmissListener);
+            return this;
+        }
+
 
         public Builder setCancleable(boolean cancleable){
             mParams.setCancleable(cancleable);
@@ -242,7 +262,7 @@ public class BaseDialog {
         private String message;
         private boolean cancleable;//点击外部是否可以取消
         private ButtonOnClickListener mButtonOnClickListener;
-
+        private OnDissmissListener mOnDissmissListener;
         public Context getContext() {
             return mContext;
         }
@@ -322,11 +342,23 @@ public class BaseDialog {
         public void setButtonOnClickListener(ButtonOnClickListener buttonOnClickListener) {
             mButtonOnClickListener = buttonOnClickListener;
         }
+
+        public OnDissmissListener getOnDissmissListener() {
+            return mOnDissmissListener;
+        }
+
+        public void setOnDissmissListener(OnDissmissListener onDissmissListener) {
+            mOnDissmissListener = onDissmissListener;
+        }
     }
 
     public interface ButtonOnClickListener {
          void onClick(final DialogPlus dialog, View view);
     }
 
+
+    public interface OnDissmissListener {
+        void onDissmiss();
+    }
 
 }

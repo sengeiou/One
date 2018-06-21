@@ -371,6 +371,11 @@ public class CourseEightActionLayout  extends BaseActionEditLayout implements Co
 
     }
 
+    @Override
+    public void onDestory() {
+        courseProgressListener=null;
+    }
+
 
     /**
      * 响应所有R.id.iv_known的控件的点击事件
@@ -388,17 +393,27 @@ public class CourseEightActionLayout  extends BaseActionEditLayout implements Co
      *
      * @param current 跳转课程
      */
-    private void showNextDialog(int current) {
+    private void showNextDialog(final int current) {
 
         currentCourse = current;
         ViseLog.d( "进入第八课时，弹出对话框");
-        mHelper.showNextDialog(mContext, 8, current, new ActionsEditHelper.ClickListener() {
+        if (courseProgressListener != null) {
+            courseProgressListener.showProgressDialog();
+        }
+        mHandler.postDelayed(new Runnable() {
             @Override
-            public void confirm() {
-                currentIndex = 0;
-                setLayoutByCurrentCourse();
+            public void run() {
+                mHelper.showNextDialog(mContext, 8, current, new ActionsEditHelper.ClickListener() {
+                    @Override
+                    public void confirm() {
+                        currentIndex = 0;
+                        setLayoutByCurrentCourse();
+                    }
+                });
+
             }
-        });
+        },400);
+
 
 
     }

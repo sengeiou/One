@@ -347,7 +347,7 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         mCurrentAction.actionSonType = selectModel.getActionType();
         mCurrentAction.actionType = selectModel.getActionType();
         mCurrentAction.actionTime = mCurrentAction.getTitleTime() / 1000;
-        BaseLoadingDialog.show(this);
+        BaseLoadingDialog.show(20, this);
         mPresenter.saveNewAction(selectModel, mCurrentAction, musicDir);
     }
 }

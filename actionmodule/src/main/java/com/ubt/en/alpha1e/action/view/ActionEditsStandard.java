@@ -67,4 +67,9 @@ public class ActionEditsStandard extends BaseActionEditLayout {
             }
         }, 1000);
     }
+
+    @Override
+    public void onDestory() {
+    }
+
 }

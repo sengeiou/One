@@ -217,7 +217,6 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
     }
 
 
-
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -225,7 +224,7 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
             if (null != courseProgressListener) {
                 courseProgressListener.finishActivity();
             }
-        }else if (i == R.id.iv_back_instruction) {
+        } else if (i == R.id.iv_back_instruction) {
             if (null != courseProgressListener) {
                 courseProgressListener.finishActivity();
             }
@@ -363,6 +362,9 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
                         ViseLog.d(" ======OnShowCallback====currentIndex" + currentIndex);
                     }
                 });
+        if (courseProgressListener!=null){
+            courseProgressListener.showGuide();
+        }
         mHightLight.show();
         CourseOne1Content oneContent = mOne1ContentList.get(0);
         //  ((ActionsEditHelper) mHelper).playAction(oneContent.getActionPath());
@@ -414,7 +416,9 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
                         ViseLog.d("当前的是那个View  onNext====" + currentIndex + "  size===" + mOne1ContentList.size());
                     }
                 });
-
+        if (courseProgressListener!=null){
+            courseProgressListener.showGuide();
+        }
         mHightLight.show();
     }
 
@@ -460,6 +464,9 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
                     }
                 });
 
+        if (courseProgressListener!=null){
+            courseProgressListener.showGuide();
+        }
         mHightLight.show();
         ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor7.hts");
     }
@@ -515,20 +522,31 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
      *
      * @param current 跳转课程
      */
-    private void showNextDialog(int current) {
+    private void showNextDialog(final int current) {
         currentCourse = current;
         ViseLog.d("进入第二课时，弹出对话框");
-
-        mHelper.showNextDialog(mContext, 1, current, new ActionsEditHelper.ClickListener() {
+        if (courseProgressListener != null) {
+            courseProgressListener.showProgressDialog();
+        }
+        mHandler.postDelayed(new Runnable() {
             @Override
-            public void confirm() {
-                currentIndex = 0;
-                setLayoutByCurrentCourse();
+            public void run() {
+                mHelper.showNextDialog(mContext, 1, current, new ActionsEditHelper.ClickListener() {
+                    @Override
+                    public void confirm() {
+                        currentIndex = 0;
+                        setLayoutByCurrentCourse();
+                    }
+                });
             }
-        });
+        }, 400);
 
 
     }
 
+    @Override
+    public void onDestory() {
+        courseProgressListener = null;
+    }
 
 }

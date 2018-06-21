@@ -261,7 +261,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     public abstract void playComplete();
 
     public abstract void onPause();
-
+    public abstract void onDestory();
     public void init(Context context) {
         View.inflate(context, getLayoutId(), this);
         initUI();

@@ -511,16 +511,27 @@ public class CourseSevenActionLayout extends BaseActionEditLayout implements Act
      *
      * @param current 跳转课程
      */
-    private void showNextDialog(int current) {
+    private void showNextDialog(final int current) {
 
         currentCourse = current;
        ViseLog.d("进入第七课时，弹出对话框");
-        mHelper.showNextDialog(mContext, 7, current, new ActionsEditHelper.ClickListener() {
+
+        if (courseProgressListener != null) {
+            courseProgressListener.showProgressDialog();
+        }
+        mHandler.postDelayed(new Runnable() {
             @Override
-            public void confirm() {
-                setLayoutByCurrentCourse();
+            public void run() {
+                mHelper.showNextDialog(mContext, 7, current, new ActionsEditHelper.ClickListener() {
+                    @Override
+                    public void confirm() {
+                        setLayoutByCurrentCourse();
+                    }
+                });
             }
-        });
+        },400);
+
+
 
     }
 
@@ -561,6 +572,10 @@ public class CourseSevenActionLayout extends BaseActionEditLayout implements Act
 
             }
         });
+    }
+    @Override
+    public void onDestory() {
+        courseProgressListener=null;
     }
 
 }

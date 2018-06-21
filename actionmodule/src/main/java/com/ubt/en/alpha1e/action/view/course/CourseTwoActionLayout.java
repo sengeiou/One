@@ -366,7 +366,7 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
     @Override
     public void onPause() {
         mHandler.removeMessages(1111);
- 
+
 
     }
 
@@ -376,16 +376,24 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
      *
      * @param current 跳转课程
      */
-    private void showNextDialog(int current) {
+    private void showNextDialog(final int current) {
         currentCourse = current;
         ViseLog.d(TAG, "进入第二课时，弹出对话框");
-
-        mHelper.showNextDialog(mContext, 2, current, new ActionsEditHelper.ClickListener() {
+        if (courseProgressListener != null) {
+            courseProgressListener.showProgressDialog();
+        }
+        mHandler.postDelayed(new Runnable() {
             @Override
-            public void confirm() {
-                setLayoutByCurrentCourse();
+            public void run() {
+                mHelper.showNextDialog(mContext, 2, current, new ActionsEditHelper.ClickListener() {
+                    @Override
+                    public void confirm() {
+                        setLayoutByCurrentCourse();
+                    }
+                });
             }
-        });
+        }, 400);
+
 
     }
 
@@ -432,5 +440,9 @@ public class CourseTwoActionLayout extends BaseActionEditLayout implements Actio
 
     }
 
+    @Override
+    public void onDestory() {
+        courseProgressListener = null;
+    }
 
 }

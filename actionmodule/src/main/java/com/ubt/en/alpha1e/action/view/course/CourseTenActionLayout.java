@@ -203,4 +203,9 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
         showExitDialog();
         return false;
     }
+    @Override
+    public void onDestory() {
+        courseProgressListener=null;
+    }
+
 }

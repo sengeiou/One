@@ -351,18 +351,27 @@ public class CourseFourActionLayout  extends BaseActionEditLayout implements Act
      *
      * @param current 跳转课程
      */
-    private void showNextDialog(int current) {
+    private void showNextDialog(final int current) {
         currentCourse = current;
         ViseLog.d("进入第二课时，弹出对话框");
 
-
-        mHelper.showNextDialog(mContext, 4, current, new ActionsEditHelper.ClickListener() {
+        if (courseProgressListener != null) {
+            courseProgressListener.showProgressDialog();
+        }
+        mHandler.postDelayed(new Runnable() {
             @Override
-            public void confirm() {
-                currentIndex = 0;
-                setLayoutByCurrentCourse();
+            public void run() {
+                mHelper.showNextDialog(mContext, 4, current, new ActionsEditHelper.ClickListener() {
+                    @Override
+                    public void confirm() {
+                        currentIndex = 0;
+                        setLayoutByCurrentCourse();
+                    }
+                });
             }
-        });
+        },400);
+
+
 
     }
 
@@ -407,6 +416,10 @@ public class CourseFourActionLayout  extends BaseActionEditLayout implements Act
     @Override
     public void onStopRecord(PrepareMusicModel prepareMusicModel,int type) {
         ViseLog.d("onStopRecord====================================");
+    }
+    @Override
+    public void onDestory() {
+        courseProgressListener=null;
     }
 
 }

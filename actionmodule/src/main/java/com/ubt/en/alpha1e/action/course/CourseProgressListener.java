@@ -15,4 +15,9 @@ public interface CourseProgressListener {
     void finishActivity();
 
     void completeSuccess(boolean isSuccess);
+
+    //显示进度对话框
+    void showProgressDialog();
+
+    void showGuide();
 }

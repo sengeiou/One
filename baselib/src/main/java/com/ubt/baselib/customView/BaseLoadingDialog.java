@@ -83,8 +83,8 @@ public class BaseLoadingDialog extends Dialog {
         DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
 
         // Dialog宽度
-        lp.width = (int)(dm.density * 180);
-        lp.height = (int)(dm.density * 150);
+        lp.width = (int) (dm.density * 180);
+        lp.height = (int) (dm.density * 150);
         Window window = getWindow();
         window.setAttributes(lp);
 
@@ -160,6 +160,27 @@ public class BaseLoadingDialog extends Dialog {
      */
     public static void show(Context context, String message) {
         show(context, message, true, 0);
+    }
+
+    /**
+     * show the dialog
+     *
+     * @param context Context
+     * @param message String
+     */
+    public static void show(Context context, int time, String message) {
+        show(context, message, true, 0);
+        if (time > 0) {
+            mDisposable = Observable.timer(time, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            isCancelable = false;
+                            loadDialog.setCancelable(true);
+                            loadDialog.setCanceledOnTouchOutside(true);
+                        }
+                    });
+        }
     }
 
     /**
