@@ -125,11 +125,12 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
     //监听手机屏幕上的按键
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             ViseLog.d("返回键");
             showExitDialog();
+            return true;
         }
-        return false;
+        return true;
         //return super.onKeyDown(keyCode, event);
     }
 
@@ -194,9 +195,10 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     @Override
     public void onReadEng(byte[] eng_angle) {
-        if (mActionEdit!=null){
-        mActionEdit.onReadEng(eng_angle);
-    }}
+        if (mActionEdit != null) {
+            mActionEdit.onReadEng(eng_angle);
+        }
+    }
 
 
     @Override
