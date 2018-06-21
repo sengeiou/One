@@ -382,7 +382,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
     @Override
     public void notePlayFailed() {
-        ViseLog.e("notePlayFailed robot action do not exist or play failed!");
+        ViseLog.e("20180620 notePlayFailed robot action do not exist or play failed!");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
