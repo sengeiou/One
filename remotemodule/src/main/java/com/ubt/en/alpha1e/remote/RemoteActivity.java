@@ -74,9 +74,10 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
     }
 
 
-    public static void launch(Context context, int remoteType) {
+    public static void launch(Context context, int remoteType, String remoteTitle) {
         Intent intent = new Intent(context, RemoteActivity.class);
         intent.putExtra("remote_type", remoteType);
+        intent.putExtra("remote_title", remoteTitle);
         context.startActivity(intent);
     }
 
@@ -85,6 +86,7 @@ public class RemoteActivity extends MVPBaseActivity<RemoteContact.View, RemotePr
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
         remoteType = getIntent().getIntExtra("remote_type", 1);
+        mRemoteTitle.setText(getIntent().getStringExtra("remote_title"));
         mPresenter.init(this, remoteType);
         initView();
     }
