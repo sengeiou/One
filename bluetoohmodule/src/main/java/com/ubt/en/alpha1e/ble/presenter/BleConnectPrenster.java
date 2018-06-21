@@ -302,7 +302,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
      */
     private void connectBySHortDistance(BluetoothDevice device, int rssi) {
 
-        if (!isConnecting && getDistance((short) rssi) < 0.8) {
+        if (!isConnecting && getDistance((short) rssi) < 1.2) {
             if (mBlueClient.getConnectionState() == 3) {
                 ViseLog.d("-蓝牙已经连上，则不使用自动连接--");
                 return;
