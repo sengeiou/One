@@ -57,7 +57,9 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
     public void register(Context context) {
         this.context = context;
         mBlueClient = BlueClientUtil.getInstance();
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -71,7 +73,9 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
 
     @Override
     public void unRegister() {
-        EventBus.getDefault().unregister(this);
+        if(EventBus.getDefault().isRegistered(this)){//加上判断
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override
