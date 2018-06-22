@@ -18,6 +18,7 @@ import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.PermissionUtils;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleConnectContact;
@@ -169,6 +170,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                     return;
                 }
                 ViseLog.e("-----------握手成功----------与机器人正式连接");
+                ULog.d(TAG, "-----------握手成功----------与机器人正式连接");
                 mHandler.removeMessages(MESSAG_HANDSHAKE_TIMEOUT);
                 if (mView != null) {
                     mView.connectSuccess();
@@ -184,6 +186,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 EventBus.getDefault().post(manualEvent);
                 if (DataSupport.findFirst(BleDevice.class) != null) {
                     ViseLog.e("-----------握手成功----------" + DataSupport.findFirst(BleDevice.class).toString());
+                    ULog.d(TAG, "-----------握手成功----------" + DataSupport.findFirst(BleDevice.class).toString());
                 }
                 break;
             default:
@@ -203,6 +206,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
         switch (serviceStateChanged.getState()) {
             case BluetoothState.STATE_CONNECTED://蓝牙配对成功
                 ViseLog.d("蓝牙配对成功");
+                ULog.d(TAG, "蓝牙配对成功");
                 // stopConnectBleTask();
                 mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
                 // 收到蓝牙连接状态命令时间相隔-----------start
@@ -217,13 +221,16 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                 }
                 mBlueClient.sendData(new BTCmdHandshake().toByteArray());
                 ViseLog.e("发送握手协议");
+                ULog.d(TAG, "发送握手协议");
                 mHandler.sendEmptyMessageDelayed(MESSAG_HANDSHAKE_TIMEOUT, TIME_OUT);
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
                 ViseLog.e("正在连接");
+                ULog.d(TAG, "正在连接");
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
+                ULog.d(TAG, "蓝牙连接断开");
                 break;
             default:
 
@@ -263,6 +270,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
         if (isConnecting) {
             return;
         }
+        ULog.d(TAG, "搜索到蓝牙"+"mac : " + device.getAddress() + "   rssi = " + rssi);
         if (device != null) {
             boolean isNewDevice = true;
             for (BleDevice bleDevice : mBleDevices) {
@@ -305,12 +313,14 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
         if (!isConnecting && getDistance((short) rssi) < 1) {
             if (mBlueClient.getConnectionState() == 3) {
                 ViseLog.d("-蓝牙已经连上，则不使用自动连接--");
+                ULog.d(TAG, "-蓝牙已经连上，则不使用自动连接-");
                 return;
             }
             ViseLog.d("-connectBySHortDistance，juli==" + getDistance((short) rssi));
             //stopConnectBleTask();
             mHandler.removeMessages(MESSAG_CONNECT_TIMEOUT);
             ViseLog.d("距离近 进行自动连接");
+            ULog.d(TAG, "距离近 进行自动连接");
             BleDevice bleDevice = new BleDevice();
             bleDevice.setBleName(device.getName());
             bleDevice.setMac(device.getAddress());
@@ -461,6 +471,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
 //                    isConnecting = false;
 //                    mBlueClient.disconnect();
                     ViseLog.d("连接蓝牙超时失败");
+                    ULog.d(TAG, "连接蓝牙超时");
 //                    if (mView != null) {
 //                        mView.connectFailed();
 //                    }
@@ -469,6 +480,7 @@ public class BleConnectPrenster extends BasePresenterImpl<BleConnectContact.View
                     isConnecting = false;
                     mBlueClient.disconnect();
                     ViseLog.d("握手超时失败");
+                    ULog.d(TAG, "握手超时失败");
                     if (mView != null) {
                         mView.connectFailed();
                     }

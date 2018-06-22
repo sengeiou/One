@@ -20,6 +20,7 @@ import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.BleStatuContact;
@@ -54,7 +55,7 @@ import io.reactivex.functions.Consumer;
 
 public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> implements BleStatuContact.Presenter {
 
-
+    private static final String TAG = BleStatuPrenster.class.getSimpleName();
     private BlueClientUtil mBlueClientUtil;
 
     private RobotStatu mRobotStatu;
@@ -85,6 +86,7 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
+                ULog.d(TAG,"蓝牙连接断开");
                 if (mView != null) {
                     mView.setBleConnectStatu(null);
                 }
@@ -105,6 +107,7 @@ public class BleStatuPrenster extends BasePresenterImpl<BleStatuContact.View> im
         ViseLog.i(stateChanged.toString());
         if (stateChanged.getState() == BTStateChanged.STATE_ON) {
             ViseLog.e("开启蓝牙");
+            ULog.d(TAG,"开启蓝牙");
             if (mView != null) {
                 mView.goBleSraechActivity();
             }

@@ -232,6 +232,11 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
                         SPUtils.getInstance().put(Constant1E.CURRENT_APP_LANGUAGE_VERSION, response.getVersion());
                         final String Language = SkinManager.getInstance().getLanguageByLocal(R.array.base_ui_lanuages_up);
                         ViseLog.d("当前语言包===" + Language);
+                        if (dowloadFile.exists()) {
+                            dowloadFile.delete();
+                            ViseLog.d("删除语言压缩包===");
+                        }
+
                         SkinManager.getInstance().loadSkin(Language, new SkinManager.SkinListener() {
                             @Override
                             public void onStart() {
