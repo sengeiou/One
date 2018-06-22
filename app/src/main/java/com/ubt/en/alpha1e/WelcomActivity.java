@@ -17,8 +17,10 @@ import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.UserInfoModel;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.ContextUtils;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.en.alpha1e.presenter.WelcomContact;
 import com.ubt.en.alpha1e.presenter.WelcomPrenster;
 import com.vise.log.ViseLog;
@@ -195,6 +197,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
                     ViseLog.d("完成权限申请");
                     isPermissionCompleted = true;
                     compareLanguageAndPermissResult();
+                    ULog.init(ContextUtils.getContext(), true);
                     break;
                 default:
                     break;
