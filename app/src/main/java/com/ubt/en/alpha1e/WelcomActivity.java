@@ -197,7 +197,6 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
                     ViseLog.d("完成权限申请");
                     isPermissionCompleted = true;
                     compareLanguageAndPermissResult();
-                    ULog.init(ContextUtils.getContext(), true);
                     break;
                 default:
                     break;
@@ -299,6 +298,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
         ViseLog.d("完成语言包更新 isDownLanguageCompleted:" + isDownLanguageCompleted + "  isPermissionCompleted:" + isPermissionCompleted);
         if (isDownLanguageCompleted && isPermissionCompleted && isTimeOut) {
             startMainActivity();
+            ULog.init(ContextUtils.getContext(), true);
         }
     }
 
