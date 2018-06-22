@@ -19,6 +19,7 @@ import com.ubt.baselib.customView.MyRefreshHead;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.ContextUtils;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
 import com.vise.log.inner.LogcatTree;
@@ -66,6 +67,7 @@ public class ConfigureBaseLib {
         LitePal.initialize(appContext);
         SkinManager.getInstance().init(appContext);
         initLog();
+        ULog.init(appContext,true);
         initNet(appContext);
         LoaderManager.getLoader().init(appContext);
 
@@ -82,6 +84,7 @@ public class ConfigureBaseLib {
                 .configAllowLog(true)//是否输出日志
                 .configShowBorders(false);//是否排版显示
         ViseLog.plant(new LogcatTree());//添加打印日志信息到Logcat的树
+
     }
 
     private void initNet(Context appContext) {

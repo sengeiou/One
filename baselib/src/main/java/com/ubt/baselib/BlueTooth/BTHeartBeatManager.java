@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.ubt.baselib.utils.ULog;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
 
@@ -37,11 +38,12 @@ public class BTHeartBeatManager {
 
     private static BlueClientUtil mBlueClientUtil;
     private Timer heartTimer;
+
     public BTHeartBeatManager() {
 
     }
 
-    public void init(Context context,@NonNull byte[] heart, int repeatTime) {
+    public void init(Context context, @NonNull byte[] heart, int repeatTime) {
         mContext = context;
         mBlueClientUtil = BlueClientUtil.getInstance();
         BTHeartBeatManager.heartDatas = heart;
@@ -91,7 +93,7 @@ public class BTHeartBeatManager {
     /**
      * 释放掉心跳所有资源
      */
-    public void release(){
+    public void release() {
         EventBus.getDefault().unregister(BTHeartBeatManager.this);
         stopHeart();
     }
@@ -102,48 +104,51 @@ public class BTHeartBeatManager {
     }
 
     @Subscribe
-    public void onBluetoothServiceStateChanged(BTServiceStateChanged serviceStateChanged){
-        if(serviceStateChanged.getState() == BTServiceStateChanged.STATE_DISCONNECTED){
+    public void onBluetoothServiceStateChanged(BTServiceStateChanged serviceStateChanged) {
+        if (serviceStateChanged.getState() == BTServiceStateChanged.STATE_DISCONNECTED) {
             stopHeart();
-        }else if(serviceStateChanged.getState() == BTServiceStateChanged.STATE_CONNECTED){
+        } else if (serviceStateChanged.getState() == BTServiceStateChanged.STATE_CONNECTED) {
             startHeart();
         }
     }
+
     private void startAlarm() {
         //创建Intent对象，action为ELITOR_CLOCK，附加信息为字符串“你该打酱油了”
         Intent intent = new Intent("BT_HEARTBEAT");
 
-    //定义一个PendingIntent对象，PendingIntent.getBroadcast包含了sendBroadcast的动作。
-    //也就是发送了action 为"ELITOR_CLOCK"的intent
+        //定义一个PendingIntent对象，PendingIntent.getBroadcast包含了sendBroadcast的动作。
+        //也就是发送了action 为"ELITOR_CLOCK"的intent
         pi = PendingIntent.getBroadcast(mContext, 0, intent, 0);
 
-    //AlarmManager对象,注意这里并不是new一个对象，Alarmmanager为系统级服务
+        //AlarmManager对象,注意这里并不是new一个对象，Alarmmanager为系统级服务
         am = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
 
-    //设置闹钟从当前时间开始，每隔5s执行一次PendingIntent对象pi，注意第一个参数与第二个参数的关系
-    // 5秒后通过PendingIntent pi对象发送广播
-    //am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),repeatTime,pi);
+        //设置闹钟从当前时间开始，每隔5s执行一次PendingIntent对象pi，注意第一个参数与第二个参数的关系
+        // 5秒后通过PendingIntent pi对象发送广播
+        //am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),repeatTime,pi);
         am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + repeatTime, pi);
     }
 
-   public static class MyReceiver extends BroadcastReceiver {
+    public static class MyReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (mHeartCnt.incrementAndGet() < 6 && am != null && pi != null) {
-                 if (mBlueClientUtil != null) {
-                     ViseLog.i("发送蓝牙心跳");
+                if (mBlueClientUtil != null) {
+                    ViseLog.i("发送蓝牙心跳");
+                    ULog.d("BTHeartBeatManager", "发送蓝牙心跳");
                     mBlueClientUtil.sendData(heartDatas);
                 }
                 am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + repeatTime, pi);
             } else {
                 ViseLog.e("心跳超时!!!");
+                ULog.d("BTHeartBeatManager", "心跳超时");
                 BTHeartBeatManager.getInstance().stopHeart();
             }
         }
     }
 
-    private boolean startHeartTimer(){
+    private boolean startHeartTimer() {
         if (mContext == null) {
             ViseLog.e("请先初始化BTHeartBeatManager");
             return false;
@@ -158,9 +163,11 @@ public class BTHeartBeatManager {
             public void run() {
                 if (mBlueClientUtil != null && mHeartCnt.incrementAndGet() < 6) {
                     ViseLog.i("发送蓝牙心跳");
+                    ULog.d("BTHeartBeatManager", "发送蓝牙心跳");
                     mBlueClientUtil.sendData(heartDatas);
-                }else{
+                } else {
                     ViseLog.e("心跳超时!!!");
+                    ULog.d("BTHeartBeatManager", "心跳超时");
                     stopHeartTimer();
                 }
             }
@@ -168,7 +175,7 @@ public class BTHeartBeatManager {
         return true;
     }
 
-    private void stopHeartTimer(){
+    private void stopHeartTimer() {
         if (heartTimer != null) {
             heartTimer.cancel();
             heartTimer = null;

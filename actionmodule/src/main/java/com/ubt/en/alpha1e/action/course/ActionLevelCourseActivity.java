@@ -136,7 +136,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
 
     private void showExitDialog() {
         new BaseDialog.Builder(this)
-                .setCancleable(true)
+                .setCancleable(false)
                 .setMessage(SkinManager.getInstance().getTextById(R.string.actions_lesson_quit))
                 .setConfirmButtonId(R.string.base_cancel)
                 .setConfirmButtonColor(R.color.black)
