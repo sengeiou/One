@@ -206,7 +206,6 @@ public class ActionsEditHelper {
         int cmd = packet.getmCmd();
         byte[] param = packet.getmParam();
         // ViseLog.d("EditHelper", "cmd==" + cmd + "  params==" + ByteHexHelper.bytesToHexString(param));
-        ULog.d("EditHelper", "cmd==" + cmd);
         if (cmd == BTCmd.READ_ALL_ENGINE) {
             mUI.onReadEng(param);
         } else if (cmd == BTCmd.CTRL_ONE_ENGINE_LOST_POWER) {
@@ -234,6 +233,7 @@ public class ActionsEditHelper {
                 mListener.playComplete();
             }
         } else if (cmd == BTCmd.DV_TAP_HEAD) {
+            ULog.d("EditHelper", "cmd==" + cmd);
             ViseLog.d("EditHelper", "TAP_HEAD = " + cmd);
             if (mListener != null) {
                 mListener.tapHead();

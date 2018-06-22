@@ -19,7 +19,6 @@ import com.ubt.baselib.customView.MyRefreshHead;
 import com.ubt.baselib.globalConst.BaseHttpEntity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.ContextUtils;
-import com.ubt.baselib.utils.ULog;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
 import com.vise.log.inner.LogcatTree;
@@ -67,7 +66,6 @@ public class ConfigureBaseLib {
         LitePal.initialize(appContext);
         SkinManager.getInstance().init(appContext);
         initLog();
-        ULog.init(appContext,true);
         initNet(appContext);
         LoaderManager.getLoader().init(appContext);
 
