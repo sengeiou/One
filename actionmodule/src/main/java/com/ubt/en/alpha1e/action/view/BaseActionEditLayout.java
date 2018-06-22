@@ -827,13 +827,19 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         return true;
     }
-
+    //用于记录进入SaveActivity的时间
+    private long inSaveActTime;
     /**
      * 保存动作
      *
      * @param type 1保存动作页面 2课程保存动作页面
      */
     public void saveNewAction(int type) {
+        //当当前的时间-进入SaveActivity的时间<1秒时，直接返回
+        if ((System.currentTimeMillis() - inSaveActTime) < 1000) {
+            return;
+        }
+        inSaveActTime = System.currentTimeMillis();
         if (musicTimes == 0) {
             if (list_frames.size() < 1) {
                 new BaseDialog.Builder(mContext)

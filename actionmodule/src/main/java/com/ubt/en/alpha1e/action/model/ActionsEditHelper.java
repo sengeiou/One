@@ -36,6 +36,7 @@ import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.ByteHexHelper;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.R;
@@ -50,7 +51,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class ActionsEditHelper  {
+public class ActionsEditHelper {
 
 
     private Context mContext;
@@ -205,6 +206,7 @@ public class ActionsEditHelper  {
         int cmd = packet.getmCmd();
         byte[] param = packet.getmParam();
         // ViseLog.d("EditHelper", "cmd==" + cmd + "  params==" + ByteHexHelper.bytesToHexString(param));
+        ULog.d("EditHelper", "cmd==" + cmd);
         if (cmd == BTCmd.READ_ALL_ENGINE) {
             mUI.onReadEng(param);
         } else if (cmd == BTCmd.CTRL_ONE_ENGINE_LOST_POWER) {
@@ -242,7 +244,7 @@ public class ActionsEditHelper  {
             }
         } else if (cmd == BTCmd.DV_READ_BATTERY) {
             ViseLog.i("电量data:" + HexUtil.encodeHexStr(packet.getmParam()));
-            if(packet.getmParamLen() < 4){
+            if (packet.getmParamLen() < 4) {
                 ViseLog.e("错误参数，丢弃!!!");
                 return;
             }
@@ -372,7 +374,7 @@ public class ActionsEditHelper  {
      */
 
     public void playSoundAudio(String params) {
-        ViseLog.d("playSoundAudio", "params = " + params);
+        ViseLog.d("playSoundAudio  params = " + params);
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdPlaySound(params).toByteArray());
         } else {
@@ -385,6 +387,7 @@ public class ActionsEditHelper  {
      */
 
     public void stopSoundAudio() {
+        ViseLog.d("stopSoundAudio");
         if (mBlueClientUtil.getConnectionState() == 3) {
             mBlueClientUtil.sendData(new BTCmdSoundStopPlay().toByteArray());
         } else {

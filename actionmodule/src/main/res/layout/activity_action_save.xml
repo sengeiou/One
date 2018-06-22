@@ -164,7 +164,7 @@
                 android:hint="@string/actions_action_name"
                 android:imeOptions="flagNoExtractUi"
                 android:paddingLeft="5dp"
-                android:textColor="@color/action_save_text_color"
+                android:textColor="@color/black"
                 android:textSize="14sp"></EditText>
 
 
@@ -201,7 +201,7 @@
                 android:gravity="top|left"
                 android:hint="@string/actions_action_description"
                 android:padding="10dp"
-                android:textColor="@color/action_save_text_color"
+                android:textColor="@color/black"
                 android:textSize="14sp"></EditText>
 
 

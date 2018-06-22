@@ -112,7 +112,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
         int level = 1;// 当前第几个课时
         LocalActionRecord record = DataSupport.findFirst(LocalActionRecord.class);
         if (null != record) {
-           ViseLog.d( "record===" + record.toString());
+            ViseLog.d("record===" + record.toString());
             int course = record.getCourseLevel();
             int recordlevel = record.getPeriodLevel();
             if (course == 5) {
@@ -135,13 +135,13 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
      */
     public void setLayoutByCurrentCourse() {
         setImageViewBg();
-       ViseLog.d( "currentCourse==" + currentCourse);
+        ViseLog.d("currentCourse==" + currentCourse);
         if (currentCourse == 1) {
             isInstruction = true;
             mRlInstruction.setVisibility(View.VISIBLE);
             ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor18.hts");
         } else if (currentCourse == 2) {
-            ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor19.hts");
+            //  ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor19.hts");
             CourseArrowAminalUtil.startViewAnimal(true, ivLeftLegArrow, 1);
         } else if (currentCourse == 3) {
             ((ActionsEditHelper) mHelper).playAction(ActionCourseDataManager.COURSE_ACTION_PATH + "AE_action editor21.hts");
@@ -198,8 +198,8 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
         DisplayMetrics dm = new DisplayMetrics();
         dm = getResources().getDisplayMetrics();
         float density = dm.density;
-       ViseLog.d( "density:" + density);
-            ivLeftLegArrow.setLayoutParams(ActionConstant.getIvRobotParams(density, ivLeftLegArrow));
+        ViseLog.d("density:" + density);
+        ivLeftLegArrow.setLayoutParams(ActionConstant.getIvRobotParams(density, ivLeftLegArrow));
     }
 
     /**
@@ -245,6 +245,10 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
             if (firstClick) {
                 ((ActionsEditHelper) mHelper).stopAction();
                 rlCenterAnimal.setVisibility(View.VISIBLE);
+                if (mHelper != null) {
+                    String str = "{\"filename\":\"AE_action editor19.mp3\",\"playcount\":1}";
+                    mHelper.playSoundAudio(str);
+                }
                 CourseArrowAminalUtil.startLegViewAnimal(true, ivCenterAnimal, 1);
                 firstClick = false;
                 startEditRightLeg();
@@ -334,7 +338,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
 
     @Override
     public void onFinishPlay() {
-       ViseLog.d( "onFinishPlay=======");
+        ViseLog.d("onFinishPlay=======");
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -356,7 +360,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
             super.handleMessage(msg);
             if (msg.what == MSG_AUTO_READ) {
                 needAdd = true;
-               ViseLog.d( "adddddd:" + autoRead);
+                ViseLog.d("adddddd:" + autoRead);
                 if (autoRead) {
                     readEngOneByOne();
                 }
@@ -370,7 +374,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
      */
     @Override
     public void playComplete() {
-       ViseLog.d( "播放完成");
+        ViseLog.d("播放完成");
         if (((Activity) mContext).isFinishing()) {
             return;
         }
@@ -408,7 +412,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
             return;
         }
         isChangeData = true;
-       ViseLog.d( "机器人角度变化了呢！！");
+        ViseLog.d("机器人角度变化了呢！！");
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -418,6 +422,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
                 mHandler.removeMessages(MSG_AUTO_READ);
                 setButtonEnable(false);
                 rlCenterAnimal.setVisibility(View.GONE);
+                CourseArrowAminalUtil.startLegViewAnimal(false, ivCenterAnimal, 1);
                 ivAddFrame.setEnabled(true);
                 ivAddFrame.setImageResource(R.drawable.ic_addaction_enable);
                 CourseArrowAminalUtil.startViewAnimal(true, ivAddFrameArrow, 1);
@@ -447,7 +452,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
      * </p>
      */
     public void clickKnown() {
-       ViseLog.d( "currindex==" + currentIndex);
+        ViseLog.d("currindex==" + currentIndex);
 
     }
 
@@ -460,7 +465,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
     private void showNextDialog(final int current) {
 
         currentCourse = current;
-       ViseLog.d( "进入第五课时，弹出对话框");
+        ViseLog.d("进入第五课时，弹出对话框");
         if (courseProgressListener != null) {
             courseProgressListener.showProgressDialog();
         }
@@ -475,7 +480,7 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
                     }
                 });
             }
-        },400);
+        }, 400);
 
 
     }
@@ -496,9 +501,13 @@ public class CourseFiveActionLayout extends BaseActionEditLayout implements Cour
     public void onStopRecord(PrepareMusicModel prepareMusicModel, int type) {
 
     }
+
     @Override
     public void onDestory() {
-        courseProgressListener=null;
+        if (mHelper != null) {
+            mHelper.stopSoundAudio();
+        }
+        courseProgressListener = null;
     }
 
 }

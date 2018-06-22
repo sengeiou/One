@@ -259,6 +259,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 if (!TextUtils.isEmpty(progressInfo.progress)) {
                     mTvSystemUpdateTip.setVisibility(View.VISIBLE);
                     mTvSystemUpdateTip.setText(SkinManager.getInstance().getTextById(R.string.about_robot_auto_update_download1));
+                    mTvSystemUpdateTip.setTextColor(getResources().getColor(R.color.base_color_grey));
                     mSystemVersionProgress.setVisibility(View.VISIBLE);
                     mTvSystemProgress.setVisibility(View.VISIBLE);
                     mSystemVersionProgress.setProgress(Integer.parseInt(progressInfo.progress));
@@ -294,6 +295,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         if (progressInfo != null) {
             if (progressInfo.name.equals("chip_firmware")) {
                 mTvFirmwareUpdateTip.setVisibility(View.VISIBLE);
+                mTvFirmwareUpdateTip.setTextColor(getResources().getColor(R.color.base_color_grey));
                 mFirmwareVersionProgress.setVisibility(View.VISIBLE);
                 mTvFirmwareProgress.setVisibility(View.VISIBLE);
                 mIvDownloadFirmFailWarning.setVisibility(View.GONE);

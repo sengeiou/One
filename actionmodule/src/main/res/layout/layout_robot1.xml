@@ -34,7 +34,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="-5dp"
                 android:src="@drawable/youjiantou_4"
-                android:visibility="gone"/>
+                android:visibility="invisible"/>
         </RelativeLayout>
 
         <ImageView
@@ -64,7 +64,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/zuojiantou_4"
-                android:visibility="gone"/>
+                android:visibility="invisible"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -96,7 +96,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/zuojiantou_4"
-                android:visibility="gone"/>
+                android:visibility="invisible"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -119,7 +119,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/zuojiantou_4"
-                android:visibility="gone"/>
+                android:visibility="invisible"/>
         </RelativeLayout>
 
     </LinearLayout>

@@ -227,8 +227,8 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
         } else if (i == R.id.iv_left_arrow || i == R.id.iv_hand_left) {
             lostRightLeg = true;
             lostLeft();
-            CourseArrowAminalUtil.startViewAnimal(false, ivLeftHandArrow, 1);
-            CourseArrowAminalUtil.startViewAnimal(true, ivRightHandArrow, 2);
+            CourseArrowAminalUtil.startNineViewAnimal(false, ivLeftHandArrow, 1);
+            CourseArrowAminalUtil.startNineViewAnimal(true, ivRightHandArrow, 2);
             ivAddFrame.setEnabled(false);
             ivAddFrame.setImageResource(R.drawable.ic_addaction_disable);
             ivHandRight.setEnabled(true);
@@ -236,7 +236,7 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
         } else if (i == R.id.iv_right_arrow || i == R.id.iv_hand_right) {
             lostLeftLeg = true;
             lostRight();
-            CourseArrowAminalUtil.startViewAnimal(false, ivRightHandArrow, 1);
+            CourseArrowAminalUtil.startNineViewAnimal(false, ivRightHandArrow, 1);
             showAutoRead();
             ivAddFrame.setEnabled(false);
             ivAddFrame.setImageResource(R.drawable.ic_addaction_disable);
@@ -334,7 +334,7 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
             ivAddFrame.setEnabled(true);
             ivAddFrame.setImageResource(R.drawable.ic_stop);
             rlCenterAnimal.setVisibility(View.GONE);
-            CourseArrowAminalUtil.startTwoLegViewAnimal(mContext,false, ivCenterAnimal, 1);
+            CourseArrowAminalUtil.startTwoLegViewAnimal(false, ivCenterAnimal, 1);
         }
     }
 
@@ -350,7 +350,7 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
                 mRlInstruction.setVisibility(View.GONE);
                 ivActionLib.setEnabled(true);
                 ivHandLeft.setEnabled(true);
-                CourseArrowAminalUtil.startViewAnimal(true, ivLeftHandArrow, 1);
+                CourseArrowAminalUtil.startNineViewAnimal(true, ivLeftHandArrow, 1);
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -432,7 +432,8 @@ public class CourseNineActionLayout extends BaseActionEditLayout {
                 ivAddFrame.setImageResource(R.drawable.ic_stop);
                 mHandler.sendEmptyMessage(MSG_AUTO_READ);
                 rlCenterAnimal.setVisibility(View.VISIBLE);
-                CourseArrowAminalUtil.startTwoLegViewAnimal(mContext,true, ivCenterAnimal, 1);
+                CourseArrowAminalUtil.startTwoLegViewAnimal(true, ivCenterAnimal, 1);
+
 
             }
         }, 1000);

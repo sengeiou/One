@@ -108,6 +108,7 @@ public class ActionSaveCourseActivity extends MVPBaseActivity<SaveActionContact.
         mGridActionsType.setAdapter(mSelectGridAdapter);
         mSelectGridAdapter.setOnItemClickListener(this);
         selectModel = mPresenter.getTypeModelList().get(0);
+        mEdtDisc.setEnabled(false);
         setLeftImageShow();
         mIvSave.setEnabled(false);
         mEdtName.addTextChangedListener(new TextWatcher() {
@@ -159,6 +160,7 @@ public class ActionSaveCourseActivity extends MVPBaseActivity<SaveActionContact.
         if (position == 2) {
             CourseArrowAminalUtil.startViewAnimal(true, mIvSaveArrow, 1);
             mIvSave.setEnabled(true);
+            mSelectGridAdapter.setisShowArrow(false);
         }
     }
 

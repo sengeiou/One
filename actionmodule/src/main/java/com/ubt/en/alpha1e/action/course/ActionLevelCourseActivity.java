@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -48,6 +47,7 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
      */
     private int currentCourse;
     private boolean isFinishCourse = false;
+    private DialogPlus exitDialog;
 
     public static void launchActivity(Activity context, int position) {
         Intent intent = new Intent(context, ActionLevelCourseActivity.class);
@@ -119,24 +119,30 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         mHelper.unRegister();
         AppStatusUtils.setBtBussiness(false);
         mActionEdit = null;
+        mHelper = null;
     }
 
-
     //监听手机屏幕上的按键
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            ViseLog.d("返回键");
+//            showExitDialog();
+//            return true;
+//        }
+//        return true;
+//        //return super.onKeyDown(keyCode, event);
+//    }
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            ViseLog.d("返回键");
-            showExitDialog();
-            return true;
-        }
-        return true;
-        //return super.onKeyDown(keyCode, event);
+    public void onBackPressedSupport() {
+        // super.onBackPressedSupport();
+        showExitDialog();
     }
 
     private void showExitDialog() {
-        new BaseDialog.Builder(this)
-                .setCancleable(false)
+        exitDialog = new BaseDialog.Builder(this)
+                .setCancleable(true)
                 .setMessage(SkinManager.getInstance().getTextById(R.string.actions_lesson_quit))
                 .setConfirmButtonId(R.string.base_cancel)
                 .setConfirmButtonColor(R.color.black)
@@ -155,7 +161,8 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
                         }
 
                     }
-                }).create().show();
+                }).create();
+        exitDialog.show();
     }
 
 
@@ -316,6 +323,11 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
                     mTapDialogPlus.dismiss();
                     mTapDialogPlus = null;
                 }
+
+                if (exitDialog != null && exitDialog.isShowing()) {
+                    exitDialog.dismiss();
+                    exitDialog = null;
+                }
             }
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -344,12 +356,16 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
                 mTapDialogPlus = null;
             }
         }
+        if (exitDialog != null && exitDialog.isShowing()) {
+            exitDialog.dismiss();
+            exitDialog = null;
+        }
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 returnCardActivity();
             }
-        }, isHowHeadDialog ? 400 : 0);
+        }, 400);
         mPresenter.savaCourseDataToDB(level + 1, 1);
     }
 
@@ -358,6 +374,10 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         if (mTapDialogPlus != null && mTapDialogPlus.isShowing()) {
             mTapDialogPlus.dismiss();
             mTapDialogPlus = null;
+        }
+        if (exitDialog != null && exitDialog.isShowing()) {
+            exitDialog.dismiss();
+            exitDialog = null;
         }
     }
 
@@ -369,7 +389,10 @@ public class ActionLevelCourseActivity extends MVPBaseActivity<CourseContract.Vi
         if (isHowHeadDialog && mTapDialogPlus != null && mTapDialogPlus.isShowing()) {
             mTapDialogPlus.dismiss();
             mTapDialogPlus = null;
-
+        }
+        if (exitDialog != null && exitDialog.isShowing()) {
+            exitDialog.dismiss();
+            exitDialog = null;
         }
     }
 

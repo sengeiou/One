@@ -43,6 +43,28 @@ public class CourseArrowAminalUtil {
             }
         }
     }
+    /**
+     * 第九关执行指示动画
+     *
+     * @param flag
+     * @param imageView
+     * @param arrow
+     */
+    public static void startNineViewAnimal(boolean flag, ImageView imageView, int arrow) {
+        AnimationDrawable animationDrawable = null;
+        if (flag) {
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setImageResource(arrow == 1 ? R.drawable.animal_right_arrow : R.drawable.animal_left_arrow);
+            animationDrawable = (AnimationDrawable) imageView.getDrawable();
+            animationDrawable.start();
+        } else {
+            imageView.setVisibility(View.INVISIBLE);
+            animationDrawable = null;
+            if (null != animationDrawable) {
+                animationDrawable.stop();
+            }
+        }
+    }
 
     /**
      * 执行指示动画
@@ -61,6 +83,27 @@ public class CourseArrowAminalUtil {
         } else {
             imageView.setVisibility(View.GONE);
             animationDrawable = null;
+            if (null != animationDrawable) {
+                animationDrawable.stop();
+            }
+        }
+    }
+    /**
+     * 执行指示动画
+     *
+     * @param flag
+     * @param imageView
+     * @param arrow
+     */
+    public static void startTwoLegViewAnimal(boolean flag, ImageView imageView, int arrow) {
+        AnimationDrawable animationDrawable = null;
+        if (flag) {
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setImageResource( R.drawable.animal_baidongleg);
+            animationDrawable = (AnimationDrawable) imageView.getDrawable();
+            animationDrawable.start();
+        } else {
+            imageView.setVisibility(View.GONE);
             if (null != animationDrawable) {
                 animationDrawable.stop();
             }

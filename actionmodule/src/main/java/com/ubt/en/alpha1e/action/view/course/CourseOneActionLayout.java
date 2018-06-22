@@ -547,6 +547,7 @@ public class CourseOneActionLayout extends BaseActionEditLayout {
     @Override
     public void onDestory() {
         courseProgressListener = null;
+        mHightLight=null;
     }
 
 }

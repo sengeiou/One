@@ -369,11 +369,11 @@ public class CourseThreeActionLayout extends BaseActionEditLayout implements Cou
                         }
                     }
                 });
-        if (courseProgressListener!=null){
+        if (courseProgressListener != null) {
             courseProgressListener.showGuide();
         }
         mHightLight.show();
-     }
+    }
 
 
     /**
@@ -433,9 +433,7 @@ public class CourseThreeActionLayout extends BaseActionEditLayout implements Cou
                     }
                 });
             }
-        },400);
-
-
+        }, 400);
 
 
     }
@@ -465,9 +463,11 @@ public class CourseThreeActionLayout extends BaseActionEditLayout implements Cou
     public void onStopRecord(PrepareMusicModel prepareMusicModel, int type) {
 
     }
+
     @Override
     public void onDestory() {
-        courseProgressListener=null;
+        courseProgressListener = null;
+        mHightLight = null;
     }
 
 }
