@@ -188,6 +188,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         rvRobotLanguage.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
 
+        BaseLoadingDialog.show(this);
         mPresenter.getRobotLanguageListFromWeb();
 
         //mPresenter.getRobotLanguageListFromRobot();
@@ -222,6 +223,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     @Override
     public void setRobotLanguageList(boolean status, List<RobotLanguage> list) {
         ViseLog.d("status = " + status);
+        BaseLoadingDialog.dismiss(this);
         if(status){
             mRobotLanguages.clear();
             mRobotLanguages.addAll(list);
