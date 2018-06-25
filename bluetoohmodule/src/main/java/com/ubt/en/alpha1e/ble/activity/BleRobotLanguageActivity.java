@@ -56,6 +56,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     private static final int DOWNLOAD_SUCCESS_RESET = 4;
     private static final int DEAL_CHANGE_LANGUAGE_RESULT = 5;
     private static final int UPDATE_CURRENT_LANGUAGE = 6;
+    boolean sendChangeLanguage = false;
 
     @BindView(R2.id.iv_back)
     ImageView mIvBack;
@@ -74,17 +75,17 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     private boolean hasConnectWifi = true;
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case REFRESH_DATA:
                     RobotLanguage selectLanguage = getSelectLanguage();
-                    if(selectLanguage != null && selectLanguage.getLanguageSingleName().equals(mCurrentRobotLanguage)){
+                    if (selectLanguage != null && selectLanguage.getLanguageSingleName().equals(mCurrentRobotLanguage)) {
                         tvTitleRight.setAlpha(0.3f);
                         tvTitleRight.setEnabled(false);
-                    }else {
+                    } else {
                         tvTitleRight.setAlpha(1.0f);
                         tvTitleRight.setEnabled(true);
                     }
@@ -94,21 +95,21 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     BleDownloadLanguageRsp downloadLanguageRsp = (BleDownloadLanguageRsp) msg.obj;
                     ViseLog.d("downloadLanguageRsp = " + downloadLanguageRsp);
 
-                    for(RobotLanguage robotLanguage : mRobotLanguages){
-                        if(robotLanguage.getLanguageSingleName().equals(downloadLanguageRsp.language)){
+                    for (RobotLanguage robotLanguage : mRobotLanguages) {
+                        if (robotLanguage.getLanguageSingleName().equals(downloadLanguageRsp.language)) {
                             robotLanguage.setResult(downloadLanguageRsp.result);
                             robotLanguage.setProgess(downloadLanguageRsp.progress);
                             mAdapter.notifyDataSetChanged();
 
-                            if(downloadLanguageRsp.result > 0){
+                            if (downloadLanguageRsp.result > 0) {
                                 ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.about_robot_language_package_download_fail));
 
                                 //下载失败后，2S后进度条消失
                                 Message resetMsg = new Message();
                                 resetMsg.what = DOWNLOAD_FAIL_RESET;
                                 resetMsg.obj = robotLanguage;
-                                mHandler.sendMessageDelayed(resetMsg,2000);
-                            }else if(downloadLanguageRsp.progress == 100){
+                                mHandler.sendMessageDelayed(resetMsg, 2000);
+                            } else if (downloadLanguageRsp.progress == 100) {
 
                                 //下载成功后，进度条消失
                                 Message resetMsg = new Message();
@@ -124,8 +125,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     break;
                 case DOWNLOAD_FAIL_RESET:
                 case DOWNLOAD_SUCCESS_RESET:
-                    RobotLanguage resetRobotLanguage = (RobotLanguage)msg.obj;
-                    if(resetRobotLanguage != null && mAdapter != null){
+                    RobotLanguage resetRobotLanguage = (RobotLanguage) msg.obj;
+                    if (resetRobotLanguage != null && mAdapter != null) {
                         ViseLog.d("resetRobotLanguage = " + resetRobotLanguage);
                         resetRobotLanguage.setResult(-1);
                         resetRobotLanguage.setProgess(0);
@@ -134,11 +135,11 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                     break;
                 case DEAL_CHANGE_LANGUAGE_RESULT:
                     int result = msg.arg1;
-                    if(result != 0){
+                    if (result != 0) {
                         BaseLoadingDialog.dismiss(BleRobotLanguageActivity.this);
-                        if(result == 2){//低电量
+                        if (result == 2) {//低电量
                             showLowBatteryDialog(BleRobotLanguageActivity.this);
-                        }else if(result == 3){//未联网
+                        } else if (result == 3) {//未联网
                             showConnectWifiDialog();
                         }
                     }
@@ -146,7 +147,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                 case UPDATE_CURRENT_LANGUAGE:
                     String currentLanguage = (String) msg.obj;
                     ViseLog.d("currentLanguage = " + currentLanguage + "  mCurrentRobotLanguage = " + mCurrentRobotLanguage);
-                    if(!TextUtils.isEmpty(currentLanguage) && !currentLanguage.equals(mCurrentRobotLanguage)){
+                    if (!TextUtils.isEmpty(currentLanguage) && !currentLanguage.equals(mCurrentRobotLanguage)) {
                         mCurrentRobotLanguage = currentLanguage;
                         mHandler.sendEmptyMessage(REFRESH_DATA);
                     }
@@ -182,7 +183,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         initUI();
     }
 
-    private void initUI(){
+    private void initUI() {
         mAdapter = new RobotLanguageAdapter(R.layout.ble_robot_language_item, mRobotLanguages);
         rvRobotLanguage.setLayoutManager(new LinearLayoutManager(this));
         rvRobotLanguage.setAdapter(mAdapter);
@@ -224,25 +225,25 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     public void setRobotLanguageList(boolean status, List<RobotLanguage> list) {
         ViseLog.d("status = " + status);
         BaseLoadingDialog.dismiss(this);
-        if(status){
+        if (status) {
             mRobotLanguages.clear();
             mRobotLanguages.addAll(list);
 
-            for(RobotLanguage robotLanguage : mRobotLanguages){
-                if(robotLanguage.getLanguageSingleName().equals(mCurrentRobotLanguage)){
+            for (RobotLanguage robotLanguage : mRobotLanguages) {
+                if (robotLanguage.getLanguageSingleName().equals(mCurrentRobotLanguage)) {
                     robotLanguage.setSelect(true);
                     break;
                 }
             }
             mHandler.sendEmptyMessage(REFRESH_DATA);
-        }else {
+        } else {
             ToastUtils.showShort(SkinManager.getInstance().getTextById(R.string.common_btn_no_network));
         }
     }
 
     @Override
     public void setRobotLanguageListExist(List<RobotLanguage> list) {
-        if(list != null ){
+        if (list != null) {
             mRobotLanguageExists.clear();
             mRobotLanguageExists.addAll(list);
             ViseLog.d("mRobotLanguageExists = " + mRobotLanguageExists.size());
@@ -261,10 +262,13 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void setDownloadLanguage(BleDownloadLanguageRsp downloadLanguageRsp) {
-        Message msg = new Message();
-        msg.what = UPDATE_DOWNLOAD_LANGUAGE;
-        msg.obj = downloadLanguageRsp;
-        mHandler.sendMessage(msg);
+        ViseLog.d("downloadLanguageRsp.name = " + downloadLanguageRsp);
+        if(downloadLanguageRsp != null && "chip_instruction".equals(downloadLanguageRsp.name)){
+            Message msg = new Message();
+            msg.what = UPDATE_DOWNLOAD_LANGUAGE;
+            msg.obj = downloadLanguageRsp;
+            mHandler.sendMessage(msg);
+        }
     }
 
     @Override
@@ -276,9 +280,9 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void setRobotNetWork(BleNetWork bleNetWork) {
-        if(bleNetWork.isStatu()){
+        if (bleNetWork.isStatu()) {
             hasConnectWifi = true;
-        }else {
+        } else {
             hasConnectWifi = false;
         }
         ViseLog.d("bleNetWork = " + bleNetWork.isStatu() + " hasConnectWifi = " + hasConnectWifi);
@@ -286,7 +290,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void setRobotVersionInfo(BleRobotVersionInfo robotVersionInfo) {
-        if(robotVersionInfo != null){
+        if (robotVersionInfo != null) {
             Message msg = new Message();
             msg.what = UPDATE_CURRENT_LANGUAGE;
             msg.obj = robotVersionInfo.lang;
@@ -294,7 +298,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
         }
     }
 
-    @OnClick({R2.id.iv_back,R2.id.tv_title_right})
+    @OnClick({R2.id.iv_back, R2.id.tv_title_right})
     public void onViewClicked(View view) {
         int i = view.getId();
         if (i == R.id.iv_back) {
@@ -311,13 +315,21 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                 showConnectWifiDialog();
                 return;
             }
-
             new BaseDialog.Builder(this)
                     .setMessage(SkinManager.getInstance().getTextById(R.string.about_robot_language_dialogue).replace("#", selectLanguage.getLanguageName()))
                     .setConfirmButtonId(R.string.base_cancel)
                     .setConfirmButtonColor(R.color.base_blue)
                     .setCancleButtonID(R.string.base_confirm)
                     .setCancleButtonColor(R.color.base_blue)
+                    .setOnDissmissListener(new BaseDialog.OnDissmissListener() {
+                        @Override
+                        public void onDissmiss() {
+                            if (sendChangeLanguage) {
+                                sendChangeLanguage = false;
+                                mPresenter.setRobotLanguage(selectLanguage.getLanguageSingleName());
+                            }
+                        }
+                    })
                     .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                         @Override
                         public void onClick(DialogPlus dialog, View view) {
@@ -329,8 +341,8 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
                                 dialog.dismiss();
                                 ViseLog.d("selectLanguage.getLanguageSingleName() = " + selectLanguage.getLanguageSingleName());
 
-                                BaseLoadingDialog.show(15,BleRobotLanguageActivity.this);
-                                mPresenter.setRobotLanguage(selectLanguage.getLanguageSingleName());
+                                BaseLoadingDialog.show(15, BleRobotLanguageActivity.this);
+                                sendChangeLanguage = true;
                             }
                         }
                     }).create().show();
@@ -341,10 +353,10 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
     }
 
 
-    private RobotLanguage getSelectLanguage(){
+    private RobotLanguage getSelectLanguage() {
         RobotLanguage selectLanguage = null;
-        for(RobotLanguage robotLanguage : mRobotLanguages){
-            if(robotLanguage.isSelect()){
+        for (RobotLanguage robotLanguage : mRobotLanguages) {
+            if (robotLanguage.isSelect()) {
                 selectLanguage = robotLanguage;
                 break;
             }
@@ -354,7 +366,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     protected void onDestroy() {
-        if(mHandler.hasMessages(DOWNLOAD_FAIL_RESET)){
+        if (mHandler.hasMessages(DOWNLOAD_FAIL_RESET)) {
             mHandler.removeMessages(DOWNLOAD_FAIL_RESET);
         }
         super.onDestroy();
@@ -365,7 +377,7 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        for(RobotLanguage robotLanguage : mRobotLanguages){
+        for (RobotLanguage robotLanguage : mRobotLanguages) {
             robotLanguage.setSelect(false);
         }
         mRobotLanguages.get(position).setSelect(true);

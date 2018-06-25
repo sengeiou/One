@@ -6,9 +6,12 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdReadDevStatus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.bluetoothlib.base.BluetoothState;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.model.BleConnectServiceUtil;
 import com.ubt.en.alpha1e.customView.RightBar;
 import com.ubt.en.alpha1e.presenter.MainContact;
@@ -124,6 +127,9 @@ public class MainActivity extends MVPBaseActivity<MainContact.View, MainPrenster
                     rightBar.setRightBarStatus(RightBar.CENTER_ON);
                     showHideFragment(mFragments[SECOND], mFragments[fragmentCur]);
                     fragmentCur = SECOND;
+                    if (BlueClientUtil.getInstance()!=null&&BlueClientUtil.getInstance().getConnectionState()== BluetoothState.STATE_CONNECTED){
+                        BlueClientUtil.getInstance().sendData((new BTCmdReadDevStatus()).toByteArray());
+                    }
                 }
             }
         });
