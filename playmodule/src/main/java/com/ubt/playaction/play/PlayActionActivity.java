@@ -386,6 +386,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
                             }
                             ViseLog.d("cyclesize:" + PlayActionManger.getInstance().getActionCycleList().size());
                             if(PlayActionManger.getInstance().getActionCycleList().size()>0){
+                                PlayActionManger.getInstance().setCurrentCyclePos(0);
                                 mPresenter.playAction(PlayActionManger.getInstance().getActionCycleList().get(PlayActionManger.getInstance().getCurrentCyclePos()).getActionName());
 //                                PlayActionManger.getInstance().setCycle(true);
                                 rlPlaybtn.setVisibility(View.INVISIBLE);
