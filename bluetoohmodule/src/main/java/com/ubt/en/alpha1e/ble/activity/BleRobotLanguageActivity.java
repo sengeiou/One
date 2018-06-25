@@ -262,10 +262,13 @@ public class BleRobotLanguageActivity extends MVPBaseActivity<RobotLanguageConta
 
     @Override
     public void setDownloadLanguage(BleDownloadLanguageRsp downloadLanguageRsp) {
-        Message msg = new Message();
-        msg.what = UPDATE_DOWNLOAD_LANGUAGE;
-        msg.obj = downloadLanguageRsp;
-        mHandler.sendMessage(msg);
+        ViseLog.d("downloadLanguageRsp.name = " + downloadLanguageRsp);
+        if(downloadLanguageRsp != null && "chip_instruction".equals(downloadLanguageRsp.name)){
+            Message msg = new Message();
+            msg.what = UPDATE_DOWNLOAD_LANGUAGE;
+            msg.obj = downloadLanguageRsp;
+            mHandler.sendMessage(msg);
+        }
     }
 
     @Override

@@ -91,7 +91,7 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
     public void onReadData(BTReadData readData) {
 //        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
 //        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
-        onProtocolPacket(readData);
+//        onProtocolPacket(readData);
     }
 
     /**

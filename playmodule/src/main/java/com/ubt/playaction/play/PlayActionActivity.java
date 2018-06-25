@@ -125,6 +125,9 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     };
 
 
+    private long onClickTime; //用于防止用户快速点击
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -444,6 +447,12 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+        if ((System.currentTimeMillis() - onClickTime) < 800) {
+            return;
+        }
+        onClickTime = System.currentTimeMillis();
+
         ActionData actionData = (ActionData) adapter.getItem(position);
         if(select){
             if(actionData.isSelect()){
@@ -459,7 +468,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         }else{
             String actionName = actionData.getActionName();
             if(!TextUtils.isEmpty(actionName)/* && !PlayActionManger.getInstance().isCycle()*/){
-                ViseLog.d("onItemClick:" + actionName);
+                ViseLog.d("DV_STOPPLAY onItemClick:" + actionName);
 //                ImageView imageView = view.findViewById(R.id.iv_action_icon);
 //                addGoodToCar(imageView);
                 PlayActionManger.getInstance().addActionCycleList(actionData);
@@ -522,7 +531,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
 
     @Override
     public void notePlayStart(String actionName) {
-        ViseLog.d("notePlayStart:" + actionName);
+        ViseLog.d("DV_STOPPLAY notePlayStart:" + actionName);
         if(!TextUtils.isEmpty(actionName) && tvPlayName != null){
             tvPlayName.setText(actionName);
             tvPlayName.setTextColor(getResources().getColor(R.color.text_blue_color));
