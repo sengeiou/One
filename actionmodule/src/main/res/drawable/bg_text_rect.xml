@@ -4,7 +4,9 @@
        tools:ignore="ResourceName">
 
     <!-- 内容 -->
-    <solid android:color="@color/action_save_text_rect_color" />
+    <solid android:color="@color/white" />
+    <stroke android:width="@dimen/dp_0_5"
+            android:color="@color/action_save_text_border_color"/>
     <!-- 拐角 -->
     <corners android:radius="10px"
              android:color="@color/action_save_text_border_color"/>

@@ -127,8 +127,16 @@ public class GlobalMsgService extends Service {
                     }
                     break;
                 case BLUETOOTH_DISCONNECT:
-                    if (switchProgressDialog != null && switchProgressDialog.isShowing()) {
-                        switchProgressDialog.dismiss();
+                    try {
+                        if (switchProgressDialog != null && switchProgressDialog.isShowing()) {
+                            switchProgressDialog.dismiss();
+                        }
+                    } catch (final Exception e) {
+                        // Handle or log or ignore
+                        //处理bug27082,但是没有复现，暂时添加cry catch捕获异常
+                        ViseLog.e("switchProgressDialog消失异常：" + e.getMessage());
+                    } finally {
+                        switchProgressDialog = null;
                     }
                     break;
                 case ROBOT_REQUEST_UPDATE:

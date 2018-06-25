@@ -43,7 +43,7 @@ public class ActionSaveCourseActivity extends MVPBaseActivity<SaveActionContact.
     @BindView(R2.id.tv_main_title)
     TextView mTvMainTitle;
     @BindView(R2.id.iv_save)
-    ImageView mIvSave;
+    TextView mIvSave;
     @BindView(R2.id.iv_save_arrow)
     ImageView mIvSaveArrow;
     @BindView(R2.id.rl_title)

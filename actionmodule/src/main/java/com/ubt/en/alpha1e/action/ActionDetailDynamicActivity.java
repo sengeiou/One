@@ -77,8 +77,7 @@ public class ActionDetailDynamicActivity extends MVPBaseActivity<DynamicActionCo
     RelativeLayout mRlPlayAction;
     @BindView(R2.id.view_line)
     View mViewLine;
-    @BindView(R2.id.view_line1)
-    View mViewLine1;
+
     @BindView(R2.id.progress_download)
     ProgressBar mProgressDownload;
 

@@ -21,6 +21,7 @@ import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.SPUtils;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.en.alpha1e.ble.Contact.WifiConnectContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -83,8 +84,9 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
         isFirstEnter = getIntent().getBooleanExtra("first_enter", false);
-        ViseLog.d("isFirseEnter===" + isFirstEnter);
         wifiName = getIntent().getStringExtra("WI_FI_NAME");
+        ViseLog.d("isFirseEnter===" + isFirstEnter + " wifiName===" + wifiName);
+        ULog.d("BleSearchWifiActivity", "isFirseEnter===" + isFirstEnter + " wifiName===" + wifiName);
         mWifiListAdapter = new WifiListAdapter(R.layout.ble_item_wifi_layout, mScanResults);
         mBleWifiList.setLayoutManager(new LinearLayoutManager(this));
         mBleWifiList.setAdapter(mWifiListAdapter);

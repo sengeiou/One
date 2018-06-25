@@ -81,7 +81,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="@dimen/dp_15"
             android:text="五分钟前创建"
-            android:textColor="@color/tv_notice_title"
+            android:textColor="@color/base_tv_middle_gray1"
             android:textSize="@dimen/sp_14"
             />
 
@@ -114,8 +114,9 @@
                 android:drawableLeft="@drawable/ic_duration"
                 android:gravity="center"
                 android:text="03:21"
-                android:textColor="@color/tv_notice_title"
+                android:textColor="@color/base_tv_middle_gray1"
                 android:textSize="@dimen/sp_14"
+                android:visibility="gone"
                 />
 
             <ImageView
@@ -123,7 +124,6 @@
                 android:layout_width="13dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/tv_action_name"
                 android:src="@drawable/ic_type_action"
                 />
@@ -135,7 +135,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tv_action_time"
                 android:gravity="center"
-                android:textColor="@color/tv_notice_title"
+                android:textColor="@color/base_tv_middle_gray1"
                 android:textSize="@dimen/sp_14"
                 />
 
@@ -166,23 +166,13 @@
             android:textColor="@color/base_tv_large_black"
             android:textSize="@dimen/sp_13"/>
 
-        <View
-            android:id="@+id/view_line1"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_below="@+id/tv_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="40dp"
-            android:background="@color/tv_notice_title"
-            />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/view_line1"
+            android:layout_below="@+id/tv_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_60"
             android:orientation="horizontal">
 
             <Button

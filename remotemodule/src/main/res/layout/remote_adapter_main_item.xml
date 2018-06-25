@@ -8,8 +8,8 @@
 
     <RelativeLayout
         android:id="@+id/rl_remote_item"
-        android:layout_width="@dimen/dp_180"
-        android:layout_height="@dimen/dp_240"
+        android:layout_width="@dimen/dp_160"
+        android:layout_height="@dimen/dp_220"
         android:layout_marginTop="@dimen/dp_20"
         >
 
@@ -21,26 +21,43 @@
             <ImageView
                 android:id="@+id/iv_remote"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_170"
+                android:layout_height="@dimen/dp_160"
                 android:scaleType="fitXY"
                 android:src="@drawable/img_fighter"
                 />
 
-            <ImageView
-                android:id="@+id/iv_lock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <FrameLayout
+                android:id="@+id/fl_unread"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_160"
                 android:layout_centerInParent="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/img_lock_level"
-                android:visibility="gone"
-                />
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_160"
+                    android:alpha="0.5"
+                    android:background="#e0000000"/>
+
+                <ImageView
+                    android:id="@+id/iv_lock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/img_lock_level"
+                    android:visibility="visible"
+                    />
+            </FrameLayout>
+
+
         </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_remote_name"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="@dimen/dp_60"
             android:layout_below="@+id/rl_lock"
             android:background="@drawable/remote_tv_bottom_background"
             android:gravity="center"

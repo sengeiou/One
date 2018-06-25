@@ -2,6 +2,7 @@ package com.ubt.en.alpha1e.remote.model;
 
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,16 +29,14 @@ public class RemoteMainAdapter extends BaseQuickAdapter<RemoteRoleInfo, BaseView
     @Override
     protected void convert(BaseViewHolder helper, RemoteRoleInfo item) {
         ImageView ivRemote = helper.getView(R.id.iv_remote);
-        ImageView ivLock = helper.getView(R.id.iv_lock);
         TextView tvName = helper.getView(R.id.tv_remote_name);
+        FrameLayout frameLayout = helper.getView(R.id.fl_unread);
         ivRemote.setImageResource(item.getRoleIcon());
         if (item.getBz() == 1) {
-            ivRemote.setAlpha(0.5f);
-            ivLock.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.VISIBLE);
             tvName.setTextColor(mContext.getResources().getColorStateList(R.color.base_tv_ble_gray));
         } else {
-            ivRemote.setAlpha(1f);
-            ivLock.setVisibility(View.GONE);
+            frameLayout.setVisibility(View.GONE);
             tvName.setTextColor(mContext.getResources().getColorStateList(R.color.black));
         }
 
