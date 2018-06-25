@@ -133,10 +133,10 @@ public class PlayActionManger {
                 listener.notePlayStart(actionName);
             }
 
-            int mode = SPUtils.getInstance().getInt(PlayConstant.SP_PLAY_MODE, PlayConstant.SP_PLAY_MODE_ORDER);
+         /*   int mode = SPUtils.getInstance().getInt(PlayConstant.SP_PLAY_MODE, PlayConstant.SP_PLAY_MODE_ORDER);
             if( mode== PlayConstant.SP_PLAY_MODE_LSIT|| mode == PlayConstant.SP_PLAY_MODE_SINGLE){
                 setCycle(true);
-            }
+            }*/
         }
     }
 
@@ -155,10 +155,13 @@ public class PlayActionManger {
     public void stopAction() {
         if(mBlueClient.getConnectionState() == 3){
             mBlueClient.sendData(new BTCmdActionStopPlay().toByteArray());
+            ViseLog.d("stopAction");
+            playState = STOP;
             currentPlayActionName= "";
             if(listener != null) {
                 listener.notePlayStop();
             }
+
         }
     }
 
@@ -223,11 +226,11 @@ public class PlayActionManger {
                 break;
             case BTCmd.DV_STOPPLAY:  //停止播放
                 ViseLog.d("DV_STOPPLAY");
-                playState = STOP;
+          /*      playState = STOP;
                 currentPlayActionName = "";
                 if(listener != null) {
                     listener.notePlayStop();
-                }
+                }*/
                 break;
             case BTCmd.DV_PAUSE: //暂停或者继续
                 ViseLog.d("DV_PAUSE:" + packet.getmParam()[0]);
