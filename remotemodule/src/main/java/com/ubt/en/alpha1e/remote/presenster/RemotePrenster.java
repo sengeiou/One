@@ -11,6 +11,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSwitchEditStatus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
+import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
@@ -61,6 +62,7 @@ public class RemotePrenster extends BasePresenterImpl<RemoteContact.View> implem
         if (!isBlutoohConnected()) {
             checkBlutoohStatu();
         }
+        EventBus.getDefault().post(new PlayEvent(PlayEvent.Event.STOP));
         ViseLog.d(mRemoteItems.toString());
     }
 

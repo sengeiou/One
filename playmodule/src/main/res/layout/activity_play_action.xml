@@ -188,6 +188,7 @@
                 >
 
                 <RelativeLayout
+                    android:id="@+id/rl_playing"
                     android:layout_width="@dimen/dp_275"
                     android:layout_height="@dimen/dp_44"
                     android:layout_centerVertical="true"

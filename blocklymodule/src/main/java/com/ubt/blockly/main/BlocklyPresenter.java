@@ -22,6 +22,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdStartWalk;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdStopEyeLed;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdStopPlayEmoji;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdSwitchEditStatus;
+import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.ByteHexHelper;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -60,6 +61,7 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
+        EventBus.getDefault().post(new PlayEvent(PlayEvent.Event.STOP));
     }
 
     @Override

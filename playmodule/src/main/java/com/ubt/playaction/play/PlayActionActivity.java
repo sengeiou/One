@@ -102,6 +102,8 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     ImageView iv20Tip;
     @BindView(R2.id.rl_root)
     RelativeLayout mRootRl;
+    @BindView(R2.id.rl_playing)
+    RelativeLayout rlPlaying;
     Unbinder unbinder;
 
     CyclePlayActionAdapter cyclePlayActionAdapter;
@@ -538,6 +540,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         }
         ivPlay.setVisibility(View.INVISIBLE);
         gifPlaying.setVisibility(View.VISIBLE);
+        rlPlaying.setBackgroundResource(R.drawable.play_name_rect_playing);
         ivPlayPause.setImageResource(R.drawable.ic_pause);
         actionAdapter.setPlayActionName(actionName);
         actionAdapter.notifyDataSetChanged();
@@ -553,10 +556,14 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             ivPlayPause.setImageResource(R.drawable.ic_play);
             gifPlaying.setVisibility(View.INVISIBLE);
             ivPlay.setVisibility(View.VISIBLE);
+            rlPlaying.setBackgroundResource(R.drawable.play_name_rect);
+            tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
         }else if(playstate == PlayActionManger.PLAYING){
             ivPlayPause.setImageResource(R.drawable.ic_pause);
             gifPlaying.setVisibility(View.VISIBLE);
             ivPlay.setVisibility(View.INVISIBLE);
+            rlPlaying.setBackgroundResource(R.drawable.play_name_rect_playing);
+            tvPlayName.setTextColor(getResources().getColor(R.color.text_blue_color));
         }
 
         if(playstate == PlayActionManger.STOP){
@@ -564,7 +571,12 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
         }else{
             tvPlayName.setText( PlayActionManger.getInstance().getCurrentPlayActionName());
-            tvPlayName.setTextColor(getResources().getColor(R.color.text_blue_color));
+            if(playstate == PlayActionManger.PLAYING){
+                tvPlayName.setTextColor(getResources().getColor(R.color.text_blue_color));
+            }else{
+                tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
+            }
+
         }
 
         actionAdapter.notifyDataSetChanged();
@@ -600,6 +612,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
         ivPlayPause.setImageResource(R.drawable.ic_play);
         gifPlaying.setVisibility(View.INVISIBLE);
         ivPlay.setVisibility(View.VISIBLE);
+        rlPlaying.setBackgroundResource(R.drawable.play_name_rect);
         if(tvPlayName != null){
             tvPlayName.setText(SkinManager.getInstance().getTextById(R.string.playlist_standby));
             tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));

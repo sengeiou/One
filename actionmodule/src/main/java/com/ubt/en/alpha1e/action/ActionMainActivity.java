@@ -9,12 +9,15 @@ import android.widget.RelativeLayout;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
+import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.contact.ActionMainContact;
 import com.ubt.en.alpha1e.action.course.ActionCourseActivity;
 import com.ubt.en.alpha1e.action.presenter.ActionMainPrenster;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +52,7 @@ public class ActionMainActivity extends MVPBaseActivity<ActionMainContact.View, 
         mUnbinder = ButterKnife.bind(this);
         mBlueClientUtil = BlueClientUtil.getInstance();
         AppStatusUtils.setBtBussiness(true);
+        EventBus.getDefault().post(new PlayEvent(PlayEvent.Event.STOP));
     }
 
     @OnClick({R2.id.action_back, R2.id.rl_action_download, R2.id.rl_action_create, R2.id.rl_action_work, R2.id.rl_action_make})

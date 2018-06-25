@@ -60,9 +60,11 @@ public class PlayActionAdapter extends BaseQuickAdapter<ActionData, BaseViewHold
         if(PlayActionManger.getInstance().getCurrentPlayActionName().equals(item.getActionName()) && PlayActionManger.getInstance().getPlayState() == PlayActionManger.PLAYING){
             gifImageView.setVisibility(View.VISIBLE);
             ivWhite.setVisibility(View.VISIBLE);
+            tvActionName.setTextColor(context.getResources().getColor(R.color.text_blue_color));
         }else{
             gifImageView.setVisibility(View.INVISIBLE);
             ivWhite.setVisibility(View.INVISIBLE);
+            tvActionName.setTextColor(context.getResources().getColor(R.color.text_playlist_title));
         }
 
         //处理暂停状态图标显示

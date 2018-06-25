@@ -14,6 +14,7 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdGetActionList;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPause;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
+import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -190,6 +191,24 @@ public class PlayActionManger {
     public void onReadData(BTReadData readData) {
 
         onProtocolPacket(readData);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPlayEvent(PlayEvent event) {
+        ViseLog.d("onPlayEvent");
+        if(event.getEvent() == PlayEvent.Event.STOP){
+            stopAction();
+            if(EventBus.getDefault().isRegistered(this)){//加上判断
+                EventBus.getDefault().unregister(this);
+            }
+            playState = STOP;
+            cycle = false;
+            currentCyclePos= 0;
+            currentPlayActionName="";
+            if(mHandler!=null){
+                mHandler.removeMessages(MSG_STOP);
+            }
+        }
     }
 
     private void onProtocolPacket(BTReadData readData) {
