@@ -1,7 +1,6 @@
 package com.ubt.loginmodule.register;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -247,12 +246,18 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
                 }
 
             }else{
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                getActivity().finish();
+//                startActivity(new Intent(getActivity(), LoginActivity.class));
+//                getActivity().finish();
+                boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
+                if(noFirst){
+                    ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation(getActivity(),navigationCallback);
+                }else{
+                    ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation(getActivity(),navigationCallback);
+                }
             }
 
         }else{
-            ToastUtils.showShort("提交后台失败");
+            ToastUtils.showShort("update failed");
         }
     }
 
