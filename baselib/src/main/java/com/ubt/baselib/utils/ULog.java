@@ -631,7 +631,7 @@ public class ULog {
 
     private static void appendLog(String type, String tag, String msg, Throwable tr) {
 
-        assertTrue(mContext != null);
+        //assertTrue(mContext != null);
         if (mContext == null) {
             Log.e("ULog", "You should init ULog first");
             return;
