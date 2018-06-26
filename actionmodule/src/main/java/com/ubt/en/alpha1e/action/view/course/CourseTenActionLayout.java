@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -73,7 +72,7 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
         this.currentCourse = 1;
         this.courseProgressListener = courseProgressListener;
         setLayoutByCurrentCourse();
-        isSaveAction = false;
+        isSaveAction = true;
     }
 
     /**
@@ -81,7 +80,7 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
      * 根据当前课时显示界面
      */
     public void setLayoutByCurrentCourse() {
-        ViseLog.d( "currentCourse==" + currentCourse);
+        ViseLog.d("currentCourse==" + currentCourse);
         if (currentCourse == 1) {
             isInstruction = true;
             mRlInstruction.setVisibility(View.VISIBLE);
@@ -182,7 +181,7 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
      */
     @Override
     public void playComplete() {
-        ViseLog.d( "播放完成");
+        ViseLog.d("播放完成");
         if (((Activity) mContext).isFinishing()) {
             return;
         }
@@ -195,17 +194,13 @@ public class CourseTenActionLayout extends BaseActionEditLayout {
 
     @Override
     public void onPause() {
-        
+
     }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        showExitDialog();
-        return false;
-    }
+
     @Override
     public void onDestory() {
-        courseProgressListener=null;
+        courseProgressListener = null;
     }
 
 }
