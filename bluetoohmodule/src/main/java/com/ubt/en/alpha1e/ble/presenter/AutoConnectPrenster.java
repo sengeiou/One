@@ -19,6 +19,7 @@ import com.ubt.baselib.btCmd1E.ProtocolPacket;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdHandshake;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.model1E.ManualEvent;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.vise.log.ViseLog;
@@ -44,7 +45,6 @@ import java.util.List;
 public class AutoConnectPrenster {
 
     private static final String TAG = "BleConnectPrenster";
-    boolean isScanning = false;
     private BlueClientUtil mBlueClient;
     private int mConnectState;
     private int mPreState;
@@ -124,7 +124,6 @@ public class AutoConnectPrenster {
                 mBlueClient.connect(bleDevice.getMac());
                 isConnecting = true;
                 isCancleScan = true;
-                //mBlueClient.cancelScan();
                 mHandler.sendEmptyMessageDelayed(MESSAG_CONNECT_TIMEOUT, TIME_OUT);
             }
         }
@@ -141,7 +140,6 @@ public class AutoConnectPrenster {
             this.isManualConnectMode = manualEvent.isManual();
             ViseLog.d("是否进入蓝牙连接页面=isManualConnectMode==" + isManualConnectMode);
             if (isManualConnectMode && mBlueClient.getConnectionState() != 3) {
-                //  mBlueClient.cancelScan();
                 ViseLog.d("进入蓝牙联网页面");
             } else {
                 ViseLog.d("退出蓝牙联网页面");
@@ -163,9 +161,7 @@ public class AutoConnectPrenster {
         if (backgroundEvent.getEvent() == EnterBackgroundEvent.Event.ENTER_BACKGROUND) {
             ViseLog.d("APP退到后台");
             isCancleScan = true;
-            if (mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTED) {
-                mBlueClient.cancelScan();
-            }
+            // cancelScanBleDevice();
         } else if (backgroundEvent.getEvent() == EnterBackgroundEvent.Event.ENTER_RESUME) {
             ViseLog.d("APP进入前台");
             startScanBleDevice();
@@ -203,30 +199,13 @@ public class AutoConnectPrenster {
             return;
         }
         if (device != null) {
-//            boolean isNewDevice = true;
-//            for (BleDevice bleDevice : mBleDevices) {
-//                if (bleDevice.getMac().equals(device.getAddress())) {
-//                    ViseLog.d("mac : " + device.getAddress() + "    isNewDevice = " + isNewDevice);
-//                    isNewDevice = false;
-//                    break;
-//                }
-//            }
-//            if (isNewDevice) {
-//                BleDevice bleDevice = new BleDevice();
-//                bleDevice.setBleName(device.getName());
-//                bleDevice.setMac(device.getAddress());
-//                bleDevice.setStatu(0);
-//                mBleDevices.add(bleDevice);
-//            }
-//            if (!isConnecting && mBleDevices.size() > 0) {
-//                mHandler.removeMessages(MESSAG_SEARCH_TIMEOUT);
-//            }
             BleDevice bleDevice = DataSupport.findFirst(BleDevice.class);
             String mac = device.getAddress();
-            if(bleDevice != null)
-            ViseLog.d("localrecord===" + bleDevice.getMac() + "   mac====" + mac);
+            if (bleDevice != null) {
+                ViseLog.d("localrecord===" + bleDevice.getMac() + "   mac====" + mac);
+            }
             if (bleDevice != null && !TextUtils.isEmpty(mac)
-                    && bleDevice.getMac().equals(mac) && !isManualConnectMode&&!isManualDisConnect) {
+                    && bleDevice.getMac().equals(mac) && !isManualConnectMode && !isManualDisConnect) {
                 connectBleDevice();
             }
 
@@ -241,8 +220,6 @@ public class AutoConnectPrenster {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadData(BTReadData readData) {
-//        ViseLog.i("data:" + HexUtil.encodeHexStr(readData.getDatas()));
-//        BTCmdHelper.parseBTCmd(readData.getDatas(), this);
         onProtocolPacket(readData);
     }
 
@@ -271,6 +248,7 @@ public class AutoConnectPrenster {
                     }
                     BaseBTDisconnectDialog.getInstance().dismiss();
                     ViseLog.e("-----------握手成功----------与机器人正式连接");
+                    ULog.d("AutoConnectPresenter","自动连接时握手协议成功");
                     ManualEvent manualEvent = new ManualEvent(ManualEvent.Event.CONNECT_ROBOT_SUCCESS);
                     manualEvent.setManual(true);
                     EventBus.getDefault().post(manualEvent);
@@ -337,11 +315,12 @@ public class AutoConnectPrenster {
     public void onActionDiscoveryStateChanged(BTDiscoveryStateChanged stateChanged) {
         ViseLog.i("getDiscoveryState:" + stateChanged.getDiscoveryState());
         if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_STARTED) {
-            isScanning = true;
+            ViseLog.d("开始扫描-----------");
         } else if (stateChanged.getDiscoveryState() == BTDiscoveryStateChanged.DISCOVERY_FINISHED) {
             //蓝牙在固定时间扫描结束后重新扫描
-            ViseLog.d("蓝牙扫描结束------onActionDiscoveryStateChanged");
+            ViseLog.d("蓝牙扫描结束------onActionDiscoveryStateChanged" + "---isCancleScan===" + isCancleScan + " -----isManualDisConnect==" + isManualDisConnect + " isManualConnectMode==" + isManualConnectMode);
             if (!isCancleScan && !isManualDisConnect && mBlueClient.getConnectionState() != 3 && !isManualConnectMode) {
+                ViseLog.d("蓝牙扫描结束后重新开始扫描------");
                 mBlueClient.startScan();
             }
         }
@@ -366,11 +345,6 @@ public class AutoConnectPrenster {
             switch (msg.what) {
                 case MESSAG_SEARCH_TIMEOUT:
                     ViseLog.d("没有搜索到蓝牙!");
-                    mBlueClient.cancelScan();
-                    if (isConnecting) {
-                        return;
-                    }
-
                     break;
                 case MESSAG_CONNECT_TIMEOUT:
 //                    isConnecting = false;
@@ -397,16 +371,19 @@ public class AutoConnectPrenster {
      * 扫描蓝牙
      */
     private void startScanBleDevice() {
-        ViseLog.d("开始扫描蓝牙startScanBleDevice" + "isManualDisConnect==" + isManualDisConnect);
+        ViseLog.d("开始扫描蓝牙startScanBleDevice" + "isManualDisConnect==" + isManualDisConnect+"  ----isManualConnectMode=="+isManualConnectMode);
         if (!isManualDisConnect && !isManualConnectMode && mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTED && !MyLifecycleCallback.isBackground()) {
             isCancleScan = false;
             ViseLog.d("开始扫描蓝牙startScanBleDevice");
             mBlueClient.startScan();
-        } else {
-            isCancleScan = true;
-            if (mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTED) {
-                mBlueClient.cancelScan();
-            }
+        }
+    }
+
+    private void cancelScanBleDevice() {
+        isCancleScan = true;
+        if (mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTED && mBlueClient.getConnectionState() != BluetoothState.STATE_CONNECTING) {
+            ViseLog.d("取消扫描蓝牙");
+            mBlueClient.cancelScan();
         }
     }
 
