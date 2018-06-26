@@ -48,7 +48,7 @@ public class MyRefreshFoot extends RelativeLayout implements RefreshFooter {
     public static String REFRESH_FOOTER_LOADING = "";
     public static String REFRESH_FOOTER_REFRESHING = "...";
     public static String REFRESH_FOOTER_FINISH = "";
-    public static String REFRESH_FOOTER_FAILED = "加载失败";
+    public static String REFRESH_FOOTER_FAILED = "Loading Failed";
     public static String REFRESH_FOOTER_ALLLOADED = "Loading is completed.";
 
     protected TextView mTitleText;
