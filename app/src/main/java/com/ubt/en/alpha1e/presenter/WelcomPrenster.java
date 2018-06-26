@@ -150,6 +150,8 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
         ViseHttp.POST(LoginHttpEntity.GET_LANGUAGE_TYPE)
                 .baseUrl(BaseHttpEntity.BASIC_UBX_SYS)
                 .setJson(GsonImpl.get().toJson(request))
+                .readTimeOut(8)
+                .connectTimeOut(8)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {

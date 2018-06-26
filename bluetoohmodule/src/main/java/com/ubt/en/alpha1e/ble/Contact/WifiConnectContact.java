@@ -29,7 +29,6 @@ public class WifiConnectContact {
     public interface Presenter extends BasePresenter<WifiConnectContact.View> {
         void init(Context context);
 
-        void startScanWifi();
 
         void unRegister();
 
