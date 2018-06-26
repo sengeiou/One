@@ -263,8 +263,8 @@
 
                 <ImageView
                     android:id="@+id/iv_play_pause"
-                    android:layout_width="@dimen/dp_40"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/ic_play"
                     android:layout_toLeftOf="@+id/iv_reset"
                     android:layout_centerVertical="true"
