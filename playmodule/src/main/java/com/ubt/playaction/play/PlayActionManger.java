@@ -330,7 +330,12 @@ public class PlayActionManger {
                 break;
             case BluetoothState.STATE_DISCONNECTED:
                 ViseLog.e("蓝牙连接断开");
+                if(listener != null) {
+                    ViseLog.e("蓝牙连接断开 notePlayStop");
+                    listener.notePlayStop();
+                }
                 unRegister();
+
                 break;
             default:
 
