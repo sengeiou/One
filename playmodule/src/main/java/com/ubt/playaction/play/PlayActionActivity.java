@@ -208,8 +208,14 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
                     }else if(mode == PlayConstant.SP_PLAY_MODE_LSIT /*|| mode == PlayConstant.SP_PLAY_MODE_SINGLE*/){
                         if(PlayActionManger.getInstance().getActionCycleList().size()>1){
                             if(mPresenter != null){
-                                ViseLog.d("play name:" + cycleDataList.get(position+1).getActionName());
-                                mPresenter.playAction(cycleDataList.get(position+1).getActionName());
+                                if((position+1) == cycleDataList.size()){
+                                    ViseLog.d("play name pos size");
+                                    mPresenter.playAction(cycleDataList.get(position).getActionName());
+                                }else{
+                                    ViseLog.d("play name:" + cycleDataList.get(position+1).getActionName());
+                                    mPresenter.playAction(cycleDataList.get(position+1).getActionName());
+                                }
+
                             }
                         }else{
                             if(mPresenter != null){
@@ -610,15 +616,21 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     @Override
     public void notePlayStop() {
         ViseLog.d("notePlayStop");
-        ivPlayPause.setImageResource(R.drawable.ic_play);
-        gifPlaying.setVisibility(View.INVISIBLE);
-        ivPlay.setVisibility(View.VISIBLE);
-        rlPlaying.setBackgroundResource(R.drawable.play_name_rect);
-        if(tvPlayName != null){
-            tvPlayName.setText(SkinManager.getInstance().getTextById(R.string.playlist_standby));
-            tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
-        }
-        actionAdapter.notifyDataSetChanged();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ivPlayPause.setImageResource(R.drawable.ic_play);
+                gifPlaying.setVisibility(View.INVISIBLE);
+                ivPlay.setVisibility(View.VISIBLE);
+                rlPlaying.setBackgroundResource(R.drawable.play_name_rect);
+                if(tvPlayName != null){
+                    tvPlayName.setText(SkinManager.getInstance().getTextById(R.string.playlist_standby));
+                    tvPlayName.setTextColor(getResources().getColor(R.color.text_playlist_title));
+                }
+                actionAdapter.notifyDataSetChanged();
+            }
+        });
+
 //        rl20Tip.setVisibility(View.GONE);
     }
 
