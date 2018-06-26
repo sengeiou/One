@@ -42,7 +42,8 @@
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:launchMode="singleTop"/>
         <!--activity声明结束-->
 
         <!--服务声明-->

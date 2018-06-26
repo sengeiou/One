@@ -8,6 +8,7 @@
             android:name=".ActionCreateActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTop"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
@@ -15,6 +16,7 @@
             android:name=".ActionMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTop"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
@@ -22,6 +24,7 @@
             android:name=".ActionSaveActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTop"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
@@ -29,6 +32,7 @@
             android:name=".SaveSuccessActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTop"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan">
         </activity>
@@ -36,29 +40,34 @@
             android:name=".course.ActionCourseActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTop"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".course.ActionLevelCourseActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTop"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".course.ActionSaveCourseActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTop"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".DynamicActionActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:launchMode="singleTop"
             android:theme="@style/NoTitleThemeFullScreen"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ActionDetailDynamicActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:screenOrientation="landscape"
+                  android:launchMode="singleTop"
                   android:theme="@style/NoTitleThemeFullScreen"
                   android:windowSoftInputMode="adjustPan"/>
 
