@@ -213,6 +213,15 @@ public interface BTCmd {
     byte DV_FIND_WIFI_LIST = (byte) 0x36;
 
     /**
+     * 机器人回复WIFI信息
+     */
+    byte DV_GET_WIFI_LIST_INFO = (byte) 0x37;
+
+    /**
+     * 机器人回复WIFI获取结束
+     */
+    byte DV_GET_WIFI_LIST_FINISH = (byte) 0x38;
+    /**
      * 网络连接
      * 返回参数：0 未连接 1 连接中 2 连接成功 3 连接失败
      */

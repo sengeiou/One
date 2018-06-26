@@ -25,6 +25,7 @@ import com.ubt.baselib.utils.ULog;
 import com.ubt.en.alpha1e.ble.Contact.WifiConnectContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
+import com.ubt.en.alpha1e.ble.model.WifiInfoModel;
 import com.ubt.en.alpha1e.ble.model.WifiListAdapter;
 import com.ubt.en.alpha1e.ble.presenter.WifiConnectPrenster;
 import com.vise.log.ViseLog;
@@ -87,7 +88,7 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
         wifiName = getIntent().getStringExtra("WI_FI_NAME");
         ViseLog.d("isFirseEnter===" + isFirstEnter + " wifiName===" + wifiName);
         ULog.d("BleSearchWifiActivity", "isFirseEnter===" + isFirstEnter + " wifiName===" + wifiName);
-        mWifiListAdapter = new WifiListAdapter(R.layout.ble_item_wifi_layout, mScanResults);
+        mWifiListAdapter = new WifiListAdapter(R.layout.ble_item_wifi_layout, mPresenter.getWifiInfoModels());
         mBleWifiList.setLayoutManager(new LinearLayoutManager(this));
         mBleWifiList.setAdapter(mWifiListAdapter);
         mWifiListAdapter.setSelectedWifiName(wifiName);
@@ -127,12 +128,29 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
         finishActivity();
     }
 
+    @Override
+    public void notifyDataSetChanged() {
+        ViseLog.d(Thread.currentThread().getName() + "-----------------");
+        if (mPresenter.getWifiInfoModels().size() == 0) {
+            mLlNotWifiData.setVisibility(View.VISIBLE);
+            mLlContent.setVisibility(View.GONE);
+        } else {
+            mLlNotWifiData.setVisibility(View.GONE);
+            mLlContent.setVisibility(View.VISIBLE);
+            mBleConnectLoading.setVisibility(View.GONE);
+            mWifiListAdapter.notifyDataSetChanged();
+        }
+        mWifiListAdapter.notifyDataSetChanged();
+    }
+
     @OnClick({R2.id.iv_back, R2.id.ble_input})
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.iv_back) {
+            mPresenter.stopGetWifiList();
             finishActivity();
         } else if (i == R.id.ble_input) {
+            mPresenter.stopGetWifiList();
             BleWifiInputActivity.launch(this, "", isFirstEnter);
 
         }
@@ -154,8 +172,9 @@ public class BleSearchWifiActivity extends MVPBaseActivity<WifiConnectContact.Vi
             return;
         }
         inSaveActTime = System.currentTimeMillis();
-        ScanResult scanResult = (ScanResult) adapter.getData().get(position);
-        BleWifiInputActivity.launch(this, scanResult.SSID, isFirstEnter);
+        WifiInfoModel wifiInfoModel = (WifiInfoModel) adapter.getData().get(position);
+        mPresenter.stopGetWifiList();
+        BleWifiInputActivity.launch(this, wifiInfoModel.getESSID(), isFirstEnter);
     }
 
 

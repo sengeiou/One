@@ -22,16 +22,19 @@ public class WifiConnectContact {
         void getWifiList(List<ScanResult> list);
 
         void blutoohDisconnect();
+
+        void notifyDataSetChanged();
     }
 
     public interface Presenter extends BasePresenter<WifiConnectContact.View> {
         void init(Context context);
 
-        void startScanWifi();
 
         void unRegister();
 
         boolean isBlutoohConnected();
+
+        void stopGetWifiList();
 
     }
 }

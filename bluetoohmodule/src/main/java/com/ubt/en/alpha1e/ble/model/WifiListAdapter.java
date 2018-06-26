@@ -1,7 +1,5 @@
 package com.ubt.en.alpha1e.ble.model;
 
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -23,11 +21,11 @@ import java.util.List;
  * version
  */
 
-public class WifiListAdapter extends BaseQuickAdapter<ScanResult, BaseViewHolder> {
+public class WifiListAdapter extends BaseQuickAdapter<WifiInfoModel, BaseViewHolder> {
 
     private String selectedWifiName;
 
-    public WifiListAdapter(@LayoutRes int layoutResId, @Nullable List<ScanResult> data) {
+    public WifiListAdapter(@LayoutRes int layoutResId, @Nullable List<WifiInfoModel> data) {
         super(layoutResId, data);
     }
 
@@ -36,23 +34,22 @@ public class WifiListAdapter extends BaseQuickAdapter<ScanResult, BaseViewHolder
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ScanResult wifiInfo) {
-        helper.setText(R.id.tv_wifi_name, wifiInfo.SSID);
+    protected void convert(BaseViewHolder helper, WifiInfoModel wifiInfo) {
+        helper.setText(R.id.tv_wifi_name, wifiInfo.getESSID());
         ImageView ivSign = helper.getView(R.id.iv_wifi_sign);
 
         ImageView ivSelected = helper.getView(R.id.iv_wifi_selected);
-        //处理WIFI信号图片
-        int strength = WifiManager.calculateSignalLevel(wifiInfo.level, 4);
+//        //处理WIFI信号图片
+//        int strength = WifiManager.calculateSignalLevel(wifiInfo.level, 4);
+//        ivSign.setImageLevel(strength);
         //处理是否有密码
-        if (wifiInfo.capabilities.contains("WPA") || wifiInfo.capabilities.contains("WEP")) {//有密码
-            ivSign.setImageResource(R.drawable.ble_wifi_lock_sign);
-            ivSign.setImageLevel(strength);
+        if (!TextUtils.isEmpty(wifiInfo.getIE()) && (wifiInfo.getIE().contains("WPA") || wifiInfo.getIE().contains("WEP"))) {//有密码
+            ivSign.setImageResource(R.drawable.img_wifi_lock_3);
         } else {
-            ivSign.setImageResource(R.drawable.ble_wifi_sign);
-            ivSign.setImageLevel(strength);
+            ivSign.setImageResource(R.drawable.img_wifi_free);
         }
 
-        if (!TextUtils.isEmpty(selectedWifiName) && selectedWifiName.equals(wifiInfo.SSID)) {
+        if (!TextUtils.isEmpty(selectedWifiName) && selectedWifiName.equals(wifiInfo.getESSID())) {
             ivSelected.setVisibility(View.VISIBLE);
         } else {
             ivSelected.setVisibility(View.GONE);

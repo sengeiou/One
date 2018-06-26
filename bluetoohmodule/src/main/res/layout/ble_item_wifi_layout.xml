@@ -39,12 +39,12 @@
 
     <ImageView
         android:id="@+id/iv_wifi_sign"
-        android:layout_width="@dimen/dp_30"
-        android:layout_height="@dimen/dp_30"
+        android:layout_width="@dimen/dp_25"
+        android:layout_height="@dimen/dp_25"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/dp_25"
-        android:background="@drawable/ble_wifi_sign"
+        android:background="@drawable/img_wifi_free"
         />
 
 
