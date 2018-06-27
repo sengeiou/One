@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="加载失败,"
+                android:text="@string/common_failed_load"
                 android:textColor="@color/action__no_data_color"
                 android:textSize="20sp"
                 />

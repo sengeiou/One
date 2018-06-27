@@ -5,7 +5,7 @@
     <string name="common_btn_search">Search</string>
 
     <string name="common_btn_delete">Delete</string>
-
+    <string name="common_failed_load">Loading Failed</string>
     <string name="common_btn_try_again">Try again</string>
     <string name="common_btn_kip">Skip</string>
     <string name="common_btn_next">Next</string>
