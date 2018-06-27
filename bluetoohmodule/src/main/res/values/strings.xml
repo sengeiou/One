@@ -63,6 +63,7 @@
     <string name="about_robot_language_changing_success_1" tools:ignore="ResourceName">Robot language change success .</string>
     <string name="about_robot_language_low_battery_tips_1" tools:ignore="ResourceName">Robot battery is low! </string>
     <string name="about_robot_language_low_battery_tips_2" tools:ignore="ResourceName">Robot language can not be changed, please charge the robot first.</string>
+    <string name="about_robot_language_low_battery_tips_3" tools:ignore="ResourceName">please charge the robot first.</string>
     <string name="about_robot_language_changing_fail" tools:ignore="ResourceName">Failed to change the robot language.</string>
     <string name="about_robot_language_package_downloading" tools:ignore="ResourceName">Downloading the package...</string>
     <string name="about_robot_language_package_download_fail" tools:ignore="ResourceName">Failed to download the package. Please check the network.</string>

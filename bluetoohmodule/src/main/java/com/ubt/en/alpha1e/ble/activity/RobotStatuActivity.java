@@ -1,9 +1,14 @@
 package com.ubt.en.alpha1e.ble.activity;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -11,12 +16,15 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.R;
 import com.ubt.en.alpha1e.ble.R2;
@@ -125,7 +133,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
             inSaveActTime = System.currentTimeMillis();
             ViseLog.d("ckb_auto_u pgrade 点击自动升级开关");
             //成功之后才切换
-           // ckbAutoUpgrade.setChecked(!ckbAutoUpgrade.isChecked());
+            // ckbAutoUpgrade.setChecked(!ckbAutoUpgrade.isChecked());
             if (mCurrentAutoUpgrade) {
                 new BaseDialog.Builder(this)
                         .setMessage(R.string.about_robot_auto_update_off)
@@ -151,10 +159,24 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
 
         } else if (i == R.id.rl_firmware_version) {//胸口版固件版本是否更新
             if (mBleRobotVersionInfo != null && !TextUtils.isEmpty(mBleRobotVersionInfo.new_firmware_ver)) {
+                ULog.d("RobotStatuActivity", "点击胸口版当前电量==" + AppStatusUtils.getCurrentPower());
+                if (AppStatusUtils.getCurrentPower() < 35) {
+                    ViseLog.d("当前电量较低弹出低电量框");
+                    showLowBatteryDialog(this);
+                    return;
+                }
+                ViseLog.d("电量大于35显示更新");
                 showUpdateDialog(2);
             }
         } else if (i == R.id.rl_system_version) {//系统版本是否更新
             if (mSystemRobotInfo != null && !TextUtils.isEmpty(mSystemRobotInfo.toVersion) && compareSoftVersion(mSystemRobotInfo)) {
+                ULog.d("RobotStatuActivity", "点击系统更新按钮当前电量==" + AppStatusUtils.getCurrentPower());
+                if (AppStatusUtils.getCurrentPower() < 35) {
+                    ViseLog.d("当前电量较低弹出低电量框");
+                    showLowBatteryDialog(this);
+                    return;
+                }
+                ViseLog.d("电量大于35显示更新");
                 showUpdateDialog(1);
             }
         } else if (i == R.id.rl_test_upgrade || i == R.id.rl_test_upgrade) {
@@ -242,7 +264,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         } else {
             //2 设置中... 不做处理
         }
-        ckbAutoUpgrade.setImageResource(mCurrentAutoUpgrade?R.drawable.list_open:R.drawable.list_closed);
+        ckbAutoUpgrade.setImageResource(mCurrentAutoUpgrade ? R.drawable.list_open : R.drawable.list_closed);
     }
 
     /**
@@ -414,5 +436,42 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
         }
     }
 
+    /**
+     * 显示低电量
+     */
+    private void showLowBatteryDialog(Context context) {
+
+        String titleMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_1);
+        String detailMsg = SkinManager.getInstance().getTextById(R.string.about_robot_language_low_battery_tips_3);
+
+        View contentView = LayoutInflater.from(context).inflate(R.layout.ble_dialog_low_battery, null);
+        TextView tvTitle = contentView.findViewById(R.id.tv_title);
+        TextView tvMessage = contentView.findViewById(R.id.tv_message);
+        tvTitle.setText(titleMsg);
+        tvMessage.setText(detailMsg);
+
+        ViewHolder viewHolder = new ViewHolder(contentView);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        int width = (int) ((display.getWidth()) * 0.55); //设置宽度
+
+        DialogPlus.newDialog(context)
+                .setContentHolder(viewHolder)
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(width)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.btn_ok) {//点击确定以后刷新列表并解锁下一关
+
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .setCancelable(false)
+                .create().show();
+
+    }
 
 }
