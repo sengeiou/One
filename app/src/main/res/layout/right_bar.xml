@@ -14,12 +14,15 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
+        android:layout_marginTop="@dimen/dp_50"
         >
         <ImageView
             android:id="@+id/right_bar_top_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/right_bar_home_on"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
              />
         <ImageView
             android:id="@+id/right_bar_top_off"
@@ -27,6 +30,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/right_bar_home_off"
             android:visibility="gone"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
             />
     </RelativeLayout>
 
@@ -43,12 +48,16 @@
             android:id="@+id/right_bar_center_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
             android:src="@mipmap/right_bar_control_on" />
         <ImageView
             android:id="@+id/right_bar_center_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
             android:src="@mipmap/right_bar_control_off" />
     </RelativeLayout>
 
@@ -60,17 +69,22 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
+        android:layout_marginBottom="@dimen/dp_50"
         >
         <ImageView
             android:id="@+id/right_bar_bottom_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
             android:src="@mipmap/right_bar_person_on" />
         <ImageView
             android:id="@+id/right_bar_bottom_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
             android:src="@mipmap/right_bar_person_off" />
     </RelativeLayout>
 </LinearLayout>

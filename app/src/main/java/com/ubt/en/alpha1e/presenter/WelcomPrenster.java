@@ -49,7 +49,9 @@ import okhttp3.Call;
  */
 
 public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implements WelcomContact.Presenter {
+    private static final int RETRY_CNT = 3;
 
+    private int httpRetryCnt = 0;
 
     /**
      * 初始化语言包
@@ -322,6 +324,7 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
         ViseLog.i("token:" + SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN) + "  time:" + System.currentTimeMillis());
         ViseHttp.PUT(LoginHttpEntity.REFRESH_TOKEN)
                 .baseUrl(MainHttpEntity.BASE_UBX_COMMON)
+                .connectTimeOut(5)
                 .addHeader("authorization", SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN))
                 .request(new ACallback<String>() {
                     @Override
@@ -350,10 +353,28 @@ public class WelcomPrenster extends BasePresenterImpl<WelcomContact.View> implem
                     @Override
                     public void onFail(int code, String errmsg) {
                         ViseLog.d("refreshToken onFail:" + code + "  errmsg:" + errmsg);
-                        SPUtils.getInstance().remove(Constant1E.SP_USER_INFO); //更新TOKEN失败，清除用户信息
-                        if (mView != null) {
-                            mView.getUserInfoCompleted();
-                        }
+
+//                        if(code == ApiCode.Request.UNKNOWN){
+                            if (mView != null) {
+                                if(httpRetryCnt < RETRY_CNT) {//刷新TOKEN失败时重试3次
+                                    mView.getHandler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            httpRetryCnt++;
+                                            refreshToken();
+                                        }
+                                    }, 1000);
+                                }else{
+                                    ViseLog.e("refreshToken 失败，清除用户信息!!!");
+                                    SPUtils.getInstance().remove(Constant1E.SP_USER_INFO); //更新TOKEN失败，清除用户信息
+                                    mView.getUserInfoCompleted();
+                                }
+                            }
+                        /*}else {
+                            if (mView != null) {
+                                mView.getUserInfoCompleted();
+                            }
+                        }*/
                     }
                 });
     }
