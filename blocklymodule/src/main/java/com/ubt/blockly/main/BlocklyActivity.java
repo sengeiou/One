@@ -312,7 +312,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
         mWebView.post(new Runnable() {
             @Override
             public void run() {
-                ViseLog.d(TAG, "gesture:" + state);
+                ViseLog.d("gesture:" + state);
                 mWebView.loadUrl("javascript:robotPostture(" + state + ")");
             }
         });
@@ -320,13 +320,19 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
     @Override
     public void tempState(final String state) {
-        mWebView.post(new Runnable() {
-            @Override
-            public void run() {
-                ViseLog.d(TAG, "humidity:" + state);
-                mWebView.loadUrl("javascript:humidity(" + state + ")");
+        try {
+            if(mWebView != null){
+                mWebView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mWebView.loadUrl("javascript:humidity(" + state + ")");
+                    }
+                });
             }
-        });
+        }catch (Exception e){
+            ViseLog.d("Exception:" + e.getMessage());
+        }
+
     }
 
     @Override
@@ -612,7 +618,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
-                        ViseLog.d(TAG, "saveUserProgram onResponse:" + response);
+                        ViseLog.d("saveUserProgram onResponse:" + response);
                         BaseResponseModel<BlocklyRespondMode> baseResponseModel = GsonImpl.get().toObject(response,
                                 new TypeToken<BaseResponseModel<List<BlocklyRespondMode>>>() {
                                 }.getType());
@@ -623,7 +629,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
                             blocklyRespondModeList = (List<BlocklyRespondMode>) baseResponseModel.models;
 
-                            ViseLog.d(TAG, "blocklyRespondMode:" + blocklyRespondModeList.toString());
+                            ViseLog.d("blocklyRespondMode:" + blocklyRespondModeList.toString());
 
                             for(int i= 0; i < blocklyRespondModeList.size(); i++ ){
                                 BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
@@ -672,7 +678,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
-                        ViseLog.d(TAG, "listUserProgram onResponse:" + response);
+                        ViseLog.d("listUserProgram onResponse:" + response);
                         BaseResponseModel<BlocklyRespondMode> baseResponseModel = GsonImpl.get().toObject(response,
                                 new TypeToken<BaseResponseModel<List<BlocklyRespondMode>>>() {
                                 }.getType());
@@ -683,7 +689,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
                             blocklyRespondModeList = (List<BlocklyRespondMode>) baseResponseModel.models;
 
-                            ViseLog.d(TAG, "listUserProgram blocklyRespondMode:" + blocklyRespondModeList.toString());
+                            ViseLog.d("listUserProgram blocklyRespondMode:" + blocklyRespondModeList.toString());
 
                             for(int i= 0; i < blocklyRespondModeList.size(); i++ ){
                                 BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
@@ -730,7 +736,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
-                        ViseLog.d(TAG, "deleteUserProgram onResponse:" + response);
+                        ViseLog.d("deleteUserProgram onResponse:" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if((boolean)jsonObject.get("status")){
@@ -743,7 +749,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                                     mWebView.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ViseLog.d(TAG, "projectIsOver");
+                                            ViseLog.d("projectIsOver");
                                             mWebView.loadUrl("javascript:projectIsOver()");
                                         }
                                     });
@@ -756,7 +762,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
                     @Override
                     public void onFail(int e, String s) {
-                        ViseLog.d(TAG, "deleteUserProgram onError:" + s);
+                        ViseLog.d("deleteUserProgram onError:" + s);
                         for(int i = 0; i<programIds.length; i++){
 
                             DataSupport.deleteAll(BlocklyProjectMode.class, "pid = ?", programIds[i]);
@@ -765,7 +771,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                             mWebView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ViseLog.d(TAG, "projectIsOver");
+                                    ViseLog.d("projectIsOver");
                                     mWebView.loadUrl("javascript:projectIsOver()");
                                 }
                             });
@@ -797,7 +803,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String response) {
-                        ViseLog.d(TAG, "updateUserProgram onResponse:" + response);
+                        ViseLog.d("updateUserProgram onResponse:" + response);
                         BaseResponseModel<BlocklyRespondMode> baseResponseModel = GsonImpl.get().toObject(response,
                                 new TypeToken<BaseResponseModel<List<BlocklyRespondMode>>>() {
                                 }.getType());
@@ -808,7 +814,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
                             blocklyRespondModeList = (List<BlocklyRespondMode>) baseResponseModel.models;
 
-                            ViseLog.d(TAG, "blocklyRespondMode:" + blocklyRespondModeList.toString());
+                            ViseLog.d("blocklyRespondMode:" + blocklyRespondModeList.toString());
 
                             for(int i= 0; i < blocklyRespondModeList.size(); i++ ){
                                 BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
@@ -829,7 +835,7 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
                     @Override
                     public void onFail(int i, String s) {
-                        ViseLog.d(TAG, "updateUserProgram onError e:" +s);
+                        ViseLog.d("updateUserProgram onError e:" +s);
 
                         BlocklyProjectMode blocklyProjectMode = new BlocklyProjectMode();
                         blocklyProjectMode.setPid(pid);
