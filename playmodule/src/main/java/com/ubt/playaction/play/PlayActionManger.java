@@ -245,6 +245,13 @@ public class PlayActionManger {
                 break;
             case BTCmd.DV_STOPPLAY:  //停止播放
                 ViseLog.d("DV_STOPPLAY");
+                if(AppStatusUtils.getCurrentPower()<=6){
+                    playState = STOP;
+                    currentPlayActionName = "";
+                    if(listener != null) {
+                        listener.notePlayStop();
+                    }
+                }
           /*      playState = STOP;
                 currentPlayActionName = "";
                 if(listener != null) {
