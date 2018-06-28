@@ -173,13 +173,7 @@ public class ActionsEditHelper {
 //        params[1] = 0;
 //        doSendComm(ConstValue.DV_INTO_EDIT, params);
         ViseLog.d("ActionsEditHelper", "doEnterOrExitActionEdit status:" + status);
-        if (mBlueClientUtil.getConnectionState() == 3) {
-            mBlueClientUtil.sendData(new BTCmdSwitchEditStatus(status).toByteArray());
-        } else {
-            if (status == (byte) 0x03) {
-                showBlutoohDisconnectDialog();
-            }
-        }
+        mBlueClientUtil.sendData(new BTCmdSwitchEditStatus(status).toByteArray());
 
     }
 
@@ -320,11 +314,8 @@ public class ActionsEditHelper {
     public void doLostOnePower(int id) {
         byte[] params = new byte[1];
         params[0] = ByteHexHelper.intToHexByte(id);
-        if (mBlueClientUtil.getConnectionState() == 3) {
-            mBlueClientUtil.sendData(new BTCmdCtrlOneEngineLostPower(id).toByteArray());
-        } else {
-            showBlutoohDisconnectDialog();
-        }
+        mBlueClientUtil.sendData(new BTCmdCtrlOneEngineLostPower(id).toByteArray());
+
     }
 
     /**
@@ -484,7 +475,7 @@ public class ActionsEditHelper {
     /**
      * 显示蓝牙掉线对话框
      */
-    public void showBlutoohDisconnectDialog() {
+    public synchronized void showBlutoohDisconnectDialog() {
         if (!BaseBTDisconnectDialog.getInstance().isShowing()) {
             BaseBTDisconnectDialog.getInstance().show(new BaseBTDisconnectDialog.IDialogClick() {
                 @Override
@@ -499,7 +490,9 @@ public class ActionsEditHelper {
                 }
             });
         }
+
     }
+
 
     /**
      * 显示下一课对话框
@@ -555,6 +548,7 @@ public class ActionsEditHelper {
 
     public interface ClickListener {
         void confirm();
+
     }
 
     /**

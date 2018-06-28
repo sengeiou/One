@@ -58,6 +58,7 @@ public class ActionEditsStandard extends BaseActionEditLayout {
     public void init(Context context) {
         super.init(context);
         ViseLog.d("ActionEditsStandard", "执行init方法 111");
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -39,6 +39,8 @@ public class RobotStatuContact {
         void updateFirmVersionProgress(BleUpgradeProgressRsp switchLanguageRsp);
 
         void systemRequestUpdate();
+
+        void robotNotWifi(int code);
      }
 
     public interface Presenter extends BasePresenter<View> {
