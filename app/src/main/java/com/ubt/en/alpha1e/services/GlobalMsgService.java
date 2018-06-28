@@ -106,8 +106,9 @@ public class GlobalMsgService extends Service {
                                         showSwitchLanguageDialog(ActivityTool.currentActivity(), upgradeProgressRsp.progress, type);
                                     }
 
-                                } else if (upgradeProgressRsp.result == 1 || upgradeProgressRsp.result == 2) {
-
+                                } else if (upgradeProgressRsp.result > 0) {
+                                    //不能用1、2，协议定的是1、2，但是测试发送，机器人端失败了，有时候回的是501
+                                    //upgradeProgressRsp.result == 1 || upgradeProgressRsp.result == 2
                                     ViseLog.d("switchProgressDialog = " + switchProgressDialog);
                                     if (switchProgressDialog != null) {
                                         switchProgressDialog.dismiss();

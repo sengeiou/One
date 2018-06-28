@@ -4,6 +4,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Base64;
 import android.view.Window;
@@ -68,6 +69,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
 
     private boolean isTimeOut = false;
     Disposable disposable;
+    private Handler mHandler;
 
     @Override
     public int getContentViewId() {
@@ -87,6 +89,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
         window.setFlags(flag, flag);
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
+        mHandler = new Handler();
         startParamInit(); //同步后台参数
         //initView();
         applyPermission();
@@ -288,6 +291,11 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
     @Override
     public void getUserInfoCompleted() {
         mPresenter.initLanugage(this);
+    }
+
+    @Override
+    public Handler getHandler() {
+        return mHandler;
     }
 
 

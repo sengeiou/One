@@ -1,9 +1,11 @@
 package com.ubt.en.alpha1e.presenter;
 
 import android.content.Context;
+import android.os.Handler;
 
 import com.ubt.baselib.mvp.BasePresenter;
 import com.ubt.baselib.mvp.BaseView;
+
 
 /**
  * @author：liuhai
@@ -20,6 +22,8 @@ public class WelcomContact {
         void updateLanguageCompleted();
 
         void getUserInfoCompleted();
+
+        Handler getHandler();
 
     }
 
