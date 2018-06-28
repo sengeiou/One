@@ -91,7 +91,7 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
     private long inSaveActTime;
 
     private boolean mCurrentAutoUpgrade = false;
-
+    private boolean isSendRobotCmd = false;
     private SystemRobotInfo mSystemRobotInfo;
     private BleRobotVersionInfo mBleRobotVersionInfo;
 
@@ -199,14 +199,23 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
                 .setConfirmButtonColor(R.color.black)
                 .setCancleButtonID(R.string.base_update)
                 .setCancleButtonColor(R.color.base_blue)
+                .setOnDissmissListener(new BaseDialog.OnDissmissListener() {
+                    @Override
+                    public void onDissmiss() {
+                        if (isSendRobotCmd) {
+                            mPresenter.sendUpdateVersion(type);
+                            isSendRobotCmd = false;
+                        }
+                    }
+                })
                 .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
                         if (view.getId() == R.id.button_confirm) {
                             dialog.dismiss();
                         } else if (view.getId() == R.id.button_cancle) {
+                            isSendRobotCmd = true;
                             dialog.dismiss();
-                            mPresenter.sendUpdateVersion(type);
                         }
                     }
                 }).create();
@@ -392,6 +401,38 @@ public class RobotStatuActivity extends MVPBaseActivity<RobotStatuContact.View, 
             systemDialog.dismiss();
             systemDialog = null;
         }
+    }
+
+    @Override
+    public void robotNotWifi(int code) {
+        ViseLog.d("Code========"+code);
+        if (code == 3) {
+            showConnectWifiDialog();
+        }
+    }
+
+    /**
+     * 显示连接WIFI对话框
+     */
+    private void showConnectWifiDialog() {
+        new BaseDialog.Builder(this)
+                .setMessage(SkinManager.getInstance().getTextById(R.string.base_connect_wifi))
+                .setConfirmButtonId(R.string.base_cancel)
+                .setConfirmButtonColor(R.color.base_blue)
+                .setCancleButtonID(R.string.base_connect)
+                .setCancleButtonColor(R.color.base_blue)
+                .setButtonOnClickListener(new BaseDialog.ButtonOnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        if (view.getId() == R.id.button_confirm) {
+                            dialog.dismiss();
+
+                        } else if (view.getId() == R.id.button_cancle) {
+                            dialog.dismiss();
+                            BleSearchWifiActivity.launch(RobotStatuActivity.this, false, "");
+                        }
+                    }
+                }).create().show();
     }
 
     @Override

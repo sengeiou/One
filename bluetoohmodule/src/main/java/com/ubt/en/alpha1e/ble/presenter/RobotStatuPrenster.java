@@ -20,12 +20,14 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdTestFirmwareUpgrade;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdUpdateFirmware;
 import com.ubt.baselib.mvp.BasePresenterImpl;
 import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.ULog;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.Contact.RobotStatuContact;
 import com.ubt.en.alpha1e.ble.model.BleBaseModelInfo;
 import com.ubt.en.alpha1e.ble.model.BleDownloadLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleRobotVersionInfo;
+import com.ubt.en.alpha1e.ble.model.BleSetRobotLanguageRsp;
 import com.ubt.en.alpha1e.ble.model.BleUpgradeProgressRsp;
 import com.ubt.en.alpha1e.ble.model.RobotStatu;
 import com.ubt.en.alpha1e.ble.model.SystemRobotInfo;
@@ -170,6 +172,13 @@ public class RobotStatuPrenster extends BasePresenterImpl<RobotStatuContact.View
                     ViseLog.d("switchLanguageRsp = " + switchLanguageRsp);
                     if (mView != null) {
                         mView.updateFirmVersionProgress(switchLanguageRsp);
+                    }
+                } else if (bleBaseModel.event == 10) {
+                    BleSetRobotLanguageRsp setRobotLanguageRsp = GsonImpl.get().toObject(commonCmdJson, BleSetRobotLanguageRsp.class);
+                    ViseLog.d("setRobotLanguageRsp = " + setRobotLanguageRsp.rescode);
+                    ULog.d("RobotStatu", "setRobotLanguageRsp = " + setRobotLanguageRsp.rescode);
+                    if (mView != null) {
+                        mView.robotNotWifi(setRobotLanguageRsp.rescode);
                     }
                 }
                 break;

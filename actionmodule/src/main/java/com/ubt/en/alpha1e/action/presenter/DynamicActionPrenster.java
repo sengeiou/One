@@ -11,6 +11,7 @@ import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.BaseResponseModel;
 import com.ubt.baselib.mvp.BasePresenterImpl;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.ToastUtils;
@@ -344,7 +345,7 @@ public class DynamicActionPrenster extends BasePresenterImpl<DynamicActionContra
     public void showNetWorkConnectDialog(Context context) {
 
         new BaseDialog.Builder(context)
-                .setMessage("请先连接机器人Wi-Fi")
+                .setMessage(SkinManager.getInstance().getTextById(R.string.base_connect_wifi))
                 .setConfirmButtonId(R.string.base_confirm)
                 .setConfirmButtonColor(R.color.black)
                 .setCancleable(true)

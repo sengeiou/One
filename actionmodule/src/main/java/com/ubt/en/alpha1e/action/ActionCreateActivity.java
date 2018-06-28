@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.bluetoothlib.base.BluetoothState;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.contact.ActionMainContact;
 import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.ubt.en.alpha1e.action.model.IEditActionUI;
@@ -43,6 +45,9 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
         mActionEdit.setOnSaveSucessListener(this);
         AppStatusUtils.setBtBussiness(true);
         AppStatusUtils.setBussiness(true);
+        if (BlueClientUtil.getInstance().getConnectionState() != BluetoothState.STATE_CONNECTED && mHelper != null) {
+            mHelper.showBlutoohDisconnectDialog();
+        }
     }
 
     @Override

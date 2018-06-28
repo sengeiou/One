@@ -36,6 +36,8 @@ import com.ubt.baselib.utils.PermissionUtils;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.baselib.utils.TimeUtils;
 import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.bluetoothlib.base.BluetoothState;
+import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.ActionSaveActivity;
 import com.ubt.en.alpha1e.action.R;
 import com.ubt.en.alpha1e.action.adapter.FrameRecycleViewAdapter;
@@ -261,7 +263,9 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     public abstract void playComplete();
 
     public abstract void onPause();
+
     public abstract void onDestory();
+
     public void init(Context context) {
         View.inflate(context, getLayoutId(), this);
         initUI();
@@ -827,8 +831,10 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
         return true;
     }
+
     //用于记录进入SaveActivity的时间
     private long inSaveActTime;
+
     /**
      * 保存动作
      *
@@ -975,6 +981,11 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     @Override
     public void onClick(View v) {
         int i1 = v.getId();
+        if (i1 != R.id.iv_back && i1 != R.id.iv_help && BlueClientUtil.getInstance().getConnectionState() != BluetoothState.STATE_CONNECTED && mHelper != null) {
+            mHelper.showBlutoohDisconnectDialog();
+            return;
+        }
+
         if (i1 == R.id.iv_back) {
             doBack();
 
@@ -2653,13 +2664,14 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
 
     public void onReadEng(byte[] eng_angle) {
 
-        ViseLog.d("onReadEng:" + needAdd +   "  length==="+eng_angle.length);
+        ViseLog.d("onReadEng:" + needAdd + "  length===" + eng_angle.length);
 
         if (needAdd) {
-            if (eng_angle.length>1){
-            ViseLog.d("onReadEng:" + readCount + "--" + eng_angle[0] + "--" + eng_angle[1]);
-            init[ByteHexHelper.byteToInt(eng_angle[0]) - 1] = String.valueOf(ByteHexHelper.byteToInt(eng_angle[1]));
-            i++;}
+            if (eng_angle.length > 1) {
+                ViseLog.d("onReadEng:" + readCount + "--" + eng_angle[0] + "--" + eng_angle[1]);
+                init[ByteHexHelper.byteToInt(eng_angle[0]) - 1] = String.valueOf(ByteHexHelper.byteToInt(eng_angle[1]));
+                i++;
+            }
             readEngOneByOne();
 
 
