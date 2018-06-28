@@ -309,13 +309,16 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
 
     @Override
     public void read6DState(final int state) {
-        mWebView.post(new Runnable() {
-            @Override
-            public void run() {
-                ViseLog.d("gesture:" + state);
-                mWebView.loadUrl("javascript:robotPostture(" + state + ")");
-            }
-        });
+        ViseLog.d("gesture:" + state);
+        if(mWebView != null){
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("javascript:robotPostture(" + state + ")");
+                }
+            });
+        }
+
     }
 
     @Override
