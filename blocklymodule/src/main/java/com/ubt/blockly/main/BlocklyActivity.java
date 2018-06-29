@@ -308,13 +308,15 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     }
 
     @Override
-    public void read6DState(final int state) {
-        ViseLog.d("gesture:" + state);
+    public void read6DState(final int gesture) {
+        ViseLog.d("gesture:" + gesture);
         if(mWebView != null){
             mWebView.post(new Runnable() {
                 @Override
                 public void run() {
-                    mWebView.loadUrl("javascript:robotPostture(" + state + ")");
+                    ViseLog.e("gesture start");
+                    mWebView.loadUrl("javascript:robotPostture(" + gesture + ")");
+                    ViseLog.e("gesture end");
                 }
             });
         }
@@ -398,6 +400,20 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
                 mWebView.loadUrl("javascript:continueSteps()");
             }
         });
+    }
+
+    @Override
+    public void noteFallDown() {
+        ViseLog.d( "robot fall down and stop block run!");
+        if(isLoadFinish && mWebView != null){
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("javascript:robotFall()");
+                }
+            });
+
+        }
     }
 
     public void callJavascript( boolean status){

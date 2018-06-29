@@ -321,6 +321,12 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
                     mView.noteRobotFallDown(packet.getmParam()[0]);
                 }
                 break;
+            case BTCmd.DV_FALL_DOWN:
+                ViseLog.d("DV_FALL_DOWN");
+                if(mView != null){
+                    mView.noteFallDown();
+                }
+                break;
 
             case BTCmd.DV_PLAYACTION:
                 if(packet.getmParam()[0] != 0){
