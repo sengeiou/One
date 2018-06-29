@@ -351,9 +351,9 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
     @Override
     public void lostBT() {
 
-        if(mPresenter != null){
-            mPresenter.unRegister();
-        }
+//        if(mPresenter != null){
+//            mPresenter.unRegister();
+//        }
 
         if(mWebView != null){
             mWebView.post(new Runnable() {
@@ -414,6 +414,31 @@ public class BlocklyActivity extends MVPBaseActivity<BlocklyContract.View, Block
             });
 
         }
+    }
+
+    @Override
+    public void bleConnected() {
+        ViseLog.d("bleConnected");
+        if(mPresenter != null ){
+            ViseLog.d("bleConnected send cmd");
+            mPresenter.register(this);
+            mPresenter.getActionList();
+            mPresenter.doReadInfraredSensor((byte)0x01);
+            mPresenter.startOrStopRun((byte)0x01);
+            mPresenter.doRead6Dstate();
+            mPresenter.doReadTemperature((byte)0x01);
+        }
+
+        if(mWebView != null){
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    ViseLog.d(" checkBlueConnectState bleConnected Bluetooth disconnect");
+                    mWebView.loadUrl("javascript:checkBlueConnectState()");
+                }
+            });
+        }
+
     }
 
     public void callJavascript( boolean status){

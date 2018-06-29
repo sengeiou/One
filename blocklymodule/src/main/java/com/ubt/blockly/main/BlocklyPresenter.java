@@ -354,6 +354,9 @@ public class BlocklyPresenter extends BasePresenterImpl<BlocklyContract.View> im
             case BluetoothState.STATE_CONNECTED://蓝牙配对成功
                 ViseLog.d("蓝牙配对成功");
                 // stopConnectBleTask();
+                if(mView != null){
+                    mView.bleConnected();
+                }
                 break;
             case BluetoothState.STATE_CONNECTING://正在连接
                 ViseLog.e("正在连接");
