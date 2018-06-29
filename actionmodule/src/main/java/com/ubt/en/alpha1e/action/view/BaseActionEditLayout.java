@@ -191,9 +191,7 @@ public abstract class BaseActionEditLayout extends LinearLayout implements View.
     private List<Map<String, Object>> listBasicActionLib = new ArrayList<Map<String, Object>>();
 
 
-    private String[] songs = {"", "flexin", "jingle bells", "london bridge is falling down",
-            "twinkle twinkle little star", "yankee doodle dandy", "kind of light", "so good",
-            "Sun Indie Pop", "The little robot", "zombie"};
+
     public static final String SONGS_NAME = "songs_name";
     public static final String SONGS_TYPE = "songs_type"; //用来区分是内置音乐还是录音
     private List<Map<String, Object>> listSongs = new ArrayList<Map<String, Object>>();
