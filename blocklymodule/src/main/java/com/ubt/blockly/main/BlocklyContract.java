@@ -33,6 +33,7 @@ public class BlocklyContract {
         void noteRobotFallDown(int state);
         void notePlayFailed();
         void noteFallDown();
+        void bleConnected();
     }
 
     interface  Presenter extends BasePresenter<View> {

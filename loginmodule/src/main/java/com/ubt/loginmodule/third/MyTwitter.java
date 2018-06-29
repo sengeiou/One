@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.loginmodule.LoginConstant.LoginSP;
+import com.vise.log.ViseLog;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -37,7 +38,7 @@ public class MyTwitter {
 	private static final String PREFERENCES_ACCESS_TOKEN = "access_token";
 	private static final String PREFERENCES_ACCESS_TOKEN_SECRET = "access_token_secret";
 
-	static final String TWITTER_CALLBACK_URL = "https://ubtrobot.com/";
+	static final String TWITTER_CALLBACK_URL = "https://ubtrobot.com/pages/about-ubtech";
 
 	private static final String TWITTER_CONSUMER_KEY = LoginSP.TWITTER_CONSUMER_KEY/*"9cIOTALrzHemaRCoVPjkPXc98"*/;
 	private static final String TWITTER_CONSUMER_KEY_SECRET =LoginSP.TWITTER_CONSUMER_SECRET /*"cnAeDUovNPThUyl8Rs3P7QnmzDemBxx88RAd6seiy1UoHZCAzG"*/;
@@ -77,6 +78,7 @@ public class MyTwitter {
 				boolean result = false;
 
 				try {
+					ViseLog.e("init TwitterFactory");
 					Twitter twitter = new TwitterFactory(getConfiguration())
 							.getInstance();
 					mRequestToken = twitter

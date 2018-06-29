@@ -307,6 +307,7 @@ public class WelcomActivity extends MVPBaseActivity<WelcomContact.View, WelcomPr
         if (isDownLanguageCompleted && isPermissionCompleted && isTimeOut) {
             startMainActivity();
             ULog.init(ContextUtils.getContext(), true);
+            com.ubt.bluetoothlib.ULog.init(ContextUtils.getContext(), true);
         }
     }
 
