@@ -26,6 +26,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
+import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.SPUtils;
@@ -35,6 +36,8 @@ import com.ubt.playaction.R2;
 import com.ubt.playaction.model.ActionData;
 import com.ubt.playaction.model.PlayConstant;
 import com.vise.log.ViseLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +144,7 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
             mPresenter.getActionList();
         }
         init();
+        EventBus.getDefault().post(new PlayEvent(PlayEvent.Event.PLAYMANAGER_STOP));
     }
 
     private void init() {

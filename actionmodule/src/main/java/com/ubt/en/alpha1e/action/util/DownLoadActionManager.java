@@ -10,11 +10,13 @@ import com.ubt.baselib.BlueTooth.BTServiceStateChanged;
 import com.ubt.baselib.btCmd1E.BTCmd;
 import com.ubt.baselib.btCmd1E.BluetoothParamUtil;
 import com.ubt.baselib.btCmd1E.ProtocolPacket;
+import com.ubt.baselib.btCmd1E.cmd.BTCmdActionStopPlay;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdDownLoadAction;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetActionList;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetWifiStatus;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
 import com.ubt.baselib.model1E.BleNetWork;
+import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.utils.GsonImpl;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
@@ -43,7 +45,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * version
  */
 
-public class DownLoadActionManager  {
+public class DownLoadActionManager {
     private static final String TAG = DownLoadActionManager.class.getSimpleName();
 
     private static DownLoadActionManager singleton;
@@ -134,11 +136,11 @@ public class DownLoadActionManager  {
         byte cmd = packet.getmCmd();
         if (cmd == BTCmd.DV_DO_DOWNLOAD_ACTION) {
             String downloadProgressJson = BluetoothParamUtil.bytesToString(param);
-            ViseLog.d( "downloadProgressJson : " + downloadProgressJson);
+            ViseLog.d("downloadProgressJson : " + downloadProgressJson);
             DownloadProgressInfo downloadProgressInfo = GsonImpl.get().toObject(downloadProgressJson, DownloadProgressInfo.class);
             DynamicActionModel actionInfo = getRobotDownloadActionById(downloadProgressInfo.actionId);
             if (actionInfo == null) {
-                ViseLog.d( "actionInfo : null ");
+                ViseLog.d("actionInfo : null ");
                 return;
             }
             for (DownLoadActionListener mActionListener : mDownLoadActionListeners) {
@@ -148,7 +150,7 @@ public class DownLoadActionManager  {
             }
             if (downloadProgressInfo.status == 1) {
                 //下载中
-                ViseLog.d( "机器人下载进度, actionName : " + actionInfo.getActionName() + " " + downloadProgressInfo.progress);
+                ViseLog.d("机器人下载进度, actionName : " + actionInfo.getActionName() + " " + downloadProgressInfo.progress);
             } else {
                 //2 下载成功 3 未联网 0 下载失败
                 //UbtLog.d("actionInfo : " + actionInfo );
@@ -157,12 +159,12 @@ public class DownLoadActionManager  {
                     state = State.connect_fail;
                 } else if (downloadProgressInfo.status == 2) {
                     state = State.success;
-                    ViseLog.d( "机器人下载成功：hts_file_name = " + actionInfo.getActionName());
+                    ViseLog.d("机器人下载成功：hts_file_name = " + actionInfo.getActionName());
                     //机器人下载成功，加入缓存
                     if (null != downLoadCompleteList && !TextUtils.isEmpty(actionInfo.getActionName())) {
-                        ViseLog.d( "机器人下载成功：hts_file_name = " + actionInfo.getActionName());
+                        ViseLog.d("机器人下载成功：hts_file_name = " + actionInfo.getActionName());
 
-                        ViseLog.d( "机器人下载成功：sendFileName = " + actionInfo.getActionOriginalId());
+                        ViseLog.d("机器人下载成功：sendFileName = " + actionInfo.getActionOriginalId());
                         downLoadCompleteList.add(actionInfo);
 //                            if (!MyActionsHelper.mCacheActionsNames.isEmpty() && !TextUtils.isEmpty(actionInfo.getActionOriginalId())) {
 //                                // String sendFileName = actionInfo.hts_file_name.split("\\.")[0];
@@ -177,24 +179,24 @@ public class DownLoadActionManager  {
                 } else {
                     state = State.fail;
                 }
-                ViseLog.d( "机器人下载结束, actionName : " + actionInfo.getActionName() + " state : " + state + "  ");
+                ViseLog.d("机器人下载结束, actionName : " + actionInfo.getActionName() + " state : " + state + "  ");
                 mRobotDownList.remove(actionInfo);
             }
 
 
         } else if ((cmd & 0xff) == (BTCmd.DV_DO_CHECK_ACTION_FILE_EXIST & 0xff)) {
-            ViseLog.d( "播放文件是否存在：" + param[0]);
+            ViseLog.d("播放文件是否存在：" + param[0]);
             downRobotAction(playingInfo);
-            ViseLog.d( "播放文件：" + FileTools.actions_download_robot_path + "/" + playingInfo.getActionName() + ".hts");
+            ViseLog.d("播放文件：" + FileTools.actions_download_robot_path + "/" + playingInfo.getActionName() + ".hts");
         } else if ((cmd & 0xff) == (BTCmd.UV_GETACTIONFILE & 0xff)) {
             if (getDataType == Action_type.MY_WALK) {
                 return;
             }
             String name = BluetoothParamUtil.bytesToString(param);
-            ViseLog.d( "获取文件：" + name);
+            ViseLog.d("获取文件：" + name);
             robotActionList.add(name);
         } else if ((cmd & 0xff) == (BTCmd.UV_STOPACTIONFILE & 0xff)) {
-            ViseLog.d( "获取文件结束");
+            ViseLog.d("获取文件结束");
             for (DownLoadActionListener mActionListener : mDownLoadActionListeners) {
                 if (null != mActionListener) {
                     mActionListener.getRobotActionLists(robotActionList);
@@ -202,7 +204,7 @@ public class DownLoadActionManager  {
             }
         } else if (cmd == BTCmd.DV_ACTION_FINISH) {
             String finishPlayActionName = BluetoothParamUtil.bytesToString(param);
-            ViseLog.d( "finishPlayActionName = " + finishPlayActionName);
+            ViseLog.d("finishPlayActionName = " + finishPlayActionName);
             if (null != playingInfo && finishPlayActionName.contains(playingInfo.getActionOriginalId())) {
                 playingInfo = null;
                 for (DownLoadActionListener mActionListener : mDownLoadActionListeners) {
@@ -231,15 +233,15 @@ public class DownLoadActionManager  {
             }
         } else if (cmd == BTCmd.DV_READ_NETWORK_STATUS) {
             String networkInfoJson = BluetoothParamUtil.bytesToString(param);
-            ViseLog.d( "base cmd = " + cmd + "    networkInfoJson = " + networkInfoJson);
+            ViseLog.d("base cmd = " + cmd + "    networkInfoJson = " + networkInfoJson);
 
             BleNetWork bleNetWork = praseNetWork(networkInfoJson);
             if (bleNetWork.isStatu()) {
                 //hasConnectNetwork = true;
-                ViseLog.d( "base 网络已经连接");
+                ViseLog.d("base 网络已经连接");
             } else {
                 //hasConnectNetwork = false;
-                ViseLog.d( "base 网络没有连接");
+                ViseLog.d("base 网络没有连接");
             }
             for (DownLoadActionListener mActionListener : mDownLoadActionListeners) {
                 if (null != mActionListener) {
@@ -302,6 +304,17 @@ public class DownLoadActionManager  {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPlayEvent(PlayEvent event) {
+        ViseLog.d("onPlayEvent===" + event.getEvent());
+        if (event.getEvent() == PlayEvent.Event.STOP || event.getEvent() == PlayEvent.Event.PLAYMANAGER_STOP) {
+            stopAction(true);
+            mDownLoadActionListeners.clear();
+            mRobotDownList.clear();
+            playingInfo = null;
+        }
+    }
+
 
     // 添加监听者
     public void addDownLoadActionListener(DownLoadActionListener listener) {
@@ -359,9 +372,9 @@ public class DownLoadActionManager  {
      * @param actionInfo
      */
     public void playAction(boolean isFromDetail, DynamicActionModel actionInfo) {
-        ViseLog.d( "actionInfo======" + actionInfo.toString());
+        ViseLog.d("actionInfo======" + actionInfo.toString());
         String path = FileTools.actions_download_robot_path + "/" + actionInfo.getActionOriginalId() + ".hts";
-        ViseLog.d( "path======" + path);
+        ViseLog.d("path======" + path);
 
         if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
             mBlueClientUtil.sendData(new BTCmdPlayAction(path).toByteArray());
@@ -380,7 +393,7 @@ public class DownLoadActionManager  {
      * 读取 1E 联网状态
      */
     public void readNetworkStatus() {
-        ViseLog.d( "--readNetworkStatus-- ");
+        ViseLog.d("--readNetworkStatus-- ");
         if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
             mBlueClientUtil.sendData(new BTCmdGetWifiStatus().toByteArray());
         }
@@ -406,7 +419,7 @@ public class DownLoadActionManager  {
 //        /*String params = BluetoothParamUtil.paramsToJsonString(new String[]{ actionInfo.actionId + "",
 //                actionInfo.actionName,"https://services.ubtrobot.com/action/16/3/蚂蚁与鸽子.zip" }, ConstValue.DV_DO_DOWNLOAD_ACTION);*/
 //        doSendComm(BTCmd.DV_DO_DOWNLOAD_ACTION, BluetoothParamUtil.stringToBytes(params));
-        ViseLog.d( "params =========== " + "dynamicActionModel.getActionOriginalId()==" + dynamicActionModel.getActionOriginalId() + " url==" +
+        ViseLog.d("params =========== " + "dynamicActionModel.getActionOriginalId()==" + dynamicActionModel.getActionOriginalId() + " url==" +
                 dynamicActionModel.getActionUrl());
         if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
             mBlueClientUtil.sendData(new BTCmdDownLoadAction(dynamicActionModel.getActionId() + "",
@@ -449,6 +462,7 @@ public class DownLoadActionManager  {
      */
     public void stopAction(boolean isFromDetail) {
         if (mBlueClientUtil.getConnectionState() == BluetoothState.STATE_CONNECTED) {
+            mBlueClientUtil.sendData(new BTCmdActionStopPlay().toByteArray());
             if (isFromDetail) {
                 for (DownLoadActionListener mActionListener : mDownLoadActionListeners) {
                     if (null != mActionListener) {

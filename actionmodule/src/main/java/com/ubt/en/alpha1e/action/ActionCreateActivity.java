@@ -3,6 +3,7 @@ package com.ubt.en.alpha1e.action;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.bluetoothlib.base.BluetoothState;
@@ -15,6 +16,8 @@ import com.ubt.en.alpha1e.action.view.ActionEditsStandard;
 import com.ubt.en.alpha1e.action.view.BaseActionEditLayout;
 import com.ubt.globaldialog.customDialog.ConfirmDialog;
 import com.vise.log.ViseLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View, ActionMainPrenster> implements ActionMainContact.View, IEditActionUI, ActionsEditHelper.PlayCompleteListener, BaseActionEditLayout.OnSaveSucessListener {
@@ -48,6 +51,7 @@ public class ActionCreateActivity extends MVPBaseActivity<ActionMainContact.View
         if (BlueClientUtil.getInstance().getConnectionState() != BluetoothState.STATE_CONNECTED && mHelper != null) {
             mHelper.showBlutoohDisconnectDialog();
         }
+        EventBus.getDefault().post(new PlayEvent(PlayEvent.Event.STOP));
     }
 
     @Override

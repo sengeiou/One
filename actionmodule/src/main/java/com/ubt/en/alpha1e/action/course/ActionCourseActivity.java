@@ -24,6 +24,7 @@ import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseBTDisconnectDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
+import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
@@ -37,6 +38,8 @@ import com.ubt.en.alpha1e.action.model.ActionsEditHelper;
 import com.ubt.en.alpha1e.action.presenter.ActionCoursePrenster;
 import com.ubt.en.alpha1e.action.util.ActionCourseDataManager;
 import com.vise.log.ViseLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 课程列表页面
@@ -61,7 +64,7 @@ public class ActionCourseActivity extends MVPBaseActivity<ActionCourseContact.Vi
         mPresenter.init(this);
         BaseLoadingDialog.show(this, 10,"Loading...");
         initView();
-
+        EventBus.getDefault().post(new PlayEvent(PlayEvent.Event.STOP));
     }
 
     @Override

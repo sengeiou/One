@@ -19,7 +19,8 @@ public class PlayEvent {
     public enum Event {
         STOP,
         PLAY,
-        PAUSE
+        PAUSE,
+        PLAYMANAGER_STOP
     }
 
 
