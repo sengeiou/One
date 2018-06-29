@@ -20,7 +20,8 @@ public class PlayEvent {
         STOP,
         PLAY,
         PAUSE,
-        PLAYMANAGER_STOP
+        PLAYMANAGER_STOP,
+        ACTION_STOP
     }
 
 

@@ -196,7 +196,7 @@ public class PlayActionManger {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPlayEvent(PlayEvent event) {
         ViseLog.d("onPlayEvent");
-        if(event.getEvent() == PlayEvent.Event.STOP){
+        if(event.getEvent() == PlayEvent.Event.STOP||event.getEvent() == PlayEvent.Event.ACTION_STOP){
             stopAction();
             if(EventBus.getDefault().isRegistered(this)){//加上判断
                 EventBus.getDefault().unregister(this);

@@ -52,7 +52,7 @@ public class ActionMainActivity extends MVPBaseActivity<ActionMainContact.View, 
         mUnbinder = ButterKnife.bind(this);
         mBlueClientUtil = BlueClientUtil.getInstance();
         AppStatusUtils.setBtBussiness(true);
-        EventBus.getDefault().post(new PlayEvent(PlayEvent.Event.STOP));
+        EventBus.getDefault().post(new PlayEvent(PlayEvent.Event.ACTION_STOP));
     }
 
     @OnClick({R2.id.action_back, R2.id.rl_action_download, R2.id.rl_action_create, R2.id.rl_action_work, R2.id.rl_action_make})

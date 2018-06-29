@@ -90,6 +90,10 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
     private NewActionInfo mCurrentAction;//动作文件
     private String musicDir = "";
     public static String MUSIC_DIR = "music_dir";
+
+    public static String MUSIC_TIME = "music_time";
+
+    private int musicTime = 0;
     private Uri mImageUri;
     File tempFile;
     /**
@@ -115,6 +119,8 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         mPresenter.init(this);
         mCurrentAction = getIntent().getParcelableExtra(ActionsEditHelper.New_ActionInfo);//get parcelable object
         musicDir = getIntent().getStringExtra(MUSIC_DIR);
+        musicTime = getIntent().getIntExtra(MUSIC_TIME, 0);
+        ViseLog.d("musictime===" + musicTime + "   actionTime==" + mCurrentAction.getTitleTime());
         initView();
         ViseLog.d(mCurrentAction.toString());
         AppStatusUtils.setBtBussiness(true);
@@ -346,7 +352,8 @@ public class ActionSaveActivity extends MVPBaseActivity<SaveActionContact.View, 
         mCurrentAction.actionName = mEdtName.getText().toString().replace("\n", "");
         mCurrentAction.actionSonType = selectModel.getActionType();
         mCurrentAction.actionType = selectModel.getActionType();
-        mCurrentAction.actionTime = mCurrentAction.getTitleTime() / 1000;
+        mCurrentAction.actionTime = Math.max(musicTime, mCurrentAction.getTitleTime()) / 1000;
+        ViseLog.d("maxTime===" + mCurrentAction.actionTime + "   musitime==" + musicTime + "     actiontime===" + mCurrentAction.getTitleTime());
         BaseLoadingDialog.show(20, this);
         mPresenter.saveNewAction(selectModel, mCurrentAction, musicDir);
     }
