@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.skin.SkinManager;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.blockly.course.courselist.CourseListActivity;
 import com.ubt.blockly.main.BlocklyActivity;
 
@@ -62,7 +64,9 @@ public class BlocklyMainActivity extends MVPBaseActivity<BlocklyMainContract.Vie
             startActivity(new Intent(this, BlocklyActivity.class));
 
         } else if (i == R.id.rl_block_work) {
+            ToastUtils.showLong(SkinManager.getInstance().getTextById(R.string.base_coming_soon));
         } else if (i == R.id.rl_block_download) {
+            ToastUtils.showLong(SkinManager.getInstance().getTextById(R.string.base_coming_soon));
         } else if (i == R.id.rl_block_make) {
             startActivity(new Intent(this, CourseListActivity.class));
         }
