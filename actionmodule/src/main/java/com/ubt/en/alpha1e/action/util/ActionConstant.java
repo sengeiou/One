@@ -800,9 +800,9 @@ public class ActionConstant {
     private static String[] highActionJson = new String[]{WALK, TWIST, STEPPIN, BENT, ARM, WOSHOU,DANCE1,  DANCE2, CURTAIN, BYE};
 
 
-    private static String[] songs = {"", "flexin", "jingle bells", "london bridge is falling down",
-            "twinkle twinkle little star", "yankee doodle dandy", "kind of light", "so good",
-            "Sun Indie Pop", "The little robot", "zombie"};
+    private static String[] songs = {"", "Flexin", "Jingle bells", "London bridge is falling down",
+            "Twinkle twinkle little star", "Yankee doodle dandy",
+             "The little robot"};
 
     /**
      * 解析动作json
