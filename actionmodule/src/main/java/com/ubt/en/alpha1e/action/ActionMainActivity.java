@@ -11,7 +11,9 @@ import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.skin.SkinManager;
 import com.ubt.baselib.utils.AppStatusUtils;
+import com.ubt.baselib.utils.ToastUtils;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.action.contact.ActionMainContact;
 import com.ubt.en.alpha1e.action.course.ActionCourseActivity;
@@ -61,7 +63,7 @@ public class ActionMainActivity extends MVPBaseActivity<ActionMainContact.View, 
         if (i == R.id.action_back) {
             finish();
         } else if (i == R.id.rl_action_create) {
-            if (AppStatusUtils.isLowPower()){
+            if (AppStatusUtils.isLowPower()) {
                 BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
                     @Override
                     public void onOK() {
@@ -74,6 +76,7 @@ public class ActionMainActivity extends MVPBaseActivity<ActionMainContact.View, 
         } else if (i == R.id.rl_action_work) {
             startActivity(new Intent(this, DynamicActionActivity.class));
         } else if (i == R.id.rl_action_download) {
+            ToastUtils.showLong(SkinManager.getInstance().getTextById(R.string.base_coming_soon));
         } else if (i == R.id.rl_action_make) {
             startActivity(new Intent(this, ActionCourseActivity.class));
         }
