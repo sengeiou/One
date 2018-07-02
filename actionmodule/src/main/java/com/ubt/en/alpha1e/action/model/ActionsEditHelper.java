@@ -438,7 +438,7 @@ public class ActionsEditHelper {
 
         } else if (comm_type == Command_type.Do_pause_or_continue) {
             ViseLog.d("Do_pause_or_continue ");
-            if (mNewPlayer.getState() != NewActionPlayer.PlayerState.STOPING) {
+            if (mNewPlayer != null && mNewPlayer.getState() != NewActionPlayer.PlayerState.STOPING) {
                 if (mNewPlayer.getState() == NewActionPlayer.PlayerState.PAUSING) {
                     mNewPlayer.ContinuePlayer();
                 } else if (mNewPlayer.getState() == NewActionPlayer.PlayerState.PLAYING) {
@@ -446,7 +446,7 @@ public class ActionsEditHelper {
                 }
             }
         } else if (comm_type == Command_type.Do_Stop) {
-            if (mNewPlayer.getState() != NewActionPlayer.PlayerState.STOPING) {
+            if (mNewPlayer != null && mNewPlayer.getState() != NewActionPlayer.PlayerState.STOPING) {
                 mNewPlayer.StopPlayer();
             }
 
