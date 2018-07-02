@@ -70,7 +70,11 @@ public class LoginPresenter extends BasePresenterImpl<LoginContract.View> implem
                     @Override
                     public void onFail(int i, String s) {
                         ViseLog.e("login failed:" + i +"-msg:" +  s);
-                        ToastUtils.showShort(LoginUtil.parseErrMsg(s));
+                        if(i>500){
+                            ToastUtils.showShort("Service temporarily unavailable,please try again later!");
+                        }else{
+                            ToastUtils.showShort(LoginUtil.parseErrMsg(s));
+                        }
                         if(mView != null){
                             mView.loginFailed();
                         }
