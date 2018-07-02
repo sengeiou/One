@@ -126,13 +126,7 @@ public class LoginUtil {
         try {
             JSONObject jsonObject = new JSONObject(errMsg);
             int code = jsonObject.getInt("code");
-            String message = "";
-            if(code>500){
-                message = "Service temporarily unavailable,please try again later!";
-            }else{
-                message = jsonObject.getString("message");
-            }
-
+            String message = jsonObject.getString("message");
             return message;
         } catch (JSONException e) {
             e.printStackTrace();
