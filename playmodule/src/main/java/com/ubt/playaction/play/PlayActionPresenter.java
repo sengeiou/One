@@ -224,4 +224,11 @@ public class PlayActionPresenter extends BasePresenterImpl<PlayActionContract.Vi
             mView.noteTapHead();
         }
     }
+
+    @Override
+    public void lowerPower() {
+        if(mView != null){
+            mView.lowerPower();
+        }
+    }
 }

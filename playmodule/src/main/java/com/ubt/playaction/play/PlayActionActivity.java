@@ -26,6 +26,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.customView.BaseDialog;
 import com.ubt.baselib.customView.BaseLoadingDialog;
+import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
 import com.ubt.baselib.skin.SkinManager;
@@ -641,6 +642,17 @@ public class PlayActionActivity extends MVPBaseActivity<PlayActionContract.View,
     @Override
     public void noteTapHead() {
         Toast.makeText(PlayActionActivity.this, "stop play!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void lowerPower() {
+        ViseLog.d("lowerPower");
+        BaseLowBattaryDialog.getInstance().showLow5Dialog(new BaseLowBattaryDialog.IDialog5Click() {
+            @Override
+            public void onOK() {
+                finish();
+            }
+        });
     }
 
 

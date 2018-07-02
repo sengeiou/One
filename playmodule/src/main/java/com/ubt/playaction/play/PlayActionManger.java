@@ -13,7 +13,6 @@ import com.ubt.baselib.btCmd1E.cmd.BTCmdActionStopPlay;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdGetActionList;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPause;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdPlayAction;
-import com.ubt.baselib.customView.BaseLowBattaryDialog;
 import com.ubt.baselib.model1E.PlayEvent;
 import com.ubt.baselib.utils.AppStatusUtils;
 import com.ubt.baselib.utils.SPUtils;
@@ -24,6 +23,7 @@ import com.ubt.playaction.model.ActionData;
 import com.ubt.playaction.model.ActionIconAndTime;
 import com.ubt.playaction.model.PlayConstant;
 import com.vise.log.ViseLog;
+import com.vise.utils.convert.HexUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -122,7 +122,9 @@ public class PlayActionManger {
     public void playAction(String actionName) {
         if(mBlueClient.getConnectionState() == 3){
             if(AppStatusUtils.isLowPower()){
-                BaseLowBattaryDialog.getInstance().showLow5ActionDialog(null);
+                if(listener != null) {
+                    listener.lowerPower();
+                }
                 return;
             }
             mBlueClient.sendData(new BTCmdPlayAction(actionName).toByteArray());
@@ -280,6 +282,19 @@ public class PlayActionManger {
                     listener.noteTapHead();
                 }
                 break;
+            case BTCmd.DV_READ_BATTERY:
+                ViseLog.i("电量data:" + HexUtil.encodeHexStr(packet.getmParam()));
+                if (packet.getmParamLen() < 4) {
+                    ViseLog.e("错误参数，丢弃!!!");
+                    return;
+                }
+                int power = packet.getmParam()[3];
+                if (power <= 5) {
+                    if (listener != null) {
+                        listener.lowerPower();
+                    }
+                }
+                break;
             default:
                 break;
         }
@@ -429,6 +444,7 @@ public class PlayActionManger {
         void notePlayFinish(String name);
         void notePlayOrPause();
         void noteTapHead();
+        void lowerPower();
     }
 
 

@@ -154,6 +154,15 @@ public class OkHttpClientUtils {
 
     }
 
+    public static RequestCall getJsonByDeleteRequest(String url, String token, int id) {
+        return OkHttpUtils.delete()
+                .url(url)
+                .id(id)
+                .addHeader("authorization", token)
+                .build();
+
+    }
+
     /**
      * 获取json数据
      *
