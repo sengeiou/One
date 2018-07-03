@@ -12,11 +12,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.Postcard;
+import com.alibaba.android.arouter.facade.callback.NavigationCallback;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.ubt.baselib.commonModule.ModuleUtils;
 import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseFragment;
 import com.ubt.baselib.utils.SPUtils;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
+import com.ubt.loginmodule.login.LoginActivity;
+import com.vise.log.ViseLog;
 
 import java.util.List;
 
@@ -47,10 +53,13 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
         @Override
         public void handleMessage(Message msg) {
             if(msg.what == MSG_CODE){
-                start(CreateUserNameFragment.newInstance());
+//                start(CreateUserNameFragment.newInstance());
+                enterMain();
             }
         }
     };
+
+    private NavigationCallback navigationCallback;
 
     public static CreateAccountSuccessFragment newInstance(){
         return new CreateAccountSuccessFragment();
@@ -74,7 +83,35 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
         ((RegisterActivity)getActivity()).setTvSkipVisible(false);
 //        UserInfoModel userInfoModel = (UserInfoModel) SPUtils.getInstance().readObject(Constant1E.SP_USER_INFO);
         tvAccount.setText(SPUtils.getInstance().getString(Constant1E.SP_USER_EMAIL));
+        initNavigationListener();
         return view;
+    }
+
+
+    private void initNavigationListener() {
+        navigationCallback = new NavigationCallback() {
+            @Override
+            public void onFound(Postcard postcard) {
+
+            }
+
+            @Override
+            public void onLost(Postcard postcard) {
+
+            }
+
+            @Override
+            public void onArrival(Postcard postcard) {
+                ViseLog.i("postcard="+postcard.toString());
+                getActivity().finish();
+                LoginActivity.finishSelf();
+            }
+
+            @Override
+            public void onInterrupt(Postcard postcard) {
+
+            }
+        };
     }
 
     @Override
@@ -83,10 +120,20 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
         mHandler.sendEmptyMessageDelayed(MSG_CODE, 2000);
     }
 
+    private void enterMain() {
+//        boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
+//        if(noFirst){
+            ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation(getActivity(),navigationCallback);
+//        }else{
+            ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation(getActivity(),navigationCallback);
+//        }
+    }
+
     @OnClick(R2.id.btn_next)
     public void onClickView(){
         mHandler.removeMessages(MSG_CODE);
-        start(CreateUserNameFragment.newInstance());
+//        start(CreateUserNameFragment.newInstance());
+        enterMain();
     }
 
     @Override

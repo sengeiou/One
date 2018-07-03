@@ -27,6 +27,9 @@ public interface Constant1E {
     String SP_USER_TOKEN = "sp_login_token";
     String SP_USER_EMAIL = "sp_user_email";
     String SP_LOGIN = "sp_login";
+    String SP_USER_NAME= "sp_user_name";
+    String SP_USER_SEX = "sp_user_sex";
+    String SP_USER_AGE = "sp_user_age";
     /**
      * 用户信息保存
      */
@@ -83,4 +86,10 @@ public interface Constant1E {
      * 语言压缩包名称
      */
     public static final String LANGUAGE_ZIP_NAME = "language.zip";
+
+
+    //用户信息相关
+    public static final String PRODUCT_ID = "10401";
+    public static final String APPID = "100010074";
+    public static final String APPKEY = "ff16f3c367ba4a6aae2b1f4f0ce6717e";
 }

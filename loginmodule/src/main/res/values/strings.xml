@@ -71,5 +71,16 @@
     <string name="login_error_email">plz input right email !</string>
 
 
+    <string name="login_input_email">Please input your email</string>
+    <string name="login_input_password">Please set a password</string>
+    <string name="login_register_done">Done</string>
+
+    <string name="login_age_less_16">Less than 16 years old</string>
+    <string name="login_age_16_24">16 - 24 years old</string>
+    <string name="login_age_25_35">25 - 35 years old</string>
+    <string name="login_age_36_45">36 - 45 years old</string>
+    <string name="login_age_more_46">46 and older</string>
+    <string name="login_age_title">What's your age?</string>
+
 
 </resources>

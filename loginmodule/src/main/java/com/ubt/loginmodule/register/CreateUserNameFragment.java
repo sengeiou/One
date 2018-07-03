@@ -14,9 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.ubt.baselib.customView.BaseLoadingDialog;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.mvp.MVPBaseFragment;
-import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.baselib.utils.SPUtils;
 import com.ubt.loginmodule.R;
 import com.ubt.loginmodule.R2;
 
@@ -95,8 +95,8 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
                 return;
             }
             String userName = firstName + lastName;
-            mPresenter.updateUserInfo(userName, null,null);
-            BaseLoadingDialog.show(getActivity());
+            SPUtils.getInstance().put(Constant1E.SP_USER_NAME, userName);
+            start(CreateUserGenderFragment.newInstance());
         }else if(id == R.id.cl_user_name){
             InputMethodManager imm = (InputMethodManager) (getActivity().getSystemService(Context.INPUT_METHOD_SERVICE));
             if(imm.isActive() ){
@@ -149,12 +149,6 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
 
     @Override
     public void updateUserInfoSuccess(boolean success) {
-        BaseLoadingDialog.dismiss(getActivity());
-        if(success){
-            start(CreateUserGenderFragment.newInstance());
-        }else{
-            ToastUtils.showShort("update user name failed");
-        }
     }
 
     @Override
@@ -166,6 +160,5 @@ public class CreateUserNameFragment extends MVPBaseFragment<RegisterContract.Vie
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-        BaseLoadingDialog.dismiss(getActivity());
     }
 }

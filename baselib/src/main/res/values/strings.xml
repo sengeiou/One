@@ -53,4 +53,7 @@
     <string name="base_ui_settings_language_russian">俄语</string>
     <string name="base_ui_settings_language_hungarian">匈牙利语</string>
     <string name="base_ui_settings_language_turkish">土耳其语</string>
+
+
+    <string name="base_ui_age_less_16">Young children under the age of 16 should not use this application.</string>
 </resources>

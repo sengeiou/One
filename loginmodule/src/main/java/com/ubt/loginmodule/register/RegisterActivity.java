@@ -73,10 +73,14 @@ public class RegisterActivity extends MVPBaseActivity<RegisterContract.View, Reg
             }
         }
         else{
-            CreateAccountFragment createAccountFragment = findFragment(CreateAccountFragment.class);
+            CreateUserNameFragment createUserNameFragment = findFragment(CreateUserNameFragment.class);
+            if(createUserNameFragment == null){
+                loadRootFragment(R.id.register_container, CreateUserNameFragment.newInstance());
+            }
+        /*    CreateAccountFragment createAccountFragment = findFragment(CreateAccountFragment.class);
             if (createAccountFragment == null) {
                 loadRootFragment(R.id.register_container, CreateAccountFragment.newInstance());
-            }
+            }*/
         }
 
     }
