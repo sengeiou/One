@@ -1,27 +1,54 @@
 package com.ubt.en.alpha1e;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.ubt.baselib.btCmd1E.cmd.BTCmdReadDevStatus;
 import com.ubt.baselib.commonModule.ModuleUtils;
+import com.ubt.baselib.globalConst.BaseHttpEntity;
+import com.ubt.baselib.globalConst.Constant1E;
 import com.ubt.baselib.model1E.ManualEvent;
 import com.ubt.baselib.mvp.MVPBaseActivity;
+import com.ubt.baselib.utils.GsonImpl;
+import com.ubt.baselib.utils.SPUtils;
+import com.ubt.baselib.utils.ToastUtils;
+import com.ubt.baselib.utils.UbtSignUtil;
 import com.ubt.bluetoothlib.base.BluetoothState;
 import com.ubt.bluetoothlib.blueClient.BlueClientUtil;
 import com.ubt.en.alpha1e.ble.model.BleConnectServiceUtil;
 import com.ubt.en.alpha1e.customView.RightBar;
+import com.ubt.en.alpha1e.model.GdprRequestListModule;
+import com.ubt.en.alpha1e.model.GdprRequestModule;
 import com.ubt.en.alpha1e.presenter.MainContact;
 import com.ubt.en.alpha1e.presenter.MainPrenster;
+import com.ubt.en.alpha1e.webview.UserNoticeActivity;
+import com.ubt.en.alpha1e.webview.UserServiceActivity;
 import com.ubt.mainmodule.controlCenter.CtlCenterFragment;
 import com.ubt.mainmodule.main.MainFragment;
 import com.ubt.mainmodule.user.UserMainFragment;
 import com.vise.log.ViseLog;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +92,144 @@ public class MainActivity extends MVPBaseActivity<MainContact.View, MainPrenster
         manualEvent.setManual(true);
         EventBus.getDefault().post(manualEvent);
 
+        doCheckUserService();
+
     }
+
+    private void doCheckUserService() {
+//        "https://test79.ubtrobot.com/user-service-rest/v2/gdpr/userPactInfo"
+        String userId = String.valueOf(SPUtils.getInstance().getInt(Constant1E.SP_USER_ID));
+        ViseLog.d("userId:" + userId);
+        String url = "user-service-rest/v2/gdpr/userPactInfo?productId=" + Constant1E.PRODUCT_ID + "&userId=" + userId;
+        String sign = UbtSignUtil.sign();
+        ViseLog.d("sign:" + sign);
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("X-UBT-AppId", Constant1E.APPID);
+        headers.put("X-UBT-Sign", sign);
+
+        ViseHttp.GET(url).baseUrl(BaseHttpEntity.BASE_UBX_COMMON)
+                .addHeaders(headers).request(new ACallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                ViseLog.d("doCheckUserService onSuccess:" + s);
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int code = jsonObject.optInt("code");
+                    if(code == 200){
+
+                    }else{
+                        showDialog(MainActivity.this);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(int i, String s) {
+                ViseLog.e("doCheckUserService onFail:" + i + s);
+
+            }
+        });
+
+    }
+
+    private void doSaveUserService() {
+
+        GdprRequestModule gdprRequestModule = new GdprRequestModule();
+        gdprRequestModule.setProductId(Constant1E.PRODUCT_ID);
+        gdprRequestModule.setType(1);
+        gdprRequestModule.setVersion("v1.0.1");
+
+        GdprRequestModule gdprRequestModule1 = new GdprRequestModule();
+        gdprRequestModule1.setProductId(Constant1E.PRODUCT_ID);
+        gdprRequestModule1.setType(2);
+        gdprRequestModule1.setVersion("v1.0.1");
+
+        List<GdprRequestModule> list = new ArrayList<GdprRequestModule>();
+        list.add(gdprRequestModule);
+        list.add(gdprRequestModule1);
+
+        GdprRequestListModule gdprRequestListModule = new GdprRequestListModule();
+        gdprRequestListModule.setGdprRequestModuleList(list);
+
+        ViseLog.d("gdprRequestListModule:" + GsonImpl.get().toJson(gdprRequestListModule));
+        ViseLog.d("token:" +  SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
+
+        ViseHttp.POST("user-service-rest/v2/gdpr/saveUserPact").baseUrl(BaseHttpEntity.BASE_UBX_COMMON)
+                .addHeader("authorization", SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN))
+                .setJson(GsonImpl.get().toJson(gdprRequestListModule))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        ViseLog.d("saveUserPact onSuccess :" + s);
+                        if(mDialogPlus != null) {
+                            mDialogPlus.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int i, String s) {
+                        ViseLog.e("saveUserPact onFail:" + i  +s);
+                        ToastUtils.showShort(s);
+                        if(mDialogPlus != null) {
+                            mDialogPlus.dismiss();
+                        }
+                    }
+                });
+
+    }
+
+    DialogPlus mDialogPlus = null;
+
+    private void showDialog(Context context){
+        if (mDialogPlus != null) {
+            mDialogPlus.dismiss();
+            mDialogPlus = null;
+        }
+
+        View contentView = LayoutInflater.from(context).inflate(R.layout.base_dialog_user_privacy, null);
+        ViewHolder viewHolder = new ViewHolder(contentView);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        int width = (int) ((display.getWidth()) * 0.55); //设置宽度
+        int height = (int)((display.getHeight()) * 0.7);
+        mDialogPlus = DialogPlus.newDialog(context)
+                .setContentHolder(viewHolder)
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(width)
+                .setContentHeight(height)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        int id = view.getId();
+                        if(id == R.id.tv_user_privacy){
+                            Intent intent = new Intent();
+                            intent.putExtra(UserServiceActivity.USER_CODE, UserServiceActivity.USER_PRIVACY_CODE);
+                            intent.setClass(MainActivity.this, UserServiceActivity.class);
+                            startActivity(intent);
+                        }else if(id == R.id.tv_user_service){
+                            Intent intent = new Intent();
+                            intent.putExtra(UserServiceActivity.USER_CODE, UserServiceActivity.USER_SERVICE_CODE);
+                            intent.setClass(MainActivity.this, UserServiceActivity.class);
+                            startActivity(intent);
+                        }else if(id == R.id.tv_disagree){
+                            dialog.dismiss();
+                            Intent intent = new Intent();
+                            intent.setClass(MainActivity.this, UserNoticeActivity.class);
+                            startActivity(intent);
+                        }else if(id == R.id.tv_agree){
+                            doSaveUserService();
+                        }
+
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        mDialogPlus.show();
+    }
+
 
     private void initFragment() {
         SupportFragment firstFragment = findFragment(MainFragment.class);

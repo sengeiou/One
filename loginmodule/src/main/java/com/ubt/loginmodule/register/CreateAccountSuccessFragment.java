@@ -121,12 +121,12 @@ public class CreateAccountSuccessFragment extends MVPBaseFragment<RegisterContra
     }
 
     private void enterMain() {
-//        boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
-//        if(noFirst){
+        boolean noFirst = SPUtils.getInstance().getBoolean(Constant1E.IS_FIRST_ENTER_GREET);
+        if(noFirst){
             ARouter.getInstance().build(ModuleUtils.Main_MainActivity).navigation(getActivity(),navigationCallback);
-//        }else{
+        }else{
             ARouter.getInstance().build(ModuleUtils.Bluetooh_FirstGreetActivity).navigation(getActivity(),navigationCallback);
-//        }
+        }
     }
 
     @OnClick(R2.id.btn_next)
