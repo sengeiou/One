@@ -56,4 +56,11 @@
 
 
     <string name="base_ui_age_less_16">Young children under the age of 16 should not use this application.</string>
+    <string name="base_ui_user_privacy_tip">Please read and accept the terms of service and Privacy Policy</string>
+    <string name="base_ui_user_service">Read the terms of service</string>
+    <string name="base_ui_user_privacy">Read Privacy Policy</string>
+    <string name="base_ui_user_disagree">Disagree</string>
+    <string name="base_ui_user_agree">Agree</string>
+
+
 </resources>
