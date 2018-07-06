@@ -134,7 +134,6 @@ public class CreateUserAgeFragment extends MVPBaseFragment<RegisterContract.View
         int id = view.getId();
         String birthday = tvAge16to24.getText().toString();
         if(id == R.id.iv_age_less){
-//            ToastUtils.showShort("less 16");
             showTip(getActivity());
         }else if(id == R.id.iv_age_16_24){
            birthday = tvAge16to24.getText().toString();

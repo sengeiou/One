@@ -61,6 +61,63 @@
     <string name="base_ui_user_privacy">Read Privacy Policy</string>
     <string name="base_ui_user_disagree">Disagree</string>
     <string name="base_ui_user_agree">Agree</string>
+    
+    
+    <!--GDPR 相关string-->
+    
+    <string name="create_cancel_dialogue">Are you sure you want to cancel account creation?  This will discard any information you've entered so far.</string>
+    <string name="read_terms_policy">Please read and accept the terms of service and Privacy Policy</string>
+    <string name="read_terms">Read the terms of service</string>
+    <string name="read_policy">Read Privacy Policy</string>
+    <string name="common_btn_agree">Agree</string>
+    <string name="common_btn_disagree">Disagree</string>
+    <string name="terms_title">Terms of service</string>
+    <string name="policy_title">Privacy Policy</string>
+    <string name="create_disagree_notice">Important Notice</string>
+    <string name="create_disagree_notice_text">If you do not wish to agree our updated terms of service and Privacy Policy, you will need to discontinue using the Alpha 1E robot, the Alpha 1E App and other UBTECH robots or services related to your account.  Your account will be deregisted.  And all related content and settings cannot be restored, retrieved or recovered once they are erased. </string>
+    <string name="create_disagree_warn_1">Please make sure you have read the Important Notice before submitting the request.  All related content and settings cannot be restored, retrieved or recovered once they are erased. </string>
+    <string name="create_disagree_warn_2">Please enter your password below to ensure that it is your own operation.</string>
+    <string name="create_disagree_password_error">Wrong password, please try again.</string>
+    <string name="account_canceling">Account canceling</string>
+    <string name="common_btn_submit">Submit</string>
+    <string name="account_cancel_success">Account cancellation successful</string>
+    <string name="account_cancel_fail">Account cancellation failed</string>
+    <string name="input_age">What\'s Your Age?</string>
+    <string name="input_age_less_16">Less than 16 years old</string>
+    <string name="input_age_16_24">16 - 24 years old</string>
+    <string name="input_age_25_35">25 - 35 years old</string>
+    <string name="input_age_36_45">36 - 45 years old</string>
+    <string name="input_age_46">46 and older</string>
+    <string name="input_age_warn">Young children under the age of 16 should not use this application.</string>
+    <string name="signup_enter_email_address">Please input your email</string>
+    <string name="signup_enter_password">Please set a password</string>
+    <string name="signup_enter_password_tips">The password must be 6-20 digits, consisting of letters, numbers and symbols!</string>
+    <string name="policy_tab">Privacy Policy</string>
+    <string name="policy_withdraw_button">Withdraw Consent</string>
+    <string name="policy_notice">Important Notice</string>
+    <string name="policy_notice_text">Please make sure you have read the Privacy Policy before submitting the request.  All related content and settings cannot be restored, retrieved or recovered once they are erased. </string>
+    <string name="policy_disagree_warn_1">Please make sure you have read the Important Notice before submitting the request.  All related content and settings cannot be restored, retrieved or recovered once they are erased. </string>
+    <string name="policy_disagree_warn_2">Please enter your password below to ensure that it is your own operation.</string>
+    <string name="policy_disagree_password_error">Wrong password, please try again.</string>
+    <string name="policy_disagree_123456">Please enter “123456” below to submit the request.</string>
+    <string name="policy_disagree_123456_error">Input password, please try again.</string>
+
+    <string name="security_center_tab">Security Center</string>
+    <string name="security_center_title">Important Notice of Request Alpha1E Account Cancellation</string>
+    <string name="security_center_warn">Alpha1E Account Cancellation is an unrecoverable operation. Back up related information from your account before proceeding.
+Please note: The information associated with the account scheduled for delete cannot be restored, retrieved, or recovered once it is deleted. The information affected include, but are not limited to:
+(1) You're unable to log in to or use Alpha1E or other robots produced by UBTECH.
+(2) Deletion of your profile information cannot be reverted.
+(3) Deletion of your action and programming works cannot be reverted.
+(4) Deletion of your your post and profile in the Alpha1E community cannot be reverted.</string>
+
+    <string name="security_center_button">Request Cancellation</string>
+    <string name="security_center_dialogue">Are you sure you want to submit Account Cancellation?</string>
+    <string name="security_center_password">Please make sure you have read the Important Notice before submitting the request.  All related content and settings cannot be restored, retrieved or recovered once they are erased. </string>
+    <string name="security_center_password_2">Please enter your password below to ensure that it is your own operation.</string>
+
+
+    <!--end GDPR 相关string-->
 
 
 </resources>

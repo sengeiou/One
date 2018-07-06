@@ -155,10 +155,12 @@ public class MainActivity extends MVPBaseActivity<MainContact.View, MainPrenster
 
         ViseLog.d("gdprRequestListModule:" + GsonImpl.get().toJson(gdprRequestListModule));
         ViseLog.d("token:" +  SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN));
+        String  json = "[{\"productId\":\"10401\",\"type\":1,\"version\":\"v1.0.1\"},{\"productId\":\"10401\",\"type\":2,\"version\":\"v1.0.1\"}]";
+
 
         ViseHttp.POST("user-service-rest/v2/gdpr/saveUserPact").baseUrl(BaseHttpEntity.BASE_UBX_COMMON)
                 .addHeader("authorization", SPUtils.getInstance().getString(Constant1E.SP_USER_TOKEN))
-                .setJson(GsonImpl.get().toJson(gdprRequestListModule))
+                .setJson(json)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String s) {
@@ -172,9 +174,7 @@ public class MainActivity extends MVPBaseActivity<MainContact.View, MainPrenster
                     public void onFail(int i, String s) {
                         ViseLog.e("saveUserPact onFail:" + i  +s);
                         ToastUtils.showShort(s);
-                        if(mDialogPlus != null) {
-                            mDialogPlus.dismiss();
-                        }
+
                     }
                 });
 
